@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Interactive OSINT map of global military operations 2023–2026">
+  <title>GLOBAL OPERATIONS MAP 2023–2026 | OSINT COMPILATION</title>
+
+  <!-- Leaflet -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500;700&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- App Styles -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<!-- ── Header ── -->
+<div id="hdr">
+  <div class="hdr-badge">OSINT</div>
+  <div class="hdr-title">Global Operations Map 2023–2026</div>
+  <div class="hdr-divider"></div>
+  <div class="hdr-stat">
+    <div class="hdr-stat-val" id="h-ops">9 OPS</div>
+    <div class="hdr-stat-lbl">Active Operations</div>
+  </div>
+  <div class="hdr-stat">
+    <div class="hdr-stat-val">900+</div>
+    <div class="hdr-stat-lbl">Strikes / 12 hrs (EF)</div>
+  </div>
+  <div class="hdr-stat">
+    <div class="hdr-stat-val">555+</div>
+    <div class="hdr-stat-lbl">Civilian Casualties</div>
+  </div>
+  <div class="hdr-stat">
+    <div class="hdr-stat-val" id="h-theaters">5 THEATERS</div>
+    <div class="hdr-stat-lbl">Active Theaters</div>
+  </div>
+  <div class="hdr-right">
+    <div class="live-dot"></div>
+    <div class="hdr-source">OPEN SOURCE / UNCLASSIFIED</div>
+  </div>
+</div>
+
+<!-- ── Main Layout ── -->
+<div id="layout">
+
+  <!-- Sidebar -->
+  <div id="sidebar">
+    <div class="sb-section">
+      <div class="sb-label">Filter by Country</div>
+      <div id="country-filter"></div>
+    </div>
+    <div class="sb-section">
+      <div class="sb-label">Operations</div>
+      <div class="op-grid" id="op-filter"></div>
+    </div>
+    <div class="sb-section" style="padding-bottom:5px;">
+      <div class="sb-label">Incidents <span style="margin-left:auto;font-size:9px;color:var(--text);font-family:'Roboto Mono',monospace;" id="inc-count"></span></div>
+    </div>
+    <div id="inc-list-wrap"><div id="inc-list"></div></div>
+  </div>
+
+  <!-- Map -->
+  <div id="map-wrap">
+    <div id="map"></div>
+
+    <!-- Type / Confidence Legend -->
+    <div class="float-panel" id="type-legend">
+      <div class="fleg-title">Strike Type + Confidence</div>
+      <div class="fleg-row">
+        <svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="10" fill="#0d3320" stroke="#4caf50" stroke-width="1.8"/><polygon points="11,5 14,10 11,8 8,10" fill="#4caf50"/><rect x="10" y="8" width="2" height="7" fill="#4caf50"/></svg>
+        <div class="fleg-text"><b style="color:#4caf50">Green</b> = Confirmed · Airstrike</div>
+      </div>
+      <div class="fleg-row">
+        <svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="10" fill="#0d2540" stroke="#2196f3" stroke-width="1.8"/><ellipse cx="11" cy="11" rx="7" ry="3.5" fill="none" stroke="#2196f3" stroke-width="1.4" transform="rotate(-35,11,11)"/><circle cx="11" cy="11" r="2" fill="#2196f3"/></svg>
+        <div class="fleg-text"><b style="color:#2196f3">Blue</b> = Reported · Missile</div>
+      </div>
+      <div class="fleg-row">
+        <svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="10" fill="#2d1a00" stroke="#ff9800" stroke-width="1.8"/><path d="M11 4 L9 10 L4 10 L8 14 L6 20 L11 16 L16 20 L14 14 L18 10 L13 10 Z" fill="#ff9800"/></svg>
+        <div class="fleg-text"><b style="color:#ff9800">Orange</b> = Retaliation · Proxy</div>
+      </div>
+      <div class="fleg-row">
+        <svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="10" fill="#300d0d" stroke="#f44336" stroke-width="1.8"/><path d="M8 6 L11 10 L14 6 L16 9 L13 12 L18 15 L14 15 L11 18 L8 15 L4 15 L9 12 L6 9 Z" fill="#f44336"/></svg>
+        <div class="fleg-text"><b style="color:#f44336">Red</b> = Unverified · Explosion</div>
+      </div>
+      <div class="fleg-row">
+        <svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="10" fill="#1a0d30" stroke="#9c27b0" stroke-width="1.8"/><path d="M6 14 L11 6 L16 14 L11 12 Z" fill="#9c27b0"/><rect x="9.5" y="12" width="3" height="5" rx="1" fill="#9c27b0"/></svg>
+        <div class="fleg-text"><b style="color:#9c27b0">Purple</b> = Confirmed · Naval/SOF</div>
+      </div>
+      <div class="fleg-row">
+        <svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="10" fill="#0a1a20" stroke="#26c6da" stroke-width="1.8"/><rect x="7" y="8" width="8" height="6" rx="1" fill="none" stroke="#26c6da" stroke-width="1.4"/><line x1="9" y1="8" x2="9" y2="6" stroke="#26c6da" stroke-width="1.4"/><line x1="13" y1="8" x2="13" y2="6" stroke="#26c6da" stroke-width="1.4"/><circle cx="11" cy="18" r="2" fill="#26c6da"/></svg>
+        <div class="fleg-text"><b style="color:#26c6da">Cyan</b> = Maritime Coercion/ISR</div>
+      </div>
+      <div class="fleg-row">
+        <svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="10" fill="#151515" stroke="#607d8b" stroke-width="1.8"/><rect x="8" y="8" width="6" height="5" rx=".5" fill="#607d8b"/><rect x="6" y="13" width="10" height="1.5" fill="#607d8b"/></svg>
+        <div class="fleg-text"><b style="color:#607d8b">Grey</b> = Intel / Buildup</div>
+      </div>
+    </div>
+
+    <!-- Operations Legend -->
+    <div class="float-panel" id="op-legend">
+      <div class="fleg-title">Operations</div>
+      <div id="op-legend-items"></div>
+    </div>
+
+    <!-- Timeline -->
+    <div id="timeline-bar">
+      <div class="tl-top">
+        <span class="tl-lbl">Timeline</span>
+        <span id="tl-date">NOW</span>
+      </div>
+      <input type="range" id="tl-slider" min="-65" max="100" value="100">
+      <div class="tl-marks" id="tl-marks"></div>
+      <div class="tl-btns">
+        <button class="tl-btn" id="btn-show-all">All Time</button>
+        <button class="tl-btn" id="btn-play">&#9654; Play</button>
+        <button class="tl-btn" id="btn-pause">&#9208; Pause</button>
+        <button class="tl-btn" id="btn-reset">&#8634; Reset</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Detail Panel -->
+  <div id="detail">
+    <div id="detail-scroll">
+      <div class="det-empty" id="det-placeholder">
+        <div class="det-empty-icon">&#x1F5FA;&#xFE0F;</div>
+        <div class="det-empty-txt">Click an incident<br>on the map or list<br>to view full intel</div>
+      </div>
+      <div id="det-content" style="display:none;"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Status Bar ── -->
+<div id="stat-bar">
+  <div class="stat-cell"><span class="stat-num">7</span><span class="stat-txt">B-2 Spirit (Midnight Hammer)</span></div>
+  <div class="stat-cell"><span class="stat-num">13</span><span class="stat-txt">Arleigh Burke DDGs deployed</span></div>
+  <div class="stat-cell"><span class="stat-num">1,400+</span><span class="stat-txt">IDF sorties (12-Day War)</span></div>
+  <div class="stat-cell"><span class="stat-num">708</span><span class="stat-txt">Iranian munitions intercepted</span></div>
+  <div class="stat-cell"><span class="stat-num">6</span><span class="stat-txt">PLA carrier ops (SCS 2025–26)</span></div>
+  <div class="stat-cell"><span class="stat-num">$79.45</span><span class="stat-txt">Brent crude peak (EF Day 1)</span></div>
+</div>
+
+<!-- App Scripts (config first, then logic which fetches CSV) -->
+<script src="js/config.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

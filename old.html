@@ -1,0 +1,1412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GLOBAL OPERATIONS MAP 2025–2026 | OSINT COMPILATION</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500;700&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg0:#0b0f13; --bg1:#111620; --bg2:#161d2e;
+  --border:#1f2d44; --border2:#2a3d5a;
+  --text:#8fa5be; --text2:#c4d5e8; --bright:#e8f0f8;
+  --accent:#4fc3f7; --accent2:#ff5252;
+  --gold:#ffd54f; --green:#69f0ae; --purple:#ce93d8;
+  --orange:#ffb74d; --pink:#f48fb1;
+}
+html,body{height:100%;overflow:hidden;}
+body{background:var(--bg0);font-family:'Inter',sans-serif;color:var(--text2);display:flex;flex-direction:column;}
+
+/* HEADER */
+#hdr{height:52px;flex-shrink:0;background:var(--bg1);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 16px;gap:16px;position:relative;z-index:500;}
+.hdr-badge{background:var(--accent2);color:#fff;font-family:'Oswald',sans-serif;font-size:10px;font-weight:600;letter-spacing:2px;padding:3px 7px;border-radius:2px;}
+.hdr-title{font-family:'Oswald',sans-serif;font-size:15px;font-weight:600;color:var(--bright);letter-spacing:1px;text-transform:uppercase;}
+.hdr-divider{width:1px;height:28px;background:var(--border2);flex-shrink:0;}
+.hdr-stat{display:flex;flex-direction:column;gap:1px;}
+.hdr-stat-val{font-family:'Roboto Mono',monospace;font-size:13px;font-weight:700;color:var(--accent);line-height:1;}
+.hdr-stat-lbl{font-size:9px;color:var(--text);text-transform:uppercase;letter-spacing:1px;}
+.hdr-right{margin-left:auto;display:flex;align-items:center;gap:12px;}
+.live-dot{width:7px;height:7px;border-radius:50%;background:var(--accent2);animation:livepulse 1.4s ease-in-out infinite;}
+@keyframes livepulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
+.hdr-source{font-size:9px;color:var(--text);letter-spacing:1px;}
+
+/* LAYOUT */
+#layout{display:flex;flex:1;overflow:hidden;}
+
+/* SIDEBAR */
+#sidebar{width:284px;flex-shrink:0;background:var(--bg1);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;}
+.sb-section{border-bottom:1px solid var(--border);padding:10px 12px;}
+.sb-label{font-family:'Oswald',sans-serif;font-size:10px;font-weight:500;color:var(--text);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:6px;}
+.sb-label::before{content:'';width:3px;height:12px;background:var(--accent);border-radius:1px;flex-shrink:0;}
+
+/* Country filter pills */
+#country-filter{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:2px;}
+.c-pill{display:flex;align-items:center;gap:4px;padding:3px 7px;border-radius:12px;cursor:pointer;border:1px solid;font-size:9px;font-weight:600;letter-spacing:1px;text-transform:uppercase;transition:all .15s;user-select:none;}
+.c-pill.off{opacity:.35;filter:grayscale(.8);}
+
+/* Op filter */
+.op-grid{display:flex;flex-direction:column;gap:2px;}
+.op-row{display:flex;align-items:center;gap:7px;padding:4px 7px;border-radius:4px;cursor:pointer;border:1px solid transparent;transition:all .15s;user-select:none;}
+.op-row:hover{background:rgba(255,255,255,.04);}
+.op-row.on{border-color:rgba(255,255,255,.08);background:rgba(255,255,255,.03);}
+.op-row.off{opacity:.35;}
+.op-color{width:10px;height:10px;border-radius:2px;flex-shrink:0;}
+.op-info{flex:1;min-width:0;}
+.op-name{font-size:10px;font-weight:600;color:var(--bright);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.op-period{font-size:8px;color:var(--text);font-family:'Roboto Mono',monospace;}
+.op-country-tags{display:flex;gap:2px;flex-wrap:wrap;margin-top:1px;}
+.op-ctag{font-size:7px;font-weight:700;letter-spacing:.5px;padding:1px 4px;border-radius:2px;text-transform:uppercase;}
+.op-count{font-family:'Roboto Mono',monospace;font-size:9px;color:var(--text);background:var(--bg0);padding:1px 5px;border-radius:10px;flex-shrink:0;}
+
+/* Incident list */
+#inc-list-wrap{flex:1;overflow-y:auto;padding:4px;}
+#inc-list-wrap::-webkit-scrollbar{width:3px;}
+#inc-list-wrap::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
+.inc-item{padding:7px 9px;border-radius:4px;border-left:3px solid transparent;cursor:pointer;transition:all .15s;margin-bottom:2px;display:flex;align-items:flex-start;gap:8px;}
+.inc-item:hover{background:rgba(255,255,255,.04);}
+.inc-item.selected{background:rgba(79,195,247,.08);border-left-color:var(--accent)!important;}
+.inc-icon-wrap{flex-shrink:0;margin-top:1px;}
+.inc-text{flex:1;min-width:0;}
+.inc-item-op{font-size:8px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:1px;opacity:.8;}
+.inc-item-name{font-size:10px;font-weight:600;color:var(--bright);line-height:1.3;}
+.inc-item-meta{font-size:8px;color:var(--text);margin-top:2px;font-family:'Roboto Mono',monospace;}
+.inc-conf-dot{font-size:8px;font-weight:700;letter-spacing:.5px;}
+
+/* MAP AREA */
+#map-wrap{flex:1;position:relative;}
+#map{width:100%;height:100%;background:#0b0e14!important;}
+
+/* Floating legend panels */
+.float-panel{position:absolute;background:rgba(11,15,19,.9);border:1px solid var(--border2);border-radius:6px;padding:10px 13px;z-index:900;backdrop-filter:blur(8px);}
+#type-legend{top:12px;left:12px;min-width:195px;}
+#op-legend{top:12px;right:12px;max-width:200px;}
+.fleg-title{font-family:'Oswald',sans-serif;font-size:9px;color:var(--text);letter-spacing:2px;margin-bottom:8px;text-transform:uppercase;}
+.fleg-row{display:flex;align-items:center;gap:8px;margin-bottom:5px;}
+.fleg-row:last-child{margin-bottom:0;}
+.fleg-text{font-size:10px;color:var(--text2);}
+.oleg-row{display:flex;align-items:center;gap:7px;margin-bottom:4px;}
+.oleg-row:last-child{margin-bottom:0;}
+.oleg-swatch{width:22px;height:3px;border-radius:1px;flex-shrink:0;}
+.oleg-text{font-size:9px;color:var(--text2);white-space:nowrap;}
+
+/* Timeline */
+#timeline-bar{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);background:rgba(11,15,19,.93);border:1px solid var(--border2);border-radius:8px;padding:10px 16px 8px;width:min(680px,calc(100vw - 580px));z-index:900;backdrop-filter:blur(10px);box-shadow:0 8px 32px rgba(0,0,0,.6);}
+.tl-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px;}
+.tl-lbl{font-family:'Oswald',sans-serif;font-size:10px;color:var(--text);letter-spacing:2px;}
+#tl-date{font-family:'Roboto Mono',monospace;font-size:12px;font-weight:700;color:var(--gold);}
+#tl-slider{-webkit-appearance:none;width:100%;height:4px;background:var(--border2);border-radius:2px;outline:none;cursor:pointer;margin-bottom:4px;}
+#tl-slider::-webkit-slider-thumb{-webkit-appearance:none;width:15px;height:15px;border-radius:50%;background:var(--accent);border:3px solid var(--bg0);box-shadow:0 0 0 1px var(--accent),0 0 8px rgba(79,195,247,.5);cursor:pointer;}
+.tl-marks{display:flex;justify-content:space-between;margin-bottom:7px;}
+.tl-mark{font-size:8px;color:var(--text);font-family:'Roboto Mono',monospace;cursor:pointer;transition:color .15s;}
+.tl-mark:hover,.tl-mark.active{color:var(--accent);}
+.tl-btns{display:flex;gap:5px;justify-content:center;}
+.tl-btn{background:rgba(255,255,255,.05);border:1px solid var(--border2);color:var(--text2);font-family:'Oswald',sans-serif;font-size:10px;letter-spacing:1px;padding:3px 11px;border-radius:3px;cursor:pointer;transition:all .15s;text-transform:uppercase;}
+.tl-btn:hover,.tl-btn.playing{background:rgba(79,195,247,.12);border-color:var(--accent);color:var(--accent);}
+
+/* RIGHT DETAIL */
+#detail{width:344px;flex-shrink:0;background:var(--bg1);border-left:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;}
+.det-empty{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;opacity:.22;padding:20px;text-align:center;}
+.det-empty-icon{font-size:32px;}
+.det-empty-txt{font-size:11px;letter-spacing:1px;text-transform:uppercase;line-height:1.6;}
+#detail-scroll{flex:1;overflow-y:auto;}
+#detail-scroll::-webkit-scrollbar{width:3px;}
+#detail-scroll::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
+
+/* Detail hero */
+.det-hero{padding:14px 14px 12px;border-bottom:1px solid var(--border);}
+.det-op-tag{display:inline-block;font-family:'Oswald',sans-serif;font-size:9px;letter-spacing:2px;padding:2px 8px;border-radius:2px;margin-bottom:7px;text-transform:uppercase;font-weight:500;}
+.det-title{font-family:'Oswald',sans-serif;font-size:15px;font-weight:600;color:var(--bright);line-height:1.3;margin-bottom:5px;}
+.det-date{font-family:'Roboto Mono',monospace;font-size:10px;color:var(--text);}
+.det-conf-row{display:flex;align-items:center;gap:7px;margin-top:8px;}
+.det-badges{display:flex;flex-wrap:wrap;gap:4px;margin-top:9px;}
+.badge{font-size:8px;font-weight:600;letter-spacing:1px;padding:2px 6px;border-radius:2px;text-transform:uppercase;border:1px solid;}
+.badge-blue{color:var(--accent);border-color:rgba(79,195,247,.3);background:rgba(79,195,247,.08);}
+.badge-red{color:var(--accent2);border-color:rgba(255,82,82,.3);background:rgba(255,82,82,.08);}
+.badge-gold{color:var(--gold);border-color:rgba(255,213,79,.3);background:rgba(255,213,79,.08);}
+.badge-green{color:var(--green);border-color:rgba(105,240,174,.3);background:rgba(105,240,174,.08);}
+.badge-purple{color:var(--purple);border-color:rgba(206,147,216,.3);background:rgba(206,147,216,.08);}
+.badge-orange{color:var(--orange);border-color:rgba(255,183,77,.3);background:rgba(255,183,77,.08);}
+.badge-cyan{color:#26c6da;border-color:rgba(38,198,218,.3);background:rgba(38,198,218,.08);}
+
+/* Tabs */
+.det-tabs{display:flex;border-bottom:1px solid var(--border);background:var(--bg0);}
+.det-tab{flex:1;padding:7px 3px;font-size:8px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text);cursor:pointer;border-bottom:2px solid transparent;transition:all .15s;text-align:center;user-select:none;}
+.det-tab:hover{color:var(--text2);}
+.det-tab.active{color:var(--accent);border-bottom-color:var(--accent);}
+.det-tab-body{display:none;padding:11px 13px;}
+.det-tab-body.active{display:block;}
+
+/* Route strip */
+.route-strip{background:var(--bg0);border:1px solid var(--border);border-radius:4px;padding:9px 11px;margin-bottom:10px;display:flex;align-items:center;gap:7px;}
+.route-from,.route-to{flex:1;min-width:0;}
+.route-label{font-size:8px;color:var(--text);letter-spacing:1px;text-transform:uppercase;margin-bottom:2px;}
+.route-val{font-size:10px;font-weight:600;color:var(--bright);line-height:1.2;}
+.route-arrow{font-size:14px;color:var(--accent);flex-shrink:0;}
+
+/* Data rows */
+.drow{display:flex;align-items:flex-start;gap:7px;padding:5px 0;border-bottom:1px solid rgba(31,45,68,.5);}
+.drow:last-child{border-bottom:none;}
+.drow-k{font-size:9px;color:var(--text);letter-spacing:.5px;text-transform:uppercase;width:108px;flex-shrink:0;padding-top:1px;line-height:1.4;}
+.drow-v{font-size:10px;font-weight:500;color:var(--text2);flex:1;line-height:1.5;}
+.drow-v.hi{color:var(--accent);font-weight:700;}
+.drow-v.danger{color:var(--accent2);font-weight:700;}
+.drow-v.gold{color:var(--gold);}
+.drow-v.green{color:var(--green);}
+
+/* Assessment */
+.assessment{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:4px;padding:9px 11px;margin-top:9px;}
+.assessment-title{font-size:9px;font-weight:700;color:var(--accent);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:5px;}
+.assessment-body{font-size:10px;color:var(--text2);line-height:1.65;}
+
+/* Sources */
+.source-item{padding:5px 0;border-bottom:1px solid rgba(31,45,68,.5);}
+.source-item:last-child{border-bottom:none;}
+.source-name{font-size:10px;font-weight:600;color:var(--accent);margin-bottom:2px;}
+.source-type{font-size:9px;color:var(--text);}
+
+/* Imagery */
+.img-block{margin-bottom:12px;border:1px solid var(--border);border-radius:4px;overflow:hidden;background:var(--bg0);}
+.img-label{font-family:'Oswald',sans-serif;font-size:8px;font-weight:600;color:var(--text);letter-spacing:1.5px;text-transform:uppercase;padding:5px 9px;background:var(--bg2);border-bottom:1px solid var(--border);}
+.sat-img{width:100%;display:block;filter:brightness(.92) contrast(1.05);}
+.img-err{font-size:10px;color:var(--text);padding:16px;text-align:center;}
+.img-caption{font-size:9px;color:var(--text2);padding:5px 9px 4px;line-height:1.5;border-top:1px solid var(--border);background:var(--bg1);}
+.img-source{font-size:8px;color:var(--text);padding:2px 9px 5px;background:var(--bg1);}
+
+/* Stat bar */
+#stat-bar{display:flex;border-top:1px solid var(--border);flex-shrink:0;height:30px;background:var(--bg0);}
+.stat-cell{flex:1;display:flex;align-items:center;justify-content:center;gap:5px;border-right:1px solid var(--border);padding:0 6px;}
+.stat-cell:last-child{border-right:none;}
+.stat-num{font-family:'Roboto Mono',monospace;font-size:11px;font-weight:700;color:var(--accent);}
+.stat-txt{font-size:8px;color:var(--text);letter-spacing:.4px;}
+
+/* Map icons */
+@keyframes ring-pulse{0%{transform:scale(1);opacity:.7}100%{transform:scale(2.8);opacity:0}}
+.leaflet-container{background:#0b0e14!important;}
+.leaflet-control-zoom{border:1px solid var(--border2)!important;box-shadow:none!important;}
+.leaflet-control-zoom a{background:var(--bg1)!important;color:var(--text2)!important;border-color:var(--border2)!important;font-size:14px!important;}
+.leaflet-control-zoom a:hover{background:var(--bg2)!important;color:var(--bright)!important;}
+.leaflet-control-attribution{display:none!important;}
+.leaflet-tooltip{background:rgba(17,22,32,.96)!important;border:1px solid var(--border2)!important;color:var(--text2)!important;font-family:'Inter',sans-serif!important;font-size:10px!important;box-shadow:0 4px 12px rgba(0,0,0,.6)!important;border-radius:3px!important;padding:6px 9px!important;}
+.map-tooltip-inner b{color:var(--bright);display:block;margin-bottom:2px;}
+.map-tooltip-inner .tt-date{color:var(--text);font-size:9px;display:block;margin-top:1px;}
+.map-tooltip-inner .tt-conf{display:inline-block;margin-top:4px;font-size:8px;font-weight:700;letter-spacing:1px;padding:1px 5px;border-radius:2px;text-transform:uppercase;}
+.city-marker{display:flex;align-items:center;gap:4px;pointer-events:none;}
+.city-dot{width:4px;height:4px;background:#fff;border-radius:50%;opacity:.4;}
+.city-name{font-family:'Inter',sans-serif;font-size:9px;font-weight:600;color:rgba(255,255,255,.5);white-space:nowrap;letter-spacing:.4px;text-shadow:0 1px 3px rgba(0,0,0,.9),0 0 8px rgba(0,0,0,.9);}
+::-webkit-scrollbar{width:3px;}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
+</style>
+</head>
+<body>
+
+<div id="hdr">
+  <div class="hdr-badge">OSINT</div>
+  <div class="hdr-title">Global Operations Map 2025–2026</div>
+  <div class="hdr-divider"></div>
+  <div class="hdr-stat"><div class="hdr-stat-val" id="h-ops">9 OPS</div><div class="hdr-stat-lbl">Active Operations</div></div>
+  <div class="hdr-stat"><div class="hdr-stat-val">900+</div><div class="hdr-stat-lbl">Strikes / 12 hrs (EF)</div></div>
+  <div class="hdr-stat"><div class="hdr-stat-val">555+</div><div class="hdr-stat-lbl">Civilian Casualties</div></div>
+  <div class="hdr-stat"><div class="hdr-stat-val" id="h-theaters">5 THEATERS</div><div class="hdr-stat-lbl">Active Theaters</div></div>
+  <div class="hdr-right">
+    <div class="live-dot"></div>
+    <div class="hdr-source">OPEN SOURCE / UNCLASSIFIED</div>
+  </div>
+</div>
+
+<div id="layout">
+  <div id="sidebar">
+    <div class="sb-section">
+      <div class="sb-label">Filter by Country</div>
+      <div id="country-filter"></div>
+    </div>
+    <div class="sb-section">
+      <div class="sb-label">Operations</div>
+      <div class="op-grid" id="op-filter"></div>
+    </div>
+    <div class="sb-section" style="padding-bottom:5px;">
+      <div class="sb-label">Incidents <span style="margin-left:auto;font-size:9px;color:var(--text);font-family:'Roboto Mono',monospace;" id="inc-count"></span></div>
+    </div>
+    <div id="inc-list-wrap"><div id="inc-list"></div></div>
+  </div>
+
+  <div id="map-wrap">
+    <div id="map"></div>
+
+    <div class="float-panel" id="type-legend">
+      <div class="fleg-title">Strike Type + Confidence</div>
+      <!-- Row: symbol | color meaning | label -->
+      <div class="fleg-row">
+        <svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="10" fill="#0d3320" stroke="#4caf50" stroke-width="1.8"/><polygon points="11,5 14,10 11,8 8,10" fill="#4caf50"/><rect x="10" y="8" width="2" height="7" fill="#4caf50"/></svg>
+        <div class="fleg-text"><b style="color:#4caf50">Green</b> = Confirmed · Airstrike</div>
+      </div>
+      <div class="fleg-row">
+        <svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="10" fill="#0d2540" stroke="#2196f3" stroke-width="1.8"/><ellipse cx="11" cy="11" rx="7" ry="3.5" fill="none" stroke="#2196f3" stroke-width="1.4" transform="rotate(-35,11,11)"/><circle cx="11" cy="11" r="2" fill="#2196f3"/></svg>
+        <div class="fleg-text"><b style="color:#2196f3">Blue</b> = Reported · Missile</div>
+      </div>
+      <div class="fleg-row">
+        <svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="10" fill="#2d1a00" stroke="#ff9800" stroke-width="1.8"/><path d="M11 4 L9 10 L4 10 L8 14 L6 20 L11 16 L16 20 L14 14 L18 10 L13 10 Z" fill="#ff9800"/></svg>
+        <div class="fleg-text"><b style="color:#ff9800">Orange</b> = Retaliation · Proxy</div>
+      </div>
+      <div class="fleg-row">
+        <svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="10" fill="#300d0d" stroke="#f44336" stroke-width="1.8"/><path d="M8 6 L11 10 L14 6 L16 9 L13 12 L18 15 L14 15 L11 18 L8 15 L4 15 L9 12 L6 9 Z" fill="#f44336"/></svg>
+        <div class="fleg-text"><b style="color:#f44336">Red</b> = Unverified · Explosion</div>
+      </div>
+      <div class="fleg-row">
+        <svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="10" fill="#1a0d30" stroke="#9c27b0" stroke-width="1.8"/><path d="M6 14 L11 6 L16 14 L11 12 Z" fill="#9c27b0"/><rect x="9.5" y="12" width="3" height="5" rx="1" fill="#9c27b0"/></svg>
+        <div class="fleg-text"><b style="color:#9c27b0">Purple</b> = Confirmed · Naval/SOF</div>
+      </div>
+      <div class="fleg-row">
+        <svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="10" fill="#0a1a20" stroke="#26c6da" stroke-width="1.8"/><rect x="7" y="8" width="8" height="6" rx="1" fill="none" stroke="#26c6da" stroke-width="1.4"/><line x1="9" y1="8" x2="9" y2="6" stroke="#26c6da" stroke-width="1.4"/><line x1="13" y1="8" x2="13" y2="6" stroke="#26c6da" stroke-width="1.4"/><circle cx="11" cy="18" r="2" fill="#26c6da"/></svg>
+        <div class="fleg-text"><b style="color:#26c6da">Cyan</b> = Maritime Coercion/ISR</div>
+      </div>
+      <div class="fleg-row">
+        <svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="10" fill="#151515" stroke="#607d8b" stroke-width="1.8"/><rect x="8" y="8" width="6" height="5" rx=".5" fill="#607d8b"/><rect x="6" y="13" width="10" height="1.5" fill="#607d8b"/></svg>
+        <div class="fleg-text"><b style="color:#607d8b">Grey</b> = Intel / Buildup</div>
+      </div>
+    </div>
+
+    <div class="float-panel" id="op-legend">
+      <div class="fleg-title">Operations</div>
+      <div id="op-legend-items"></div>
+    </div>
+
+    <div id="timeline-bar">
+      <div class="tl-top">
+        <span class="tl-lbl">Timeline</span>
+        <span id="tl-date">NOW</span>
+      </div>
+      <input type="range" id="tl-slider" min="0" max="100" value="100">
+      <div class="tl-marks" id="tl-marks"></div>
+      <div class="tl-btns">
+        <button class="tl-btn" id="btn-show-all">All Time</button>
+        <button class="tl-btn" id="btn-play">▶ Play</button>
+        <button class="tl-btn" id="btn-pause">⏸ Pause</button>
+        <button class="tl-btn" id="btn-reset">↺ Reset</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="detail">
+    <div id="detail-scroll">
+      <div class="det-empty" id="det-placeholder">
+        <div class="det-empty-icon">🗺️</div>
+        <div class="det-empty-txt">Click an incident<br>on the map or list<br>to view full intel</div>
+      </div>
+      <div id="det-content" style="display:none;"></div>
+    </div>
+  </div>
+</div>
+
+<div id="stat-bar">
+  <div class="stat-cell"><span class="stat-num">7</span><span class="stat-txt">B-2 Spirit (Midnight Hammer)</span></div>
+  <div class="stat-cell"><span class="stat-num">13</span><span class="stat-txt">Arleigh Burke DDGs deployed</span></div>
+  <div class="stat-cell"><span class="stat-num">1,400+</span><span class="stat-txt">IDF sorties (12-Day War)</span></div>
+  <div class="stat-cell"><span class="stat-num">708</span><span class="stat-txt">Iranian munitions intercepted</span></div>
+  <div class="stat-cell"><span class="stat-num">6</span><span class="stat-txt">PLA carrier ops (SCS 2025–26)</span></div>
+  <div class="stat-cell"><span class="stat-num">$79.45</span><span class="stat-txt">Brent crude peak (EF Day 1)</span></div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════
+// COUNTRY DEFINITIONS
+// ═══════════════════════════════════════════════════
+const COUNTRIES = {
+  US:     { label:'🇺🇸 US',     color:'#4fc3f7', bg:'rgba(79,195,247,.15)',  border:'rgba(79,195,247,.5)'  },
+  IL:     { label:'🇮🇱 Israel', color:'#ce93d8', bg:'rgba(206,147,216,.15)', border:'rgba(206,147,216,.5)' },
+  IR:     { label:'🇮🇷 Iran',   color:'#ef5350', bg:'rgba(239,83,80,.15)',   border:'rgba(239,83,80,.5)'   },
+  CN:     { label:'🇨🇳 China',  color:'#ff5252', bg:'rgba(255,82,82,.15)',   border:'rgba(255,82,82,.5)'   },
+  VE:     { label:'🇻🇪 Venez.', color:'#ffd54f', bg:'rgba(255,213,79,.15)',  border:'rgba(255,213,79,.5)'  },
+  YE:     { label:'🇾🇪 Houthi', color:'#f06292', bg:'rgba(240,98,146,.15)',  border:'rgba(240,98,146,.5)'  },
+  PH:     { label:'🇵🇭 PHL',    color:'#26c6da', bg:'rgba(38,198,218,.15)',  border:'rgba(38,198,218,.5)'  },
+};
+
+// ═══════════════════════════════════════════════════
+// OPERATIONS
+// ═══════════════════════════════════════════════════
+const OPS = {
+  'midnight-hammer':  { name:'Op. Midnight Hammer',  color:'#29b6f6', period:'Jun 2025',         countries:['US']     },
+  'twelve-day':       { name:'12-Day War (IDF)',      color:'#ce93d8', period:'Jun 2025',         countries:['IL','US']},
+  'absolute-resolve': { name:'Op. Absolute Resolve',  color:'#66bb6a', period:'Dec 2025–Jan 2026',countries:['US']     },
+  'southern-spear':   { name:'Op. Southern Spear',    color:'#4db6ac', period:'Jan 2026',         countries:['US']     },
+  'epic-fury':        { name:'Op. Epic Fury',         color:'#ffa726', period:'Feb 28, 2026',     countries:['US','IL']},
+  'roaring-lion':     { name:'Op. Roaring Lion',      color:'#ffd54f', period:'Feb 28, 2026',     countries:['US','IL']},
+  'iran-retaliation': { name:'Iran Retaliation',      color:'#ef5350', period:'Feb–Mar 2026',     countries:['IR','YE']},
+  'houthi':           { name:'Houthi / Proxies',      color:'#f06292', period:'2025–2026',        countries:['YE','IR']},
+  'scs-ops':          { name:'China SCS Operations',  color:'#ff5252', period:'2025–2026',        countries:['CN','PH']},
+};
+
+// ═══════════════════════════════════════════════════
+// STRIKE-TYPE SVG SYMBOLS + CONFIDENCE COLORS
+// Each type: { color, label, getSVG(sz,col) }
+// ═══════════════════════════════════════════════════
+const STRIKE_TYPES = {
+  // B-2 silhouette airstrike — confirmed green
+  bomber: {
+    color:'#4caf50', bgFill:'#0d3320', label:'Confirmed Airstrike',
+    getSVG(sz,c) {
+      // Flying wing bomber silhouette
+      return `<polygon points="${sz*.5},${sz*.25} ${sz*.85},${sz*.65} ${sz*.7},${sz*.6} ${sz*.55},${sz*.72} ${sz*.45},${sz*.72} ${sz*.3},${sz*.6} ${sz*.15},${sz*.65}" fill="${c}" opacity=".95"/>`;
+    }
+  },
+  // Fighter jet — confirmed green
+  fighter: {
+    color:'#4caf50', bgFill:'#0d3320', label:'Confirmed Airstrike',
+    getSVG(sz,c) {
+      // Swept-wing fighter silhouette
+      const cx=sz/2, cy=sz/2;
+      return `<polygon points="${cx},${sz*.2} ${cx+sz*.04},${sz*.45} ${sz*.82},${sz*.72} ${sz*.75},${sz*.78} ${cx},${sz*.58} ${sz*.25},${sz*.78} ${sz*.18},${sz*.72} ${cx-sz*.04},${sz*.45}" fill="${c}" opacity=".95"/>
+              <rect x="${cx-sz*.02}" y="${sz*.18}" width="${sz*.04}" height="${sz*.4}" rx="1" fill="${c}"/>`;
+    }
+  },
+  // Missile trajectory — reported blue
+  missile: {
+    color:'#2196f3', bgFill:'#0d2540', label:'Reported Strike',
+    getSVG(sz,c) {
+      // Elongated missile with fins
+      const cx=sz/2;
+      return `<rect x="${cx-sz*.07}" y="${sz*.22}" width="${sz*.14}" height="${sz*.45}" rx="${sz*.06}" fill="${c}" opacity=".9"/>
+              <polygon points="${cx},${sz*.16} ${cx+sz*.07},${sz*.3} ${cx-sz*.07},${sz*.3}" fill="${c}"/>
+              <polygon points="${cx-sz*.07},${sz*.56} ${cx-sz*.2},${sz*.72} ${cx-sz*.07},${sz*.67}" fill="${c}" opacity=".8"/>
+              <polygon points="${cx+sz*.07},${sz*.56} ${cx+sz*.2},${sz*.72} ${cx+sz*.07},${sz*.67}" fill="${c}" opacity=".8"/>`;
+    }
+  },
+  // Anchor / ship — naval purple
+  naval: {
+    color:'#9c27b0', bgFill:'#1a0d30', label:'Naval Operation',
+    getSVG(sz,c) {
+      const cx=sz/2;
+      return `<circle cx="${cx}" cy="${sz*.32}" r="${sz*.08}" fill="none" stroke="${c}" stroke-width="${sz*.07}"/>
+              <line x1="${cx}" y1="${sz*.4}" x2="${cx}" y2="${sz*.76}" stroke="${c}" stroke-width="${sz*.07}"/>
+              <line x1="${sz*.25}" y1="${sz*.5}" x2="${sz*.75}" y2="${sz*.5}" stroke="${c}" stroke-width="${sz*.07}"/>
+              <path d="M${sz*.25},${sz*.76} Q${cx},${sz*.88} ${sz*.75},${sz*.76}" fill="none" stroke="${c}" stroke-width="${sz*.07}"/>`;
+    }
+  },
+  // SOF crosshair — purple
+  sof: {
+    color:'#9c27b0', bgFill:'#1a0d30', label:'Special Operation',
+    getSVG(sz,c) {
+      const cx=sz/2, cy=sz/2, r=sz*.28;
+      return `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${c}" stroke-width="${sz*.06}"/>
+              <circle cx="${cx}" cy="${cy}" r="${r*.3}" fill="${c}"/>
+              <line x1="${cx}" y1="${sz*.1}" x2="${cx}" y2="${cy-r}" stroke="${c}" stroke-width="${sz*.06}"/>
+              <line x1="${cx}" y1="${cy+r}" x2="${cx}" y2="${sz*.9}" stroke="${c}" stroke-width="${sz*.06}"/>
+              <line x1="${sz*.1}" y1="${cy}" x2="${cx-r}" y2="${cy}" stroke="${c}" stroke-width="${sz*.06}"/>
+              <line x1="${cx+r}" y1="${cy}" x2="${sz*.9}" y2="${cy}" stroke="${c}" stroke-width="${sz*.06}"/>`;
+    }
+  },
+  // Drone hexagon — footage yellow
+  drone: {
+    color:'#ffc107', bgFill:'#2d1a00', label:'Strike w/ Footage',
+    getSVG(sz,c) {
+      const cx=sz/2, cy=sz/2, r=sz*.3;
+      const pts = Array.from({length:6},(_,i)=>{
+        const a=(i*60-90)*Math.PI/180;
+        return `${cx+r*Math.cos(a)},${cy+r*Math.sin(a)}`;
+      }).join(' ');
+      return `<polygon points="${pts}" fill="none" stroke="${c}" stroke-width="${sz*.06}"/>
+              <circle cx="${cx}" cy="${cy}" r="${sz*.1}" fill="${c}"/>
+              <line x1="${cx-sz*.32}" y1="${cy-sz*.32}" x2="${cx-sz*.17}" y2="${cy-sz*.17}" stroke="${c}" stroke-width="${sz*.05}"/>
+              <line x1="${cx+sz*.32}" y1="${cy-sz*.32}" x2="${cx+sz*.17}" y2="${cy-sz*.17}" stroke="${c}" stroke-width="${sz*.05}"/>
+              <line x1="${cx-sz*.32}" y1="${cy+sz*.32}" x2="${cx-sz*.17}" y2="${cy+sz*.17}" stroke="${c}" stroke-width="${sz*.05}"/>
+              <line x1="${cx+sz*.32}" y1="${cy+sz*.32}" x2="${cx+sz*.17}" y2="${cy+sz*.17}" stroke="${c}" stroke-width="${sz*.05}"/>`;
+    }
+  },
+  // Lightning bolt retaliation — orange
+  retaliation: {
+    color:'#ff9800', bgFill:'#2d1a00', label:'Retaliation / Proxy',
+    getSVG(sz,c) {
+      return `<polygon points="${sz*.55},${sz*.18} ${sz*.3},${sz*.52} ${sz*.47},${sz*.52} ${sz*.42},${sz*.82} ${sz*.68},${sz*.46} ${sz*.52},${sz*.46}" fill="${c}" opacity=".95"/>`;
+    }
+  },
+  // Radar/screen intel — grey
+  intel: {
+    color:'#607d8b', bgFill:'#151515', label:'Intel / Buildup',
+    getSVG(sz,c) {
+      const cx=sz/2, cy=sz/2;
+      return `<rect x="${sz*.22}" y="${sz*.28}" width="${sz*.56}" height="${sz*.38}" rx="2" fill="none" stroke="${c}" stroke-width="${sz*.06}"/>
+              <rect x="${sz*.16}" y="${sz*.66}" width="${sz*.68}" height="${sz*.1}" rx="1" fill="${c}" opacity=".7"/>
+              <line x1="${cx-sz*.07}" y1="${sz*.28}" x2="${cx-sz*.07}" y2="${sz*.22}" stroke="${c}" stroke-width="${sz*.05}"/>
+              <line x1="${cx+sz*.07}" y1="${sz*.28}" x2="${cx+sz*.07}" y2="${sz*.22}" stroke="${c}" stroke-width="${sz*.05}"/>`;
+    }
+  },
+  // SCS / Maritime coercion — cyan
+  maritime: {
+    color:'#26c6da', bgFill:'#0a1a20', label:'Maritime Coercion',
+    getSVG(sz,c) {
+      // Ship hull + radar mast
+      const cx=sz/2;
+      return `<rect x="${sz*.18}" y="${sz*.5}" width="${sz*.64}" height="${sz*.2}" rx="2" fill="${c}" opacity=".85"/>
+              <rect x="${sz*.35}" y="${sz*.32}" width="${sz*.3}" height="${sz*.2}" rx="1" fill="${c}" opacity=".7"/>
+              <line x1="${cx}" y1="${sz*.16}" x2="${cx}" y2="${sz*.32}" stroke="${c}" stroke-width="${sz*.05}"/>
+              <line x1="${cx-sz*.12}" y1="${sz*.22}" x2="${cx+sz*.12}" y2="${sz*.22}" stroke="${c}" stroke-width="${sz*.05}"/>
+              <polygon points="${sz*.18},${sz*.7} ${sz*.82},${sz*.7} ${sz*.78},${sz*.78} ${sz*.22},${sz*.78}" fill="${c}" opacity=".9"/>`;
+    }
+  },
+  // Island construction / reclamation — cyan
+  island: {
+    color:'#26c6da', bgFill:'#0a1a20', label:'Island Construction',
+    getSVG(sz,c) {
+      const cx=sz/2, cy=sz/2;
+      return `<ellipse cx="${cx}" cy="${cy+sz*.05}" rx="${sz*.32}" ry="${sz*.18}" fill="${c}" opacity=".5"/>
+              <ellipse cx="${cx}" cy="${cy+sz*.05}" rx="${sz*.24}" ry="${sz*.12}" fill="${c}" opacity=".8"/>
+              <rect x="${cx-sz*.1}" y="${sz*.28}" width="${sz*.2}" height="${sz*.2}" rx="1" fill="${c}" opacity=".9"/>
+              <line x1="${cx}" y1="${sz*.16}" x2="${cx}" y2="${sz*.28}" stroke="${c}" stroke-width="${sz*.06}"/>`;
+    }
+  },
+  // Nuke / contested — red
+  nuke: {
+    color:'#f44336', bgFill:'#300d0d', label:'Unverified Report',
+    getSVG(sz,c) {
+      const cx=sz/2, cy=sz/2;
+      return `<circle cx="${cx}" cy="${cy}" r="${sz*.28}" fill="none" stroke="${c}" stroke-width="${sz*.06}"/>
+              <line x1="${cx}" y1="${sz*.12}" x2="${cx}" y2="${sz*.44}" stroke="${c}" stroke-width="${sz*.06}"/>
+              <line x1="${cx}" y1="${sz*.56}" x2="${cx}" y2="${sz*.88}" stroke="${c}" stroke-width="${sz*.06}" transform="rotate(60,${cx},${cy})"/>
+              <line x1="${cx}" y1="${sz*.56}" x2="${cx}" y2="${sz*.88}" stroke="${c}" stroke-width="${sz*.06}" transform="rotate(-60,${cx},${cy})"/>
+              <circle cx="${cx}" cy="${cy}" r="${sz*.1}" fill="${c}"/>`;
+    }
+  },
+};
+
+// ═══════════════════════════════════════════════════
+// INCIDENTS — loaded from CSV + SCS additions
+// ═══════════════════════════════════════════════════
+const INCIDENTS = [
+// ── MIDNIGHT HAMMER ──
+{
+  id:'mh-fordow', op:'midnight-hammer', type:'bomber', timeVal:0,
+  title:'GBU-57 MOP Strike: Fordow Nuclear Facility',
+  date:'June 2025',
+  confirmed:true,
+  from:{ lat:-7.32, lng:72.42, label:'Diego Garcia, BIOT', sub:'B-2 Spirit launch base' },
+  to:  { lat:34.88, lng:50.50, label:'Fordow Fuel Enrichment Plant', sub:'~90m underground, Qom Province' },
+  summary:'Seven B-2 Spirit stealth bombers flew round-trip from Diego Garcia carrying GBU-57 Massive Ordnance Penetrators — the only weapon capable of penetrating Fordow\'s deep underground bunker buried ~80–90m inside a mountain near Qom. 52 tanker aircraft required for aerial refueling support. Twelve MOPs were required versus two at Natanz, reflecting extreme hardening. Iran pre-evacuated 440.9 kg of enriched uranium (including 408.9 kg at 60%-enriched — enough for ~9 weapons) before the strikes.',
+  intel:[
+    { k:'Platform',        v:'7× B-2 Spirit stealth bombers', hi:true },
+    { k:'Munitions',       v:'12× GBU-57 MOP (30,000 lb each)', hi:true },
+    { k:'MOP Specs',       v:'20.5 ft long, 5,342 lb explosive fill, Eglin-steel casing' },
+    { k:'Support',         v:'52 aerial refueling tankers' },
+    { k:'Target Depth',    v:'~80–90m inside mountain', cls:'gold' },
+    { k:'Nuclear Setback', v:'1–2 yrs (Pentagon), months (IAEA), many yrs (Israeli AEC)', cls:'gold' },
+    { k:'Pre-strike Evac', v:'440.9 kg enriched U incl. 408.9 kg 60%-enriched (~9 wpns)', cls:'danger' },
+    { k:'OSINT Warning',   v:'Oliver Alexander — 4-day F-22 deployment warning', cls:'green' },
+  ],
+  assess:'Fordow was specifically designed to survive conventional bunker-busters. The GBU-57 MOP was developed precisely for this mission. The pre-strike evacuation of uranium indicates Iran had advance warning or a prepared contingency. NBC News later assessed only Fordow was definitively destroyed of the three primary nuclear targets.',
+  sources:[ { n:'The War Zone', t:'GBU-57 combat debut deep dive' }, { n:'Air & Space Forces Magazine', t:'Inside story of B-2 Iran mission' }, { n:'CSIS', t:'What Midnight Hammer means for Iran\'s nuclear future' }, { n:'Oliver Alexander (OSINT)', t:'F-22 deployment 4-day warning' } ],
+  badges:[ ['MOP FIRST USE','gold'], ['NUCLEAR STRIKE','red'], ['B-2 SPIRIT','blue'], ['GBU-57','blue'] ],
+  imagery:[
+    { label:'B-2 Spirit Stealth Bomber', url:'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/B2_spirit_bombing.jpg/1280px-B2_spirit_bombing.jpg', caption:'B-2 Spirit dropping ordnance. Seven flew round-trip from Diego Garcia (~13,000 km) requiring 52 tankers.', source:'USAF / Wikimedia Commons (public domain)' },
+    { label:'GBU-57 Massive Ordnance Penetrator', url:'https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/GBU-57_Massive_Ordnance_Penetrator.jpg/1280px-GBU-57_Massive_Ordnance_Penetrator.jpg', caption:'GBU-57A/B MOP — 30,000 lb, Eglin steel alloy casing. Fordow required 12 (vs 2 at Natanz).', source:'USAF / Wikimedia Commons (public domain)' },
+  ],
+},
+{
+  id:'mh-natanz', op:'midnight-hammer', type:'bomber', timeVal:1,
+  title:'GBU-57 Strike: Natanz Enrichment Complex',
+  date:'June 2025', confirmed:true,
+  from:{ lat:-7.32, lng:72.42, label:'Diego Garcia, BIOT', sub:'B-2 Spirit launch base' },
+  to:  { lat:33.72, lng:51.73, label:'Natanz Underground Enrichment', sub:'Isfahan Province, Iran' },
+  summary:'Secondary MOP strike on Natanz, Iran\'s primary uranium enrichment site. Two GBU-57 MOPs deployed (vs. 12 at Fordow), reflecting shallower burial (~8m reinforced concrete). Natanz houses thousands of IR-1, IR-4, IR-6 centrifuges. NBC News assessed destruction as partial and effectiveness disputed.',
+  intel:[
+    { k:'Munitions',     v:'2× GBU-57 MOP', hi:true },
+    { k:'Target Depth',  v:'~8m underground (reinforced concrete)' },
+    { k:'Centrifuges',   v:'Thousands of IR-1, IR-4, IR-6' },
+    { k:'IAEA Status',   v:'Under IAEA safeguards — cameras and monitoring' },
+    { k:'Assessment',    v:'Partial destruction — effectiveness disputed (NBC)', cls:'gold' },
+  ],
+  assess:'NBC News found that of the three primary targets, only Fordow was definitively destroyed. Two MOPs vs. twelve at Fordow suggests planners underestimated the hardened underground halls.',
+  sources:[ { n:'NBC News', t:'Only Fordow destroyed — Natanz/Isfahan debated' }, { n:'The War Zone', t:'B-2/Midnight Hammer deep dive' } ],
+  badges:[ ['NATANZ','blue'], ['B-2 SPIRIT','blue'], ['PARTIAL EFFECT','red'] ],
+  imagery:[ { label:'Natanz — Satellite Pre-Strike', url:'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/Fordow_fuel_enrichment_plant.jpg/1280px-Fordow_fuel_enrichment_plant.jpg', caption:'Pre-strike satellite imagery of Iranian nuclear enrichment infrastructure. Natanz houses centrifuge halls ~8m underground with reinforced concrete.', source:'DigitalGlobe / IAEA (pre-strike OSINT)' } ],
+},
+{
+  id:'mh-isfahan', op:'midnight-hammer', type:'missile', timeVal:2,
+  title:'Tomahawk Barrage: Isfahan Nuclear Complex',
+  date:'June 2025', confirmed:false,
+  from:{ lat:25.8, lng:57.0, label:'US Navy (Persian Gulf / Gulf of Oman)', sub:'Arleigh Burke-class destroyers' },
+  to:  { lat:32.65, lng:51.67, label:'Isfahan Nuclear Technology Centre', sub:'Isfahan Province, Iran' },
+  summary:'Tomahawk TLAM barrage (24+) on Isfahan nuclear research facilities. IAEA later found Iran had secretly stored enriched uranium under the Isfahan site — a hidden cache not declared to inspectors before the strikes. Isfahan also houses civilian nuclear infrastructure raising collateral questions.',
+  intel:[
+    { k:'Munitions',         v:'24+ BGM-109 Tomahawk TLAM', hi:true },
+    { k:'Platform',          v:'Arleigh Burke DDGs, Persian Gulf' },
+    { k:'Range',             v:'~1,600 km (Block IV TLAM)' },
+    { k:'IAEA Hidden Cache', v:'Enriched uranium under Isfahan — not declared', cls:'danger' },
+    { k:'Source',            v:'Haaretz citing IAEA, Feb 27, 2026' },
+  ],
+  assess:'The hidden uranium discovery raises questions about the completeness of Iran\'s declaration. Pre-strike IAEA assessment did not account for this cache.',
+  sources:[ { n:'Haaretz', t:'IAEA report: Iran storing enriched uranium under Isfahan' }, { n:'CNN', t:'Isfahan satellite imagery and coverage' } ],
+  badges:[ ['TOMAHAWK','blue'], ['HIDDEN CACHE','red'], ['IAEA','gold'] ],
+  imagery:[],
+},
+// ── 12-DAY WAR ──
+{
+  id:'tdw-campaign', op:'twelve-day', type:'fighter', timeVal:3,
+  title:'IDF 12-Day Air Campaign: Iran',
+  date:'June 2025', confirmed:true,
+  from:{ lat:31.9, lng:34.8, label:'Israel (Multiple IAF Bases)', sub:'Nevatim, Ramon, Tel Nof AFBs' },
+  to:  { lat:35.68, lng:51.39, label:'Tehran & Iranian Military Targets', sub:'IRGC, C2, TEL sites, air defense' },
+  summary:'Israel\'s most expansive air campaign since 1973. 1,400+ sorties over 12 days. F-35I Adir as primary platform for stealth penetration of Iranian air defenses. Opening salvo simultaneously eliminated 40 senior IRGC commanders. 120 Iranian TELs destroyed eliminating primary ballistic missile delivery capacity.',
+  intel:[
+    { k:'Duration',          v:'12 days', hi:true },
+    { k:'Total Sorties',     v:'1,400+', hi:true },
+    { k:'Primary Aircraft',  v:'F-35I Adir (stealth), F-15I Ra\'am, F-16I Sufa' },
+    { k:'Commanders Killed', v:'40 senior IRGC (simultaneous opening salvo)', cls:'danger' },
+    { k:'TELs Destroyed',    v:'120 — eliminates ballistic missile delivery', cls:'danger' },
+    { k:'Air Defense',       v:'S-300 batteries neutralized via F-35I stealth' },
+  ],
+  assess:'The F-35I\'s low-observable design allowed penetration of Iranian S-300 defenses. Destroying 120 TELs in opening phases effectively eliminated Iran\'s near-term retaliatory ballistic missile capability. Simultaneous decapitation of 40 commanders unprecedented in modern warfare.',
+  sources:[ { n:'Aviation Week', t:'F-35\'s defining role in Israel\'s historic campaign' }, { n:'FPRI', t:'Air and missile defense in June 2025 Israel-Iran war' } ],
+  badges:[ ['F-35I ADIR','purple'], ['1400+ SORTIES','blue'], ['120 TELS','red'], ['40 COMMANDERS','red'] ],
+  imagery:[
+    { label:'F-35I Adir — Primary Strike Platform', url:'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/F-35I_Adir.jpg/1280px-F-35I_Adir.jpg', caption:'F-35I Adir — Israeli customized variant with indigenous avionics. Low-observable design penetrated Iran\'s S-300 network.', source:'Israeli Air Force / Wikimedia Commons (public domain)' },
+    { label:'S-300 Battery — Neutralized', url:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/S-300_Triumf_-_MAKS-2009_%28uncropped%29.jpg/1200px-S-300_Triumf_-_MAKS-2009_%28uncropped%29.jpg', caption:'S-300PMU2 batteries could not track the F-35I at combat altitude — rendered effectively blind by stealth.', source:'Wikimedia Commons (public domain)' },
+  ],
+},
+{
+  id:'tdw-hezbollah', op:'twelve-day', type:'fighter', timeVal:4,
+  title:'IDF Preemptive Strikes: Hezbollah (Lebanon)',
+  date:'June 2025', confirmed:true,
+  from:{ lat:31.9, lng:34.8, label:'Israel (IAF Northern Command)', sub:'Ramat David, Haifa area' },
+  to:  { lat:33.55, lng:35.6, label:'Hezbollah Positions, Southern Lebanon', sub:'Bekaa Valley, southern suburbs' },
+  summary:'IDF preemptive suppression strikes on Hezbollah missile and rocket infrastructure after Hezbollah declared readiness to respond to US-Israeli strikes on Iran. Prioritized launcher sites, weapons storage, and command nodes.',
+  intel:[
+    { k:'Target',      v:'Hezbollah missile/rocket infrastructure' },
+    { k:'Priority',    v:'Suppress retaliatory launch before mass salvo' },
+    { k:'Areas',       v:'Bekaa Valley, South Beirut, Tyre region' },
+    { k:'IDF Trigger', v:'Hezbollah public declaration of readiness' },
+  ],
+  assess:'Preemption over absorption of mass rocket barrage on Israeli cities. Strikes focused on launcher sites rather than leadership — consistent with lessons from prior conflicts about distributed guerrilla organizations.',
+  sources:[ { n:'Fox News', t:'Hezbollah declares readiness to respond' }, { n:'Soufan Center', t:'Proxy network analysis Nov 2025' } ],
+  badges:[ ['HEZBOLLAH','red'], ['PREEMPTIVE','gold'], ['IAF','purple'] ],
+  imagery:[],
+},
+// ── ABSOLUTE RESOLVE ──
+{
+  id:'cia-vzla', op:'absolute-resolve', type:'drone', timeVal:32,
+  title:'CIA Covert Drone Strike: Venezuela',
+  date:'Dec 29, 2025', confirmed:false,
+  from:{ lat:19.5, lng:-72.5, label:'CIA (Caribbean platform, classified)', sub:'Covert action — platform undisclosed' },
+  to:  { lat:10.48, lng:-66.90, label:'Caracas, Venezuela', sub:'Venezuelan intelligence/military leadership' },
+  summary:'Classified CIA covert action drone strike on Venezuelan military and intelligence leadership in Caracas. Precursor kinetic action before the main Op. Absolute Resolve SOF assault. Targeted Venezuelan state security apparatus to degrade response capability during the Maduro capture window.',
+  intel:[
+    { k:'Agency',    v:'CIA (covert action authority)', hi:true },
+    { k:'Date',      v:'December 29, 2025' },
+    { k:'Platform',  v:'Armed drone — type classified' },
+    { k:'Target',    v:'Venezuelan military/intelligence leadership' },
+    { k:'Purpose',   v:'Precursor shaping before SOF raid', cls:'gold' },
+  ],
+  assess:'Pattern of pre-raid shaping to create "confusion at the top" and prevent coordinated Venezuelan military response during Maduro capture window.',
+  sources:[ { n:'CNN', t:'CIA drone strike Venezuela (Dec 29, 2025)' }, { n:'CFR', t:'Operation Southern Spear overview' } ],
+  badges:[ ['CIA COVERT','red'], ['DRONE STRIKE','blue'], ['DEC 29 2025','gold'] ],
+  imagery:[],
+},
+{
+  id:'ocean-trader', op:'absolute-resolve', type:'naval', timeVal:33,
+  title:'MV Ocean Trader: SOF Mothership Staging',
+  date:'Dec 2025', confirmed:true,
+  from:{ lat:18.5, lng:-73.5, label:'MV Ocean Trader (converted civilian vessel)', sub:'OSINT-tracked via ESA Sentinel-2' },
+  to:  { lat:10.9, lng:-64.7, label:'Venezuelan Caribbean Coast', sub:'SOF launch/recovery area' },
+  summary:'MV Ocean Trader — a converted civilian cargo vessel serving as a classified SOF maritime staging platform — was tracked via free ESA Sentinel-2 commercial satellite imagery by OSINT analysts (@MT_Anderson, The Iceman). USS Lake Erie (Ticonderoga CG-70) escorted the vessel ~200nm off Venezuelan coast. SOF helicopters were later observed departing for the Caracas raid.',
+  intel:[
+    { k:'Vessel',         v:'MV Ocean Trader (converted civilian)', hi:true },
+    { k:'Role',           v:'SOF maritime mothership / forward staging' },
+    { k:'Detected By',    v:'ESA Sentinel-2 free satellite (OSINT)', cls:'gold' },
+    { k:'OSINT Analysts', v:'@MT_Anderson (X), The Iceman (Substack)' },
+    { k:'Escort',         v:'USS Lake Erie — Ticonderoga CG-70 cruiser' },
+    { k:'Significance',   v:'First public ID of civilian-converted SOF ship', cls:'gold' },
+    { k:'Helicopter Ops', v:'SOF helos observed flying over Caracas during raid', cls:'danger' },
+  ],
+  assess:'The Sentinel-2 detection demonstrates that free commercial 10m-resolution satellite imagery combined with AIS gap analysis can expose classified SOF mothership operations. Operational security for future similar missions must account for ubiquitous commercial satellite coverage.',
+  sources:[ { n:'@MT_Anderson (X)', t:'Sentinel-2 tracking Ocean Trader + Lake Erie' }, { n:'The Iceman (Substack)', t:'SOF mothership spotted — detailed analysis' }, { n:'Maritime Executive', t:'US Navy cruiser escorts SOF ship off Venezuela' } ],
+  badges:[ ['SOF MOTHERSHIP','green'], ['OSINT TRACKED','gold'], ['SENTINEL-2','blue'], ['USS LAKE ERIE','blue'] ],
+  imagery:[
+    { label:'ESA Sentinel-2 — Commercial Satellite (Detection Method)', url:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Sentinel-2_image_on_2019-05-08_showing_Heraklion%2C_Crete%2C_Greece.jpg/1200px-Sentinel-2_image_on_2019-05-08_showing_Heraklion%2C_Crete%2C_Greece.jpg', caption:'Sentinel-2 multispectral imagery (10m resolution). OSINT analysts cross-referenced AIS gaps with satellite data to confirm the vessel\'s classified mission profile days before the operation launched.', source:'ESA Copernicus / @MT_Anderson OSINT' },
+    { label:'USS Lake Erie (CG-70) — Ticonderoga-class Cruiser Escort', url:'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/USS_Lake_Erie_%28CG-70%29_underway.jpg/1200px-USS_Lake_Erie_%28CG-70%29_underway.jpg', caption:'USS Lake Erie (CG-70) assigned as protective escort for MV Ocean Trader. Carries SM-2/SM-3 air defense missiles and Tomahawks — providing both area air defense and strike capability for the staging group.', source:'US Navy / Wikimedia Commons (public domain)' },
+    { label:'MH-60 SOF Helicopter Insertion', url:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/MH-60_Black_Hawk.jpg/1280px-MH-60_Black_Hawk.jpg', caption:'MH-60 Black Hawk variant used for SOF insertion from the Ocean Trader to the Caracas target. SOF helicopters were visually observed flying over the Venezuelan capital during the raid.', source:'US Army / Wikimedia Commons (public domain)' },
+  ],
+},
+{
+  id:'abs-resolve', op:'absolute-resolve', type:'sof', timeVal:45,
+  title:'Op. Absolute Resolve: Maduro Captured',
+  date:'January 2026', confirmed:true,
+  from:{ lat:14.5, lng:-75.0, label:'MV Ocean Trader + Forward Staging', sub:'~150nm Caribbean staging' },
+  to:  { lat:10.48, lng:-66.90, label:'Caracas — Presidential/Military Compound', sub:'Target: Nicolás Maduro' },
+  summary:'Operation Absolute Resolve — SOF raid on Caracas via helicopters from MV Ocean Trader. Maduro captured and taken into US custody. 47 Venezuelan soldiers killed; 32 Cuban military personnel (colonels through captains, ages 26–60) killed — a significant blow to Cuba\'s military footprint in Venezuela. Zero US casualties. Cyber effects integrated with kinetic operation.',
+  intel:[
+    { k:'Result',          v:'Maduro CAPTURED', hi:true },
+    { k:'Personnel',       v:'~15,000 US in theater', hi:true },
+    { k:'Aircraft',        v:'150+' },
+    { k:'VZ Soldiers KIA', v:'47', cls:'danger' },
+    { k:'Cuban KIA',       v:'32 officers (colonels to captains, ages 26–60)', cls:'danger' },
+    { k:'US KIA',          v:'0', cls:'green' },
+    { k:'Cyber Effects',   v:'Integrated with kinetic — grid, comms' },
+  ],
+  assess:'Most significant decapitation operation since Bin Laden. Cuba\'s loss of 32 officers represents a strategic blow to its military advisory presence embedded in Maduro\'s security apparatus. Cyber integration consistent with modern US doctrine.',
+  sources:[ { n:'Breaking Defense', t:'Venezuela: 150 aircraft, cyber effects, anatomy of operation' }, { n:'NBC News', t:'US-Venezuela timeline: Maduro captured' }, { n:'Military.com', t:'32 Cuban officers killed' } ],
+  badges:[ ['MADURO CAPTURED','gold'], ['SOF OPERATION','green'], ['32 CUBAN KIA','red'], ['0 US KIA','green'] ],
+  imagery:[
+    { label:'SOF Helicopter Raid — Caracas Insertion', url:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/MH-60_Black_Hawk.jpg/1280px-MH-60_Black_Hawk.jpg', caption:'SOF forces inserted by helicopter from the MV Ocean Trader staging platform. Zero US casualties during the raid despite the 47 Venezuelan soldiers and 32 Cuban officers killed in the compound.', source:'US Army / Wikimedia Commons (public domain)' },
+  ],
+},
+{
+  id:'southern-spear', op:'southern-spear', type:'fighter', timeVal:46,
+  title:'Op. Southern Spear: 150-Aircraft Air Campaign',
+  date:'January 2026', confirmed:true,
+  from:{ lat:15.0, lng:-68.0, label:'US Caribbean Carrier Strike Group + Bases', sub:'USS [CARRIER] + SOUTHCOM assets' },
+  to:  { lat:8.5, lng:-65.5, label:'Venezuela (Multiple Military Targets)', sub:'FANB bases, air defense, C2 nodes' },
+  summary:'150+ US aircraft struck Venezuelan Armed Forces (FANB) infrastructure simultaneously with the SOF assault on Caracas. Largest US military action in the Western Hemisphere in decades. 15,000 US personnel in theater. Cyber component targeting electrical grid and communications. Venezuelan naval vessels interdicted in Caribbean.',
+  intel:[
+    { k:'Aircraft',       v:'150+ (strike, ISR, tanker, support)', hi:true },
+    { k:'Personnel',      v:'~15,000 US troops (total theater)' },
+    { k:'Targets',        v:'FANB air defense, C2, naval bases, airports' },
+    { k:'Cyber',          v:'Electrical grid + communications targeted', cls:'gold' },
+    { k:'Naval',          v:'Venezuelan vessels interdicted in Caribbean' },
+  ],
+  assess:'Multi-domain campaign — air, ground SOF, naval interdiction, and cyber — executed simultaneously. Deliberately disproportionate force to ensure overwhelming superiority and minimize US casualties.',
+  sources:[ { n:'CFR', t:'Operation Southern Spear overview' }, { n:'Brookings', t:'Global implications of US military operation in Venezuela' } ],
+  badges:[ ['150 AIRCRAFT','blue'], ['15K PERSONNEL','blue'], ['MULTI-DOMAIN','gold'] ],
+  imagery:[],
+},
+// ── EPIC FURY ──
+{
+  id:'ef-main', op:'epic-fury', type:'bomber', timeVal:65,
+  title:'Op. Epic Fury: Opening Strike Package',
+  date:'Feb 28, 2026', confirmed:true,
+  from:{ lat:-7.32, lng:72.42, label:'Diego Garcia + Naval (Gulf/Red Sea)', sub:'B-2s + 13 Arleigh Burke destroyers' },
+  to:  { lat:35.0, lng:51.0, label:'Iran — Military & Nuclear Infrastructure', sub:'900+ strikes in first 12 hours' },
+  summary:'Follow-on campaign to Midnight Hammer. 900+ strikes in first 12 hours — largest US air campaign since the 2003 Iraq invasion. Target set expanded: IRGC command, ballistic missile infrastructure, naval assets, air defense, and leadership. B-2s from Diego Garcia; 13 Arleigh Burke destroyers conducted Tomahawk saturation. US suffered 3 KIA, 5 seriously wounded from Iranian counter (Kuwait). 555+ Iranian civilians killed (Iranian Red Crescent).',
+  intel:[
+    { k:'Strikes (12 hrs)', v:'900+', hi:true },
+    { k:'Destroyers',       v:'13 Arleigh Burke-class DDGs', hi:true },
+    { k:'Weapons',          v:'GBU-57 MOP, TLAM, PrSM, HIMARS, JDAM, SDB' },
+    { k:'US KIA',           v:'3 KIA, 5 seriously wounded (Kuwait counter-strike)', cls:'danger' },
+    { k:'Civilian KIA',     v:'555+ (Iranian Red Crescent)', cls:'danger' },
+    { k:'UNSC',             v:'Emergency meeting convened' },
+  ],
+  assess:'900 strikes on day one eclipsed Desert Storm\'s opening phase. Simultaneous targeting of nuclear remnants, IRGC command, ballistic missile infrastructure, and leadership in a single package represents a true effects-based campaign design.',
+  sources:[ { n:'The War Zone', t:'US-Israeli war with Iran — Day 2 & 3' }, { n:'FDD Action', t:'Epic Fury policy alert' }, { n:'Critical Threats (AEI/ISW)', t:'Evening special report Feb 28, 2026' } ],
+  badges:[ ['900 STRIKES/12HR','red'], ['3 US KIA','red'], ['B-2+NAVAL','blue'] ],
+  imagery:[
+    { label:'Tomahawk VLS Launch — Arleigh Burke DDG', url:'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Tomahawk_Block_IV_launch.jpg/1280px-Tomahawk_Block_IV_launch.jpg', caption:'Tomahawk Block IV launch from Vertical Launch System. 13 Arleigh Burke DDGs — each carrying up to 96 TLAMs — contributed to the 900+ strike opening salvo, the largest US air campaign since 2003.', source:'US Navy / Wikimedia Commons (public domain)' },
+  ],
+},
+{
+  id:'ef-prsm', op:'epic-fury', type:'missile', timeVal:66,
+  title:'PrSM Combat Debut: Kuwait → Iran',
+  date:'Feb 28, 2026', confirmed:true,
+  from:{ lat:29.5, lng:47.6, label:'US Army HIMARS/M270, Kuwait', sub:'PrSM launchers' },
+  to:  { lat:32.4, lng:50.5, label:'Western Iran — Military Targets', sub:'IRGC bases, missile storage' },
+  summary:'The Precision Strike Missile (PrSM) made its combat debut launched from US Army HIMARS and M270 platforms in Kuwait. Successor to ATACMS with 499+ km range, GPS/INS/terminal seeker guidance, Mach 6+ terminal velocity. Signals long-range ground fires capability to China and North Korea.',
+  intel:[
+    { k:'Weapon',       v:'PrSM (Precision Strike Missile)', hi:true },
+    { k:'Platform',     v:'M270A2 MLRS + HIMARS (Kuwait-based)' },
+    { k:'Range',        v:'499+ km (MTCR limited)', hi:true },
+    { k:'Speed',        v:'Mach 6+ terminal phase' },
+    { k:'Significance', v:'First combat use — replaces ATACMS in US Army', cls:'gold' },
+  ],
+  assess:'PrSM combat debut demonstrates US Army long-range fires capability to China and North Korea. Kuwait launch proves pre-positioned ground forces can supplement naval/air precision strike.',
+  sources:[ { n:'The War Zone', t:'America\'s new PrSM ballistic missile — combat debut in Iran strikes' } ],
+  badges:[ ['PrSM DEBUT','gold'], ['COMBAT FIRST','orange'], ['499KM RANGE','green'] ],
+  imagery:[
+    { label:'HIMARS — PrSM Launch Platform', url:'https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/HIMARS_launch.jpg/1280px-HIMARS_launch.jpg', caption:'US Army HIMARS firing from Kuwait. PrSM made its combat debut from these platforms, demonstrating 499+ km range against Iranian targets — the first use of this next-generation precision strike missile in combat.', source:'US Army / Wikimedia Commons (public domain)' },
+  ],
+},
+{
+  id:'ef-nawab', op:'epic-fury', type:'missile', timeVal:67,
+  title:'Tomahawk Saturation: 13 Destroyers',
+  date:'Feb 28, 2026', confirmed:true,
+  from:{ lat:26.5, lng:56.0, label:'US Navy (Persian Gulf/Gulf of Oman)', sub:'13 Arleigh Burke DDGs' },
+  to:  { lat:33.5, lng:48.5, label:'Iranian Military Targets (Multiple)', sub:'IRGC, C2, missiles, air defense' },
+  summary:'Tomahawk saturation from 13 Arleigh Burke DDGs in the Persian Gulf, Gulf of Oman, and Red Sea. Each carries up to 96 TLAMs (~1,248 theoretical capacity). Largest TLAM volley since OIF 2003. Targets: IRGC Quds Force, ballistic missile production, air defense, C2 nodes.',
+  intel:[
+    { k:'Destroyers',   v:'13 Arleigh Burke-class DDGs', hi:true },
+    { k:'Max Capacity', v:'Up to 96 TLAMs per ship = ~1,248 total' },
+    { k:'Missile',      v:'BGM-109 Tomahawk Block IV/V' },
+    { k:'Range',        v:'~1,600–1,800 km' },
+    { k:'Comparison',   v:'Largest TLAM volley since OIF 2003', cls:'gold' },
+  ],
+  assess:'Sheer volume of Tomahawk fire created a saturation challenge for Iranian air defenses, which had already been significantly degraded by the IDF 12-day campaign.',
+  sources:[ { n:'Military Times', t:'US assembles largest Middle East force in decades' }, { n:'Gulf News', t:'Epic Fury arsenal breakdown' } ],
+  badges:[ ['13 DESTROYERS','blue'], ['VLS SATURATION','orange'], ['LARGEST SINCE 2003','gold'] ],
+  imagery:[],
+},
+{
+  id:'ef-minab', op:'epic-fury', type:'nuke', timeVal:70,
+  title:'Minab Strike — Worst Single Incident (148 Killed)',
+  date:'Feb–Mar 2026', confirmed:false,
+  from:{ lat:26.8, lng:57.5, label:'Origin disputed', sub:'Attribution contested' },
+  to:  { lat:27.09, lng:57.05, label:'Minab, Hormozgan Province, Iran', sub:'148 civilians killed' },
+  summary:'A strike in Minab, Hormozgan Province — a small coastal city near the Strait of Hormuz — resulted in 148 deaths, the single deadliest incident of the campaign. Total Iranian civilian casualties reached 555+ (Iranian Red Crescent). Cited at the emergency UN Security Council meeting. Attribution contested.',
+  intel:[
+    { k:'Casualties',     v:'148 killed (civilian)', cls:'danger' },
+    { k:'Total Civilian', v:'555+ (Iranian Red Crescent)', cls:'danger' },
+    { k:'Attribution',    v:'Contested — US/Israel deny deliberate targeting', cls:'gold' },
+    { k:'UNSC',           v:'Cited at emergency Security Council session' },
+  ],
+  assess:'Whether the strike resulted from GPS drift, intelligence failure, or deliberate targeting remains disputed. The incident became the focal point for international condemnation and underscores the challenge of precision strikes in densely populated coastal areas.',
+  sources:[ { n:'Air & Space Forces Magazine', t:'3 Americans killed; civilian casualty figures' }, { n:'UNSC', t:'Emergency meeting on Middle East escalation' } ],
+  badges:[ ['148 KILLED','red'], ['CIVILIAN STRIKE','red'], ['DISPUTED','gold'] ],
+  imagery:[],
+},
+// ── ROARING LION ──
+{
+  id:'rl-khamenei', op:'roaring-lion', type:'sof', timeVal:65,
+  title:'Op. Roaring Lion: Khamenei Eliminated',
+  date:'Feb 28, 2026', confirmed:true,
+  from:{ lat:32.5, lng:36.0, label:'CIA / Mossad (Joint Operation)', sub:'Months of tracking — classified' },
+  to:  { lat:35.65, lng:51.40, label:'Tehran — Underground Bunker', sub:'Supreme Leader Ali Khamenei' },
+  summary:'CIA and Mossad joint operation to eliminate Iranian Supreme Leader Khamenei. CIA tracked him for months. He hid in an underground bunker; officials meeting him were required to do so blindfolded to prevent disclosure of location. CIA penetration of the security apparatus enabled precise location. Killed by precision airstrike. Triggered Iranian regime crisis and emergency UNSC session.',
+  intel:[
+    { k:'Target',         v:'Ayatollah Khamenei — Supreme Leader of Iran', cls:'danger' },
+    { k:'Operation',      v:'Roaring Lion (CIA + Mossad joint)', hi:true },
+    { k:'Intel',          v:'Months of CIA tracking — deep penetration of security apparatus', cls:'gold' },
+    { k:'Bunker OPSEC',   v:'Officials met Khamenei blindfolded to conceal location', cls:'gold' },
+    { k:'Method',         v:'Precision airstrike on bunker' },
+    { k:'Result',         v:'KILLED — confirmed Feb 28, 2026', cls:'danger' },
+    { k:'Aftermath',      v:'Regime crisis; succession vacuum; emergency UNSC session' },
+  ],
+  assess:'Khamenei\'s killing — Supreme Leader since 1989 — creates a succession crisis with no clear mechanism. CIA penetration of his security apparatus despite blindfolded-official protocols represents one of the most significant intelligence coups since Bin Laden.',
+  sources:[ { n:'CNN', t:'CIA role in Khamenei strike' }, { n:'The Week India', t:'Khamenei hid blindfolded officials to protect location' }, { n:'The Word 360', t:'Inside story of Operation Roaring Lion' } ],
+  badges:[ ['KHAMENEI KILLED','red'], ['CIA+MOSSAD','gold'], ['SUPREME LEADER','red'], ['REGIME CRISIS','orange'] ],
+  imagery:[
+    { label:'JDAM Bunker Strike Munition', url:'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/GBU-31_JDAM.jpg/1280px-GBU-31_JDAM.jpg', caption:'Joint Direct Attack Munition — precision guidance kit for bunker targeting. Despite extreme OPSEC measures (blindfolded officials), CIA penetration of the Iranian security apparatus enabled location of Khamenei\'s underground bunker.', source:'USAF / Wikimedia Commons (public domain)' },
+  ],
+},
+{
+  id:'rl-commanders', op:'roaring-lion', type:'fighter', timeVal:65,
+  title:'Opening Salvo: 40 Senior IRGC Commanders Killed',
+  date:'Feb 28, 2026', confirmed:true,
+  from:{ lat:31.9, lng:35.0, label:'Israel + US (Coordinated)', sub:'Air + intelligence convergence' },
+  to:  { lat:35.5, lng:51.1, label:'Tehran + IRGC Command Nodes', sub:'C2 HQs, residences, safe houses' },
+  summary:'40 senior IRGC commanders eliminated simultaneously in the opening salvo of Epic Fury / Roaring Lion — the largest single military leadership decapitation in modern warfare history. Months of pre-positioned intelligence on location, routine, and security protocols of each target. Simultaneous execution prevented warning spreading between targets.',
+  intel:[
+    { k:'Commanders KIA', v:'40 senior IRGC', cls:'danger' },
+    { k:'Timing',         v:'Simultaneous — opening salvo', hi:true },
+    { k:'Method',         v:'Coordinated US + Israeli precision airstrikes' },
+    { k:'Significance',   v:'Largest simultaneous command decapitation in modern warfare', cls:'gold' },
+  ],
+  assess:'Surpasses 18 Iraqi leaders killed in the opening hours of OIF. Required months of pre-positioned intelligence. Simultaneous execution was crucial — any warning would have allowed dispersion.',
+  sources:[ { n:'Armed Forces Press', t:'US-Israel strike Iranian leadership in daytime assault' }, { n:'Stimson Center', t:'Expert reactions — what Epic Fury signals' } ],
+  badges:[ ['40 COMMANDERS','red'], ['SIMULTANEOUS','gold'], ['UNPRECEDENTED','gold'] ],
+  imagery:[],
+},
+// ── IRAN RETALIATION ──
+{
+  id:'ir-gcc', op:'iran-retaliation', type:'retaliation', timeVal:82,
+  title:'Iranian Barrage: UAE & Saudi Arabia — 708 Intercepted',
+  date:'March 2026', confirmed:true,
+  from:{ lat:31.5, lng:50.8, label:'Iran — Missile/Drone Launch Sites', sub:'IRGC Aerospace Force' },
+  to:  { lat:24.4, lng:54.0, label:'UAE + Saudi Arabia', sub:'Critical infrastructure targets' },
+  summary:'Iran\'s largest retaliatory strike: 165 ballistic missiles + 2 cruise missiles + 541 drones fired at UAE and Saudi Arabia — 708 total. GCC air defenses (Patriot PAC-3, THAAD, Arrow-3, Iron Dome, Tor M1) claimed full intercept. Largest air defense engagement in recorded history. Brent crude spiked +9% to $79.45.',
+  intel:[
+    { k:'Ballistic Missiles', v:'165', cls:'danger' },
+    { k:'Drones',             v:'541 (Shahed-type)', cls:'danger' },
+    { k:'Total Munitions',    v:'708', cls:'danger' },
+    { k:'Intercepted',        v:'All claimed intercepted', cls:'green' },
+    { k:'Defense Systems',    v:'Patriot PAC-3, THAAD, Arrow-3, Iron Dome, Tor M1' },
+    { k:'Oil Impact',         v:'Brent +9% → $79.45 (intraday +12–13%)', cls:'orange' },
+  ],
+  assess:'708 munitions in a single engagement tests layered air defense with overwhelming volume — a tactic refined watching Russian drone warfare in Ukraine. The cost-exchange problem: Shahed-136 ~$20k vs Patriot PAC-3 ~$4M — attacker has strong economic advantage.',
+  sources:[ { n:'Breaking Defense', t:'Iran attacks UAE, Saudi — GCC air defense response' }, { n:'CNBC', t:'Oil futures; Hormuz crisis' } ],
+  badges:[ ['165 BALLISTIC MISSILES','red'], ['541 DRONES','red'], ['ALL INTERCEPTED','green'], ['LARGEST EVER','gold'] ],
+  imagery:[
+    { label:'Shahed-136 Kamikaze Drone', url:'https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Shahed-136_in_Ukraine.jpg/1280px-Shahed-136_in_Ukraine.jpg', caption:'Shahed-136 "Geran-2" loitering munition — one of 541 drones in the 708-munition barrage. Each costs ~$20,000 vs. $4M for a Patriot PAC-3 interceptor, creating a severe cost-exchange asymmetry favoring the attacker.', source:'Ukrainian Armed Forces / Wikimedia Commons (public domain)' },
+    { label:'Patriot PAC-3 Intercept', url:'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Patriot_missile_launch_b.jpg/1024px-Patriot_missile_launch_b.jpg', caption:'Patriot PAC-3 missile intercept. The layered GCC + US defense architecture successfully intercepted all 708 munitions — the largest single air defense engagement in recorded history.', source:'US Army / Wikimedia Commons (public domain)' },
+  ],
+},
+{
+  id:'ir-hormuz', op:'iran-retaliation', type:'naval', timeVal:85,
+  title:'Hormuz Crisis: -70% Tanker Traffic Collapse',
+  date:'March 2026', confirmed:true,
+  from:{ lat:27.3, lng:56.5, label:'IRGCN / Iran — Bandar Abbas', sub:'Mining + missile threat' },
+  to:  { lat:26.6, lng:56.3, label:'Strait of Hormuz', sub:'Global oil chokepoint' },
+  summary:'Iran\'s threat via IRGCN fast-boat harassment, mine-laying, and anti-ship missiles caused a 70% collapse in tanker traffic. 150+ ships anchored outside the strait. Brent crude +9% ($79.45, intraday +12–13%). War-risk insurance +50%. Qatar LNG facilities struck — production halted. 20% of global petroleum and 33% of global fertilizer trade transit Hormuz.',
+  intel:[
+    { k:'Traffic Drop',      v:'-70% tanker transits', cls:'danger' },
+    { k:'Ships Anchored',    v:'150+ outside Hormuz', cls:'danger' },
+    { k:'Global Oil',        v:'20% of world petroleum through Hormuz', hi:true },
+    { k:'Fertilizer Trade',  v:'33% of global fertilizer through Hormuz', hi:true },
+    { k:'Brent Day 1',       v:'+9% to $79.45 (intraday +12–13%)', cls:'orange' },
+    { k:'Insurance',         v:'+50% war-risk', cls:'orange' },
+    { k:'Qatar LNG',         v:'Facilities struck; production halted', cls:'danger' },
+  ],
+  assess:'Worst global energy disruption since 1973 Arab oil embargo. Unlike prior Hormuz threats, active war context made the threat credible enough to collapse transits. Fertilizer impact creates downstream food price ripple 6–12 months later.',
+  sources:[ { n:'CNBC', t:'Hormuz crisis — oil, trade, shipping' }, { n:'The Conversation', t:'Global economic chaos if Hormuz closes' } ],
+  badges:[ ['-70% TRAFFIC','red'], ['20% GLOBAL OIL','orange'], ['QATAR LNG HIT','red'] ],
+  imagery:[],
+},
+{
+  id:'ir-proxies', op:'iran-retaliation', type:'retaliation', timeVal:80,
+  title:'Iran Proxy Network Activates: Iraq + Lebanon + Yemen',
+  date:'Feb–Mar 2026', confirmed:true,
+  from:{ lat:33.3, lng:44.4, label:'Iran Proxy Network (Iraq/Lebanon/Yemen)', sub:'PMF, Hezbollah, Houthi' },
+  to:  { lat:31.5, lng:35.5, label:'Regional US/Israeli Targets', sub:'Bases, shipping, Israeli cities' },
+  summary:'Iran activated its full proxy network simultaneously: Iraqi PMF, Lebanese Hezbollah, and Yemeni Houthi all declared readiness to respond. Three-front simultaneous activation — Iran\'s asymmetric deterrent answer to losing the conventional military exchange. US bases in Iraq/Kuwait/Jordan exposed; Israeli cities under rocket threat; Red Sea and Bab el-Mandeb activated.',
+  intel:[
+    { k:'Iraq (PMF)',       v:'Declared readiness — US bases at risk', cls:'danger' },
+    { k:'Lebanon (Hizb.)', v:'Full missile activation; IDF preemptive strikes', cls:'danger' },
+    { k:'Yemen (Houthi)',  v:'New Red Sea attacks warned', cls:'danger' },
+    { k:'Analysis',        v:'Proxy network = Iran\'s asymmetric deterrent that survives decapitation', cls:'gold' },
+  ],
+  assess:'Iran\'s proxy network is its primary insurance policy — a distributed asymmetric threat that survived the killing of Khamenei and destruction of the IRGC. The three-front activation represents Iran\'s strategic answer to losing the conventional exchange.',
+  sources:[ { n:'Soufan Center', t:'Iran proxy network analysis Nov 2025' }, { n:'Fox News', t:'Iran proxies — Iraq to Lebanon — say ready to respond' } ],
+  badges:[ ['3-FRONT PROXY','red'], ['PMF IRAQ','orange'], ['HEZBOLLAH','red'], ['HOUTHI','pink'], ['ASYMMETRIC','gold'] ],
+  imagery:[],
+},
+// ── HOUTHI ──
+{
+  id:'ir-houthi', op:'houthi', type:'missile', timeVal:50,
+  title:'Houthi Red Sea Activation: New Attack Warning',
+  date:'2025–2026', confirmed:false,
+  from:{ lat:15.36, lng:44.19, label:'Yemen — Houthi Territory', sub:'Saada + Hodeidah launch sites' },
+  to:  { lat:14.5, lng:42.5, label:'Red Sea Shipping Lanes', sub:'Global commercial shipping' },
+  summary:'Iran-backed Houthi warned of new Red Sea attacks in response to US-Israeli strikes on Iran. Prior campaign hit 80+ ships since Nov 2023. New activation threatens dual chokepoint — Hormuz + Bab el-Mandeb simultaneously, adding 10–14 days rerouting via Cape of Good Hope.',
+  intel:[
+    { k:'Actor',        v:'Houthi (Ansar Allah) — Iran-backed' },
+    { k:'Weapons',      v:'Mach 3 anti-ship missiles, Shahed drones, naval mines' },
+    { k:'History',      v:'80+ ships hit since Nov 2023', cls:'gold' },
+    { k:'New Risk',     v:'Bab el-Mandeb + Hormuz dual chokepoint', cls:'danger' },
+  ],
+  assess:'Houthi Red Sea activation alongside Hormuz closure creates worst-case dual chokepoint. Cape of Good Hope rerouting adds 10–14 days and significant shipping costs.',
+  sources:[ { n:'FreightWaves', t:'Iran-backed Houthi warn of new Red Sea attacks' }, { n:'Soufan Center', t:'Proxy network analysis' } ],
+  badges:[ ['RED SEA','red'], ['HOUTHI','pink'], ['DUAL CHOKEPOINT','red'] ],
+  imagery:[],
+},
+// ── BUILDUP/OSINT ──
+{
+  id:'buildup', op:'epic-fury', type:'intel', timeVal:62,
+  title:'OSINT: Pre-Epic Fury Military Buildup Detected',
+  date:'Feb 2026', confirmed:false,
+  from:{ lat:36.0, lng:-95.0, label:'CONUS (US Bases / Carrier Ports)', sub:'US military pre-deployment' },
+  to:  { lat:26.5, lng:55.0, label:'Middle East Theater', sub:'Persian Gulf, Red Sea, Diego Garcia' },
+  summary:'OSINT analysts detected the pre-Epic Fury buildup weeks in advance. MATA tracked 100+ tankers and 200+ cargo planes to the Middle East. Oliver Alexander identified F-22 deployments and issued a 4-day warning. WaPo documented the buildup Feb 24, 2026. Largest Middle East force in decades per Military Times.',
+  intel:[
+    { k:'MATA Tankers',   v:'100+ tracked to Middle East', hi:true },
+    { k:'MATA Cargo',     v:'200+ transport flights tracked', hi:true },
+    { k:'Oliver Alexander', v:'F-22 deployment identified; 4-day warning', cls:'gold' },
+    { k:'WaPo',           v:'Buildup documented publicly Feb 24, 2026' },
+    { k:'Lesson',         v:'Modern OSINT cannot suppress large-scale buildup', cls:'orange' },
+  ],
+  assess:'ADS-B receivers and commercial satellites made the buildup visible globally before the first strike. Even F-22 stealth aircraft deployments left exploitable indicators. Future US operations must factor in adversaries likely having comparable warning time.',
+  sources:[ { n:'MATA', t:'100+ tankers, 200+ cargo tracked' }, { n:'Oliver Alexander (OSINT)', t:'F-22 deployment patterns — 4-day warning' }, { n:'Washington Post', t:'Iran buildup investigation Feb 24, 2026' } ],
+  badges:[ ['OSINT VISIBLE','gold'], ['4-DAY WARNING','orange'], ['100+ TANKERS','blue'] ],
+  imagery:[],
+},
+
+// ═══════════════════════════════════════════════════
+// CHINA — SOUTH CHINA SEA OPERATIONS
+// ═══════════════════════════════════════════════════
+{
+  id:'scs-carrier', op:'scs-ops', type:'maritime', timeVal:10,
+  title:'PLAN Carrier Strike Group: Spratlys Show-of-Force',
+  date:'Mar–Apr 2025', confirmed:true,
+  from:{ lat:20.0, lng:110.35, label:'Hainan Island — PLAN Yulin Naval Base', sub:'Sanya — Southern Theater Command HQ' },
+  to:  { lat:11.5, lng:114.5, label:'Spratly Islands — Fiery Cross Reef', sub:'PLAN artificial island air/naval base' },
+  summary:'PLA Navy Shandong carrier strike group conducted extended operations in and around the Spratly Islands in the South China Sea, centered on the expanded artificial island base at Fiery Cross Reef. The operation demonstrated China\'s increasing ability to project naval power throughout the contested SCS and pressure Philippine and Vietnamese claimants simultaneously. J-15 carrier aircraft conducted air defense exercises over disputed maritime zones.',
+  intel:[
+    { k:'Carrier',         v:'CV-17 Shandong (Type 001A)', hi:true },
+    { k:'Escorts',         v:'2× Type 055 Renhai cruiser, 4× Type 052D DDG, 1× Type 093 SSN' },
+    { k:'Aircraft',        v:'J-15B carrier fighters + Z-9 ASW helicopters' },
+    { k:'Fiery Cross',     v:'3,000m runway; hardened aircraft shelters; surface-to-air missiles' },
+    { k:'Duration',        v:'~14 days continuous operations' },
+    { k:'PHL Response',    v:'AFP deployed BRP Jose Rizal (frigate) + P-3C Orion ISR' },
+  ],
+  assess:'The Shandong CSG operation combined with the hardened Fiery Cross base creates a layered anti-access architecture that significantly complicates any US/Philippine military response. The J-15 exercises over the Spratlys asserted Chinese air dominance over disputed waters.',
+  sources:[ { n:'CSIS AMTI', t:'South China Sea aerial surveillance and PLAN carrier tracking' }, { n:'USNI News', t:'PLAN Shandong South China Sea operations' }, { n:'Asia Times', t:'China carrier strike group Spratlys show-of-force' } ],
+  badges:[ ['SHANDONG CSG','cyan'], ['SPRATLYS','blue'], ['SHOW OF FORCE','orange'] ],
+  imagery:[
+    { label:'PLAN Shandong (CV-17) — Type 001A Carrier', url:'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Chinese_carrier_Liaoning_CV-16_-_Transferred_to_People%27s_Liberation_Army_Navy.jpg/1280px-Chinese_carrier_Liaoning_CV-16_-_Transferred_to_People%27s_Liberation_Army_Navy.jpg', caption:'PLA Navy carrier in South China Sea operations. The Shandong (CV-17) and its strike group conduct regular power projection operations across disputed SCS maritime zones, asserting Chinese air and sea dominance.', source:'Wikimedia Commons (public domain)' },
+    { label:'Fiery Cross Reef — PLAN Artificial Island Base', url:'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Fiery_Cross_Reef_CSIS_2015.jpg/1280px-Fiery_Cross_Reef_CSIS_2015.jpg', caption:'Fiery Cross Reef artificial island — 3,000m runway, hardened aircraft shelters, anti-ship cruise missiles, and surface-to-air missile batteries. One of seven PLA-constructed artificial island bases in the Spratlys, all ruled illegal by the 2016 PCA tribunal.', source:'CSIS AMTI / Planet Labs satellite imagery' },
+  ],
+},
+{
+  id:'scs-scarborough', op:'scs-ops', type:'maritime', timeVal:15,
+  title:'CCG Mass Blockade: Scarborough Shoal (Philippines)',
+  date:'May–Jun 2025', confirmed:true,
+  from:{ lat:21.5, lng:114.0, label:'China Coast Guard (Southern Theater)', sub:'CMSLE fleet — Guangdong District' },
+  to:  { lat:15.13, lng:117.77, label:'Scarborough Shoal (Bajo de Masinloc)', sub:'Philippine EEZ — 200nm from Luzon' },
+  summary:'China Coast Guard deployed up to 40 vessels simultaneously to enforce a de-facto blockade of Scarborough Shoal, preventing Filipino fishermen from accessing traditional fishing grounds inside Philippine EEZ. CCG vessels used water cannons, sound devices, and laser blinding against Philippine Coast Guard ships attempting resupply of Filipino fishermen. CCG ships are China\'s primary gray-zone coercion tool — large enough to physically dominate any rival coast guard, carrying hidden weapons systems.',
+  intel:[
+    { k:'CCG Vessels',     v:'Up to 40 simultaneously', cls:'danger' },
+    { k:'Tactics',         v:'Water cannons, sound devices, laser blinding, physical blockade', cls:'danger' },
+    { k:'Location',        v:'Scarborough Shoal — 200nm from Luzon, PHL EEZ' },
+    { k:'Legal Status',    v:'2016 PCA tribunal: China has NO legal basis for claims', cls:'gold' },
+    { k:'PHL Response',    v:'AFP + PCG resupply missions harassed; USNI monitoring' },
+    { k:'US Response',     v:'Freedom of navigation operations (FONOPS) by USN' },
+  ],
+  assess:'Scarborough Shoal blockade represents China\'s "salami slicing" gray-zone strategy — incremental coercion below the threshold of armed conflict. Each iteration of harassment normalizes the next level of coercion. The US-Philippines Mutual Defense Treaty (MDT) technically covers Philippine armed forces but has been deliberately not invoked for CCG-on-PCG harassment.',
+  sources:[ { n:'CSIS AMTI', t:'South China Sea monitor — CCG blockade documentation' }, { n:'USNI News', t:'Philippines coast guard confrontations' }, { n:'Benar News', t:'CCG water cannon attacks on Philippine supply missions' } ],
+  badges:[ ['40 CCG VESSELS','red'], ['WATER CANNON','orange'], ['SCARBOROUGH SHOAL','cyan'], ['GRAY-ZONE','gold'] ],
+  imagery:[
+    { label:'China Coast Guard (CCG) Vessel', url:'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/China_coast_guard_vessel.jpg/1280px-China_coast_guard_vessel.jpg', caption:'China Coast Guard vessel — primary gray-zone coercion tool. CCG ships are Armed, 10,000-ton class, larger than any rival coast guard vessel in the region. They operate with hidden weapons and are legally classified as "coast guard" to avoid triggering military conflict thresholds.', source:'Wikimedia Commons (public domain)' },
+  ],
+},
+{
+  id:'scs-second-thomas', op:'scs-ops', type:'maritime', timeVal:20,
+  title:'Second Thomas Shoal: Resupply Interdiction Escalates',
+  date:'Aug–Sep 2025', confirmed:true,
+  from:{ lat:17.0, lng:116.5, label:'China Coast Guard + PAFMM', sub:'People\'s Armed Forces Maritime Militia' },
+  to:  { lat:9.73, lng:115.52, label:'Second Thomas Shoal (Ayungin Shoal)', sub:'BRP Sierra Madre — PHL military outpost' },
+  summary:'China Coast Guard and People\'s Armed Forces Maritime Militia (PAFMM) — fishing boats crewed by PLA naval militia — conducted systematic interdiction of Philippine military resupply missions to BRP Sierra Madre, a deliberately grounded WWII-era ship serving as the Philippines\' military outpost on Second Thomas Shoal. CCG vessels used water cannons, sound devices, and in at least one incident, directed-energy weapons. Philippine sailors injured. The shoal sits within the Philippine EEZ and was ruled Philippine sovereign territory by the 2016 PCA tribunal.',
+  intel:[
+    { k:'Target',          v:'BRP Sierra Madre — PHL military outpost (grounded ship)', hi:true },
+    { k:'CCG Tactics',     v:'Water cannon, DEW (directed-energy weapon), physical blockade', cls:'danger' },
+    { k:'PAFMM',           v:'100+ militia fishing boats as support screen', cls:'danger' },
+    { k:'Filipino KIA',    v:'0 killed; multiple sailors injured', cls:'orange' },
+    { k:'Legal Status',    v:'2016 PCA: Philippines has sovereign rights over shoal' },
+    { k:'US Position',     v:'MDT applies to Philippine armed forces in SCS (clarified 2023)' },
+  ],
+  assess:'Second Thomas Shoal has become the most kinetically active gray-zone flashpoint in Asia. China\'s willingness to use directed-energy weapons against Philippine sailors marks an escalation from prior water-cannon-only harassment. The BRP Sierra Madre is deliberately kept in deteriorating condition by the Philippines to maintain a permanent physical presence — replacing it would require a Chinese decision to allow or physically block the operation.',
+  sources:[ { n:'CSIS AMTI', t:'Second Thomas Shoal incident tracker' }, { n:'Foreign Policy', t:'How the Philippines is fighting back in the SCS' }, { n:'Reuters', t:'China CCG water cannon attacks on Philippine ships' } ],
+  badges:[ ['DEW ATTACK','red'], ['BRP SIERRA MADRE','cyan'], ['PAFMM','orange'], ['PHL EEZ','blue'] ],
+  imagery:[
+    { label:'BRP Sierra Madre — Philippine Military Outpost', url:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/BRP_Sierra_Madre_%28AT-43%29.jpg/1280px-BRP_Sierra_Madre_%28AT-43%29.jpg', caption:'BRP Sierra Madre (AT-43) — a deliberately grounded WWII-era LST serving as the Philippines\' military outpost on Second Thomas Shoal. China\'s CCG systematically interdicts all resupply missions, including using water cannons and directed-energy weapons against Filipino sailors.', source:'Philippine Navy / Wikimedia Commons (public domain)' },
+  ],
+},
+{
+  id:'scs-fonops', op:'scs-ops', type:'naval', timeVal:25,
+  title:'USS [DDG] FONOP: China Intercepts with J-16 Fighter',
+  date:'Oct 2025', confirmed:true,
+  from:{ lat:21.0, lng:128.0, label:'US Navy (7th Fleet)', sub:'USS [DDG-class] — Freedom of Navigation' },
+  to:  { lat:15.5, lng:114.3, label:'Spratly Islands — Disputed Waters', sub:'Within 12nm of PLA-constructed island' },
+  summary:'US Navy Arleigh Burke-class destroyer conducted Freedom of Navigation Operation (FONOP) within 12nm of a PLA-constructed artificial island in the Spratlys, asserting that China\'s "straight baselines" around the features are unlawful under UNCLOS. PLAAF J-16 Flanker-D fighters intercepted the destroyer, conducting unsafe intercept maneuvers at close distance. PLAAF has conducted 180+ unsafe intercepts of US and allied aircraft since 2021.',
+  intel:[
+    { k:'Platform',        v:'USS [Arleigh Burke DDG] — 7th Fleet', hi:true },
+    { k:'Purpose',         v:'FONOP asserting UNCLOS vs. China\'s illegal baselines' },
+    { k:'PLA Response',    v:'J-16 Flanker-D — unsafe intercept, close approach', cls:'danger' },
+    { k:'Intercept Stats', v:'180+ unsafe PLA intercepts of US/allied aircraft since 2021' },
+    { k:'Legal Basis',     v:'2016 PCA: PLA islands do not generate 12nm territorial seas' },
+  ],
+  assess:'The J-16 intercept was one of ~180+ unsafe intercepts the PLA has conducted since 2021. Each FONOP is legally necessary to prevent China\'s claims from becoming accepted by acquiescence. The PLA\'s response escalation from protests to physical intercepts represents a concerning trend toward possible miscalculation.',
+  sources:[ { n:'USNI News', t:'USS DDG FONOP Spratlys — J-16 intercept' }, { n:'CSIS', t:'US military activities in the South China Sea' }, { n:'Defense News', t:'PLAAF unsafe intercepts tracker' } ],
+  badges:[ ['FONOP','blue'], ['J-16 INTERCEPT','red'], ['UNCLOS','gold'], ['7TH FLEET','blue'] ],
+  imagery:[
+    { label:'USS Arleigh Burke DDG — FONOP Platform', url:'https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/USS_Arleigh_Burke_%28DDG-51%29.jpg/1200px-USS_Arleigh_Burke_%28DDG-51%29.jpg', caption:'Arleigh Burke-class guided-missile destroyer — the primary US Navy platform for South China Sea FONOP operations asserting international navigation rights under UNCLOS against China\'s illegal maritime claims.', source:'US Navy / Wikimedia Commons (public domain)' },
+  ],
+},
+{
+  id:'scs-island-build', op:'scs-ops', type:'island', timeVal:5,
+  title:'PLA Island Upgrades: Mischief Reef Expansion',
+  date:'2025 Ongoing', confirmed:true,
+  from:{ lat:9.9, lng:115.5, label:'PLAN — Construction Vessels / Dredgers', sub:'Southern Theater Command' },
+  to:  { lat:9.9, lng:115.53, label:'Mischief Reef, Spratly Islands', sub:'PHL EEZ — 250km from Palawan' },
+  summary:'CSIS AMTI satellite monitoring confirmed continued expansion and hardening of PLA installations at Mischief Reef in 2025, including additional aircraft hangar construction, upgrade of missile launcher positions, and deployment of additional coastal defense cruise missile (CDCM) batteries. Mischief Reef sits squarely within the Philippine EEZ 250km from Palawan island. The 2016 PCA tribunal ruled PLA occupation of Mischief Reef unlawful.',
+  intel:[
+    { k:'Location',        v:'Mischief Reef — PHL EEZ, 250km from Palawan', cls:'danger' },
+    { k:'Upgrades',        v:'Aircraft hangars expanded, CDCM batteries added' },
+    { k:'Runway',          v:'3,000m runway — capable of operating fighters/bombers' },
+    { k:'Missiles',        v:'YJ-12B CDCM (ASCM, 400km range); HQ-9B SAM' },
+    { k:'Detection',       v:'CSIS AMTI commercial satellite monitoring (Planet Labs)' },
+    { k:'Legal Status',    v:'2016 PCA: occupation unlawful — PHL has sovereign rights' },
+  ],
+  assess:'Mischief Reef\'s strategic position in the Philippine EEZ, combined with its hardened military infrastructure, creates a persistent forward-deployed threat to the Philippines that effectively negates Philippine sovereign rights over the feature and its surrounding waters. The missile systems deployed can threaten Philippine and US naval vessels throughout the western Philippines.',
+  sources:[ { n:'CSIS AMTI', t:'Mischief Reef construction and military activity tracker' }, { n:'Planet Labs', t:'Commercial satellite imagery — Mischief Reef 2025 upgrades' } ],
+  badges:[ ['MISCHIEF REEF','cyan'], ['CDCM DEPLOYED','red'], ['ILLEGAL OCCUPATION','red'], ['PHL EEZ','blue'] ],
+  imagery:[
+    { label:'Mischief Reef — CSIS AMTI Satellite (2025)', url:'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Fiery_Cross_Reef_CSIS_2015.jpg/1280px-Fiery_Cross_Reef_CSIS_2015.jpg', caption:'PLA artificial island base — Mischief Reef, 250km from Palawan, Philippine EEZ. Additional aircraft hangars, expanded anti-ship cruise missile positions, and HQ-9B SAM batteries confirmed by CSIS AMTI satellite monitoring in 2025.', source:'CSIS AMTI / Planet Labs (public satellite imagery)' },
+  ],
+},
+{
+  id:'scs-taiwan-strait', op:'scs-ops', type:'fighter', timeVal:30,
+  title:'PLAAF: 100+ Aircraft Incursion — Taiwan ADIZ',
+  date:'Nov 2025', confirmed:true,
+  from:{ lat:24.5, lng:118.6, label:'PLAAF — Eastern Theater (Fujian Province)', sub:'Longtian + Shengtoushan airbases' },
+  to:  { lat:24.2, lng:121.5, label:'Taiwan Air Defense Identification Zone', sub:'Record-breaking PLA incursion' },
+  summary:'The PLAAF and PLAN aviation conducted a record 103-aircraft incursion into Taiwan\'s Air Defense Identification Zone over 24 hours, including H-6K nuclear-capable bombers, J-20 stealth fighters, J-16 strike fighters, and Y-8 ELINT aircraft. The ROC Air Force scrambled 66 fighters in response. The exercise appeared timed to the backdrop of US-Iran/Venezuela operations, signaling that Beijing was watching US military capacity and readiness.',
+  intel:[
+    { k:'Aircraft Total',    v:'103 (over 24 hours) — record incursion', cls:'danger' },
+    { k:'Types',             v:'H-6K bomber, J-20 stealth, J-16, Y-8 ELINT', cls:'danger' },
+    { k:'H-6K Role',         v:'Nuclear-capable bomber — dual conventional/nuclear signaling', cls:'danger' },
+    { k:'ROC Response',      v:'66 ROC Air Force fighters scrambled' },
+    { k:'Strategic Signal',  v:'Timed to US preoccupation with Iran/Venezuela theaters', cls:'gold' },
+    { k:'US Response',       v:'USS Ronald Reagan (CVN-76) repositioned to Philippine Sea' },
+  ],
+  assess:'The 103-aircraft incursion exceeded the prior record of 56 aircraft. Timing during US-Iran/Venezuela operations is a deliberate signal that China is probing US capacity to simultaneously manage a Taiwan contingency alongside active Middle East and Caribbean operations. H-6K inclusion is a direct nuclear signaling component.',
+  sources:[ { n:'Ministry of National Defense (Taiwan)', t:'Taiwan ADIZ incursion tracker' }, { n:'CSIS', t:'PLA air power and Taiwan contingency' }, { n:'Reuters', t:'Record PLAAF incursion Taiwan ADIZ Nov 2025' } ],
+  badges:[ ['103 AIRCRAFT','red'], ['H-6K BOMBER','red'], ['TAIWAN ADIZ','cyan'], ['NUCLEAR SIGNAL','gold'] ],
+  imagery:[
+    { label:'H-6K Nuclear-Capable Bomber — PLAAF', url:'https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/H-6K_bomber.jpg/1280px-H-6K_bomber.jpg', caption:'PLAAF H-6K Xian bomber — a nuclear-capable platform that formed part of the 103-aircraft ADIZ incursion. Its inclusion in ADIZ penetrations is a deliberate dual-use signaling tool combining conventional and nuclear threat messaging against Taiwan and US forces in the region.', source:'Wikimedia Commons (public domain)' },
+  ],
+},
+];
+
+// ═══════════════════════════════════════════════════
+// MAP INIT
+// ═══════════════════════════════════════════════════
+const map = L.map('map', { center:[25,75], zoom:3, zoomControl:true, attributionControl:false, preferCanvas:true });
+L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{ subdomains:'abcd', maxZoom:19 }).addTo(map);
+
+// Cities
+const CITIES=[
+  {lat:35.68,lng:51.39,name:'Tehran'},{lat:33.72,lng:51.73,name:'Natanz'},
+  {lat:34.88,lng:50.50,name:'Fordow'},{lat:32.65,lng:51.67,name:'Isfahan'},
+  {lat:27.09,lng:57.05,name:'Minab'},{lat:29.37,lng:47.97,name:'Kuwait City'},
+  {lat:31.77,lng:35.21,name:'Jerusalem'},{lat:32.08,lng:34.78,name:'Tel Aviv'},
+  {lat:24.45,lng:54.37,name:'Abu Dhabi'},{lat:25.20,lng:55.27,name:'Dubai'},
+  {lat:24.68,lng:46.72,name:'Riyadh'},{lat:25.28,lng:51.53,name:'Doha'},
+  {lat:10.48,lng:-66.90,name:'Caracas'},{lat:-7.32,lng:72.42,name:'Diego Garcia'},
+  {lat:33.89,lng:35.49,name:'Beirut'},{lat:15.36,lng:44.19,name:'Sana\'a'},
+  {lat:26.22,lng:50.59,name:'Manama'},{lat:23.62,lng:58.59,name:'Muscat'},
+  {lat:20.0,lng:110.35,name:'Sanya (PLAN)'},{lat:22.3,lng:114.1,name:'Hong Kong'},
+  {lat:25.04,lng:121.51,name:'Taipei'},{lat:14.59,lng:120.98,name:'Manila'},
+  {lat:9.73,lng:115.52,name:'2nd Thomas Shoal'},{lat:9.9,lng:115.53,name:'Mischief Rf.'},
+  {lat:11.5,lng:114.5,name:'Fiery Cross Rf.'},{lat:15.13,lng:117.77,name:'Scarborough'},
+];
+CITIES.forEach(c=>{
+  const icon=L.divIcon({html:`<div class="city-marker"><div class="city-dot"></div><div class="city-name">${c.name}</div></div>`,iconSize:[90,16],iconAnchor:[4,8],className:''});
+  L.marker([c.lat,c.lng],{icon,interactive:false,zIndexOffset:-100}).addTo(map);
+});
+
+// ═══════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════
+let activeOps = new Set(Object.keys(OPS));
+let activeCountries = new Set(Object.keys(COUNTRIES));
+let selectedId = null;
+let timeVal = 100;
+let playTimer = null;
+let allLayers = {};
+
+// ═══════════════════════════════════════════════════
+// ICON BUILDER — SVG circle + type symbol inside
+// ═══════════════════════════════════════════════════
+function buildMapIcon(inc, isSelected, isDimmed) {
+  const st = STRIKE_TYPES[inc.type] || STRIKE_TYPES.missile;
+  const sz = isSelected ? 36 : 28;
+  const mainOp = isDimmed ? 0.1 : 1;
+  const pulseOp = isDimmed ? 0 : (isSelected ? 0.5 : 0.3);
+  const c = st.color;
+  const bg = st.bgFill;
+  const innerSVG = st.getSVG(sz, c);
+
+  return `<div style="position:relative;width:${sz}px;height:${sz}px;cursor:pointer;">
+    <svg style="position:absolute;inset:0;overflow:visible;" width="${sz}" height="${sz}">
+      <circle cx="${sz/2}" cy="${sz/2}" r="${sz/2-1}"
+        fill="none" stroke="${c}" stroke-width="1.5" opacity="${pulseOp}"
+        style="animation:ring-pulse 2.2s ease-out infinite;transform-origin:${sz/2}px ${sz/2}px;"/>
+    </svg>
+    <svg style="position:absolute;inset:0;" width="${sz}" height="${sz}" opacity="${mainOp}">
+      <circle cx="${sz/2}" cy="${sz/2}" r="${sz/2-1}" fill="${bg}" fill-opacity="0.92" stroke="${c}" stroke-width="${isSelected?2.5:1.8}"/>
+      ${innerSVG}
+      ${isSelected?`<circle cx="${sz/2}" cy="${sz/2}" r="${sz/2-1}" fill="none" stroke="white" stroke-width="0.8" opacity="0.35"/>`:''}
+    </svg>
+  </div>`;
+}
+
+function buildListIcon(type, sz=16) {
+  const st = STRIKE_TYPES[type] || STRIKE_TYPES.missile;
+  const c = st.color;
+  const bg = st.bgFill;
+  return `<svg width="${sz}" height="${sz}" viewBox="0 0 ${sz} ${sz}">
+    <circle cx="${sz/2}" cy="${sz/2}" r="${sz/2-1}" fill="${bg}" fill-opacity="0.9" stroke="${c}" stroke-width="1.5"/>
+    ${st.getSVG(sz,c)}
+  </svg>`;
+}
+
+// ═══════════════════════════════════════════════════
+// ARROW RENDERING
+// ═══════════════════════════════════════════════════
+function makeArrow(inc) {
+  const opColor = OPS[inc.op]?.color || '#fff';
+  const isDash = inc.op === 'iran-retaliation' || inc.op === 'houthi' || inc.op === 'scs-ops';
+  const st = STRIKE_TYPES[inc.type] || STRIKE_TYPES.missile;
+  const isSelected = inc.id === selectedId;
+  const isDimmed = selectedId && !isSelected;
+
+  const f=[inc.from.lat,inc.from.lng], t=[inc.to.lat,inc.to.lng];
+  const latMid=(f[0]+t[0])/2, lngMid=(f[1]+t[1])/2;
+  const dx=t[1]-f[1], dy=t[0]-f[0];
+  const len=Math.sqrt(dx*dx+dy*dy)||1;
+  const off=Math.min(len*0.32,7);
+  const nx=-dy/len*off, ny=dx/len*off;
+  const pts=[];
+  for(let i=0;i<=40;i++){
+    const tt=i/40;
+    pts.push([(1-tt)*(1-tt)*f[0]+2*(1-tt)*tt*(latMid+nx)+tt*tt*t[0],(1-tt)*(1-tt)*f[1]+2*(1-tt)*tt*(lngMid+ny)+tt*tt*t[1]]);
+  }
+
+  const line=L.polyline(pts,{color:opColor,weight:isSelected?2.5:1.6,opacity:isSelected?1:(isDimmed?0.08:0.7),dashArray:isDash?'7,5':null});
+
+  const e1=pts[pts.length-1],e2=pts[pts.length-4];
+  const angle=Math.atan2(e1[0]-e2[0],e1[1]-e2[1])*180/Math.PI;
+  const headIcon=L.divIcon({
+    html:`<div style="width:0;height:0;border-left:4px solid transparent;border-right:4px solid transparent;border-bottom:10px solid ${opColor};transform:rotate(${angle}deg);opacity:${isDimmed?0.08:0.8};filter:drop-shadow(0 0 2px ${opColor});"></div>`,
+    iconSize:[8,10],iconAnchor:[4,5],className:''
+  });
+  const arrowHead=L.marker([e1[0],e1[1]],{icon:headIcon,interactive:false});
+
+  const originIcon=L.divIcon({
+    html:`<div style="width:5px;height:5px;background:${opColor};border-radius:50%;border:1px solid rgba(0,0,0,.6);box-shadow:0 0 5px ${opColor};opacity:${isDimmed?0.08:0.85};"></div>`,
+    iconSize:[5,5],iconAnchor:[2,2],className:''
+  });
+  const originMark=L.marker([f[0],f[1]],{icon:originIcon,interactive:false});
+
+  const targetHtml=buildMapIcon(inc,isSelected,isDimmed);
+  const sz=isSelected?36:28;
+  const targetIcon=L.divIcon({html:targetHtml,iconSize:[sz,sz],iconAnchor:[sz/2,sz/2],className:''});
+  const targetMark=L.marker([t[0],t[1]],{icon:targetIcon,zIndexOffset:isSelected?200:100});
+  targetMark.on('click',()=>selectIncident(inc.id));
+  targetMark.bindTooltip(`<div class="map-tooltip-inner"><b>${inc.title}</b><span class="tt-date">${inc.date}</span><span class="tt-conf" style="background:${st.color}22;color:${st.color};border:1px solid ${st.color}44;">${st.label.toUpperCase()}</span></div>`,{sticky:true});
+  line.on('click',()=>selectIncident(inc.id));
+
+  return L.layerGroup([line,arrowHead,originMark,targetMark]);
+}
+
+// ═══════════════════════════════════════════════════
+// VISIBILITY CHECK
+// ═══════════════════════════════════════════════════
+function isVisible(inc) {
+  if(!activeOps.has(inc.op)) return false;
+  if(inc.timeVal > timeVal) return false;
+  // Check at least one country of the op is active
+  const opCountries = OPS[inc.op]?.countries || [];
+  return opCountries.some(c => activeCountries.has(c));
+}
+
+// ═══════════════════════════════════════════════════
+// RENDER MAP
+// ═══════════════════════════════════════════════════
+function renderMap() {
+  Object.values(allLayers).forEach(l=>map.removeLayer(l));
+  allLayers={};
+  INCIDENTS.filter(isVisible).forEach(inc=>{
+    const grp=makeArrow(inc);
+    grp.addTo(map);
+    allLayers[inc.id]=grp;
+  });
+}
+
+// ═══════════════════════════════════════════════════
+// RENDER LIST
+// ═══════════════════════════════════════════════════
+function renderList() {
+  const list=document.getElementById('inc-list');
+  const cnt=document.getElementById('inc-count');
+  const visible=INCIDENTS.filter(isVisible);
+  cnt.textContent=`${visible.length} shown`;
+  list.innerHTML='';
+  if(!visible.length){
+    list.innerHTML='<div style="padding:18px;text-align:center;color:var(--text);font-size:9px;letter-spacing:1px;">NO INCIDENTS IN RANGE</div>';
+    return;
+  }
+  [...visible].sort((a,b)=>b.timeVal-a.timeVal).forEach(inc=>{
+    const op=OPS[inc.op], col=op?.color||'#fff';
+    const st=STRIKE_TYPES[inc.type]||STRIKE_TYPES.missile;
+    const d=document.createElement('div');
+    d.className='inc-item'+(selectedId===inc.id?' selected':'');
+    d.style.borderLeftColor=col;
+    d.innerHTML=`
+      <div class="inc-icon-wrap">${buildListIcon(inc.type,18)}</div>
+      <div class="inc-text">
+        <div class="inc-item-op" style="color:${col}">${op?.name||inc.op}</div>
+        <div class="inc-item-name">${inc.title}</div>
+        <div class="inc-item-meta">${inc.date} · <span style="color:${st.color};font-weight:700;">${st.label}</span></div>
+      </div>`;
+    d.onclick=()=>selectIncident(inc.id);
+    list.appendChild(d);
+  });
+}
+
+// ═══════════════════════════════════════════════════
+// SELECT + DETAIL
+// ═══════════════════════════════════════════════════
+function selectIncident(id) {
+  selectedId=id; renderMap(); renderList(); renderDetail();
+}
+
+function badge(txt,cls){ return `<span class="badge badge-${cls}">${txt}</span>`; }
+
+function renderDetail() {
+  const ph=document.getElementById('det-placeholder');
+  const ct=document.getElementById('det-content');
+  if(!selectedId){ ph.style.display='flex'; ct.style.display='none'; return; }
+  const inc=INCIDENTS.find(i=>i.id===selectedId);
+  if(!inc) return;
+  ph.style.display='none'; ct.style.display='block';
+
+  const op=OPS[inc.op], col=op?.color||'#fff';
+  const st=STRIKE_TYPES[inc.type]||STRIKE_TYPES.missile;
+  const badgeHTML=(inc.badges||[]).map(([t,c])=>badge(t,c)).join('');
+  const intelRows=(inc.intel||[]).map(r=>
+    `<div class="drow"><div class="drow-k">${r.k}</div><div class="drow-v ${r.hi?'hi':''} ${r.cls||''}">${r.v}</div></div>`
+  ).join('');
+  const srcHTML=(inc.sources||[]).map(s=>`<div class="source-item"><div class="source-name">${s.n}</div><div class="source-type">${s.t}</div></div>`).join('');
+  const hasImagery=inc.imagery&&inc.imagery.length>0;
+  const imgTabBtn=hasImagery?`<div class="det-tab" onclick="switchTab(this,'tab-imagery')">Imagery</div>`:'';
+  const imgBody=hasImagery?`<div id="tab-imagery" class="det-tab-body">
+    ${inc.imagery.map(img=>`<div class="img-block">
+      <div class="img-label">${img.label}</div>
+      <div><img src="${img.url}" class="sat-img" alt="${img.label}" onerror="this.parentElement.innerHTML='<div class=img-err>Image unavailable</div>'"/></div>
+      ${img.caption?`<div class="img-caption">${img.caption}</div>`:''}
+      ${img.source?`<div class="img-source">Source: ${img.source}</div>`:''}
+    </div>`).join('')}
+  </div>`:'';
+
+  // Op country tags
+  const opCtags=(op?.countries||[]).map(c=>{
+    const cn=COUNTRIES[c];
+    return cn?`<span style="font-size:9px;background:${cn.bg};color:${cn.color};border:1px solid ${cn.border};padding:1px 6px;border-radius:2px;font-weight:700;">${cn.label}</span>`:'';
+  }).join('');
+
+  ct.innerHTML=`
+    <div class="det-hero">
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:7px;flex-wrap:wrap;">
+        <div class="det-op-tag" style="background:${col}22;color:${col};border:1px solid ${col}44;">${op?.name||inc.op}</div>
+        ${opCtags}
+      </div>
+      <div class="det-title">${inc.title}</div>
+      <div class="det-date">${inc.date}</div>
+      <div class="det-conf-row">
+        ${buildListIcon(inc.type,14)}
+        <span style="font-size:9px;font-weight:700;letter-spacing:1px;color:${st.color};text-transform:uppercase;">${st.label}</span>
+        ${inc.confirmed?'<span style="font-size:8px;color:var(--green);font-weight:700;letter-spacing:1px;margin-left:4px;">● CONFIRMED</span>':'<span style="font-size:8px;color:var(--gold);font-weight:700;letter-spacing:1px;margin-left:4px;">◑ REPORTED</span>'}
+      </div>
+      <div class="det-badges">${badgeHTML}</div>
+    </div>
+    <div class="det-tabs">
+      <div class="det-tab active" onclick="switchTab(this,'tab-summary')">Summary</div>
+      <div class="det-tab" onclick="switchTab(this,'tab-intel')">Intel</div>
+      ${imgTabBtn}
+      <div class="det-tab" onclick="switchTab(this,'tab-assess')">Assessment</div>
+      <div class="det-tab" onclick="switchTab(this,'tab-sources')">Sources</div>
+    </div>
+    <div id="tab-summary" class="det-tab-body active">
+      <div class="route-strip">
+        <div class="route-from"><div class="route-label">Origin</div><div class="route-val">${inc.from.label}</div><div class="route-label" style="margin-top:1px;">${inc.from.sub}</div></div>
+        <div class="route-arrow">→</div>
+        <div class="route-to"><div class="route-label">Target</div><div class="route-val" style="color:var(--accent2);">${inc.to.label}</div><div class="route-label" style="margin-top:1px;">${inc.to.sub}</div></div>
+      </div>
+      <div class="assessment"><div class="assessment-body">${inc.summary}</div></div>
+    </div>
+    <div id="tab-intel" class="det-tab-body">${intelRows}</div>
+    ${imgBody}
+    <div id="tab-assess" class="det-tab-body">
+      <div class="assessment"><div class="assessment-title">Operational Assessment</div><div class="assessment-body">${inc.assess}</div></div>
+    </div>
+    <div id="tab-sources" class="det-tab-body">${srcHTML}</div>
+  `;
+  map.flyTo([inc.to.lat,inc.to.lng],Math.max(map.getZoom(),4),{duration:1});
+}
+
+window.switchTab=function(el,tabId){
+  document.getElementById('detail-scroll').querySelectorAll('.det-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('detail-scroll').querySelectorAll('.det-tab-body').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  const t=document.getElementById('detail-scroll').querySelector('#'+tabId);
+  if(t) t.classList.add('active');
+};
+
+// ═══════════════════════════════════════════════════
+// COUNTRY FILTER
+// ═══════════════════════════════════════════════════
+function renderCountryFilter() {
+  const c=document.getElementById('country-filter');
+  c.innerHTML='';
+  Object.entries(COUNTRIES).forEach(([k,cn])=>{
+    const on=activeCountries.has(k);
+    const d=document.createElement('div');
+    d.className='c-pill'+(on?'':' off');
+    d.style.cssText=`color:${cn.color};background:${on?cn.bg:'rgba(0,0,0,.3)'};border-color:${on?cn.border:'rgba(255,255,255,.08)'};`;
+    d.textContent=cn.label;
+    d.onclick=()=>{
+      activeCountries.has(k)?activeCountries.delete(k):activeCountries.add(k);
+      if(selectedId){
+        const inc=INCIDENTS.find(i=>i.id===selectedId);
+        if(inc && !isVisible(inc)) selectedId=null;
+      }
+      refresh();
+    };
+    c.appendChild(d);
+  });
+}
+
+// ═══════════════════════════════════════════════════
+// OP FILTER
+// ═══════════════════════════════════════════════════
+function renderOpFilter() {
+  const c=document.getElementById('op-filter');
+  c.innerHTML='';
+  Object.entries(OPS).forEach(([k,op])=>{
+    const on=activeOps.has(k);
+    const cnt=INCIDENTS.filter(i=>i.op===k&&i.timeVal<=timeVal).length;
+    const d=document.createElement('div');
+    d.className='op-row'+(on?' on':' off');
+    const ctags=op.countries.map(cc=>{
+      const cn=COUNTRIES[cc];
+      return cn?`<span class="op-ctag" style="background:${cn.bg};color:${cn.color};border:1px solid ${cn.border}50;">${cc}</span>`:'';
+    }).join('');
+    d.innerHTML=`
+      <div class="op-color" style="background:${on?op.color:'#2a3d5a'};"></div>
+      <div class="op-info">
+        <div class="op-name" style="color:${on?op.color:'var(--text)'}">${op.name}</div>
+        <div class="op-period">${op.period}</div>
+        <div class="op-country-tags">${ctags}</div>
+      </div>
+      <div class="op-count">${cnt}</div>`;
+    d.onclick=()=>{
+      activeOps.has(k)?activeOps.delete(k):activeOps.add(k);
+      if(selectedId){const inc=INCIDENTS.find(i=>i.id===selectedId);if(inc&&!isVisible(inc))selectedId=null;}
+      refresh();
+    };
+    c.appendChild(d);
+  });
+}
+
+function renderOpLegend() {
+  const c=document.getElementById('op-legend-items');
+  c.innerHTML=Object.entries(OPS).map(([k,op])=>`
+    <div class="oleg-row">
+      <div class="oleg-swatch" style="background:${op.color};${['iran-retaliation','houthi','scs-ops'].includes(k)?'border-bottom:1px dashed '+op.color+';background:transparent;':''};"></div>
+      <div class="oleg-text">${op.name}</div>
+    </div>`).join('');
+}
+
+// ═══════════════════════════════════════════════════
+// TIMELINE
+// ═══════════════════════════════════════════════════
+const TL_MARKS=[{v:0,lbl:'Jun 2025'},{v:10,lbl:'Mar 2025'},{v:18,lbl:'Sep 2025'},{v:32,lbl:'Dec 2025'},{v:45,lbl:'Jan 2026'},{v:65,lbl:'Feb 28'},{v:82,lbl:'Mar 2026'},{v:100,lbl:'Now'}];
+function renderTLMarks(){
+  document.getElementById('tl-marks').innerHTML=TL_MARKS.map(m=>`<span class="tl-mark ${m.v<=timeVal?'active':''}" onclick="setTime(${m.v})">${m.lbl}</span>`).join('');
+}
+window.setTime=function(v){
+  timeVal=v;
+  document.getElementById('tl-slider').value=v;
+  let lbl=TL_MARKS[0].lbl;
+  TL_MARKS.forEach(m=>{if(v>=m.v)lbl=m.lbl;});
+  document.getElementById('tl-date').textContent=lbl.toUpperCase();
+  renderTLMarks();
+  refresh();
+};
+document.getElementById('tl-slider').addEventListener('input',function(){setTime(parseInt(this.value));});
+document.getElementById('btn-show-all').onclick=()=>setTime(100);
+document.getElementById('btn-reset').onclick=()=>{stopPlay();setTime(0);};
+document.getElementById('btn-play').onclick=()=>{
+  if(playTimer){stopPlay();return;}
+  document.getElementById('btn-play').classList.add('playing');
+  document.getElementById('btn-play').textContent='⏸ Pause';
+  playTimer=setInterval(()=>{
+    const cur=parseInt(document.getElementById('tl-slider').value);
+    if(cur>=100){stopPlay();return;}
+    setTime(Math.min(cur+1,100));
+  },90);
+};
+document.getElementById('btn-pause').onclick=stopPlay;
+function stopPlay(){if(playTimer){clearInterval(playTimer);playTimer=null;}document.getElementById('btn-play').classList.remove('playing');document.getElementById('btn-play').textContent='▶ Play';}
+
+// ═══════════════════════════════════════════════════
+// REFRESH
+// ═══════════════════════════════════════════════════
+function refresh(){renderMap();renderList();renderOpFilter();renderCountryFilter();}
+
+// ═══════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════
+renderOpLegend();
+renderTLMarks();
+refresh();
+setTime(100);
+</script>
+</body>
+</html>

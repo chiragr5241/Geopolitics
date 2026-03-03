@@ -1,0 +1,19 @@
+# IDE / Editor
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Local / sensitive (exclude Claude/Cursor project settings)
+.claude/
+
+# Dependencies (if added later)
+node_modules/
+
+# Build output (if added later)
+dist/
+build/
