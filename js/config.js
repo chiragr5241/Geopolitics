@@ -29,7 +29,7 @@ var COUNTRIES = {
   US: { label: '\u{1F1FA}\u{1F1F8} US',     color: '#4fc3f7', bg: 'rgba(79,195,247,.15)',  border: 'rgba(79,195,247,.5)'  },
   IL: { label: '\u{1F1EE}\u{1F1F1} Israel', color: '#ce93d8', bg: 'rgba(206,147,216,.15)', border: 'rgba(206,147,216,.5)' },
   IR: { label: '\u{1F1EE}\u{1F1F7} Iran',   color: '#26a69a', bg: 'rgba(38,166,154,.15)',  border: 'rgba(38,166,154,.5)'  },
-  CN: { label: '\u{1F1E8}\u{1F1F3} China',  color: '#ffa726', bg: 'rgba(255,167,38,.15)',  border: 'rgba(255,167,38,.5)'  },
+  CN: { label: '\u{1F1E8}\u{1F1F3} China',  color: '#ef5350', bg: 'rgba(239,83,80,.15)',   border: 'rgba(239,83,80,.5)'   },
   VE: { label: '\u{1F1FB}\u{1F1EA} Venez.', color: '#ffd54f', bg: 'rgba(255,213,79,.15)',  border: 'rgba(255,213,79,.5)'  },
   YE: { label: '\u{1F1FE}\u{1F1EA} Houthi', color: '#f06292', bg: 'rgba(240,98,146,.15)',  border: 'rgba(240,98,146,.5)'  },
   PH: { label: '\u{1F1F5}\u{1F1ED} PHL',    color: '#26c6da', bg: 'rgba(38,198,218,.15)',  border: 'rgba(38,198,218,.5)'  },
