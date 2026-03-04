@@ -204,7 +204,7 @@
       center: [25, 75], zoom: 3,
       zoomControl: false, attributionControl: false, preferCanvas: true,
     });
-    L.control.zoom({ position: 'bottomright' }).addTo(map);
+    L.control.zoom({ position: 'bottomleft' }).addTo(map);
 
     L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
       subdomains: 'abcd', maxZoom: 19,
@@ -226,9 +226,9 @@
       var code = ISO_NUM_MAP[feature.id];
       if (code && activeCodes && activeCodes.has(code)) {
         var cn = COUNTRIES[code];
-        return { color: cn.color, weight: 1, opacity: 0.55, fillColor: cn.color, fillOpacity: 0.07 };
+        return { color: cn.color, weight: 1.5, opacity: 0.7, fillColor: cn.color, fillOpacity: 0.12 };
       }
-      return { color: '#2a4060', weight: 0.4, opacity: 0.3, fillColor: 'transparent', fillOpacity: 0 };
+      return { color: '#2a4060', weight: 0.4, opacity: 0.25, fillColor: 'transparent', fillOpacity: 0 };
     }
 
     fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json')

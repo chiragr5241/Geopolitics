@@ -28,13 +28,13 @@ var ISO_NUM_MAP = {
 var COUNTRIES = {
   US: { label: '\u{1F1FA}\u{1F1F8} US',     color: '#4fc3f7', bg: 'rgba(79,195,247,.15)',  border: 'rgba(79,195,247,.5)'  },
   IL: { label: '\u{1F1EE}\u{1F1F1} Israel', color: '#ce93d8', bg: 'rgba(206,147,216,.15)', border: 'rgba(206,147,216,.5)' },
-  IR: { label: '\u{1F1EE}\u{1F1F7} Iran',   color: '#ef5350', bg: 'rgba(239,83,80,.15)',   border: 'rgba(239,83,80,.5)'   },
-  CN: { label: '\u{1F1E8}\u{1F1F3} China',  color: '#ff5252', bg: 'rgba(255,82,82,.15)',   border: 'rgba(255,82,82,.5)'   },
+  IR: { label: '\u{1F1EE}\u{1F1F7} Iran',   color: '#26a69a', bg: 'rgba(38,166,154,.15)',  border: 'rgba(38,166,154,.5)'  },
+  CN: { label: '\u{1F1E8}\u{1F1F3} China',  color: '#ffa726', bg: 'rgba(255,167,38,.15)',  border: 'rgba(255,167,38,.5)'  },
   VE: { label: '\u{1F1FB}\u{1F1EA} Venez.', color: '#ffd54f', bg: 'rgba(255,213,79,.15)',  border: 'rgba(255,213,79,.5)'  },
   YE: { label: '\u{1F1FE}\u{1F1EA} Houthi', color: '#f06292', bg: 'rgba(240,98,146,.15)',  border: 'rgba(240,98,146,.5)'  },
   PH: { label: '\u{1F1F5}\u{1F1ED} PHL',    color: '#26c6da', bg: 'rgba(38,198,218,.15)',  border: 'rgba(38,198,218,.5)'  },
   UA: { label: '\u{1F1FA}\u{1F1E6} Ukraine', color: '#fdd835', bg: 'rgba(253,216,53,.15)', border: 'rgba(253,216,53,.5)' },
-  RU: { label: '\u{1F1F7}\u{1F1FA} Russia', color: '#e53935', bg: 'rgba(229,57,53,.15)',   border: 'rgba(229,57,53,.5)'   },
+  RU: { label: '\u{1F1F7}\u{1F1FA} Russia', color: '#78909c', bg: 'rgba(120,144,156,.15)', border: 'rgba(120,144,156,.5)' },
   PS: { label: '\u{1F1F5}\u{1F1F8} Palest.', color: '#43a047', bg: 'rgba(67,160,71,.15)',  border: 'rgba(67,160,71,.5)'  },
   LB: { label: '\u{1F1F1}\u{1F1E7} Lebanon', color: '#8d6e63', bg: 'rgba(141,110,99,.15)',  border: 'rgba(141,110,99,.5)'  },
 };

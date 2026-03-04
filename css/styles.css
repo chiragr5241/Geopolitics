@@ -986,10 +986,10 @@ a.source-link:hover {
   background: #0b0e14 !important;
 }
 
-/* Zoom controls — moved to bottom-right, clear of both legends and timeline */
-.leaflet-bottom.leaflet-right {
-  bottom: 130px !important;
-  right: 14px !important;
+/* Zoom controls — bottom-left, clear of op-legend (top-right) and timeline (bottom-centre) */
+.leaflet-bottom.leaflet-left {
+  bottom: 20px !important;
+  left: 14px !important;
 }
 
 .leaflet-control-zoom {
