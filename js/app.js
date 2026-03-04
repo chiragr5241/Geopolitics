@@ -202,12 +202,15 @@
     // Map
     var map = L.map('map', {
       center: [25, 75], zoom: 3,
+      minZoom: 2,
+      maxBounds: [[-85, -180], [85, 180]],
+      maxBoundsViscosity: 1.0,
       zoomControl: false, attributionControl: false, preferCanvas: true,
     });
     L.control.zoom({ position: 'bottomleft' }).addTo(map);
 
     L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-      subdomains: 'abcd', maxZoom: 19,
+      subdomains: 'abcd', maxZoom: 19, minZoom: 2, noWrap: true,
     }).addTo(map);
 
     // ── World borders + country highlights ──
@@ -231,10 +234,51 @@
       return { color: '#2a4060', weight: 0.4, opacity: 0.25, fillColor: 'transparent', fillOpacity: 0 };
     }
 
+    // Fix antimeridian rendering artefacts in world-atlas data.
+    // world-atlas arcs 161/162 jump 358° within a single ring (178.6°→−180°→179.99°).
+    // Leaflet draws a straight screen-space line for each such segment, smearing a
+    // line across the full map width. Strategy:
+    //   1. Flatten MultiPolygons → separate Polygon features (eliminates cross-ring
+    //      canvas-fill artefacts that arise when the two Russia sub-paths have
+    //      opposite winding on the shared canvas path).
+    //   2. Normalise each ring so consecutive longitude values never jump >180°
+    //      (converts −180.0 after 178.6 → 180.0, keeping the ring continuous).
+    function processWorldGeoJSON(geojson) {
+      var result = [];
+      geojson.features.forEach(function (f) {
+        var g = f.geometry;
+        if (!g) { result.push(f); return; }
+        var polys = g.type === 'MultiPolygon' ? g.coordinates
+                  : g.type === 'Polygon'      ? [g.coordinates]
+                  : null;
+        if (!polys) { result.push(f); return; }
+        polys.forEach(function (polyCoords) {
+          result.push({
+            type: 'Feature', id: f.id, properties: f.properties,
+            geometry: {
+              type: 'Polygon',
+              coordinates: polyCoords.map(function (ring) {
+                var out = [[ring[0][0], ring[0][1]]];
+                for (var i = 1; i < ring.length; i++) {
+                  var prev = out[out.length - 1][0];
+                  var lng = ring[i][0], lat = ring[i][1];
+                  while (lng - prev >  180) lng -= 360;
+                  while (prev - lng >  180) lng += 360;
+                  out.push([lng, lat]);
+                }
+                return out;
+              }),
+            },
+          });
+        });
+      });
+      return { type: 'FeatureCollection', features: result };
+    }
+
     fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json')
       .then(function (r) { return r.json(); })
       .then(function (world) {
-        var geojson = topojson.feature(world, world.objects.countries);
+        var geojson = processWorldGeoJSON(topojson.feature(world, world.objects.countries));
         var activeCodes = getActiveCountryCodes();
         worldBorderLayer = L.geoJSON(geojson, {
           style: function (f) { return countryFeatureStyle(f, activeCodes); },
