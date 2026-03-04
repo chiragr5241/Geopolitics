@@ -10,6 +10,9 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 
+  <!-- TopoJSON (for world borders layer) -->
+  <script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
+
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500;700&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -55,9 +58,11 @@
       <div class="sb-label">Filter by Country</div>
       <div id="country-filter"></div>
     </div>
-    <div class="sb-section">
-      <div class="sb-label">Operations</div>
-      <div class="op-grid" id="op-filter"></div>
+    <div class="sb-section sb-section-ops">
+      <div class="sb-label">Operations<div class="op-sel-btns" style="margin-left:auto;"><button class="op-sel-btn" id="btn-ops-all">All</button><button class="op-sel-btn" id="btn-ops-none">None</button></div></div>
+      <div class="op-grid-scroll">
+        <div class="op-grid" id="op-filter"></div>
+      </div>
     </div>
     <div class="sb-section" style="padding-bottom:5px;">
       <div class="sb-label">Incidents <span style="margin-left:auto;font-size:9px;color:var(--text);font-family:'Roboto Mono',monospace;" id="inc-count"></span></div>

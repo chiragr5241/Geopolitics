@@ -7,6 +7,22 @@
    operation metadata, and per-incident imagery.
    ========================================================= */
 
+// ── ISO-3166-1 Numeric → Country Code (for world-atlas GeoJSON border layer) ──
+
+var ISO_NUM_MAP = {
+  840: 'US',  // United States
+  376: 'IL',  // Israel
+  364: 'IR',  // Iran
+  156: 'CN',  // China
+  862: 'VE',  // Venezuela
+  887: 'YE',  // Yemen
+  608: 'PH',  // Philippines
+  804: 'UA',  // Ukraine
+  643: 'RU',  // Russia
+  275: 'PS',  // Palestine
+  422: 'LB',  // Lebanon
+};
+
 // ── Country Rendering ──
 
 var COUNTRIES = {
@@ -20,12 +36,14 @@ var COUNTRIES = {
   UA: { label: '\u{1F1FA}\u{1F1E6} Ukraine', color: '#fdd835', bg: 'rgba(253,216,53,.15)', border: 'rgba(253,216,53,.5)' },
   RU: { label: '\u{1F1F7}\u{1F1FA} Russia', color: '#e53935', bg: 'rgba(229,57,53,.15)',   border: 'rgba(229,57,53,.5)'   },
   PS: { label: '\u{1F1F5}\u{1F1F8} Palest.', color: '#43a047', bg: 'rgba(67,160,71,.15)',  border: 'rgba(67,160,71,.5)'  },
+  LB: { label: '\u{1F1F1}\u{1F1E7} Lebanon', color: '#8d6e63', bg: 'rgba(141,110,99,.15)',  border: 'rgba(141,110,99,.5)'  },
 };
 
 // ── Operation Metadata (keyed by operation_name as it appears in the CSV) ──
 
 var OPS_META = {
   'Op. Swords of Iron':   { countries: ['IL','PS'], period: 'Oct 2023\u2013present', dashed: false },
+  'Op. Northern Arrows':  { countries: ['IL','IR','LB'], period: 'Apr\u2013Oct 2024', dashed: false },
   'Russia-Ukraine War':   { countries: ['UA','RU'], period: '2022\u2013present',     dashed: false },
   'Op. Midnight Hammer':  { countries: ['US'],      period: 'Jun 2025',              dashed: false },
   '12-Day War (IDF)':     { countries: ['IL','US'], period: 'Jun 2025',              dashed: false },
@@ -193,6 +211,7 @@ var CITIES = [
 
 var TL_MARKS = [
   { v: -60, lbl: 'Oct 2023' },
+  { v: -35, lbl: 'Apr 2024' },
   { v: -25, lbl: 'Aug 2024' },
   { v: -15, lbl: 'Nov 2024' },
   { v: 0,   lbl: 'Jun 2025' },
@@ -213,10 +232,10 @@ var IMAGERY = {
     { label: 'GBU-57 Massive Ordnance Penetrator', url: 'https://upload.wikimedia.org/wikipedia/commons/b/bb/USAF_MOP_test_release_crop.jpg', caption: 'GBU-57A/B MOP \u2014 30,000 lb, Eglin steel alloy casing. Fordow required 12 (vs 2 at Natanz).', source: 'USAF / Wikimedia Commons (public domain)' },
   ],
   'mh-natanz': [
-    { label: 'Natanz \u2014 Satellite Pre-Strike', url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/Fordow_fuel_enrichment_plant.jpg/1280px-Fordow_fuel_enrichment_plant.jpg', caption: 'Pre-strike satellite imagery of Iranian nuclear enrichment infrastructure. Natanz houses centrifuge halls ~8m underground with reinforced concrete.', source: 'DigitalGlobe / IAEA (pre-strike OSINT)' },
+    { label: 'Natanz \u2014 Satellite Pre-Strike', url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/Atomanlage_Natanz_%282022%29.jpg/1280px-Atomanlage_Natanz_%282022%29.jpg', caption: 'Pre-strike satellite imagery of Iranian nuclear enrichment infrastructure. Natanz houses centrifuge halls ~8m underground with reinforced concrete.', source: 'DigitalGlobe / IAEA (pre-strike OSINT)' },
   ],
   'tdw-campaign': [
-    { label: 'F-35I Adir \u2014 Primary Strike Platform', url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/F-35I_Adir.jpg/1280px-F-35I_Adir.jpg', caption: 'F-35I Adir \u2014 Israeli customized variant with indigenous avionics. Low-observable design penetrated Iran\'s S-300 network.', source: 'Israeli Air Force / Wikimedia Commons (public domain)' },
+    { label: 'F-35I Adir \u2014 Primary Strike Platform', url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/F-35I-Adir-0296.jpg/1280px-F-35I-Adir-0296.jpg', caption: 'F-35I Adir \u2014 Israeli customized variant with indigenous avionics. Low-observable design penetrated Iran\'s S-300 network.', source: 'Israeli Air Force / Wikimedia Commons (public domain)' },
     { label: 'S-300 Battery \u2014 Neutralized', url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/S-300_Triumf_-_MAKS-2009_%28uncropped%29.jpg/1200px-S-300_Triumf_-_MAKS-2009_%28uncropped%29.jpg', caption: 'S-300PMU2 batteries could not track the F-35I at combat altitude \u2014 rendered effectively blind by stealth.', source: 'Wikimedia Commons (public domain)' },
   ],
   'ocean-trader': [
@@ -234,11 +253,11 @@ var IMAGERY = {
     { label: 'HIMARS \u2014 PrSM Launch Platform', url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/HIMARS_launch.jpg/1280px-HIMARS_launch.jpg', caption: 'US Army HIMARS firing from Kuwait. PrSM made its combat debut from these platforms, demonstrating 499+ km range.', source: 'US Army / Wikimedia Commons (public domain)' },
   ],
   'rl-khamenei': [
-    { label: 'JDAM Bunker Strike Munition', url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/GBU-31_JDAM.jpg/1280px-GBU-31_JDAM.jpg', caption: 'Joint Direct Attack Munition \u2014 precision guidance kit for bunker targeting. CIA penetration enabled location of Khamenei\'s underground bunker.', source: 'USAF / Wikimedia Commons (public domain)' },
+    { label: 'JDAM Bunker Strike Munition', url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/U.S._Air_Force_Senior_Airman_Ryan_Minner%2C_a_load_crew_member_with_the_509th_Maintenance_Squadron%2C_poses_for_a_photo_under_a_GBU-31_joint_direct_attack_munition_and_a_Mark_84_munition_in_a_B-2_Spirit_aircraft_140221-F-RH756-320.jpg/1280px-thumbnail.jpg', caption: 'GBU-31 Joint Direct Attack Munition loaded in a B-2 Spirit \u2014 precision guidance kit for bunker targeting. CIA penetration enabled location of Khamenei\'s underground bunker.', source: 'USAF / Wikimedia Commons (public domain)' },
   ],
   'ir-gcc': [
-    { label: 'Shahed-136 Kamikaze Drone', url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Shahed-136_in_Ukraine.jpg/1280px-Shahed-136_in_Ukraine.jpg', caption: 'Shahed-136 loitering munition \u2014 one of 541 drones in the 708-munition barrage. ~$20,000 each vs. $4M for a Patriot PAC-3 interceptor.', source: 'Ukrainian Armed Forces / Wikimedia Commons (public domain)' },
-    { label: 'Patriot PAC-3 Intercept', url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Patriot_missile_launch_b.jpg/1024px-Patriot_missile_launch_b.jpg', caption: 'Patriot PAC-3 missile intercept. The layered GCC + US defense architecture intercepted all 708 munitions.', source: 'US Army / Wikimedia Commons (public domain)' },
+    { label: 'Shahed-136 Kamikaze Drone', url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Shahed_136_rendering.png/1280px-Shahed_136_rendering.png', caption: 'Shahed-136 loitering munition \u2014 one of 541 drones in the 708-munition barrage. ~$20,000 each vs. $4M for a Patriot PAC-3 interceptor.', source: 'Wikimedia Commons (public domain)' },
+    { label: 'Patriot PAC-3 Intercept', url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/74th_Patriot_Regiment_missile_launch.jpg/1280px-74th_Patriot_Regiment_missile_launch.jpg', caption: 'Patriot PAC-3 missile intercept. The layered GCC + US defense architecture intercepted all 708 munitions.', source: 'US Army / Wikimedia Commons (public domain)' },
   ],
   'scs-carrier': [
     { label: 'PLAN Shandong (CV-17) \u2014 Type 001A Carrier', url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Chinese_carrier_Liaoning_CV-16_-_Transferred_to_People%27s_Liberation_Army_Navy.jpg/1280px-Chinese_carrier_Liaoning_CV-16_-_Transferred_to_People%27s_Liberation_Army_Navy.jpg', caption: 'PLA Navy carrier in South China Sea operations.', source: 'Wikimedia Commons (public domain)' },

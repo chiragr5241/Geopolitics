@@ -202,11 +202,53 @@
     // Map
     var map = L.map('map', {
       center: [25, 75], zoom: 3,
-      zoomControl: true, attributionControl: false, preferCanvas: true,
+      zoomControl: false, attributionControl: false, preferCanvas: true,
     });
+    L.control.zoom({ position: 'bottomright' }).addTo(map);
+
     L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
       subdomains: 'abcd', maxZoom: 19,
     }).addTo(map);
+
+    // ── World borders + country highlights ──
+    var worldBorderLayer = null;
+
+    function getActiveCountryCodes() {
+      var codes = new Set();
+      INCIDENTS.filter(isVisible).forEach(function (inc) {
+        var op = OPS[inc.op] || {};
+        (op.countries || []).forEach(function (c) { codes.add(c); });
+      });
+      return codes;
+    }
+
+    function countryFeatureStyle(feature, activeCodes) {
+      var code = ISO_NUM_MAP[feature.id];
+      if (code && activeCodes && activeCodes.has(code)) {
+        var cn = COUNTRIES[code];
+        return { color: cn.color, weight: 1, opacity: 0.55, fillColor: cn.color, fillOpacity: 0.07 };
+      }
+      return { color: '#2a4060', weight: 0.4, opacity: 0.3, fillColor: 'transparent', fillOpacity: 0 };
+    }
+
+    fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json')
+      .then(function (r) { return r.json(); })
+      .then(function (world) {
+        var geojson = topojson.feature(world, world.objects.countries);
+        var activeCodes = getActiveCountryCodes();
+        worldBorderLayer = L.geoJSON(geojson, {
+          style: function (f) { return countryFeatureStyle(f, activeCodes); },
+          interactive: false,
+        }).addTo(map);
+        worldBorderLayer.bringToBack();
+      })
+      .catch(function () { /* borders optional — silently skip on error */ });
+
+    function refreshBorders() {
+      if (!worldBorderLayer) return;
+      var activeCodes = getActiveCountryCodes();
+      worldBorderLayer.setStyle(function (f) { return countryFeatureStyle(f, activeCodes); });
+    }
 
     CITIES.forEach(function (c) {
       var icon = L.divIcon({
@@ -237,6 +279,8 @@
     var $btnPlay        = document.getElementById('btn-play');
     var $btnPause       = document.getElementById('btn-pause');
     var $btnReset       = document.getElementById('btn-reset');
+    var $btnOpsAll      = document.getElementById('btn-ops-all');
+    var $btnOpsNone     = document.getElementById('btn-ops-none');
     var $detPlaceholder = document.getElementById('det-placeholder');
     var $detContent     = document.getElementById('det-content');
     var $detScroll      = document.getElementById('detail-scroll');
@@ -313,6 +357,9 @@
       if (!activeOps.has(inc.op)) return false;
       if (inc.timeVal > timeVal) return false;
       var opCountries = (OPS[inc.op] || {}).countries || [];
+      // If no country metadata exists (e.g. new operation added to CSV without OPS_META),
+      // show the incident as long as the operation toggle is on.
+      if (opCountries.length === 0) return true;
       return opCountries.some(function (c) { return activeCountries.has(c); });
     }
 
@@ -491,6 +538,19 @@
     });
     $btnPause.addEventListener('click', stopPlay);
 
+    if ($btnOpsAll) {
+      $btnOpsAll.addEventListener('click', function () {
+        Object.keys(OPS).forEach(function (k) { activeOps.add(k); });
+        deselectIfHidden(); refresh();
+      });
+    }
+    if ($btnOpsNone) {
+      $btnOpsNone.addEventListener('click', function () {
+        activeOps.clear();
+        selectedId = null; refresh();
+      });
+    }
+
     function stopPlay() {
       if (playTimer) { clearInterval(playTimer); playTimer = null; }
       $btnPlay.classList.remove('playing');
@@ -503,7 +563,7 @@
       if (inc && !isVisible(inc)) selectedId = null;
     }
 
-    function refresh() { renderMap(); renderList(); renderOpFilter(); renderCountryFilter(); }
+    function refresh() { renderMap(); renderList(); renderOpFilter(); renderCountryFilter(); refreshBorders(); }
 
     // Init
     renderOpLegend();
@@ -514,7 +574,7 @@
 
   // ── Fetch CSV and start ──
 
-  fetch('operationsdata.csv')
+  fetch('operationsdata.csv?v=' + Date.now())
     .then(function (res) {
       if (!res.ok) throw new Error('CSV fetch failed: ' + res.status);
       return res.text();

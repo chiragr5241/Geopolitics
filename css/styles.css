@@ -203,6 +203,46 @@ body {
 
 /* Operation filter */
 
+.op-sel-btns {
+  display: flex;
+  gap: 3px;
+}
+
+.op-sel-btn {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  padding: 2px 7px;
+  background: var(--bg0);
+  border: 1px solid var(--border2);
+  color: var(--text);
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all .15s;
+  text-transform: uppercase;
+}
+
+.op-sel-btn:hover {
+  background: var(--border2);
+  color: var(--bright);
+}
+
+.sb-section-ops .op-grid-scroll {
+  max-height: 200px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.sb-section-ops .op-grid-scroll::-webkit-scrollbar {
+  width: 4px;
+}
+
+.sb-section-ops .op-grid-scroll::-webkit-scrollbar-thumb {
+  background: var(--border2);
+  border-radius: 2px;
+}
+
 .op-grid {
   display: flex;
   flex-direction: column;
@@ -946,16 +986,23 @@ a.source-link:hover {
   background: #0b0e14 !important;
 }
 
+/* Zoom controls — moved to bottom-right, clear of both legends and timeline */
+.leaflet-bottom.leaflet-right {
+  bottom: 130px !important;
+  right: 14px !important;
+}
+
 .leaflet-control-zoom {
   border: 1px solid var(--border2) !important;
-  box-shadow: none !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,.5) !important;
 }
 
 .leaflet-control-zoom a {
-  background: var(--bg1) !important;
+  background: rgba(11, 15, 19, .92) !important;
   color: var(--text2) !important;
   border-color: var(--border2) !important;
   font-size: 14px !important;
+  backdrop-filter: blur(6px) !important;
 }
 
 .leaflet-control-zoom a:hover {
