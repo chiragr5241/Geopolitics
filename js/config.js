@@ -3,9 +3,27 @@
 /* =========================================================
    GLOBAL OPERATIONS MAP 2025–2026 — Static Configuration
    Rendering config that rarely changes: country palettes,
-   SVG strike-type icons, city labels, timeline marks,
-   operation metadata, and per-incident imagery.
+   SVG strike-type icons, city labels, and timeline marks.
+
+   Data that changes frequently lives in CSV files under
+   data/ and is loaded via DataLayer (js/data.js):
+     data/incidents.csv   — incident rows
+     data/operations.csv  — operation metadata + colors
+     data/imagery.csv     — per-incident imagery
+
+   To add a new operation: edit data/operations.csv.
+   To add a new incident:  edit data/incidents.csv.
+   To add imagery:         edit data/imagery.csv.
+   No JS changes needed.
    ========================================================= */
+
+// ── Data Source Paths (change here to point at a new backend) ──
+
+var DATA_SOURCES = {
+  incidents:  'data/incidents.csv',
+  operations: 'data/operations.csv',
+  imagery:    'data/imagery.csv',
+};
 
 // ── ISO-3166-1 Numeric → Country Code (for world-atlas GeoJSON border layer) ──
 
@@ -39,22 +57,6 @@ var COUNTRIES = {
   LB: { label: '\u{1F1F1}\u{1F1E7} Lebanon', color: '#8d6e63', bg: 'rgba(141,110,99,.15)',  border: 'rgba(141,110,99,.5)'  },
 };
 
-// ── Operation Metadata (keyed by operation_name as it appears in the CSV) ──
-
-var OPS_META = {
-  'Op. Swords of Iron':   { countries: ['IL','PS'], period: 'Oct 2023\u2013present', dashed: false },
-  'Op. Northern Arrows':  { countries: ['IL','IR','LB'], period: 'Apr\u2013Oct 2024', dashed: false },
-  'Russia-Ukraine War':   { countries: ['UA','RU'], period: '2022\u2013present',     dashed: false },
-  'Op. Midnight Hammer':  { countries: ['US'],      period: 'Jun 2025',              dashed: false },
-  '12-Day War (IDF)':     { countries: ['IL','US'], period: 'Jun 2025',              dashed: false },
-  'Op. Absolute Resolve': { countries: ['US'],      period: 'Dec 2025\u2013Jan 2026', dashed: false },
-  'Op. Southern Spear':   { countries: ['US'],      period: 'Jan 2026',              dashed: false },
-  'Op. Epic Fury':        { countries: ['US','IL'], period: 'Feb 28, 2026',          dashed: false },
-  'Op. Roaring Lion':     { countries: ['US','IL'], period: 'Feb 28, 2026',          dashed: false },
-  'Iran Retaliation':     { countries: ['IR','YE'], period: 'Feb\u2013Mar 2026',     dashed: true  },
-  'Houthi / Proxies':     { countries: ['YE','IR'], period: '2025\u20132026',        dashed: true  },
-  'China SCS Operations': { countries: ['CN','PH'], period: '2025\u20132026',        dashed: true  },
-};
 
 // ── Strike Type SVG Icons ──
 
@@ -224,58 +226,3 @@ var TL_MARKS = [
   { v: 100, lbl: 'Now' },
 ];
 
-// ── Imagery (keyed by incident_id, only for incidents that have images) ──
-
-var IMAGERY = {
-  'mh-fordow': [
-    { label: 'B-2 Spirit Stealth Bomber', url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/B-2_Spirit_original.jpg/1280px-B-2_Spirit_original.jpg', caption: 'B-2 Spirit dropping ordnance. Seven flew round-trip from Diego Garcia (~13,000 km) requiring 52 tankers.', source: 'USAF / Wikimedia Commons (public domain)' },
-    { label: 'GBU-57 Massive Ordnance Penetrator', url: 'https://upload.wikimedia.org/wikipedia/commons/b/bb/USAF_MOP_test_release_crop.jpg', caption: 'GBU-57A/B MOP \u2014 30,000 lb, Eglin steel alloy casing. Fordow required 12 (vs 2 at Natanz).', source: 'USAF / Wikimedia Commons (public domain)' },
-  ],
-  'mh-natanz': [
-    { label: 'Natanz \u2014 Satellite Pre-Strike', url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/Atomanlage_Natanz_%282022%29.jpg/1280px-Atomanlage_Natanz_%282022%29.jpg', caption: 'Pre-strike satellite imagery of Iranian nuclear enrichment infrastructure. Natanz houses centrifuge halls ~8m underground with reinforced concrete.', source: 'DigitalGlobe / IAEA (pre-strike OSINT)' },
-  ],
-  'tdw-campaign': [
-    { label: 'F-35I Adir \u2014 Primary Strike Platform', url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/F-35I-Adir-0296.jpg/1280px-F-35I-Adir-0296.jpg', caption: 'F-35I Adir \u2014 Israeli customized variant with indigenous avionics. Low-observable design penetrated Iran\'s S-300 network.', source: 'Israeli Air Force / Wikimedia Commons (public domain)' },
-    { label: 'S-300 Battery \u2014 Neutralized', url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/S-300_Triumf_-_MAKS-2009_%28uncropped%29.jpg/1200px-S-300_Triumf_-_MAKS-2009_%28uncropped%29.jpg', caption: 'S-300PMU2 batteries could not track the F-35I at combat altitude \u2014 rendered effectively blind by stealth.', source: 'Wikimedia Commons (public domain)' },
-  ],
-  'ocean-trader': [
-    { label: 'ESA Sentinel-2 \u2014 Commercial Satellite (Detection Method)', url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Sentinel-2_image_on_2019-05-08_showing_Heraklion%2C_Crete%2C_Greece.jpg/1200px-Sentinel-2_image_on_2019-05-08_showing_Heraklion%2C_Crete%2C_Greece.jpg', caption: 'Sentinel-2 multispectral imagery (10m resolution). OSINT analysts cross-referenced AIS gaps with satellite data to confirm the vessel\'s classified mission profile days before the operation launched.', source: 'ESA Copernicus / @MT_Anderson OSINT' },
-    { label: 'USS Lake Erie (CG-70) \u2014 Ticonderoga-class Cruiser Escort', url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/USS_Lake_Erie_%28CG-70%29_underway.jpg/1200px-USS_Lake_Erie_%28CG-70%29_underway.jpg', caption: 'USS Lake Erie (CG-70) assigned as protective escort for MV Ocean Trader.', source: 'US Navy / Wikimedia Commons (public domain)' },
-    { label: 'MH-60 SOF Helicopter Insertion', url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/MH-60_Black_Hawk.jpg/1280px-MH-60_Black_Hawk.jpg', caption: 'MH-60 Black Hawk variant used for SOF insertion from the Ocean Trader to the Caracas target.', source: 'US Army / Wikimedia Commons (public domain)' },
-  ],
-  'abs-resolve': [
-    { label: 'SOF Helicopter Raid \u2014 Caracas Insertion', url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/MH-60_Black_Hawk.jpg/1280px-MH-60_Black_Hawk.jpg', caption: 'SOF forces inserted by helicopter from the MV Ocean Trader staging platform. Zero US casualties.', source: 'US Army / Wikimedia Commons (public domain)' },
-  ],
-  'ef-main': [
-    { label: 'Tomahawk VLS Launch \u2014 Arleigh Burke DDG', url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Tomahawk_Block_IV_launch.jpg/1280px-Tomahawk_Block_IV_launch.jpg', caption: 'Tomahawk Block IV launch from Vertical Launch System. 13 Arleigh Burke DDGs contributed to the 900+ strike opening salvo.', source: 'US Navy / Wikimedia Commons (public domain)' },
-  ],
-  'ef-prsm': [
-    { label: 'HIMARS \u2014 PrSM Launch Platform', url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/HIMARS_launch.jpg/1280px-HIMARS_launch.jpg', caption: 'US Army HIMARS firing from Kuwait. PrSM made its combat debut from these platforms, demonstrating 499+ km range.', source: 'US Army / Wikimedia Commons (public domain)' },
-  ],
-  'rl-khamenei': [
-    { label: 'JDAM Bunker Strike Munition', url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/U.S._Air_Force_Senior_Airman_Ryan_Minner%2C_a_load_crew_member_with_the_509th_Maintenance_Squadron%2C_poses_for_a_photo_under_a_GBU-31_joint_direct_attack_munition_and_a_Mark_84_munition_in_a_B-2_Spirit_aircraft_140221-F-RH756-320.jpg/1280px-thumbnail.jpg', caption: 'GBU-31 Joint Direct Attack Munition loaded in a B-2 Spirit \u2014 precision guidance kit for bunker targeting. CIA penetration enabled location of Khamenei\'s underground bunker.', source: 'USAF / Wikimedia Commons (public domain)' },
-  ],
-  'ir-gcc': [
-    { label: 'Shahed-136 Kamikaze Drone', url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Shahed_136_rendering.png/1280px-Shahed_136_rendering.png', caption: 'Shahed-136 loitering munition \u2014 one of 541 drones in the 708-munition barrage. ~$20,000 each vs. $4M for a Patriot PAC-3 interceptor.', source: 'Wikimedia Commons (public domain)' },
-    { label: 'Patriot PAC-3 Intercept', url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/74th_Patriot_Regiment_missile_launch.jpg/1280px-74th_Patriot_Regiment_missile_launch.jpg', caption: 'Patriot PAC-3 missile intercept. The layered GCC + US defense architecture intercepted all 708 munitions.', source: 'US Army / Wikimedia Commons (public domain)' },
-  ],
-  'scs-carrier': [
-    { label: 'PLAN Shandong (CV-17) \u2014 Type 001A Carrier', url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Chinese_carrier_Liaoning_CV-16_-_Transferred_to_People%27s_Liberation_Army_Navy.jpg/1280px-Chinese_carrier_Liaoning_CV-16_-_Transferred_to_People%27s_Liberation_Army_Navy.jpg', caption: 'PLA Navy carrier in South China Sea operations.', source: 'Wikimedia Commons (public domain)' },
-    { label: 'Fiery Cross Reef \u2014 PLAN Artificial Island Base', url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Fiery_Cross_Reef_CSIS_2015.jpg/1280px-Fiery_Cross_Reef_CSIS_2015.jpg', caption: 'Fiery Cross Reef artificial island \u2014 3,000m runway, hardened aircraft shelters, SAM/CDCM batteries.', source: 'CSIS AMTI / Planet Labs satellite imagery' },
-  ],
-  'scs-scarborough': [
-    { label: 'China Coast Guard (CCG) Vessel', url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/China_coast_guard_vessel.jpg/1280px-China_coast_guard_vessel.jpg', caption: 'China Coast Guard vessel \u2014 primary gray-zone coercion tool.', source: 'Wikimedia Commons (public domain)' },
-  ],
-  'scs-second-thomas': [
-    { label: 'BRP Sierra Madre \u2014 Philippine Military Outpost', url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/BRP_Sierra_Madre_%28AT-43%29.jpg/1280px-BRP_Sierra_Madre_%28AT-43%29.jpg', caption: 'BRP Sierra Madre (AT-43) \u2014 a deliberately grounded WWII-era LST serving as the Philippines\' military outpost on Second Thomas Shoal.', source: 'Philippine Navy / Wikimedia Commons (public domain)' },
-  ],
-  'scs-fonops': [
-    { label: 'USS Arleigh Burke DDG \u2014 FONOP Platform', url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/USS_Arleigh_Burke_%28DDG-51%29.jpg/1200px-USS_Arleigh_Burke_%28DDG-51%29.jpg', caption: 'Arleigh Burke-class guided-missile destroyer \u2014 the primary US Navy platform for SCS FONOP operations.', source: 'US Navy / Wikimedia Commons (public domain)' },
-  ],
-  'scs-island-build': [
-    { label: 'Mischief Reef \u2014 CSIS AMTI Satellite (2025)', url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Fiery_Cross_Reef_CSIS_2015.jpg/1280px-Fiery_Cross_Reef_CSIS_2015.jpg', caption: 'PLA artificial island base \u2014 Mischief Reef, 250km from Palawan, Philippine EEZ.', source: 'CSIS AMTI / Planet Labs (public satellite imagery)' },
-  ],
-  'scs-taiwan-strait': [
-    { label: 'H-6K Nuclear-Capable Bomber \u2014 PLAAF', url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/H-6K_bomber.jpg/1280px-H-6K_bomber.jpg', caption: 'PLAAF H-6K Xian bomber \u2014 nuclear-capable platform in the 103-aircraft ADIZ incursion.', source: 'Wikimedia Commons (public domain)' },
-  ],
-};
