@@ -2,80 +2,50 @@
 
 /* =========================================================
    GLOBAL OPERATIONS MAP 2025–2026 — Application Logic
-   Depends on: Leaflet (L), config.js globals
-   Loads incident data from operationsdata.csv at startup.
+   Depends on: Leaflet (L), config.js globals, DataLayer
+   All data is loaded via DataLayer (js/data.js).
    ========================================================= */
 
 (function () {
 
-  // ── CSV Parser ──
-
-  function parseCSV(text) {
-    var lines = [];
-    var current = '';
-    var inQuotes = false;
-
-    for (var i = 0; i < text.length; i++) {
-      var ch = text[i];
-      if (ch === '"') {
-        if (inQuotes && i + 1 < text.length && text[i + 1] === '"') {
-          current += '"';
-          i++;
-        } else {
-          inQuotes = !inQuotes;
-        }
-      } else if ((ch === '\n' || ch === '\r') && !inQuotes) {
-        if (ch === '\r' && i + 1 < text.length && text[i + 1] === '\n') i++;
-        if (current.length > 0) lines.push(current);
-        current = '';
-      } else {
-        current += ch;
-      }
-    }
-    if (current.length > 0) lines.push(current);
-
-    if (lines.length < 2) return [];
-
-    var headers = splitCSVRow(lines[0]);
-    var rows = [];
-    for (var j = 1; j < lines.length; j++) {
-      var values = splitCSVRow(lines[j]);
-      if (!values[0]) continue;
-      var obj = {};
-      for (var k = 0; k < headers.length; k++) {
-        obj[headers[k]] = (k < values.length) ? values[k] : '';
-      }
-      rows.push(obj);
-    }
-    return rows;
-  }
-
-  function splitCSVRow(line) {
-    var fields = [];
-    var current = '';
-    var inQuotes = false;
-
-    for (var i = 0; i < line.length; i++) {
-      var ch = line[i];
-      if (ch === '"') {
-        if (inQuotes && i + 1 < line.length && line[i + 1] === '"') {
-          current += '"';
-          i++;
-        } else {
-          inQuotes = !inQuotes;
-        }
-      } else if (ch === ',' && !inQuotes) {
-        fields.push(current);
-        current = '';
-      } else {
-        current += ch;
-      }
-    }
-    fields.push(current);
-    return fields;
-  }
-
   // ── Data Transformation ──
+
+  function buildImageryIndex(imageryRows) {
+    // Build a lookup: incident_id → array of image objects
+    var index = {};
+    imageryRows.forEach(function (r) {
+      var id = r.incident_id;
+      if (!id) return;
+      if (!index[id]) index[id] = [];
+      index[id].push({
+        label:   r.label   || '',
+        url:     r.url     || '',
+        caption: r.caption || '',
+        source:  r.source  || '',
+      });
+    });
+    return index;
+  }
+
+  function buildOpsIndex(operationsRows) {
+    // Build a lookup: operation_name → operation object
+    var index = {};
+    operationsRows.forEach(function (r) {
+      var name = r.operation_name;
+      if (!name) return;
+      var countries = r.countries
+        ? r.countries.split(';').map(function (c) { return c.trim(); }).filter(Boolean)
+        : [];
+      index[name] = {
+        name:      name,
+        color:     r.color    || '#ffffff',
+        countries: countries,
+        period:    r.period   || '',
+        dashed:    r.dashed === 'true',
+      };
+    });
+    return index;
+  }
 
   function buildIntel(r) {
     var intel = [];
@@ -138,16 +108,15 @@
     return tags.map(function (t, i) { return [t, colors[i] || 'blue']; });
   }
 
-  function csvRowToIncident(r) {
+  function csvRowToIncident(r, imageryIndex) {
     return {
       id:        r.incident_id,
       op:        r.operation_name,
-      opColor:   r.operation_color,
       type:      r.strike_type,
       timeVal:   parseInt(r.date_sort_value, 10) || 0,
       title:     r.incident_title,
       date:      r.date,
-      confirmed: r.confirmed === 'TRUE',
+      confirmed: r.confirmed === 'TRUE' || r.confirmed === 'true',
       from: {
         lat:   parseFloat(r.origin_lat),
         lng:   parseFloat(r.origin_lng),
@@ -165,32 +134,35 @@
       intel:    buildIntel(r),
       sources:  buildSources(r),
       badges:   buildBadges(r),
-      imagery:  IMAGERY[r.incident_id] || [],
+      imagery:  imageryIndex[r.incident_id] || [],
     };
-  }
-
-  function deriveOps(incidents) {
-    var ops = {};
-    incidents.forEach(function (inc) {
-      if (ops[inc.op]) return;
-      var meta = OPS_META[inc.op] || {};
-      ops[inc.op] = {
-        name:      inc.op,
-        color:     inc.opColor,
-        countries: meta.countries || [],
-        period:    meta.period || '',
-        dashed:    !!meta.dashed,
-      };
-    });
-    return ops;
   }
 
   // ── Boot ──
 
-  function boot(csvText) {
-    var rows = parseCSV(csvText);
-    var INCIDENTS = rows.map(csvRowToIncident);
-    var OPS = deriveOps(INCIDENTS);
+  function boot(data) {
+    var imageryIndex = buildImageryIndex(data.imagery);
+    var OPS = buildOpsIndex(data.operations);
+
+    // Build incidents; fall back to operation_color from incident row if
+    // the operation isn't yet in operations.csv.
+    var INCIDENTS = data.incidents.map(function (r) {
+      if (!OPS[r.operation_name]) {
+        OPS[r.operation_name] = {
+          name:      r.operation_name,
+          color:     r.operation_color || '#ffffff',
+          countries: [],
+          period:    '',
+          dashed:    false,
+        };
+      }
+      return csvRowToIncident(r, imageryIndex);
+    });
+
+    // Attach resolved color to each incident for convenient access
+    INCIDENTS.forEach(function (inc) {
+      inc.opColor = (OPS[inc.op] || {}).color || '#ffffff';
+    });
 
     initApp(INCIDENTS, OPS);
   }
@@ -235,14 +207,6 @@
     }
 
     // Fix antimeridian rendering artefacts in world-atlas data.
-    // world-atlas arcs 161/162 jump 358° within a single ring (178.6°→−180°→179.99°).
-    // Leaflet draws a straight screen-space line for each such segment, smearing a
-    // line across the full map width. Strategy:
-    //   1. Flatten MultiPolygons → separate Polygon features (eliminates cross-ring
-    //      canvas-fill artefacts that arise when the two Russia sub-paths have
-    //      opposite winding on the shared canvas path).
-    //   2. Normalise each ring so consecutive longitude values never jump >180°
-    //      (converts −180.0 after 178.6 → 180.0, keeping the ring continuous).
     function processWorldGeoJSON(geojson) {
       var result = [];
       geojson.features.forEach(function (f) {
@@ -329,13 +293,21 @@
     var $detContent     = document.getElementById('det-content');
     var $detScroll      = document.getElementById('detail-scroll');
     var $hOps           = document.getElementById('h-ops');
+    var $hTheaters      = document.getElementById('h-theaters');
 
+    // Derive header stats from data
     $hOps.textContent = Object.keys(OPS).length + ' OPS';
+
+    var theaterCountries = new Set();
+    Object.values(OPS).forEach(function (op) {
+      (op.countries || []).forEach(function (c) { theaterCountries.add(c); });
+    });
+    if ($hTheaters) $hTheaters.textContent = theaterCountries.size + ' THEATERS';
 
     // Icon builders
     function buildMapIcon(inc, isSelected, isDimmed) {
       var st = STRIKE_TYPES[inc.type] || STRIKE_TYPES.missile;
-      var sz = isSelected ? 36 : 28;
+      var sz = isSelected ? 26 : 20;
       var mainOp  = isDimmed ? 0.1 : 1;
       var pulseOp = isDimmed ? 0 : (isSelected ? 0.5 : 0.3);
       var c  = st.color, bg = st.bgFill;
@@ -352,8 +324,7 @@
 
     // Arrow rendering
     function makeArrow(inc) {
-      // Skip rendering if coordinates are invalid
-      if (isNaN(inc.from.lat) || isNaN(inc.from.lng) || isNaN(inc.to.lat) || isNaN(inc.to.lng)) {
+      if (isNaN(inc.to.lat) || isNaN(inc.to.lng)) {
         return null;
       }
 
@@ -364,7 +335,20 @@
       var isSelected = inc.id === selectedId;
       var isDimmed = selectedId && !isSelected;
 
-      var f = [inc.from.lat, inc.from.lng], t = [inc.to.lat, inc.to.lng];
+      var hasOrigin = !isNaN(inc.from.lat) && !isNaN(inc.from.lng);
+      var t = [inc.to.lat, inc.to.lng];
+
+      var sz = isSelected ? 26 : 20;
+      var targetIcon = L.divIcon({ html: buildMapIcon(inc, isSelected, isDimmed), iconSize:[sz,sz], iconAnchor:[sz/2,sz/2], className:'' });
+      var targetMark = L.marker(t, { icon: targetIcon, zIndexOffset: isSelected?200:100 });
+      targetMark.on('click', function () { selectIncident(inc.id); });
+      targetMark.bindTooltip('<div class="map-tooltip-inner"><b>'+inc.title+'</b><span class="tt-date">'+inc.date+'</span><span class="tt-conf" style="background:'+st.color+'22;color:'+st.color+';border:1px solid '+st.color+'44;">'+st.label.toUpperCase()+'</span></div>', { sticky: true });
+
+      if (!hasOrigin) {
+        return L.layerGroup([targetMark]);
+      }
+
+      var f = [inc.from.lat, inc.from.lng];
       var latMid = (f[0]+t[0])/2, lngMid = (f[1]+t[1])/2;
       var dx = t[1]-f[1], dy = t[0]-f[0];
       var len = Math.sqrt(dx*dx+dy*dy)||1;
@@ -384,13 +368,7 @@
       var arrowHead = L.marker([e1[0],e1[1]], { icon: headIcon, interactive: false });
 
       var originIcon = L.divIcon({ html:'<div style="width:5px;height:5px;background:'+opColor+';border-radius:50%;border:1px solid rgba(0,0,0,.6);box-shadow:0 0 5px '+opColor+';opacity:'+(isDimmed?0.08:0.85)+';"></div>', iconSize:[5,5], iconAnchor:[2,2], className:'' });
-      var originMark = L.marker([f[0],f[1]], { icon: originIcon, interactive: false });
-
-      var sz = isSelected ? 36 : 28;
-      var targetIcon = L.divIcon({ html: buildMapIcon(inc, isSelected, isDimmed), iconSize:[sz,sz], iconAnchor:[sz/2,sz/2], className:'' });
-      var targetMark = L.marker([t[0],t[1]], { icon: targetIcon, zIndexOffset: isSelected?200:100 });
-      targetMark.on('click', function () { selectIncident(inc.id); });
-      targetMark.bindTooltip('<div class="map-tooltip-inner"><b>'+inc.title+'</b><span class="tt-date">'+inc.date+'</span><span class="tt-conf" style="background:'+st.color+'22;color:'+st.color+';border:1px solid '+st.color+'44;">'+st.label.toUpperCase()+'</span></div>', { sticky: true });
+      var originMark = L.marker(f, { icon: originIcon, interactive: false });
       line.on('click', function () { selectIncident(inc.id); });
 
       return L.layerGroup([line, arrowHead, originMark, targetMark]);
@@ -401,8 +379,6 @@
       if (!activeOps.has(inc.op)) return false;
       if (inc.timeVal > timeVal) return false;
       var opCountries = (OPS[inc.op] || {}).countries || [];
-      // If no country metadata exists (e.g. new operation added to CSV without OPS_META),
-      // show the incident as long as the operation toggle is on.
       if (opCountries.length === 0) return true;
       return opCountries.some(function (c) { return activeCountries.has(c); });
     }
@@ -616,17 +592,13 @@
     setTime(parseInt($tlSlider.max, 10));
   }
 
-  // ── Fetch CSV and start ──
+  // ── Load all data via DataLayer and start ──
 
-  fetch('operationsdata.csv?v=' + Date.now())
-    .then(function (res) {
-      if (!res.ok) throw new Error('CSV fetch failed: ' + res.status);
-      return res.text();
-    })
+  DataLayer.loadAll()
     .then(boot)
     .catch(function (err) {
-      console.error('Failed to load CSV data:', err);
-      document.body.innerHTML = '<div style="color:#f44;padding:40px;font-family:monospace;">Failed to load operationsdata.csv: ' + err.message + '</div>';
+      console.error('Failed to load data:', err);
+      document.body.innerHTML = '<div style="color:#f44;padding:40px;font-family:monospace;">Failed to load data: ' + err.message + '</div>';
     });
 
 })();
