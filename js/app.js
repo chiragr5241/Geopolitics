@@ -181,8 +181,8 @@
     });
     L.control.zoom({ position: 'bottomleft' }).addTo(map);
 
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-      subdomains: 'abcd', maxZoom: 19, minZoom: 2, noWrap: true,
+    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', {
+      maxZoom: 19, minZoom: 2, noWrap: true,
     }).addTo(map);
 
     // ── World borders + country highlights ──
@@ -203,7 +203,7 @@
         var cn = COUNTRIES[code];
         return { color: cn.color, weight: 1.5, opacity: 0.7, fillColor: cn.color, fillOpacity: 0.12 };
       }
-      return { color: '#2a4060', weight: 0.4, opacity: 0.25, fillColor: 'transparent', fillOpacity: 0 };
+      return { color: '#a09888', weight: 0.5, opacity: 0.35, fillColor: 'transparent', fillOpacity: 0 };
     }
 
     // Fix antimeridian rendering artefacts in world-atlas data.
@@ -307,13 +307,19 @@
     // Icon builders
     function buildMapIcon(inc, isSelected, isDimmed) {
       var st = STRIKE_TYPES[inc.type] || STRIKE_TYPES.missile;
-      var sz = isSelected ? 26 : 20;
-      var mainOp  = isDimmed ? 0.1 : 1;
-      var pulseOp = isDimmed ? 0 : (isSelected ? 0.5 : 0.3);
+      var sz = isSelected ? 18 : 13;
+      // Animate only the newest visible events relative to current slider position
+      var RECENT_THRESHOLD = 2; // ~10 days on the slider scale
+      var isRecent = !isDimmed && inc.timeVal <= timeVal && (timeVal - inc.timeVal) <= RECENT_THRESHOLD;
+      var mainOp  = isDimmed ? 0.12 : 1;
+      var pulseOp = isRecent ? (isSelected ? 0.55 : 0.35) : 0;
       var c  = st.color, bg = st.bgFill;
+      var pulseEl = isRecent
+        ? '<svg style="position:absolute;inset:0;overflow:visible;" width="' + sz + '" height="' + sz + '"><circle cx="' + sz/2 + '" cy="' + sz/2 + '" r="' + (sz/2-1) + '" fill="none" stroke="' + c + '" stroke-width="1.5" opacity="' + pulseOp + '" style="animation:ring-pulse 2.2s ease-out infinite;transform-origin:' + sz/2 + 'px ' + sz/2 + 'px;"/></svg>'
+        : '';
       return '<div style="position:relative;width:' + sz + 'px;height:' + sz + 'px;cursor:pointer;">'
-        + '<svg style="position:absolute;inset:0;overflow:visible;" width="' + sz + '" height="' + sz + '"><circle cx="' + sz/2 + '" cy="' + sz/2 + '" r="' + (sz/2-1) + '" fill="none" stroke="' + c + '" stroke-width="1.5" opacity="' + pulseOp + '" style="animation:ring-pulse 2.2s ease-out infinite;transform-origin:' + sz/2 + 'px ' + sz/2 + 'px;"/></svg>'
-        + '<svg style="position:absolute;inset:0;" width="' + sz + '" height="' + sz + '" opacity="' + mainOp + '"><circle cx="' + sz/2 + '" cy="' + sz/2 + '" r="' + (sz/2-1) + '" fill="' + bg + '" fill-opacity="0.92" stroke="' + c + '" stroke-width="' + (isSelected?2.5:1.8) + '"/>' + st.getSVG(sz,c) + (isSelected?'<circle cx="'+sz/2+'" cy="'+sz/2+'" r="'+(sz/2-1)+'" fill="none" stroke="white" stroke-width="0.8" opacity="0.35"/>':'') + '</svg></div>';
+        + pulseEl
+        + '<svg style="position:absolute;inset:0;" width="' + sz + '" height="' + sz + '" opacity="' + mainOp + '"><circle cx="' + sz/2 + '" cy="' + sz/2 + '" r="' + (sz/2-1) + '" fill="' + bg + '" fill-opacity="0.95" stroke="' + c + '" stroke-width="' + (isSelected?2:1.5) + '"/>' + st.getSVG(sz,c) + (isSelected?'<circle cx="'+sz/2+'" cy="'+sz/2+'" r="'+(sz/2-1)+'" fill="none" stroke="'+c+'" stroke-width="0.8" opacity="0.4"/>':'') + '</svg></div>';
     }
 
     function buildListIcon(type, sz) {
@@ -478,7 +484,7 @@
         var k = entry[0], cn = entry[1], on = activeCountries.has(k);
         var d = document.createElement('div');
         d.className = 'c-pill' + (on?'':' off');
-        d.style.cssText = 'color:'+cn.color+';background:'+(on?cn.bg:'rgba(0,0,0,.3)')+';border-color:'+(on?cn.border:'rgba(255,255,255,.08)')+';';
+        d.style.cssText = 'color:'+cn.color+';background:'+(on?cn.bg:'rgba(0,0,0,.06)')+';border-color:'+(on?cn.border:'rgba(0,0,0,.15)')+';';
         d.textContent = cn.label;
         d.addEventListener('click', function () {
           if (activeCountries.has(k)) activeCountries.delete(k); else activeCountries.add(k);
@@ -493,17 +499,37 @@
     function renderOpFilter() {
       $opFilter.innerHTML = '';
       var frag = document.createDocumentFragment();
-      Object.entries(OPS).forEach(function (entry) {
+
+      // Sort: most-recent incident date DESC, then total incident count DESC
+      var opEntries = Object.entries(OPS).sort(function (a, b) {
+        var incA = INCIDENTS.filter(function (i) { return i.op === a[0]; });
+        var incB = INCIDENTS.filter(function (i) { return i.op === b[0]; });
+        var maxA = incA.length ? Math.max.apply(null, incA.map(function (i) { return i.timeVal; })) : -999;
+        var maxB = incB.length ? Math.max.apply(null, incB.map(function (i) { return i.timeVal; })) : -999;
+        if (maxB !== maxA) return maxB - maxA;
+        return incB.length - incA.length;
+      });
+
+      opEntries.forEach(function (entry) {
         var k = entry[0], op = entry[1];
         var on = activeOps.has(k);
-        var cnt = INCIDENTS.filter(function (i) { return i.op===k && i.timeVal<=timeVal; }).length;
+        // Visible count respects country filter (same logic as isVisible minus op-active check)
+        var visibleCnt = INCIDENTS.filter(function (i) {
+          if (i.op !== k || i.timeVal > timeVal) return false;
+          var opC = op.countries || [];
+          if (opC.length === 0) return true;
+          return opC.some(function (c) { return activeCountries.has(c); });
+        }).length;
+        var isZero = visibleCnt === 0;
+        var swatchColor = (on && !isZero) ? op.color : '#b0a894';
+        var nameColor   = (on && !isZero) ? op.color : 'var(--text)';
         var d = document.createElement('div');
-        d.className = 'op-row' + (on?' on':' off');
+        d.className = 'op-row' + (on?' on':' off') + (isZero?' op-zero':'');
         var ctags = (op.countries||[]).map(function (cc) {
           var cn = COUNTRIES[cc]; if (!cn) return '';
-          return '<span class="op-ctag" style="background:'+cn.bg+';color:'+cn.color+';border:1px solid '+cn.border+'50;">'+cc+'</span>';
+          return '<span class="op-ctag" style="background:'+cn.bg+';color:'+cn.color+';border:1px solid '+cn.border+';">'+cc+'</span>';
         }).join('');
-        d.innerHTML = '<div class="op-color" style="background:'+(on?op.color:'#2a3d5a')+';"></div><div class="op-info"><div class="op-name" style="color:'+(on?op.color:'var(--text)')+'">'+op.name+'</div><div class="op-period">'+op.period+'</div><div class="op-country-tags">'+ctags+'</div></div><div class="op-count">'+cnt+'</div>';
+        d.innerHTML = '<div class="op-color" style="background:'+swatchColor+';"></div><div class="op-info"><div class="op-name" style="color:'+nameColor+'">'+op.name+'</div><div class="op-period">'+op.period+'</div><div class="op-country-tags">'+ctags+'</div></div><div class="op-count">'+visibleCnt+'</div>';
         d.addEventListener('click', function () {
           if (activeOps.has(k)) activeOps.delete(k); else activeOps.add(k);
           deselectIfHidden(); refresh();
@@ -568,6 +594,21 @@
       $btnOpsNone.addEventListener('click', function () {
         activeOps.clear();
         selectedId = null; refresh();
+      });
+    }
+
+    var $btnCountryAll  = document.getElementById('btn-country-all');
+    var $btnCountryNone = document.getElementById('btn-country-none');
+    if ($btnCountryAll) {
+      $btnCountryAll.addEventListener('click', function () {
+        Object.keys(COUNTRIES).forEach(function (k) { activeCountries.add(k); });
+        deselectIfHidden(); refresh();
+      });
+    }
+    if ($btnCountryNone) {
+      $btnCountryNone.addEventListener('click', function () {
+        activeCountries.clear();
+        deselectIfHidden(); refresh();
       });
     }
 

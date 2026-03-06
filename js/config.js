@@ -44,17 +44,17 @@ var ISO_NUM_MAP = {
 // ── Country Rendering ──
 
 var COUNTRIES = {
-  US: { label: '\u{1F1FA}\u{1F1F8} US',     color: '#4fc3f7', bg: 'rgba(79,195,247,.15)',  border: 'rgba(79,195,247,.5)'  },
-  IL: { label: '\u{1F1EE}\u{1F1F1} Israel', color: '#ce93d8', bg: 'rgba(206,147,216,.15)', border: 'rgba(206,147,216,.5)' },
-  IR: { label: '\u{1F1EE}\u{1F1F7} Iran',   color: '#26a69a', bg: 'rgba(38,166,154,.15)',  border: 'rgba(38,166,154,.5)'  },
-  CN: { label: '\u{1F1E8}\u{1F1F3} China',  color: '#ef5350', bg: 'rgba(239,83,80,.15)',   border: 'rgba(239,83,80,.5)'   },
-  VE: { label: '\u{1F1FB}\u{1F1EA} Venez.', color: '#ffd54f', bg: 'rgba(255,213,79,.15)',  border: 'rgba(255,213,79,.5)'  },
-  YE: { label: '\u{1F1FE}\u{1F1EA} Houthi', color: '#f06292', bg: 'rgba(240,98,146,.15)',  border: 'rgba(240,98,146,.5)'  },
-  PH: { label: '\u{1F1F5}\u{1F1ED} PHL',    color: '#26c6da', bg: 'rgba(38,198,218,.15)',  border: 'rgba(38,198,218,.5)'  },
-  UA: { label: '\u{1F1FA}\u{1F1E6} Ukraine', color: '#fdd835', bg: 'rgba(253,216,53,.15)', border: 'rgba(253,216,53,.5)' },
-  RU: { label: '\u{1F1F7}\u{1F1FA} Russia', color: '#78909c', bg: 'rgba(120,144,156,.15)', border: 'rgba(120,144,156,.5)' },
-  PS: { label: '\u{1F1F5}\u{1F1F8} Palest.', color: '#43a047', bg: 'rgba(67,160,71,.15)',  border: 'rgba(67,160,71,.5)'  },
-  LB: { label: '\u{1F1F1}\u{1F1E7} Lebanon', color: '#8d6e63', bg: 'rgba(141,110,99,.15)',  border: 'rgba(141,110,99,.5)'  },
+  US: { label: '\u{1F1FA}\u{1F1F8} US',     color: '#1565c0', bg: 'rgba(21,101,192,.12)',  border: 'rgba(21,101,192,.45)'  },
+  IL: { label: '\u{1F1EE}\u{1F1F1} Israel', color: '#6a1b9a', bg: 'rgba(106,27,154,.12)', border: 'rgba(106,27,154,.45)' },
+  IR: { label: '\u{1F1EE}\u{1F1F7} Iran',   color: '#00695c', bg: 'rgba(0,105,92,.12)',   border: 'rgba(0,105,92,.45)'   },
+  CN: { label: '\u{1F1E8}\u{1F1F3} China',  color: '#c62828', bg: 'rgba(198,40,40,.12)',  border: 'rgba(198,40,40,.45)'  },
+  VE: { label: '\u{1F1FB}\u{1F1EA} Venez.', color: '#7b5800', bg: 'rgba(123,88,0,.12)',   border: 'rgba(123,88,0,.45)'   },
+  YE: { label: '\u{1F1FE}\u{1F1EA} Houthi', color: '#ad1457', bg: 'rgba(173,20,87,.12)',  border: 'rgba(173,20,87,.45)'  },
+  PH: { label: '\u{1F1F5}\u{1F1ED} PHL',    color: '#00838f', bg: 'rgba(0,131,143,.12)',  border: 'rgba(0,131,143,.45)'  },
+  UA: { label: '\u{1F1FA}\u{1F1E6} Ukraine', color: '#e65100', bg: 'rgba(230,81,0,.12)',  border: 'rgba(230,81,0,.45)'  },
+  RU: { label: '\u{1F1F7}\u{1F1FA} Russia', color: '#546e7a', bg: 'rgba(84,110,122,.12)', border: 'rgba(84,110,122,.45)' },
+  PS: { label: '\u{1F1F5}\u{1F1F8} Palest.', color: '#2e7d32', bg: 'rgba(46,125,50,.12)', border: 'rgba(46,125,50,.45)' },
+  LB: { label: '\u{1F1F1}\u{1F1E7} Lebanon', color: '#5d4037', bg: 'rgba(93,64,55,.12)',  border: 'rgba(93,64,55,.45)'  },
 };
 
 
@@ -62,13 +62,13 @@ var COUNTRIES = {
 
 var STRIKE_TYPES = {
   bomber: {
-    color: '#4caf50', bgFill: '#0d3320', label: 'Confirmed Airstrike',
+    color: '#4caf50', bgFill: 'rgba(255,255,255,0.92)', label: 'Confirmed Airstrike',
     getSVG: function (sz, c) {
       return '<polygon points="' + sz*.5 + ',' + sz*.25 + ' ' + sz*.85 + ',' + sz*.65 + ' ' + sz*.7 + ',' + sz*.6 + ' ' + sz*.55 + ',' + sz*.72 + ' ' + sz*.45 + ',' + sz*.72 + ' ' + sz*.3 + ',' + sz*.6 + ' ' + sz*.15 + ',' + sz*.65 + '" fill="' + c + '" opacity=".95"/>';
     }
   },
   fighter: {
-    color: '#4caf50', bgFill: '#0d3320', label: 'Confirmed Airstrike',
+    color: '#4caf50', bgFill: 'rgba(255,255,255,0.92)', label: 'Confirmed Airstrike',
     getSVG: function (sz, c) {
       var cx = sz / 2;
       return '<polygon points="' + cx + ',' + sz*.2 + ' ' + (cx+sz*.04) + ',' + sz*.45 + ' ' + sz*.82 + ',' + sz*.72 + ' ' + sz*.75 + ',' + sz*.78 + ' ' + cx + ',' + sz*.58 + ' ' + sz*.25 + ',' + sz*.78 + ' ' + sz*.18 + ',' + sz*.72 + ' ' + (cx-sz*.04) + ',' + sz*.45 + '" fill="' + c + '" opacity=".95"/>'
@@ -76,7 +76,7 @@ var STRIKE_TYPES = {
     }
   },
   missile: {
-    color: '#2196f3', bgFill: '#0d2540', label: 'Reported Strike',
+    color: '#2196f3', bgFill: 'rgba(255,255,255,0.92)', label: 'Reported Strike',
     getSVG: function (sz, c) {
       var cx = sz / 2;
       return '<rect x="' + (cx-sz*.07) + '" y="' + sz*.22 + '" width="' + sz*.14 + '" height="' + sz*.45 + '" rx="' + sz*.06 + '" fill="' + c + '" opacity=".9"/>'
@@ -86,7 +86,7 @@ var STRIKE_TYPES = {
     }
   },
   naval: {
-    color: '#9c27b0', bgFill: '#1a0d30', label: 'Naval Operation',
+    color: '#9c27b0', bgFill: 'rgba(255,255,255,0.92)', label: 'Naval Operation',
     getSVG: function (sz, c) {
       var cx = sz / 2;
       return '<circle cx="' + cx + '" cy="' + sz*.32 + '" r="' + sz*.08 + '" fill="none" stroke="' + c + '" stroke-width="' + sz*.07 + '"/>'
@@ -96,7 +96,7 @@ var STRIKE_TYPES = {
     }
   },
   sof: {
-    color: '#9c27b0', bgFill: '#1a0d30', label: 'Special Operation',
+    color: '#9c27b0', bgFill: 'rgba(255,255,255,0.92)', label: 'Special Operation',
     getSVG: function (sz, c) {
       var cx = sz / 2, cy = sz / 2, r = sz * .28;
       return '<circle cx="' + cx + '" cy="' + cy + '" r="' + r + '" fill="none" stroke="' + c + '" stroke-width="' + sz*.06 + '"/>'
@@ -108,7 +108,7 @@ var STRIKE_TYPES = {
     }
   },
   drone: {
-    color: '#ffc107', bgFill: '#2d1a00', label: 'Strike w/ Footage',
+    color: '#e6a800', bgFill: 'rgba(255,255,255,0.92)', label: 'Strike w/ Footage',
     getSVG: function (sz, c) {
       var cx = sz / 2, cy = sz / 2, r = sz * .3;
       var pts = [];
@@ -125,13 +125,13 @@ var STRIKE_TYPES = {
     }
   },
   retaliation: {
-    color: '#ff9800', bgFill: '#2d1a00', label: 'Retaliation / Proxy',
+    color: '#e07b00', bgFill: 'rgba(255,255,255,0.92)', label: 'Retaliation / Proxy',
     getSVG: function (sz, c) {
       return '<polygon points="' + sz*.55 + ',' + sz*.18 + ' ' + sz*.3 + ',' + sz*.52 + ' ' + sz*.47 + ',' + sz*.52 + ' ' + sz*.42 + ',' + sz*.82 + ' ' + sz*.68 + ',' + sz*.46 + ' ' + sz*.52 + ',' + sz*.46 + '" fill="' + c + '" opacity=".95"/>';
     }
   },
   intel: {
-    color: '#607d8b', bgFill: '#151515', label: 'Intel / Buildup',
+    color: '#546e7a', bgFill: 'rgba(255,255,255,0.92)', label: 'Intel / Buildup',
     getSVG: function (sz, c) {
       var cx = sz / 2;
       return '<rect x="' + sz*.22 + '" y="' + sz*.28 + '" width="' + sz*.56 + '" height="' + sz*.38 + '" rx="2" fill="none" stroke="' + c + '" stroke-width="' + sz*.06 + '"/>'
@@ -141,7 +141,7 @@ var STRIKE_TYPES = {
     }
   },
   maritime: {
-    color: '#26c6da', bgFill: '#0a1a20', label: 'Maritime Coercion',
+    color: '#007b8a', bgFill: 'rgba(255,255,255,0.92)', label: 'Maritime Coercion',
     getSVG: function (sz, c) {
       var cx = sz / 2;
       return '<rect x="' + sz*.18 + '" y="' + sz*.5 + '" width="' + sz*.64 + '" height="' + sz*.2 + '" rx="2" fill="' + c + '" opacity=".85"/>'
@@ -152,7 +152,7 @@ var STRIKE_TYPES = {
     }
   },
   island: {
-    color: '#26c6da', bgFill: '#0a1a20', label: 'Island Construction',
+    color: '#007b8a', bgFill: 'rgba(255,255,255,0.92)', label: 'Island Construction',
     getSVG: function (sz, c) {
       var cx = sz / 2, cy = sz / 2;
       return '<ellipse cx="' + cx + '" cy="' + (cy+sz*.05) + '" rx="' + sz*.32 + '" ry="' + sz*.18 + '" fill="' + c + '" opacity=".5"/>'
@@ -162,7 +162,7 @@ var STRIKE_TYPES = {
     }
   },
   nuke: {
-    color: '#f44336', bgFill: '#300d0d', label: 'Unverified Report',
+    color: '#c62828', bgFill: 'rgba(255,255,255,0.92)', label: 'Unverified Report',
     getSVG: function (sz, c) {
       var cx = sz / 2, cy = sz / 2;
       return '<circle cx="' + cx + '" cy="' + cy + '" r="' + sz*.28 + '" fill="none" stroke="' + c + '" stroke-width="' + sz*.06 + '"/>'
