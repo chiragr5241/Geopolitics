@@ -1092,6 +1092,243 @@ a.source-link:hover {
   text-shadow: 0 1px 2px rgba(255, 255, 255, .8);
 }
 
+/* ----- NEWS TICKER ----- */
+
+#news-ticker {
+  height: 28px;
+  flex-shrink: 0;
+  background: #0f1622;
+  border-bottom: 1px solid #1e2e46;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  position: relative;
+  z-index: 490;
+}
+
+.ticker-label {
+  padding: 0 10px;
+  font-size: 8px;
+  font-family: 'Oswald', sans-serif;
+  font-weight: 600;
+  color: #4db8ff;
+  letter-spacing: 2px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  border-right: 1px solid #1e2e46;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  background: #0f1622;
+  z-index: 2;
+}
+
+.ticker-viewport {
+  flex: 1;
+  overflow: hidden;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.ticker-track {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  animation: ticker-scroll 120s linear infinite;
+}
+
+.ticker-track:hover {
+  animation-play-state: paused;
+}
+
+@keyframes ticker-scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.ticker-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 18px;
+  font-size: 10px;
+  font-family: 'Roboto Mono', monospace;
+  color: #c0cedd;
+  cursor: pointer;
+  border-right: 1px solid #1e2e46;
+  height: 28px;
+  transition: color .15s;
+}
+
+.ticker-item:hover { color: #fff; }
+
+.ticker-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.ticker-time {
+  font-size: 8px;
+  color: #506070;
+  flex-shrink: 0;
+}
+
+.ticker-text {
+  max-width: 320px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ----- TWEET / INTEL FEED SIDEBAR ----- */
+
+.sb-section-tweets {
+  display: flex;
+  flex-direction: column;
+  max-height: 280px;
+}
+
+#tweet-cat-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  margin-bottom: 6px;
+}
+
+.tweet-cat-pill {
+  font-size: 8px;
+  font-weight: 700;
+  font-family: 'Roboto Mono', monospace;
+  letter-spacing: .5px;
+  padding: 2px 6px;
+  border-radius: 10px;
+  border: 1px solid;
+  cursor: pointer;
+  transition: all .15s;
+  user-select: none;
+  text-transform: uppercase;
+}
+
+.tweet-cat-pill.off {
+  opacity: .3;
+  filter: grayscale(.8);
+}
+
+.tweet-sent-pill {
+  font-size: 8px;
+  font-weight: 700;
+  font-family: 'Roboto Mono', monospace;
+  letter-spacing: .5px;
+  padding: 2px 6px;
+  border-radius: 2px;
+  border: 1px solid currentColor;
+  cursor: pointer;
+  opacity: .7;
+  transition: all .15s;
+  user-select: none;
+  text-transform: uppercase;
+}
+
+.tweet-sent-pill.off {
+  opacity: .2;
+}
+
+#tweet-list-wrap {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+#tweet-list-wrap::-webkit-scrollbar { width: 3px; }
+#tweet-list-wrap::-webkit-scrollbar-thumb { background: #c5bfb0; border-radius: 2px; }
+
+.tweet-item {
+  padding: 6px 8px;
+  border-left: 2px solid;
+  margin-bottom: 3px;
+  border-radius: 0 3px 3px 0;
+  background: rgba(0,0,0,.03);
+  cursor: pointer;
+  transition: background .12s;
+}
+
+.tweet-item:hover { background: rgba(0,0,0,.07); }
+
+.tweet-item.breaking { background: rgba(198,40,40,.04); }
+
+.tweet-meta {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 3px;
+}
+
+.tweet-cat-badge {
+  font-size: 7px;
+  font-weight: 700;
+  font-family: 'Roboto Mono', monospace;
+  letter-spacing: .5px;
+  text-transform: uppercase;
+  padding: 1px 5px;
+  border: 1px solid;
+  border-radius: 2px;
+}
+
+.tweet-time {
+  font-size: 8px;
+  color: var(--text);
+  font-family: 'Roboto Mono', monospace;
+  flex: 1;
+}
+
+.tweet-sev {
+  display: flex;
+  gap: 2px;
+  align-items: center;
+}
+
+.sev-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--border);
+  flex-shrink: 0;
+}
+
+.sev-dot.on { background: currentColor; }
+
+.tweet-text {
+  font-size: 9px;
+  color: var(--text2);
+  line-height: 1.4;
+}
+
+.tweet-empty {
+  padding: 12px;
+  text-align: center;
+  font-size: 9px;
+  color: var(--text);
+  letter-spacing: 1px;
+}
+
+/* News toggle */
+.news-toggle-wrap {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+}
+
+.news-toggle-lbl {
+  font-size: 8px;
+  color: var(--text);
+  font-family: 'Roboto Mono', monospace;
+  letter-spacing: .5px;
+  text-transform: uppercase;
+}
+
 /* ----- GLOBAL SCROLLBAR ----- */
 
 ::-webkit-scrollbar {

@@ -1,0 +1,13 @@
+{
+  "name": "tweet-enrichment",
+  "version": "1.0.0",
+  "type": "commonjs",
+  "scripts": {
+    "enrich": "node enrich-tweets.js"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.37.0",
+    "csv-parse": "^5.5.6",
+    "csv-stringify": "^6.4.6"
+  }
+}

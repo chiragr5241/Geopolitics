@@ -49,6 +49,14 @@
   </div>
 </div>
 
+<!-- ── News Ticker ── -->
+<div id="news-ticker">
+  <div class="ticker-label">INTEL FEED</div>
+  <div class="ticker-viewport">
+    <div class="ticker-track" id="ticker-track"></div>
+  </div>
+</div>
+
 <!-- ── Main Layout ── -->
 <div id="layout">
 
@@ -63,6 +71,17 @@
       <div class="op-grid-scroll">
         <div class="op-grid" id="op-filter"></div>
       </div>
+    </div>
+    <div class="sb-section sb-section-tweets">
+      <div class="sb-label">
+        Intel Feed
+        <label class="news-toggle-wrap" style="margin-left:auto;">
+          <input type="checkbox" id="show-news-toggle" checked>
+          <span class="news-toggle-lbl">Map Pins</span>
+        </label>
+      </div>
+      <div id="tweet-cat-filter"></div>
+      <div id="tweet-list-wrap"><div id="tweet-list"></div></div>
     </div>
     <div class="sb-section" style="padding-bottom:5px;">
       <div class="sb-label">Incidents <span style="margin-left:auto;font-size:9px;color:var(--text);font-family:'Roboto Mono',monospace;" id="inc-count"></span></div>

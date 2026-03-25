@@ -164,12 +164,48 @@
       inc.opColor = (OPS[inc.op] || {}).color || '#ffffff';
     });
 
-    initApp(INCIDENTS, OPS);
+    // Build enriched tweet index: created_at → enriched metadata
+    var tweetEnrichedIndex = {};
+    (data.tweetEnriched || []).forEach(function (r) {
+      if (r.created_at) tweetEnrichedIndex[r.created_at] = r;
+    });
+
+    // Merge raw tweets with enriched metadata. Cap at 500 most recent for perf.
+    var rawTweets = (data.tweets || []).slice(0, 500);
+    var TWEETS = rawTweets.map(function (r) {
+      var e = tweetEnrichedIndex[r.created_at] || {};
+      var lat = e.lat ? parseFloat(e.lat) : NaN;
+      var lng = e.lng ? parseFloat(e.lng) : NaN;
+      return {
+        created_at:   r.created_at,
+        text:         r.full_text,
+        category:     e.category     || '',
+        subcategory:  e.subcategory  || '',
+        countries:    e.countries    ? e.countries.split(';').filter(Boolean) : [],
+        entities_people:  e.entities_people  || '',
+        entities_orgs:    e.entities_orgs    || '',
+        entities_weapons: e.entities_weapons || '',
+        entities_locations: e.entities_locations || '',
+        lat:  isNaN(lat) ? null : lat,
+        lng:  isNaN(lng) ? null : lng,
+        location_confidence: e.location_confidence || 'none',
+        sentiment:    e.sentiment    || '',
+        severity:     e.severity     ? parseInt(e.severity, 10) : 0,
+        linked_incident_ids: e.linked_incident_ids
+          ? e.linked_incident_ids.split(';').filter(Boolean) : [],
+        linked_operation: e.linked_operation || '',
+        is_breaking:  e.is_breaking === 'TRUE' || r.full_text.indexOf('BREAKING:') === 0,
+        summary:      e.summary || r.full_text.substring(0, 120),
+      };
+    });
+
+    initApp(INCIDENTS, OPS, TWEETS);
   }
 
   // ── Application ──
 
-  function initApp(INCIDENTS, OPS) {
+  function initApp(INCIDENTS, OPS, TWEETS) {
+    TWEETS = TWEETS || [];
 
     // Map
     var map = L.map('map', {
@@ -274,6 +310,12 @@
     var playTimer   = null;
     var allLayers   = {};
 
+    // Tweet state
+    var activeTweetCategories = new Set(Object.keys(TWEET_CATEGORIES));
+    var activeSentiments      = new Set(['escalatory', 'de-escalatory', 'neutral', 'mixed']);
+    var showTweetMarkers      = true;
+    var tweetLayerGroup       = L.layerGroup().addTo(map);
+
     // DOM refs
     var $incList        = document.getElementById('inc-list');
     var $incCount       = document.getElementById('inc-count');
@@ -294,6 +336,11 @@
     var $detScroll      = document.getElementById('detail-scroll');
     var $hOps           = document.getElementById('h-ops');
     var $hTheaters      = document.getElementById('h-theaters');
+
+    // Tweet DOM refs
+    var $tweetCatFilter = document.getElementById('tweet-cat-filter');
+    var $tweetList      = document.getElementById('tweet-list');
+    var $tickerTrack    = document.getElementById('ticker-track');
 
     // Derive header stats from data
     $hOps.textContent = Object.keys(OPS).length + ' OPS';
@@ -612,6 +659,15 @@
       });
     }
 
+    // Tweet marker toggle
+    var $showNewsToggle = document.getElementById('show-news-toggle');
+    if ($showNewsToggle) {
+      $showNewsToggle.addEventListener('change', function () {
+        showTweetMarkers = this.checked;
+        renderTweetMarkers();
+      });
+    }
+
     function stopPlay() {
       if (playTimer) { clearInterval(playTimer); playTimer = null; }
       $btnPlay.classList.remove('playing');
@@ -624,11 +680,209 @@
       if (inc && !isVisible(inc)) selectedId = null;
     }
 
-    function refresh() { renderMap(); renderList(); renderOpFilter(); renderCountryFilter(); refreshBorders(); }
+    // ── Tweet helpers ──
+
+    function isTweetVisible(t) {
+      if (t.category && !activeTweetCategories.has(t.category)) return false;
+      if (t.sentiment && !activeSentiments.has(t.sentiment)) return false;
+      return true;
+    }
+
+    function fmtTweetDate(created_at) {
+      // "2026-03-24 16:40:02" → "Mar 24 16:40"
+      if (!created_at) return '';
+      var d = new Date(created_at.replace(' ', 'T') + 'Z');
+      if (isNaN(d)) return created_at.substring(5, 16);
+      var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      return months[d.getUTCMonth()] + ' ' + d.getUTCDate() + ' ' + ('0'+d.getUTCHours()).slice(-2) + ':' + ('0'+d.getUTCMinutes()).slice(-2);
+    }
+
+    function renderNewsTicker() {
+      if (!$tickerTrack) return;
+      // Use enriched tweets if available, otherwise raw breaking tweets
+      var items = TWEETS.filter(function (t) { return t.is_breaking; }).slice(0, 60);
+      if (!items.length) { $tickerTrack.innerHTML = ''; return; }
+      // Duplicate for seamless loop
+      var html = '';
+      [items, items].forEach(function (arr) {
+        arr.forEach(function (t) {
+          var cat = TWEET_CATEGORIES[t.category] || { color: '#8fa0b8' };
+          var text = (t.summary || t.text).substring(0, 100).replace(/BREAKING:\s*/,'');
+          html += '<div class="ticker-item" data-tid="' + (t.created_at || '') + '">'
+            + '<span class="ticker-dot" style="background:' + cat.color + ';"></span>'
+            + '<span class="ticker-time">' + fmtTweetDate(t.created_at) + '</span>'
+            + '<span class="ticker-text">' + text + '</span>'
+            + '</div>';
+        });
+      });
+      $tickerTrack.innerHTML = html;
+
+      // Adjust animation duration based on content width
+      var itemCount = items.length;
+      var duration = Math.max(30, itemCount * 4) + 's';
+      $tickerTrack.style.animationDuration = duration;
+
+      // Click: select linked incident or show tweet detail
+      $tickerTrack.addEventListener('click', function (e) {
+        var item = e.target.closest('.ticker-item');
+        if (!item) return;
+        var tid = item.dataset.tid;
+        var t = TWEETS.find(function (x) { return x.created_at === tid; });
+        if (!t) return;
+        if (t.linked_incident_ids && t.linked_incident_ids.length) {
+          selectIncident(t.linked_incident_ids[0]);
+        } else {
+          showTweetDetail(t);
+        }
+      });
+    }
+
+    function renderTweetCategoryFilter() {
+      if (!$tweetCatFilter) return;
+      $tweetCatFilter.innerHTML = '';
+      var frag = document.createDocumentFragment();
+      Object.entries(TWEET_CATEGORIES).forEach(function (entry) {
+        var k = entry[0], cat = entry[1];
+        var on = activeTweetCategories.has(k);
+        var d = document.createElement('span');
+        d.className = 'tweet-cat-pill' + (on ? '' : ' off');
+        d.textContent = cat.label;
+        d.style.cssText = 'color:' + cat.color + ';background:' + (on ? cat.bg : 'rgba(0,0,0,.05)') + ';border-color:' + (on ? cat.border : 'rgba(0,0,0,.15)') + ';';
+        d.addEventListener('click', function () {
+          if (activeTweetCategories.has(k)) activeTweetCategories.delete(k);
+          else activeTweetCategories.add(k);
+          renderTweetCategoryFilter();
+          renderTweetList();
+          renderTweetMarkers();
+        });
+        frag.appendChild(d);
+      });
+
+      // Sentiment toggles
+      var sentiments = [
+        { k: 'escalatory',    label: 'Escalate', color: '#c62828' },
+        { k: 'de-escalatory', label: 'De-Escal.', color: '#2e7d32' },
+        { k: 'neutral',       label: 'Neutral',  color: '#546e7a' },
+      ];
+      sentiments.forEach(function (s) {
+        var on = activeSentiments.has(s.k);
+        var d = document.createElement('span');
+        d.className = 'tweet-sent-pill' + (on ? '' : ' off');
+        d.textContent = s.label;
+        d.style.cssText = 'color:' + s.color + ';';
+        d.addEventListener('click', function () {
+          if (activeSentiments.has(s.k)) activeSentiments.delete(s.k);
+          else activeSentiments.add(s.k);
+          renderTweetCategoryFilter();
+          renderTweetList();
+          renderTweetMarkers();
+        });
+        frag.appendChild(d);
+      });
+
+      $tweetCatFilter.appendChild(frag);
+    }
+
+    function renderTweetList() {
+      if (!$tweetList) return;
+      var visible = TWEETS.filter(isTweetVisible).slice(0, 80);
+      if (!visible.length) {
+        $tweetList.innerHTML = '<div class="tweet-empty">No intel in range</div>';
+        return;
+      }
+      var frag = document.createDocumentFragment();
+      visible.forEach(function (t) {
+        var cat = TWEET_CATEGORIES[t.category] || { color: '#8fa0b8', label: '' };
+        var d = document.createElement('div');
+        d.className = 'tweet-item' + (t.is_breaking ? ' breaking' : '');
+        d.style.borderLeftColor = cat.color;
+        var severityDots = '';
+        for (var i = 1; i <= 5; i++) {
+          severityDots += '<span class="sev-dot' + (i <= t.severity ? ' on' : '') + '" style="' + (i <= t.severity ? 'background:' + cat.color : '') + '"></span>';
+        }
+        d.innerHTML =
+          '<div class="tweet-meta">'
+          + (cat.label ? '<span class="tweet-cat-badge" style="color:' + cat.color + ';border-color:' + cat.color + '44;">' + cat.label + '</span>' : '')
+          + '<span class="tweet-time">' + fmtTweetDate(t.created_at) + '</span>'
+          + '<span class="tweet-sev">' + severityDots + '</span>'
+          + '</div>'
+          + '<div class="tweet-text">' + (t.summary || t.text).substring(0, 140) + '</div>';
+        d.addEventListener('click', function () {
+          if (t.linked_incident_ids && t.linked_incident_ids.length) {
+            selectIncident(t.linked_incident_ids[0]);
+          } else {
+            showTweetDetail(t);
+          }
+        });
+        frag.appendChild(d);
+      });
+      $tweetList.innerHTML = '';
+      $tweetList.appendChild(frag);
+    }
+
+    function showTweetDetail(t) {
+      var cat = TWEET_CATEGORIES[t.category] || { color: '#8fa0b8', label: t.category || 'Intel' };
+      $detPlaceholder.style.display = 'none';
+      $detContent.style.display = 'block';
+      var countries = t.countries.map(function (c) {
+        var cn = COUNTRIES[c]; if (!cn) return c;
+        return '<span style="font-size:9px;background:' + cn.bg + ';color:' + cn.color + ';border:1px solid ' + cn.border + ';padding:1px 6px;border-radius:2px;font-weight:700;">' + cn.label + '</span>';
+      }).join('');
+      var rows = [];
+      if (t.entities_people) rows.push(['People', t.entities_people]);
+      if (t.entities_orgs) rows.push(['Organizations', t.entities_orgs]);
+      if (t.entities_weapons) rows.push(['Weapons', t.entities_weapons]);
+      if (t.entities_locations) rows.push(['Locations', t.entities_locations]);
+      if (t.sentiment) rows.push(['Sentiment', t.sentiment]);
+      if (t.subcategory) rows.push(['Type', t.subcategory]);
+      var rowsHTML = rows.map(function (r) {
+        return '<div class="drow"><div class="drow-k">' + r[0] + '</div><div class="drow-v hi">' + r[1] + '</div></div>';
+      }).join('');
+      $detContent.innerHTML =
+        '<div class="det-hero">'
+        + '<div style="display:flex;align-items:center;gap:6px;margin-bottom:7px;flex-wrap:wrap;">'
+        + '<div class="det-op-tag" style="background:' + cat.color + '22;color:' + cat.color + ';border:1px solid ' + cat.color + '44;">' + cat.label + '</div>'
+        + countries
+        + '</div>'
+        + '<div class="det-title">' + (t.summary || t.text.substring(0, 80)) + '</div>'
+        + '<div class="det-date">' + fmtTweetDate(t.created_at) + ' UTC</div>'
+        + '</div>'
+        + (rowsHTML ? '<div class="det-tabs" style="border-bottom:none;"><div class="det-tab active" style="pointer-events:none;">Intel Extract</div></div><div style="padding:0 12px;">' + rowsHTML + '</div>' : '')
+        + '<div style="padding:12px;"><div class="assessment"><div class="assessment-title">Full Text</div><div class="assessment-body" style="font-size:10px;line-height:1.6;">' + t.text + '</div></div></div>';
+    }
+
+    function renderTweetMarkers() {
+      tweetLayerGroup.clearLayers();
+      if (!showTweetMarkers) return;
+      TWEETS.filter(function (t) {
+        return isTweetVisible(t) && t.lat !== null && t.lng !== null;
+      }).forEach(function (t) {
+        var cat = TWEET_CATEGORIES[t.category] || { color: '#8fa0b8' };
+        var c = cat.color;
+        // Speech bubble icon
+        var svg = '<svg width="18" height="18" viewBox="0 0 18 18">'
+          + '<circle cx="9" cy="8" r="7" fill="' + c + '" opacity="0.85"/>'
+          + '<polygon points="7,14 9,18 11,14" fill="' + c + '" opacity="0.85"/>'
+          + '<text x="9" y="11.5" text-anchor="middle" font-size="8" fill="#fff" font-family="Arial">◆</text>'
+          + '</svg>';
+        var icon = L.divIcon({ html: svg, iconSize: [18,20], iconAnchor: [9,18], className: '' });
+        var marker = L.marker([t.lat, t.lng], { icon: icon, zIndexOffset: 50 });
+        marker.bindTooltip(
+          '<div class="map-tooltip-inner"><b>' + (t.summary || t.text).substring(0, 80) + '</b><span class="tt-date">' + fmtTweetDate(t.created_at) + '</span></div>',
+          { sticky: true }
+        );
+        marker.on('click', function () { showTweetDetail(t); });
+        tweetLayerGroup.addLayer(marker);
+      });
+    }
+
+    function refresh() { renderMap(); renderList(); renderOpFilter(); renderCountryFilter(); refreshBorders(); renderTweetList(); renderTweetMarkers(); }
 
     // Init
     renderOpLegend();
     renderTLMarks();
+    renderNewsTicker();
+    renderTweetCategoryFilter();
     refresh();
     setTime(parseInt($tlSlider.max, 10));
   }

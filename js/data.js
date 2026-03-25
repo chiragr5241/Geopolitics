@@ -90,9 +90,21 @@ var DataLayer = (function () {
       .then(parseCSV);
   }
 
+  // Like fetchCSV but returns [] instead of throwing on 404.
+  // Used for optional data files that may not exist yet.
+  function fetchCSVOptional(url) {
+    return fetch(url + '?v=' + Date.now())
+      .then(function (res) {
+        if (!res.ok) return '';
+        return res.text();
+      })
+      .then(function (text) { return text ? parseCSV(text) : []; })
+      .catch(function () { return []; });
+  }
+
   // ── Public API ────────────────────────────────────────────
   // Replace the body of loadAll() to swap data sources.
-  // The returned shape must remain { incidents, operations, imagery }.
+  // The returned shape must remain { incidents, operations, imagery, tweets, tweetEnriched }.
 
   return {
     loadAll: function () {
@@ -100,11 +112,15 @@ var DataLayer = (function () {
         fetchCSV(DATA_SOURCES.incidents),
         fetchCSV(DATA_SOURCES.operations),
         fetchCSV(DATA_SOURCES.imagery),
+        fetchCSV(DATA_SOURCES.tweets),
+        fetchCSVOptional(DATA_SOURCES.tweetEnriched),
       ]).then(function (results) {
         return {
-          incidents:  results[0],
-          operations: results[1],
-          imagery:    results[2],
+          incidents:     results[0],
+          operations:    results[1],
+          imagery:       results[2],
+          tweets:        results[3],
+          tweetEnriched: results[4],
         };
       });
     },

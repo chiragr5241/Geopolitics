@@ -20,9 +20,22 @@
 // ── Data Source Paths (change here to point at a new backend) ──
 
 var DATA_SOURCES = {
-  incidents:  'data/incidents.csv',
-  operations: 'data/operations.csv',
-  imagery:    'data/imagery.csv',
+  incidents:    'data/incidents.csv',
+  operations:   'data/operations.csv',
+  imagery:      'data/imagery.csv',
+  tweets:       'data/spectator_index_tweets.csv',
+  tweetEnriched:'data/tweet_enriched.csv',
+};
+
+// ── Tweet / Intelligence Feed Categories ──
+
+var TWEET_CATEGORIES = {
+  military:     { label: 'Military',    color: '#c62828', bg: 'rgba(198,40,40,.12)',  border: 'rgba(198,40,40,.4)'  },
+  diplomatic:   { label: 'Diplomatic',  color: '#1565c0', bg: 'rgba(21,101,192,.12)', border: 'rgba(21,101,192,.4)' },
+  economic:     { label: 'Economic',    color: '#2e7d32', bg: 'rgba(46,125,50,.12)',  border: 'rgba(46,125,50,.4)'  },
+  nuclear:      { label: 'Nuclear',     color: '#e65100', bg: 'rgba(230,81,0,.12)',   border: 'rgba(230,81,0,.4)'   },
+  energy:       { label: 'Energy',      color: '#6a1b9a', bg: 'rgba(106,27,154,.12)', border: 'rgba(106,27,154,.4)' },
+  humanitarian: { label: 'Human.',      color: '#00695c', bg: 'rgba(0,105,92,.12)',   border: 'rgba(0,105,92,.4)'   },
 };
 
 // ── ISO-3166-1 Numeric → Country Code (for world-atlas GeoJSON border layer) ──
