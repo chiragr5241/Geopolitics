@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "type": "commonjs",
   "scripts": {
-    "enrich": "node enrich-tweets.js"
+    "enrich":         "node enrich-tweets.js",
+    "enrich-actions": "node enrich_actions_agent.js"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.37.0",

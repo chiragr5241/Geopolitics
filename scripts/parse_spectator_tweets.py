@@ -428,7 +428,7 @@ def match_operations(text: str, date_str: str, countries: list[str]) -> list[str
 
 def main():
     parser = argparse.ArgumentParser(description="Classify Spectator Index tweets into war/operations subsets.")
-    parser.add_argument("--input", default="data/spectator_index_tweets.csv", help="Input CSV path")
+    parser.add_argument("--input", default="data/raw_data/spectator_index_tweets.csv", help="Input CSV path")
     parser.add_argument("--output-dir", default="data", help="Output directory for CSVs")
     parser.add_argument("--dry-run", action="store_true", help="Print stats without writing files")
     parser.add_argument("--verbose", action="store_true", help="Print sample matches per category")
@@ -459,7 +459,6 @@ def main():
         countries = extract_countries(text)
         categories = classify_tweet(text)
         operations = match_operations(text, date, countries)
-        is_breaking = text.strip().startswith("BREAKING:")
 
         if is_statistics_table(text):
             stats_filtered += 1
@@ -479,7 +478,6 @@ def main():
             "categories": ";".join(categories),
             "countries": ";".join(countries),
             "operations": ";".join(operations),
-            "is_breaking": str(is_breaking).upper(),
         })
 
     # Print summary
@@ -517,7 +515,7 @@ def main():
 
     # Write combined CSV
     output_dir.mkdir(parents=True, exist_ok=True)
-    fieldnames = ["created_at", "full_text", "categories", "countries", "operations", "is_breaking"]
+    fieldnames = ["created_at", "full_text", "categories", "countries", "operations"]
 
     combined_path = output_dir / "spectator_tweets_classified.csv"
     with open(combined_path, "w", newline="", encoding="utf-8") as f:

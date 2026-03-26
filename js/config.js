@@ -20,10 +20,13 @@
 // ── Data Source Paths (change here to point at a new backend) ──
 
 var DATA_SOURCES = {
+  // Primary: unified JSON database (built by scripts/build_db.py)
+  database:     'data/database.json',
+  // Fallback: individual CSV files (used if database.json is absent)
   incidents:    'data/incidents.csv',
   operations:   'data/operations.csv',
   imagery:      'data/imagery.csv',
-  tweets:       'data/spectator_index_tweets.csv',
+  tweets:       'data/raw_data/spectator_index_tweets.csv',
   tweetEnriched:'data/tweet_enriched.csv',
 };
 

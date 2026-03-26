@@ -1,53 +1,50 @@
 'use strict';
 
 /* =========================================================
-   DATA LAYER — CSV-backed data access
+   DATA LAYER — Unified database.json backend
    All data fetching goes through this module.
 
+   Primary source: data/database.json (built by scripts/build_db.py)
+   Falls back to individual CSVs if database.json is not present.
+
    To swap in a Neo4j or SQL backend later, replace the
-   body of each function below with the appropriate API
-   call. The interface (function signatures and return
-   shapes) must not change — app.js depends only on this
-   contract, not on CSVs.
+   body of loadAll() below. The interface must not change —
+   app.js depends only on this contract.
 
    Contract:
-     DataLayer.loadAll() → Promise<{ incidents, operations, imagery }>
-       incidents  : Array of raw incident row objects (keys = CSV headers)
-       operations : Array of raw operation row objects (keys = CSV headers)
-       imagery    : Array of raw imagery row objects   (keys = CSV headers)
+     DataLayer.loadAll() → Promise<{ incidents, operations, imagery, tweets, tweetEnriched }>
+       incidents     : Array of raw incident row objects (curated + enriched)
+       operations    : Array of raw operation row objects
+       imagery       : Array of raw imagery row objects
+       tweets        : Array of raw tweet row objects (raw feed, may be empty)
+       tweetEnriched : Array of enriched tweet row objects (intel feed)
    ========================================================= */
 
 var DataLayer = (function () {
 
-  // ── CSV Parser (single-pass) ─────────────────────────────
+  // ── CSV Parser (single-pass, kept as fallback) ───────────
   // Handles quoted fields, embedded commas, embedded newlines,
-  // and escaped double-quotes (""). Does NOT strip quote chars
-  // during line-collection — everything is resolved in one pass.
+  // and escaped double-quotes ("").
 
   function parseCSV(text) {
-    var allRows  = [];   // array of field arrays
-    var fields   = [];   // fields for current row
-    var current  = '';   // current field value
+    var allRows  = [];
+    var fields   = [];
+    var current  = '';
     var inQuotes = false;
 
     for (var i = 0; i < text.length; i++) {
       var ch = text[i];
-
       if (ch === '"') {
         if (inQuotes && i + 1 < text.length && text[i + 1] === '"') {
-          // Escaped double-quote inside a quoted field → emit one "
           current += '"';
           i++;
         } else {
-          // Toggle quoted-field mode; do NOT emit the quote char itself
           inQuotes = !inQuotes;
         }
       } else if (ch === ',' && !inQuotes) {
-        // Field separator
         fields.push(current);
         current = '';
       } else if ((ch === '\n' || ch === '\r') && !inQuotes) {
-        // Row separator (handles \r\n, \n, \r)
         if (ch === '\r' && i + 1 < text.length && text[i + 1] === '\n') i++;
         fields.push(current);
         current = '';
@@ -57,7 +54,6 @@ var DataLayer = (function () {
         current += ch;
       }
     }
-    // Flush last field / row
     fields.push(current);
     if (fields.some(function (f) { return f !== ''; })) allRows.push(fields);
 
@@ -72,14 +68,11 @@ var DataLayer = (function () {
       for (var k = 0; k < headers.length; k++) {
         obj[headers[k]] = (k < values.length) ? values[k] : '';
       }
-      // Skip accidental duplicate-header rows
       if (obj[headers[0]] === headers[0]) continue;
       rows.push(obj);
     }
     return rows;
   }
-
-  // ── CSV Fetch helper ──────────────────────────────────────
 
   function fetchCSV(url) {
     return fetch(url + '?v=' + Date.now())
@@ -90,39 +83,85 @@ var DataLayer = (function () {
       .then(parseCSV);
   }
 
-  // Like fetchCSV but returns [] instead of throwing on 404.
-  // Used for optional data files that may not exist yet.
   function fetchCSVOptional(url) {
     return fetch(url + '?v=' + Date.now())
-      .then(function (res) {
-        if (!res.ok) return '';
-        return res.text();
-      })
+      .then(function (res) { return res.ok ? res.text() : ''; })
       .then(function (text) { return text ? parseCSV(text) : []; })
       .catch(function () { return []; });
   }
 
-  // ── Public API ────────────────────────────────────────────
-  // Replace the body of loadAll() to swap data sources.
-  // The returned shape must remain { incidents, operations, imagery, tweets, tweetEnriched }.
+  // ── Normalise a database.json row to match the CSV string format ──
+  // app.js expects all values as strings (same as CSV parsing).
+  function normaliseRow(obj) {
+    var out = {};
+    Object.keys(obj).forEach(function (k) {
+      var v = obj[k];
+      out[k] = (v === null || v === undefined) ? '' : String(v);
+    });
+    return out;
+  }
 
-  return {
-    loadAll: function () {
-      return Promise.all([
-        fetchCSV(DATA_SOURCES.incidents),
-        fetchCSV(DATA_SOURCES.operations),
-        fetchCSV(DATA_SOURCES.imagery),
-        fetchCSV(DATA_SOURCES.tweets),
-        fetchCSVOptional(DATA_SOURCES.tweetEnriched),
-      ]).then(function (results) {
+  // ── Load from unified database.json ──────────────────────
+  function loadFromDatabase(url) {
+    return fetch(url + '?v=' + Date.now())
+      .then(function (res) {
+        if (!res.ok) throw new Error('database.json not found (' + res.status + ')');
+        return res.json();
+      })
+      .then(function (db) {
+        var meta = db._meta || {};
+        if (meta.counts) {
+          console.info(
+            '[DataLayer] database.json v' + (meta.version || 1) +
+            ' generated ' + (meta.generated || '?') +
+            ' — ' + (meta.counts.incidents_total || 0) + ' incidents' +
+            ' (' + (meta.counts.incidents_curated || 0) + ' curated' +
+            ' + ' + (meta.counts.incidents_enriched || 0) + ' enriched)'
+          );
+        }
+        // Enriched tweets are the authoritative intel feed.
+        // Synthesise a "raw tweet" row (created_at + full_text) from each
+        // enriched record so the app.js merge logic still works correctly.
+        var enrichedTweets = (db.tweets || []).map(normaliseRow);
+        var syntheticRaw   = enrichedTweets.map(function (e) {
+          return { created_at: e.created_at, full_text: e.summary || '' };
+        });
         return {
-          incidents:     results[0],
-          operations:    results[1],
-          imagery:       results[2],
-          tweets:        results[3],
-          tweetEnriched: results[4],
+          incidents:     (db.incidents  || []).map(normaliseRow),
+          operations:    (db.operations || []).map(normaliseRow),
+          imagery:       (db.imagery    || []).map(normaliseRow),
+          tweets:        syntheticRaw,
+          tweetEnriched: enrichedTweets,
         };
       });
+  }
+
+  // ── CSV fallback (for local dev without database.json) ───
+  function loadFromCSVs() {
+    console.warn('[DataLayer] database.json not found — falling back to CSV files.');
+    return Promise.all([
+      fetchCSV(DATA_SOURCES.incidents),
+      fetchCSV(DATA_SOURCES.operations),
+      fetchCSV(DATA_SOURCES.imagery),
+      fetchCSVOptional(DATA_SOURCES.tweets),
+      fetchCSVOptional(DATA_SOURCES.tweetEnriched),
+    ]).then(function (results) {
+      return {
+        incidents:     results[0],
+        operations:    results[1],
+        imagery:       results[2],
+        tweets:        results[3],
+        tweetEnriched: results[4],
+      };
+    });
+  }
+
+  // ── Public API ────────────────────────────────────────────
+  return {
+    loadAll: function () {
+      // Prefer unified database.json; fall back to individual CSVs.
+      return loadFromDatabase(DATA_SOURCES.database || 'data/database.json')
+        .catch(function () { return loadFromCSVs(); });
     },
   };
 

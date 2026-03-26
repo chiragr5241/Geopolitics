@@ -194,7 +194,7 @@
         linked_incident_ids: e.linked_incident_ids
           ? e.linked_incident_ids.split(';').filter(Boolean) : [],
         linked_operation: e.linked_operation || '',
-        is_breaking:  e.is_breaking === 'TRUE' || r.full_text.indexOf('BREAKING:') === 0,
+        is_breaking:  r.created_at.slice(0, 10) === new Date().toISOString().slice(0, 10),
         summary:      e.summary || r.full_text.substring(0, 120),
       };
     });
@@ -214,11 +214,17 @@
       maxBounds: [[-85, -180], [85, 180]],
       maxBoundsViscosity: 1.0,
       zoomControl: false, attributionControl: false, preferCanvas: true,
+      zoomSnap: 0.5,
+      zoomDelta: 0.5,
+      wheelPxPerZoomLevel: 120,
     });
     L.control.zoom({ position: 'bottomleft' }).addTo(map);
 
     L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', {
       maxZoom: 19, minZoom: 2, noWrap: true,
+      updateWhenZooming: false,
+      updateWhenIdle: true,
+      keepBuffer: 4,
     }).addTo(map);
 
     // ── World borders + country highlights ──
@@ -321,7 +327,6 @@
     var $incCount       = document.getElementById('inc-count');
     var $countryFilter  = document.getElementById('country-filter');
     var $opFilter       = document.getElementById('op-filter');
-    var $opLegendItems  = document.getElementById('op-legend-items');
     var $tlMarks        = document.getElementById('tl-marks');
     var $tlDate         = document.getElementById('tl-date');
     var $tlSlider       = document.getElementById('tl-slider');
@@ -343,7 +348,9 @@
     var $tickerTrack    = document.getElementById('ticker-track');
 
     // Derive header stats from data
+    var $hIncidents = document.getElementById('h-incidents');
     $hOps.textContent = Object.keys(OPS).length + ' OPS';
+    if ($hIncidents) $hIncidents.textContent = INCIDENTS.length + '+';
 
     var theaterCountries = new Set();
     Object.values(OPS).forEach(function (op) {
@@ -358,7 +365,7 @@
       // Animate only the newest visible events relative to current slider position
       var RECENT_THRESHOLD = 2; // ~10 days on the slider scale
       var isRecent = !isDimmed && inc.timeVal <= timeVal && (timeVal - inc.timeVal) <= RECENT_THRESHOLD;
-      var mainOp  = isDimmed ? 0.12 : 1;
+      var mainOp  = isDimmed ? 0.7 : 1;
       var pulseOp = isRecent ? (isSelected ? 0.55 : 0.35) : 0;
       var c  = st.color, bg = st.bgFill;
       var pulseEl = isRecent
@@ -408,19 +415,19 @@
       var off = Math.min(len*0.32,7);
       var nx = -dy/len*off, ny = dx/len*off;
       var pts = [];
-      for (var i = 0; i <= 40; i++) {
-        var tt = i/40;
+      for (var i = 0; i <= 20; i++) {
+        var tt = i/20;
         pts.push([(1-tt)*(1-tt)*f[0]+2*(1-tt)*tt*(latMid+nx)+tt*tt*t[0], (1-tt)*(1-tt)*f[1]+2*(1-tt)*tt*(lngMid+ny)+tt*tt*t[1]]);
       }
 
-      var line = L.polyline(pts, { color: opColor, weight: isSelected?2.5:1.6, opacity: isSelected?1:(isDimmed?0.08:0.7), dashArray: isDash?'7,5':null });
+      var line = L.polyline(pts, { color: opColor, weight: isSelected?2.5:1.6, opacity: isSelected?1:(isDimmed?0.35:0.7), dashArray: isDash?'7,5':null });
 
-      var e1 = pts[pts.length-1], e2 = pts[pts.length-4];
+      var e1 = pts[pts.length-1], e2 = pts[pts.length-3];
       var angle = Math.atan2(e1[0]-e2[0],e1[1]-e2[1])*180/Math.PI;
-      var headIcon = L.divIcon({ html:'<div style="width:0;height:0;border-left:4px solid transparent;border-right:4px solid transparent;border-bottom:10px solid '+opColor+';transform:rotate('+angle+'deg);opacity:'+(isDimmed?0.08:0.8)+';filter:drop-shadow(0 0 2px '+opColor+');"></div>', iconSize:[8,10], iconAnchor:[4,5], className:'' });
+      var headIcon = L.divIcon({ html:'<div style="width:0;height:0;border-left:4px solid transparent;border-right:4px solid transparent;border-bottom:10px solid '+opColor+';transform:rotate('+angle+'deg);opacity:'+(isDimmed?0.35:0.8)+';filter:drop-shadow(0 0 2px '+opColor+');"></div>', iconSize:[8,10], iconAnchor:[4,5], className:'' });
       var arrowHead = L.marker([e1[0],e1[1]], { icon: headIcon, interactive: false });
 
-      var originIcon = L.divIcon({ html:'<div style="width:5px;height:5px;background:'+opColor+';border-radius:50%;border:1px solid rgba(0,0,0,.6);box-shadow:0 0 5px '+opColor+';opacity:'+(isDimmed?0.08:0.85)+';"></div>', iconSize:[5,5], iconAnchor:[2,2], className:'' });
+      var originIcon = L.divIcon({ html:'<div style="width:5px;height:5px;background:'+opColor+';border-radius:50%;border:1px solid rgba(0,0,0,.6);box-shadow:0 0 5px '+opColor+';opacity:'+(isDimmed?0.35:0.85)+';"></div>', iconSize:[5,5], iconAnchor:[2,2], className:'' });
       var originMark = L.marker(f, { icon: originIcon, interactive: false });
       line.on('click', function () { selectIncident(inc.id); });
 
@@ -437,10 +444,38 @@
     }
 
     // Renderers
+    var _lastSelectedId = null;
+    var _lastVisibleSet = '';
+
     function renderMap() {
-      Object.values(allLayers).forEach(function (l) { map.removeLayer(l); });
-      allLayers = {};
-      INCIDENTS.filter(isVisible).forEach(function (inc) {
+      var visibleIds = {};
+      var visibleList = INCIDENTS.filter(isVisible);
+      visibleList.forEach(function (inc) { visibleIds[inc.id] = true; });
+
+      // Build a fingerprint to detect if anything changed
+      var fingerprint = Object.keys(visibleIds).sort().join(',') + '|' + (selectedId || '');
+      if (fingerprint === _lastVisibleSet) return;
+      _lastVisibleSet = fingerprint;
+
+      // Remove layers no longer visible
+      Object.keys(allLayers).forEach(function (id) {
+        if (!visibleIds[id]) {
+          map.removeLayer(allLayers[id]);
+          delete allLayers[id];
+        }
+      });
+
+      // If selection changed, rebuild all (icons change appearance)
+      var selectionChanged = selectedId !== _lastSelectedId;
+      _lastSelectedId = selectedId;
+      if (selectionChanged) {
+        Object.values(allLayers).forEach(function (l) { map.removeLayer(l); });
+        allLayers = {};
+      }
+
+      // Add/rebuild layers
+      visibleList.forEach(function (inc) {
+        if (allLayers[inc.id]) return; // already on map
         var grp = makeArrow(inc);
         if (grp) {
           grp.addTo(map);
@@ -586,12 +621,6 @@
       $opFilter.appendChild(frag);
     }
 
-    function renderOpLegend() {
-      $opLegendItems.innerHTML = Object.entries(OPS).map(function (entry) {
-        var op = entry[1];
-        return '<div class="oleg-row"><div class="oleg-swatch" style="background:'+op.color+';'+(op.dashed?'border-bottom:1px dashed '+op.color+';background:transparent;':'')+'"></div><div class="oleg-text">'+op.name+'</div></div>';
-      }).join('');
-    }
 
     // Timeline
     function renderTLMarks() {
@@ -659,6 +688,28 @@
       });
     }
 
+    // Collapsible sidebar
+    var $sidebar = document.getElementById('sidebar');
+    var $sbToggle = document.getElementById('sb-toggle');
+    if ($sbToggle) {
+      $sbToggle.addEventListener('click', function () {
+        var collapsed = $sidebar.classList.toggle('collapsed');
+        $sbToggle.textContent = collapsed ? '▶' : '◀';
+        $sbToggle.title = collapsed ? 'Expand sidebar' : 'Collapse sidebar';
+      });
+    }
+
+    // Collapsible detail panel
+    var $detail = document.getElementById('detail');
+    var $detToggle = document.getElementById('det-toggle');
+    if ($detToggle) {
+      $detToggle.addEventListener('click', function () {
+        var collapsed = $detail.classList.toggle('collapsed');
+        $detToggle.textContent = collapsed ? '◀' : '▶';
+        $detToggle.title = collapsed ? 'Expand panel' : 'Collapse panel';
+      });
+    }
+
     // Tweet marker toggle
     var $showNewsToggle = document.getElementById('show-news-toggle');
     if ($showNewsToggle) {
@@ -701,6 +752,8 @@
       if (!$tickerTrack) return;
       // Use enriched tweets if available, otherwise raw breaking tweets
       var items = TWEETS.filter(function (t) { return t.is_breaking; }).slice(0, 60);
+      // Fall back to most-recent tweets when no breaking items exist
+      if (!items.length) items = TWEETS.slice(0, 60);
       if (!items.length) { $tickerTrack.innerHTML = ''; return; }
       // Duplicate for seamless loop
       var html = '';
@@ -879,7 +932,6 @@
     function refresh() { renderMap(); renderList(); renderOpFilter(); renderCountryFilter(); refreshBorders(); renderTweetList(); renderTweetMarkers(); }
 
     // Init
-    renderOpLegend();
     renderTLMarks();
     renderNewsTicker();
     renderTweetCategoryFilter();

@@ -142,6 +142,19 @@ body {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  transition: width 0.22s ease;
+  position: relative;
+}
+
+#sidebar.collapsed {
+  width: 0;
+  min-width: 0;
+  border-right: none;
+}
+
+#sidebar.collapsed > *:not(#sb-toggle) {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .sb-section {
@@ -426,7 +439,7 @@ body {
 #map {
   width: 100%;
   height: 100%;
-  background: #ddd9cf !important;
+  background: #b8d4e8 !important;
 }
 
 /* Floating legend panels */
@@ -448,11 +461,6 @@ body {
   min-width: 195px;
 }
 
-#op-legend {
-  top: 12px;
-  right: 12px;
-  max-width: 200px;
-}
 
 .fleg-title {
   font-family: 'Oswald', sans-serif;
@@ -617,6 +625,59 @@ body {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  transition: width 0.22s ease;
+  position: relative;
+}
+
+#detail.collapsed {
+  width: 0;
+  min-width: 0;
+  border-left: none;
+}
+
+#detail.collapsed > *:not(#det-toggle) {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ----- PANEL COLLAPSE TOGGLES ----- */
+
+.panel-toggle {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 48px;
+  background: var(--bg1);
+  border: 1px solid var(--border);
+  border-radius: 0 4px 4px 0;
+  color: var(--text);
+  font-size: 8px;
+  cursor: pointer;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: background .15s, color .15s;
+  line-height: 1;
+}
+
+.panel-toggle:hover {
+  background: var(--border);
+  color: var(--bright);
+}
+
+.panel-toggle-left {
+  left: 0;
+  border-left: none;
+  border-radius: 0 4px 4px 0;
+}
+
+.panel-toggle-right {
+  right: 0;
+  border-right: none;
+  border-radius: 4px 0 0 4px;
 }
 
 .det-empty {
@@ -997,7 +1058,15 @@ a.source-link:hover {
 }
 
 .leaflet-container {
-  background: #ddd9cf !important;
+  background: #b8d4e8 !important;
+}
+
+.leaflet-tile {
+  will-change: transform;
+}
+
+.leaflet-zoom-anim .leaflet-zoom-animated {
+  will-change: transform;
 }
 
 /* Zoom controls — bottom-left, clear of op-legend (top-right) and timeline (bottom-centre) */
