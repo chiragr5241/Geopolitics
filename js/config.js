@@ -7,9 +7,11 @@
 
    Data that changes frequently lives in CSV files under
    data/ and is loaded via DataLayer (js/data.js):
-     data/incidents.csv   — incident rows
-     data/operations.csv  — operation metadata + colors
-     data/imagery.csv     — per-incident imagery
+     data/incidents.csv        — incident rows (curated + enriched)
+     data/incident_details.csv — overflow detail for curated incidents
+     data/operations.csv       — operation metadata + colors
+     data/imagery.csv          — per-incident imagery
+     data/intel_feed.csv       — unified tweet intelligence feed
 
    To add a new operation: edit data/operations.csv.
    To add a new incident:  edit data/incidents.csv.
@@ -26,8 +28,7 @@ var DATA_SOURCES = {
   incidents:    'data/incidents.csv',
   operations:   'data/operations.csv',
   imagery:      'data/imagery.csv',
-  tweets:       'data/raw_data/spectator_index_tweets.csv',
-  tweetEnriched:'data/tweet_enriched.csv',
+  intelFeed:    'data/intel_feed.csv',
 };
 
 // ── Tweet / Intelligence Feed Categories ──

@@ -2,14 +2,13 @@
 /**
  * Military Actions Enrichment Agent
  *
- * Source: data/tweets_military_operations.csv  (1,913 military tweets)
- * Cross-ref: data/tweet_enriched.csv           (pre-computed lat/lng, joined on created_at)
- * Output: data/enriched_actions.csv            (same schema as incidents.csv)
+ * Source: data/intel_feed.csv  (unified tweets, filtered to category=military)
+ * Output: appends to data/incidents.csv  (24-col schema)
  *
  * Deduplication strategy:
  *   - Incident ID = ma-{YYYYMMDD}-{op-slug}-{location-slug}
  *   - Multiple tweets about the same event on the same day → same ID → INSERT OR IGNORE
- *   - Curated incident IDs from incidents.csv are never overwritten
+ *   - Curated incident IDs (source_type=curated) are never overwritten
  *
  * Usage (from project root):
  *   ANTHROPIC_API_KEY=sk-ant-... node scripts/enrich_actions_agent.js
@@ -31,11 +30,9 @@ const Anthropic = require('@anthropic-ai/sdk');
 
 // ── Config ────────────────────────────────────────────────────────────────────
 const ROOT          = path.resolve(__dirname, '..');
-const SOURCE_CSV    = path.join(ROOT, 'data', 'tweets_military_operations.csv');
-const ENRICHED_CSV  = path.join(ROOT, 'data', 'tweet_enriched.csv');
-const INCIDENTS_CSV = path.join(ROOT, 'data', 'incidents.csv');
-const ACTIONS_CSV   = path.join(ROOT, 'data', 'enriched_actions.csv');
-const OPS_CSV       = path.join(ROOT, 'data', 'operations.csv');
+const INTEL_FEED_CSV = path.join(ROOT, 'data', 'intel_feed.csv');
+const INCIDENTS_CSV  = path.join(ROOT, 'data', 'incidents.csv');
+const OPS_CSV        = path.join(ROOT, 'data', 'operations.csv');
 
 const BATCH_SIZE     = parseInt(process.env.BATCH_SIZE  || '10', 10);
 const MAX_ACTIONS    = parseInt(process.env.MAX_ACTIONS || '0',  10);
@@ -44,21 +41,15 @@ const BATCH_DELAY_MS = 300;
 const RETRY_DELAY_MS = 3000;
 const MODEL          = 'claude-haiku-4-5-20251001';
 
-// Incident CSV column order (mirrors incidents.csv exactly)
+// Incident CSV column order (mirrors new incidents.csv schema)
 const OUT_COLS = [
-  'incident_id','operation_name','operation_color','incident_title',
-  'date','date_sort_value','strike_type','confirmed',
+  'incident_id','operation_name','incident_title',
+  'date','incident_type','strike_type','confirmed',
   'origin_lat','origin_lng','origin_label','origin_sublabel',
   'target_lat','target_lng','target_label','target_sublabel',
-  'summary','assessment','platform_or_unit','munitions_weapons',
-  'munitions_quantity','range_km','target_type','target_depth_hardening',
-  'military_kia_friendly','military_kia_enemy','civilian_kia',
-  'military_wia_friendly','personnel_deployed','aircraft_deployed',
-  'naval_vessels','result_outcome','nuclear_setback_assessment',
-  'economic_impact','intercepted_munitions','key_intelligence_notes',
-  'osint_sources','press_sources','think_tank_sources',
-  'tags','badge_colors','is_retaliation','is_covert','is_first_use',
-  'disputed','source_type',
+  'summary','target_type','platform_or_unit','result_outcome',
+  'tags','source_type',
+  'is_retaliation','is_covert','is_first_use','disputed',
 ];
 
 // ── Geocoding ─────────────────────────────────────────────────────────────────
@@ -254,10 +245,9 @@ async function callWithRetry(client, items, operations) {
 }
 
 // ── Build one incident row ────────────────────────────────────────────────────
-function buildRow(t, cls, opsColorMap) {
+function buildRow(t, cls) {
   const location = cls.location || t.pre_loc || '';
   const opName   = cls.operation_name || t.operation || '';
-  const opColor  = opsColorMap[opName] || '#9e9e9e';
   const iid      = makeId(t.ts, opName, location);
 
   // Resolve coordinates: pre-computed > geo lookup from Claude location
@@ -269,19 +259,15 @@ function buildRow(t, cls, opsColorMap) {
   }
 
   const strikeType = cls.strike_type || SUBCAT_TYPE[t.subcategory] || 'missile';
-  const tags       = (cls.tags || '').trim();
-  const badgeColor = cls.is_retaliation ? '#e07b00' : '#546e7a';
-  const badgeColors = tags.split(';').filter(Boolean).map(() => badgeColor).join(';');
 
   const row = {};
   OUT_COLS.forEach(col => { row[col] = ''; });
   Object.assign(row, {
     incident_id:     iid,
     operation_name:  opName,
-    operation_color: opName ? opColor : '#9e9e9e',
     incident_title:  cls.title || t.full_text.slice(0, 80),
     date:            formatDate(t.ts),
-    date_sort_value: String(dateSortValue(t.ts)),
+    incident_type:   'strike',
     strike_type:     strikeType,
     confirmed:       'FALSE',
     target_lat:      lat,
@@ -289,13 +275,14 @@ function buildRow(t, cls, opsColorMap) {
     target_label:    location,
     target_sublabel: (t.countries || '').replace(/;/g, ', '),
     summary:         t.full_text,
-    tags:            tags,
-    badge_colors:    badgeColors,
+    target_type:     cls.target_type || '',
+    platform_or_unit: cls.platform_or_unit || '',
+    tags:            (cls.tags || '').trim(),
+    source_type:     'enriched',
     is_retaliation:  cls.is_retaliation ? 'TRUE' : 'FALSE',
     is_covert:       'FALSE',
     is_first_use:    'FALSE',
     disputed:        'FALSE',
-    source_type:     'enriched',
   });
 
   return row;
@@ -309,45 +296,38 @@ async function main() {
 
   // Load operations
   const operations  = readCSV(OPS_CSV);
-  const opsColorMap = Object.fromEntries(operations.map(o => [o.operation_name, o.color]));
   console.log(`Operations: ${operations.length}`);
 
-  // Load curated incident IDs (never overwrite)
-  const curatedIds = new Set(readCSV(INCIDENTS_CSV).map(r => r.incident_id).filter(Boolean));
-  console.log(`Curated incidents (protected): ${curatedIds.size}`);
-
-  // Load already-enriched action IDs (resume)
+  // Load existing incident IDs from incidents.csv (curated are protected, enriched for resume)
+  const existingIncidents = readCSV(INCIDENTS_CSV);
+  const curatedIds = new Set(
+    existingIncidents.filter(r => r.source_type === 'curated').map(r => r.incident_id).filter(Boolean)
+  );
   const doneIds = new Set();
-  if (RESUME && fs.existsSync(ACTIONS_CSV)) {
-    readCSV(ACTIONS_CSV).forEach(r => { if (r.incident_id) doneIds.add(r.incident_id); });
-    console.log(`Already enriched (resuming): ${doneIds.size} unique incident IDs`);
+  if (RESUME) {
+    existingIncidents.forEach(r => { if (r.incident_id) doneIds.add(r.incident_id); });
   }
+  console.log(`Curated incidents (protected): ${curatedIds.size}`);
+  console.log(`Already in incidents.csv (resuming): ${doneIds.size} unique IDs`);
 
-  // Build enriched tweet lookup: created_at → {lat, lng, entities_locations, subcategory}
-  const enrichedIndex = {};
-  readCSV(ENRICHED_CSV).forEach(r => {
-    if (r.created_at) enrichedIndex[r.created_at] = r;
-  });
-  console.log(`Enriched tweet index: ${Object.keys(enrichedIndex).length} entries`);
+  // Load intel_feed.csv — filter to military category
+  const allTweets = readCSV(INTEL_FEED_CSV);
+  const sourceTweets = allTweets.filter(r =>
+    (r.category || '').toLowerCase() === 'military'
+  );
+  console.log(`Intel feed: ${allTweets.length} total, ${sourceTweets.length} military tweets`);
 
-  // Load source tweets
-  const sourceTweets = readCSV(SOURCE_CSV);
-  console.log(`Source military tweets: ${sourceTweets.length}`);
-
-  // Build merged input items, pre-filtering obvious non-mappables
-  let items = sourceTweets.map(t => {
-    const e = enrichedIndex[t.created_at] || {};
-    return {
-      ts:         t.created_at,
-      full_text:  t.full_text || '',
-      countries:  t.countries || e.countries || '',
-      operation:  t.operations || e.linked_operation || '',
-      subcategory: e.subcategory || '',
-      pre_lat:    e.lat || '',
-      pre_lng:    e.lng || '',
-      pre_loc:    e.entities_locations || '',
-    };
-  });
+  // Build merged input items from intel_feed (already has enrichment data inline)
+  let items = sourceTweets.map(t => ({
+    ts:         t.created_at,
+    full_text:  t.full_text || '',
+    countries:  t.countries || '',
+    operation:  t.linked_operation || '',
+    subcategory: t.subcategory || '',
+    pre_lat:    t.lat || '',
+    pre_lng:    t.lng || '',
+    pre_loc:    t.entities_locations || '',
+  }));
 
   // Pre-filter: skip tweets that have no location signal at all and look non-kinetic
   const NON_KINETIC = /\b(says|statement|warns|threatens|condemns|demands|calls|urges|agrees|reports|confirms|denies|claims|announces|pledges|vows|spokesman|minister|official|president|trump|netanyahu|biden|khamenei|diplomacy|ceasefire|negotiations|talks|deal|sanctions|vote|resolution|meeting)\b/i;
@@ -365,10 +345,8 @@ async function main() {
   if (MAX_ACTIONS > 0) items = items.slice(0, MAX_ACTIONS);
   console.log(`Processing: ${items.length} tweets\n`);
 
-  // Open output CSV
-  const isNew = !RESUME || !fs.existsSync(ACTIONS_CSV);
-  const out = fs.createWriteStream(ACTIONS_CSV, { flags: isNew ? 'w' : 'a' });
-  if (isNew) out.write(stringify([OUT_COLS]));
+  // Append to incidents.csv (it already has a header from migration)
+  const out = fs.createWriteStream(INCIDENTS_CSV, { flags: 'a' });
 
   let totalMapped   = 0;
   let totalSkipped  = 0;
@@ -398,7 +376,7 @@ async function main() {
       if (curatedIds.has(iid) || seenIds.has(iid)) { totalDupe++; continue; }
       seenIds.add(iid);
 
-      const row = buildRow(t, cls, opsColorMap);
+      const row = buildRow(t, cls);
       out.write(stringify([OUT_COLS.map(col => row[col] ?? '')]));
       batchMapped++;
       totalMapped++;
@@ -410,7 +388,7 @@ async function main() {
 
   out.end();
   console.log(`\n${'─'.repeat(50)}`);
-  console.log(`Mapped:   ${totalMapped} new incidents → enriched_actions.csv`);
+  console.log(`Mapped:   ${totalMapped} new incidents → incidents.csv`);
   console.log(`Skipped:  ${totalSkipped} (not mappable)`);
   console.log(`Dupes:    ${totalDupe} (same event, same day)`);
   console.log(`\nNext: python scripts/build_db.py`);

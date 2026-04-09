@@ -16,7 +16,7 @@
        incidents     : Array of raw incident row objects (curated + enriched)
        operations    : Array of raw operation row objects
        imagery       : Array of raw imagery row objects
-       tweets        : Array of raw tweet row objects (raw feed, may be empty)
+       tweets        : Array of raw tweet row objects (created_at + full_text)
        tweetEnriched : Array of enriched tweet row objects (intel feed)
    ========================================================= */
 
@@ -119,12 +119,11 @@ var DataLayer = (function () {
             ' + ' + (meta.counts.incidents_enriched || 0) + ' enriched)'
           );
         }
-        // Enriched tweets are the authoritative intel feed.
-        // Synthesise a "raw tweet" row (created_at + full_text) from each
-        // enriched record so the app.js merge logic still works correctly.
+        // Intel feed tweets now include full_text directly.
+        // Synthesise raw tweet rows for app.js merge compatibility.
         var enrichedTweets = (db.tweets || []).map(normaliseRow);
         var syntheticRaw   = enrichedTweets.map(function (e) {
-          return { created_at: e.created_at, full_text: e.summary || '' };
+          return { created_at: e.created_at, full_text: e.full_text || e.summary || '' };
         });
         return {
           incidents:     (db.incidents  || []).map(normaliseRow),
@@ -143,15 +142,19 @@ var DataLayer = (function () {
       fetchCSV(DATA_SOURCES.incidents),
       fetchCSV(DATA_SOURCES.operations),
       fetchCSV(DATA_SOURCES.imagery),
-      fetchCSVOptional(DATA_SOURCES.tweets),
-      fetchCSVOptional(DATA_SOURCES.tweetEnriched),
+      fetchCSVOptional(DATA_SOURCES.intelFeed),
     ]).then(function (results) {
+      var intelFeed = results[3];
+      // Synthesise raw tweet rows for app.js merge compatibility
+      var syntheticRaw = intelFeed.map(function (e) {
+        return { created_at: e.created_at, full_text: e.full_text || e.summary || '' };
+      });
       return {
         incidents:     results[0],
         operations:    results[1],
         imagery:       results[2],
-        tweets:        results[3],
-        tweetEnriched: results[4],
+        tweets:        syntheticRaw,
+        tweetEnriched: intelFeed,
       };
     });
   }

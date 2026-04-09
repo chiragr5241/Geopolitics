@@ -513,28 +513,18 @@ def main():
         print("\n(dry run — no files written)")
         return
 
-    # Write combined CSV
+    # Write classified CSV (intermediate — feeds into enrich-tweets.js → intel_feed.csv)
     output_dir.mkdir(parents=True, exist_ok=True)
     fieldnames = ["created_at", "full_text", "categories", "countries", "operations"]
 
-    combined_path = output_dir / "spectator_tweets_classified.csv"
+    combined_path = output_dir / "raw_data" / "spectator_tweets_classified.csv"
+    combined_path.parent.mkdir(parents=True, exist_ok=True)
     with open(combined_path, "w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames, quoting=csv.QUOTE_ALL)
         writer.writeheader()
         writer.writerows(results)
     print(f"\nWrote {len(results)} rows to {combined_path}")
-
-    # Write per-category subsets
-    for cat in CATEGORY_PATTERNS:
-        subset = [r for r in results if cat in r["categories"].split(";")]
-        if not subset:
-            continue
-        cat_path = output_dir / f"tweets_{cat}.csv"
-        with open(cat_path, "w", newline="", encoding="utf-8") as f:
-            writer = csv.DictWriter(f, fieldnames=fieldnames, quoting=csv.QUOTE_ALL)
-            writer.writeheader()
-            writer.writerows(subset)
-        print(f"Wrote {len(subset)} rows to {cat_path}")
+    print(f"\nNext: ANTHROPIC_API_KEY=... node scripts/enrich-tweets.js")
 
 
 if __name__ == "__main__":
