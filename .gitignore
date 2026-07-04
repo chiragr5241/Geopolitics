@@ -17,3 +17,12 @@ node_modules/
 # Build output (if added later)
 dist/
 build/
+
+# Secrets
+.env
+
+# Local build artifacts / archives
+data/geopolitics.db
+ACLED_data/
+scripts/__pycache__/
+logs/

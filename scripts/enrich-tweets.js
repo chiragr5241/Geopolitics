@@ -294,7 +294,7 @@ async function main() {
         entities_orgs: r.entities_orgs || '', entities_weapons: r.entities_weapons || '',
         entities_locations: r.entities_locations || '',
         summary: results ? summary : '[batch failed]',
-      }[c] ?? '')]));
+      }[c] ?? ''))]));
       written++;
       if (!results) failed++;
     }
