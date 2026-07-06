@@ -12,12 +12,18 @@
    app.js depends only on this contract.
 
    Contract:
-     DataLayer.loadAll() → Promise<{ incidents, operations, imagery, tweets, tweetEnriched }>
+     DataLayer.loadAll() → Promise<{ incidents, operations, imagery, tweets,
+                                     tweetEnriched, watchlist, storyUpdates, meta }>
        incidents     : Array of raw incident row objects (curated + enriched)
        operations    : Array of raw operation row objects
        imagery       : Array of raw imagery row objects
        tweets        : Array of raw tweet row objects (created_at + full_text)
-       tweetEnriched : Array of enriched tweet row objects (intel feed)
+       tweetEnriched : Array of enriched tweet row objects (intel feed; includes
+                       tweet_id/context/implications/sources_json/confirmation_status
+                       when database.json is the source)
+       watchlist     : Array of watchlist story objects (data/watchlist.json)
+       storyUpdates  : Array of story_updates rows (data/story_updates.csv)
+       meta          : database.json._meta (timeline marks, counts, generated ts) or {}
    ========================================================= */
 
 var DataLayer = (function () {
@@ -131,6 +137,9 @@ var DataLayer = (function () {
           imagery:       (db.imagery    || []).map(normaliseRow),
           tweets:        syntheticRaw,
           tweetEnriched: enrichedTweets,
+          watchlist:     db.watchlist     || [],
+          storyUpdates:  (db.story_updates || []).map(normaliseRow),
+          meta:          meta,
         };
       });
   }
@@ -155,6 +164,9 @@ var DataLayer = (function () {
         imagery:       results[2],
         tweets:        syntheticRaw,
         tweetEnriched: intelFeed,
+        watchlist:     [],
+        storyUpdates:  [],
+        meta:          {},
       };
     });
   }

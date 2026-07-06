@@ -1,49 +1,14 @@
 /* =========================================================
-   GLOBAL OPERATIONS MAP 2025–2026 — Stylesheet
+   GLOBAL OPERATIONS MAP 2025–2026 — Stylesheet (map.html only)
    Design: "Tactical Briefing" — clinical precision meets
    editorial intelligence. Near-monochrome with surgical
    color punctuation for critical data.
+   Shared tokens live in tokens.css — this file is map-page-only
+   layout (note the html,body{overflow:hidden} below, which must
+   never leak into the scrolling news pages).
    ========================================================= */
 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-:root {
-  --bg0: #f3f4f7;
-  --bg1: #eaecf1;
-  --bg2: #e0e3ea;
-  --border: #cdd1dc;
-  --border2: #a8aebe;
-  --text: #6b7489;
-  --text2: #1e2435;
-  --bright: #0f1420;
-  --accent: #2563eb;
-  --accent2: #dc2626;
-  --gold: #b45309;
-  --green: #047857;
-  --purple: #7c3aed;
-  --orange: #c2410c;
-  --pink: #be185d;
-
-  --font-display: 'Syne', 'Arial Black', sans-serif;
-  --font-body: 'DM Sans', 'Helvetica Neue', sans-serif;
-  --font-mono: 'JetBrains Mono', 'Menlo', monospace;
-
-  --header-bg: #0b1120;
-  --header-border: #1a2744;
-  --header-text: #94a3bf;
-  --header-bright: #e2e8f4;
-  --header-accent: #f59e0b;
-
-  --radius-sm: 3px;
-  --radius-md: 6px;
-  --radius-lg: 10px;
-  --radius-pill: 100px;
-
-  --shadow-sm: 0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
-  --shadow-md: 0 4px 16px rgba(0,0,0,.08), 0 1px 4px rgba(0,0,0,.04);
-  --shadow-lg: 0 8px 32px rgba(0,0,0,.1), 0 2px 8px rgba(0,0,0,.05);
-  --shadow-float: 0 12px 40px rgba(0,0,0,.12), 0 2px 8px rgba(0,0,0,.06);
-}
+@import url('tokens.css');
 
 html, body {
   height: 100%;
@@ -52,12 +17,8 @@ html, body {
 
 body {
   background: var(--bg0);
-  font-family: var(--font-body);
-  color: var(--text2);
   display: flex;
   flex-direction: column;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
 /* ===== HEADER ===== */

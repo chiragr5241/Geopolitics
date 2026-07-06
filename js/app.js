@@ -199,13 +199,22 @@
       };
     });
 
-    initApp(INCIDENTS, OPS, TWEETS);
+    initApp(INCIDENTS, OPS, TWEETS, data.meta);
   }
 
   // ── Application ──
 
-  function initApp(INCIDENTS, OPS, TWEETS) {
+  function initApp(INCIDENTS, OPS, TWEETS, META) {
     TWEETS = TWEETS || [];
+
+    // Timeline scale: prefer the data-driven marks computed by build_db.py
+    // (database.json._meta.timeline), which extrapolate past the last fixed
+    // mark automatically. Falls back to the static TL_MARKS in config.js
+    // when database.json is unavailable (CSV-fallback mode).
+    var timeline = (META && META.timeline && META.timeline.marks && META.timeline.marks.length)
+      ? META.timeline
+      : null;
+    var TL_MARKS = timeline ? timeline.marks : window.TL_MARKS;
 
     // Map
     var map = L.map('map', {
@@ -932,6 +941,10 @@
     function refresh() { renderMap(); renderList(); renderOpFilter(); renderCountryFilter(); refreshBorders(); renderTweetList(); renderTweetMarkers(); }
 
     // Init
+    if (timeline) {
+      $tlSlider.min = timeline.min;
+      $tlSlider.max = timeline.max;
+    }
     renderTLMarks();
     renderNewsTicker();
     renderTweetCategoryFilter();

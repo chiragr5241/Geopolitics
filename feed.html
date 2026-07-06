@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Full intel feed — mark stories important to track them over time">
+  <title>Feed | OSINT Daily</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/site.css?v=6">
+</head>
+<body>
+
+<div id="site-nav-mount"></div>
+
+<div class="page-wrap">
+  <div class="page-head">
+    <div class="page-title">Intel Feed</div>
+    <div class="page-sub">Star a story to track it over time on the Tracker page.</div>
+  </div>
+
+  <div class="filter-bar" id="filter-bar"></div>
+  <div style="margin-bottom:16px;">
+    <button class="tracker-btn" id="export-watchlist-btn">Export watchlist.json</button>
+  </div>
+
+  <div class="feed-list" id="feed-list"></div>
+</div>
+
+<script src="js/nav.js?v=6"></script>
+<script src="js/config.js?v=6"></script>
+<script src="js/data.js?v=6"></script>
+<script src="js/watchlist.js?v=6"></script>
+<script src="js/feed.js?v=6"></script>
+</body>
+</html>
