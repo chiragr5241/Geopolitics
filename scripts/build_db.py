@@ -18,6 +18,7 @@ Exports: data/database.json  (single file for the frontend DataLayer)
 import csv
 import json
 import os
+import re
 import sqlite3
 from datetime import datetime
 
@@ -43,41 +44,36 @@ def read_csv(path):
     return rows
 
 
-def date_to_sort_value(ts_str):
-    """
-    Map a date string to the TL_MARKS date_sort_value scale used by the
-    frontend timeline.  Interpolates linearly between known mark points.
-    """
-    marks = [
-        (datetime(2023, 10,  1),  -60),
-        (datetime(2024,  4,  1),  -35),
-        (datetime(2024,  8,  1),  -25),
-        (datetime(2024, 11,  1),  -15),
-        (datetime(2025,  6,  1),    0),
-        (datetime(2025,  9,  1),   18),
-        (datetime(2025, 12,  1),   32),
-        (datetime(2026,  1,  1),   45),
-        (datetime(2026,  2, 28),   65),
-        (datetime(2026,  3,  1),   82),
-        (datetime(2026,  3, 24),  100),
-    ]
+# Canonical timeline scale, source of truth for both the frontend slider and
+# date_sort_value interpolation (exported into database.json._meta.timeline
+# so the frontend never needs to hardcode marks again — extending this list
+# is now the *only* place that needs updating as new months pass, and the
+# scale extrapolates automatically beyond the last mark so a forgotten
+# update degrades gracefully instead of clamping every incident to one spot).
+TIMELINE_MARKS = [
+    (datetime(2023, 10,  1),  -60, 'Oct 2023'),
+    (datetime(2024,  4,  1),  -35, 'Apr 2024'),
+    (datetime(2024,  8,  1),  -25, 'Aug 2024'),
+    (datetime(2024, 11,  1),  -15, 'Nov 2024'),
+    (datetime(2025,  6,  1),    0, 'Jun 2025'),
+    (datetime(2025,  9,  1),   18, 'Sep 2025'),
+    (datetime(2025, 12,  1),   32, 'Dec 2025'),
+    (datetime(2026,  1,  1),   45, 'Jan 2026'),
+    (datetime(2026,  2, 28),   65, 'Feb 28'),
+    (datetime(2026,  3,  1),   82, 'Mar 2026'),
+    (datetime(2026,  3, 24),  100, 'Mar 24'),
+    (datetime(2026,  4,  1),  105, 'Apr 2026'),
+    (datetime(2026,  5,  1),  120, 'May 2026'),
+    (datetime(2026,  6,  1),  135, 'Jun 2026'),
+    (datetime(2026,  7,  1),  150, 'Jul 2026'),
+    (datetime(2026,  8,  1),  165, 'Aug 2026'),
+]
 
-    if not ts_str:
-        return 0
 
-    # Normalize various date formats
-    ts_str = ts_str.replace('T', ' ').replace('Z', '').split('+')[0].strip()
-
-    dt = None
-    for fmt in ['%Y-%m-%d %H:%M:%S', '%Y-%m-%d', '%b %d, %Y', '%B %Y']:
-        try:
-            dt = datetime.strptime(ts_str[:19].strip(), fmt)
-            break
-        except ValueError:
-            continue
-    if dt is None:
-        return 0
-
+def value_for_date(dt):
+    marks = [(d, v) for d, v, _ in TIMELINE_MARKS]
+    if dt <= marks[0][0]:
+        return marks[0][1]
     for i in range(len(marks) - 1):
         lo_dt, lo_v = marks[i]
         hi_dt, hi_v = marks[i + 1]
@@ -85,7 +81,45 @@ def date_to_sort_value(ts_str):
             span = (hi_dt - lo_dt).total_seconds()
             frac = (dt - lo_dt).total_seconds() / span
             return round(lo_v + frac * (hi_v - lo_v), 2)
-    return -60 if dt < marks[0][0] else 100
+    # Past the last fixed mark: extrapolate using the final segment's slope
+    # instead of clamping, so newer incidents keep spreading out on the
+    # timeline until someone extends TIMELINE_MARKS again.
+    (d1, v1), (d2, v2) = marks[-2], marks[-1]
+    slope_per_day = (v2 - v1) / (d2 - d1).days
+    days_past = (dt - d2).total_seconds() / 86400
+    return round(v2 + slope_per_day * days_past, 2)
+
+
+def parse_flexible_date(ts_str):
+    if not ts_str:
+        return None
+    ts_str = ts_str.replace('T', ' ').replace('Z', '').split('+')[0].strip()
+    for fmt in ['%Y-%m-%d %H:%M:%S', '%Y-%m-%d', '%b %d, %Y', '%B %Y']:
+        try:
+            return datetime.strptime(ts_str[:19].strip(), fmt)
+        except ValueError:
+            continue
+    return None
+
+
+def date_to_sort_value(ts_str):
+    """
+    Map a date string to the TIMELINE_MARKS date_sort_value scale used by
+    the frontend timeline. Interpolates linearly between known mark points,
+    extrapolates past the last one.
+    """
+    dt = parse_flexible_date(ts_str)
+    if dt is None:
+        return 0
+    return value_for_date(dt)
+
+
+def sync_dedup_key(created_at, text):
+    """Mirrors sync_enriched_to_intel.py's dedup key, used to join
+    intel_feed rows back to their richer spectator_enriched.csv source."""
+    created_at = (created_at or '').strip()
+    created_at = re.sub(r'\.\d+Z?$', '', created_at.replace('T', ' ')).rstrip('Z')[:19]
+    return (created_at, ' '.join((text or '').split()))
 
 
 def compute_badge_colors(row):
@@ -222,7 +256,12 @@ CREATE TABLE IF NOT EXISTS tweets (
     entities_orgs       TEXT,
     entities_weapons    TEXT,
     entities_locations  TEXT,
-    summary             TEXT
+    summary             TEXT,
+    tweet_id            TEXT,
+    context             TEXT,
+    implications        TEXT,
+    sources_json        TEXT,
+    confirmation_status TEXT
 )'''
 
 TWEET_DB_COLS = [
@@ -232,6 +271,7 @@ TWEET_DB_COLS = [
     'linked_operation', 'linked_incident_ids',
     'entities_people', 'entities_orgs', 'entities_weapons',
     'entities_locations', 'summary',
+    'tweet_id', 'context', 'implications', 'sources_json', 'confirmation_status',
 ]
 
 
@@ -265,6 +305,20 @@ def build():
         source      TEXT
     )''')
     c.execute(TWEETS_SCHEMA)
+    c.execute('''
+    CREATE TABLE IF NOT EXISTS story_updates (
+        update_id   TEXT PRIMARY KEY,
+        story_id    TEXT,
+        date        TEXT,
+        headline    TEXT,
+        summary     TEXT,
+        source_name TEXT,
+        url         TEXT,
+        status      TEXT,
+        severity    TEXT,
+        origin      TEXT,
+        found_at    TEXT
+    )''')
     conn.commit()
 
     # ── Import operations ─────────────────────────────────────────────────────
@@ -330,10 +384,22 @@ def build():
     enriched_count = len(incidents) - curated_count
     print(f'  Incidents: {curated_count} curated + {enriched_count} enriched = {len(incidents)} total')
 
-    # ── Import intel feed tweets ──────────────────────────────────────────────
+    # ── Import intel feed tweets, joined with spectator_enriched.csv ──────────
     tweets = read_csv(os.path.join(DATA_DIR, 'intel_feed.csv'))
+    enriched = read_csv(os.path.join(DATA_DIR, 'spectator_enriched.csv'))
+    enriched_by_key = {
+        sync_dedup_key(r.get('pub_date'), r.get('original_text')): r for r in enriched
+    }
+
     inserted = 0
     for r in tweets:
+        match = enriched_by_key.get(sync_dedup_key(r.get('created_at'), r.get('full_text')))
+        if match:
+            r['tweet_id'] = match.get('tweet_id', '')
+            r['context'] = match.get('context', '')
+            r['implications'] = match.get('implications', '')
+            r['sources_json'] = match.get('sources_json', '')
+            r['confirmation_status'] = match.get('confirmation_status', '')
         try:
             vals = [r.get(col, '') for col in TWEET_DB_COLS]
             c.execute(
@@ -344,6 +410,20 @@ def build():
         except Exception:
             pass
     print(f'  Tweets: {inserted} rows')
+
+    # ── Import story tracker updates ──────────────────────────────────────────
+    story_updates = read_csv(os.path.join(DATA_DIR, 'story_updates.csv'))
+    story_update_cols = [
+        'update_id', 'story_id', 'date', 'headline', 'summary',
+        'source_name', 'url', 'status', 'severity', 'origin', 'found_at',
+    ]
+    for r in story_updates:
+        vals = [r.get(col, '') for col in story_update_cols]
+        c.execute(
+            f'INSERT OR REPLACE INTO story_updates VALUES ({",".join(["?"] * len(story_update_cols))})',
+            vals
+        )
+    print(f'  Story updates: {len(story_updates)} rows')
 
     conn.commit()
 
@@ -361,18 +441,40 @@ def export_json(conn, out_path):
         cols = [d[0] for d in cur.description]
         return [dict(zip(cols, row)) for row in cur.fetchall()]
 
-    incidents  = query('SELECT * FROM incidents ORDER BY CAST(date_sort_value AS REAL)')
-    operations = query('SELECT * FROM operations')
-    imagery    = query('SELECT * FROM imagery')
-    tweets     = query('SELECT * FROM tweets ORDER BY created_at DESC LIMIT 2000')
+    incidents     = query('SELECT * FROM incidents ORDER BY CAST(date_sort_value AS REAL)')
+    operations    = query('SELECT * FROM operations')
+    imagery       = query('SELECT * FROM imagery')
+    tweets        = query('SELECT * FROM tweets ORDER BY created_at DESC LIMIT 2000')
+    story_updates = query('SELECT * FROM story_updates ORDER BY story_id, date')
 
     curated  = [i for i in incidents if i.get('source_type') == 'curated']
     enriched = [i for i in incidents if i.get('source_type') == 'enriched']
 
+    watchlist_path = os.path.join(DATA_DIR, 'watchlist.json')
+    watchlist = {'version': 1, 'updated_at': '', 'stories': []}
+    if os.path.exists(watchlist_path):
+        with open(watchlist_path, encoding='utf-8') as f:
+            watchlist = json.load(f)
+    active_stories = sum(1 for s in watchlist.get('stories', []) if s.get('status') == 'active')
+
+    now = datetime.utcnow()
+    now_val = value_for_date(now)
+    timeline_marks = [{'v': v, 'lbl': lbl} for _, v, lbl in TIMELINE_MARKS]
+    if abs(now_val - timeline_marks[-1]['v']) < 0.5:
+        timeline_marks[-1] = {'v': now_val, 'lbl': 'Now'}
+    else:
+        timeline_marks.append({'v': now_val, 'lbl': 'Now'})
+    timeline = {
+        'marks': timeline_marks,
+        'min': TIMELINE_MARKS[0][1] - 5,
+        'max': now_val,
+    }
+
     data = {
         '_meta': {
-            'generated': datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ'),
-            'version':   3,
+            'generated': now.strftime('%Y-%m-%dT%H:%M:%SZ'),
+            'version':   4,
+            'timeline':  timeline,
             'counts': {
                 'incidents_curated':  len(curated),
                 'incidents_enriched': len(enriched),
@@ -380,12 +482,17 @@ def export_json(conn, out_path):
                 'operations':         len(operations),
                 'imagery':            len(imagery),
                 'tweets':             len(tweets),
+                'watchlist_stories':  len(watchlist.get('stories', [])),
+                'watchlist_active':   active_stories,
+                'story_updates':      len(story_updates),
             }
         },
-        'incidents':  incidents,
-        'operations': operations,
-        'imagery':    imagery,
-        'tweets':     tweets,
+        'incidents':     incidents,
+        'operations':    operations,
+        'imagery':       imagery,
+        'tweets':        tweets,
+        'watchlist':     watchlist.get('stories', []),
+        'story_updates': story_updates,
     }
 
     with open(out_path, 'w', encoding='utf-8') as f:
@@ -394,6 +501,8 @@ def export_json(conn, out_path):
     print(f'\nExported:')
     print(f'  {len(curated)} curated + {len(enriched)} enriched = {len(incidents)} total incidents')
     print(f'  {len(operations)} operations, {len(imagery)} imagery, {len(tweets)} tweets')
+    print(f'  {len(watchlist.get("stories", []))} watchlist stories ({active_stories} active), {len(story_updates)} story updates')
+    print(f'  timeline: min={timeline["min"]} max={timeline["max"]}')
     size_kb = os.path.getsize(out_path) // 1024
     print(f'  database.json: {size_kb} KB')
 
