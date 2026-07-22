@@ -62,7 +62,7 @@
     }).join('');
     mount.outerHTML =
       '<nav id="site-nav">' +
-        '<a class="nav-brand" href="' + PERSONAL_URL + '" target="_blank" rel="noopener">chirag</a>' +
+        '<a class="nav-brand" href="' + PERSONAL_URL + '">chirag</a>' +
         '<div class="nav-links">' + links + '</div>' +
         '<div class="nav-right">' +
           '<label class="theme-toggle" title="Toggle light / dark">' +

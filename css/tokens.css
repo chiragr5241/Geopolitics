@@ -2,8 +2,8 @@
    Design tokens shared by every page (map, home, feed, tracker).
    Palette + typography mirror the personal site
    (Dev/professional/website): Inter + Space Grotesk, warm
-   near-monochrome with a single brand accent (amber in dark,
-   umber in light) and semantic colours for the category pills.
+   near-monochrome with a single brand accent (amber in dark, blue in
+   light) and semantic colours for the category pills.
 
    Theming follows the personal site's convention exactly:
    dark is the CSS default (:root) and light is an override under
@@ -19,13 +19,13 @@
   --bg1: #171717;
   --bg2: #202020;
   --card: #161616;
-  --border: rgba(255, 255, 255, .09);
+  --border: rgba(255, 255, 255, .08);
   --border2: rgba(255, 255, 255, .18);
   --text: #9a9a9a;
   --text2: #d7d7d7;
   --bright: #f0f0f0;
 
-  /* Brand accent (links, active nav, section marks) */
+  /* Brand accent (links, buttons, active nav, section marks) */
   --accent: #f0a030;
   --accent-soft: rgba(240, 160, 48, .14);
   --on-accent: #0f0f0f;
@@ -37,13 +37,14 @@
   --purple:  #a98cf2;
   --orange:  #f0843e;
   --pink:    #ec5fa4;
+  --blue:    #5b9bf5;
 
   /* Shared nav / map header chrome — follows the theme */
   --header-bg: #0f0f0f;
-  --header-border: rgba(255, 255, 255, .09);
+  --header-border: rgba(255, 255, 255, .08);
   --header-text: #9a9a9a;
   --header-bright: #f0f0f0;
-  --header-accent: #f0a030;
+  --header-accent: var(--accent);
 
   --font-display: 'Space Grotesk', 'Inter', sans-serif;
   --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -72,8 +73,9 @@
   --text2: #33342e;
   --bright: #1a1a1a;
 
-  /* Blue accent to match the personal site's light theme (its section marks
-     and Cherenkov-blue particles). Dark mode keeps the amber above. */
+  /* Light blue — the exact hex hardcoded in the personal site's
+     css/minimal.css for its light-mode section-heading underline
+     (.light-mode .section__heading::after { background: #2e86ff; }). */
   --accent: #2e86ff;
   --accent-soft: rgba(46, 134, 255, .12);
   --on-accent: #ffffff;
@@ -84,12 +86,13 @@
   --purple:  #7c3aed;
   --orange:  #c2410c;
   --pink:    #be185d;
+  --blue:    #2563eb;
 
   --header-bg: #fafaf8;
   --header-border: rgba(0, 0, 0, .08);
   --header-text: #6b6b66;
   --header-bright: #1a1a1a;
-  --header-accent: #6b5b3e;
+  --header-accent: var(--accent);
 
   --shadow-sm: 0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
   --shadow-md: 0 4px 16px rgba(0,0,0,.08), 0 1px 4px rgba(0,0,0,.04);
@@ -134,7 +137,8 @@ body {
   font-weight: 600;
   color: var(--header-bright);
   text-decoration: none;
-  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  letter-spacing: .02em;
   white-space: nowrap;
   border-bottom: 1px solid transparent;
   transition: border-color .2s, opacity .2s;
@@ -183,14 +187,12 @@ body {
   white-space: nowrap;
 }
 
-/* ── Theme toggle — ported from the personal site (sliding sun/moon) ── */
+/* ── Theme toggle — ported from the personal site (sliding sun/moon) ──
+   Here the <label class="theme-toggle"> (js/nav.js) is both the flex-item
+   wrapper and the 50x24 pill itself, unlike the personal site's nested
+   .theme-toggle > .theme-toggle__label structure — so this single rule
+   carries the sizing that site splits across two classes. */
 .theme-toggle {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-
-.theme-toggle__label {
   position: relative;
   display: inline-block;
   width: 50px;
