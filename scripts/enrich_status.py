@@ -27,9 +27,14 @@ D = lambda *p: os.path.join(ROOT, 'data', *p)
 # data files' freshness instead (see below).
 THRESHOLDS = {
     'raw ingest': 2,
-    'deep enrichment': 3,
+    'enrichment (base)': 2,
     'intel_feed sync': 3,
 }
+
+# Deep (agent) enrichment is best-effort and batch-capped, so a residual queue
+# of base rows still awaiting deep research is a soft WARN, never a hard failure
+# — otherwise a bounded run could never publish its partial progress.
+DEEP_BACKLOG_WARN = 25
 
 # incidents.csv is stale if the newest qualifying intel_feed row (the kind
 # promote_incidents.py promotes) is more than this many days ahead of the
@@ -92,14 +97,31 @@ def main():
     raw, raw_latest = load(D('raw_data', 'spectator_raw.csv'), 'pub_date')
     report('raw ingest', f'{len(raw or [])} tweets', raw_latest)
 
+    # Tier 1 (base) coverage — the HARD gate. base_enrich.py is deterministic
+    # and must keep raw->enriched at ~0; a backlog here means that script broke.
     deep, deep_latest = load(D('spectator_enriched.csv'), 'pub_date')
     raw_ids = {r['id'] for r in (raw or [])}
     deep_ids = {r['id'] for r in (deep or [])}
     unenriched = len(raw_ids - deep_ids)
-    report('deep enrichment', f'{len(deep or [])} rows', deep_latest,
+    report('enrichment (base)', f'{len(deep or [])} rows', deep_latest,
            f'({unenriched} raw tweets unenriched)' if unenriched else '')
-    if unenriched > 20:
-        problems.append(f'deep enrichment: {unenriched} tweets in backlog')
+    if unenriched > 0:
+        problems.append(f'enrichment (base): {unenriched} raw tweets have no base '
+                        f'row (run scripts/base_enrich.py)')
+
+    # Tier 2 (deep) research — SOFT warning only. Counts base rows still awaiting
+    # agent corroboration (excludes noise and severity<2).
+    def _awaiting_deep(r):
+        if (r.get('tier') or 'deep') != 'base':
+            return False
+        if (r.get('subcategory') or '') == 'noise':
+            return False
+        sev = int(r['severity']) if (r.get('severity') or '').strip().isdigit() else 0
+        return sev >= 2
+    deep_backlog = sum(1 for r in (deep or []) if _awaiting_deep(r))
+    deep_status = 'OK' if deep_backlog <= DEEP_BACKLOG_WARN else f'WARN ({deep_backlog} queued)'
+    report('enrichment (deep)', f'{deep_backlog} base rows awaiting research',
+           deep_latest, status_override=deep_status)
 
     intel, intel_latest = load(D('intel_feed.csv'), 'created_at')
     intel_keys = {((r.get('created_at') or '')[:19],

@@ -128,42 +128,69 @@ def main():
 
     with open(INTEL_CSV, newline='', encoding='utf-8') as f:
         existing = list(csv.DictReader(f))
-    existing_keys = {dedup_key(r.get('created_at'), r.get('full_text')) for r in existing}
+    existing_by_key = {}
+    for r in existing:
+        existing_by_key.setdefault(dedup_key(r.get('created_at'), r.get('full_text')), r)
 
     known_ops = set()
     if os.path.exists(OPS_CSV):
         with open(OPS_CSV, newline='', encoding='utf-8') as f:
             known_ops = {r.get('operation_name', '') for r in csv.DictReader(f)}
 
+    # Columns refreshed on upsert. `linked_incident_ids` is preserved (it can be
+    # set by promotion / by hand) and `full_text`/`created_at` are the key.
+    REFRESH_COLS = [c for c in INTEL_COLUMNS
+                    if c not in ('created_at', 'full_text', 'linked_incident_ids')]
+
     new_rows = []
+    updated = 0
     for row in enriched:
         key = dedup_key(row.get('pub_date'), row.get('original_text'))
-        if key in existing_keys:
-            continue
-        existing_keys.add(key)
-        new_rows.append(to_intel_row(row, known_ops))
+        candidate = to_intel_row(row, known_ops)
+        cur = existing_by_key.get(key)
+        if cur is None:
+            existing_by_key[key] = candidate
+            new_rows.append(candidate)
+        else:
+            # Refresh in place if the enriched row now carries better data.
+            changed = False
+            for c in REFRESH_COLS:
+                if (cur.get(c) or '') != (candidate.get(c) or ''):
+                    cur[c] = candidate.get(c, '')
+                    changed = True
+            if changed:
+                updated += 1
 
     new_rows.sort(key=lambda r: r['created_at'])
 
     print(f'Deep-enriched rows:    {len(enriched)}')
     print(f'Already in intel_feed: {len(enriched) - len(new_rows)}')
     print(f'New rows to sync:      {len(new_rows)}')
+    print(f'Existing rows updated: {updated}')
 
-    if not new_rows:
+    if not new_rows and not updated:
         print('intel_feed.csv is up to date.')
         return
     if dry_run:
         print('Dry run — no changes written.')
         return
 
-    with open(INTEL_CSV, 'a', newline='', encoding='utf-8') as f:
-        writer = csv.DictWriter(f, fieldnames=INTEL_COLUMNS)
-        writer.writerows(new_rows)
+    # Rewrite the whole file atomically: existing rows (possibly refreshed) keep
+    # their order, new rows are appended in date order.
+    all_rows = existing + new_rows
+    tmp = INTEL_CSV + '.tmp'
+    with open(tmp, 'w', newline='', encoding='utf-8') as f:
+        writer = csv.DictWriter(f, fieldnames=INTEL_COLUMNS, extrasaction='ignore')
+        writer.writeheader()
+        for r in all_rows:
+            writer.writerow({c: r.get(c, '') for c in INTEL_COLUMNS})
+    os.replace(tmp, INTEL_CSV)
 
     linked = sum(1 for r in new_rows if r['linked_operation'])
-    print(f'Appended {len(new_rows)} rows to intel_feed.csv '
-          f'({linked} linked to operations). '
-          f'Date range: {new_rows[0]["created_at"]} → {new_rows[-1]["created_at"]}')
+    span = (f'Date range: {new_rows[0]["created_at"]} → {new_rows[-1]["created_at"]}'
+            if new_rows else '')
+    print(f'Wrote intel_feed.csv: +{len(new_rows)} new ({linked} op-linked), '
+          f'{updated} updated. {span}')
     print('Next: python3 scripts/build_db.py')
 
 
