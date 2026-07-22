@@ -30,6 +30,7 @@ from datetime import datetime, timezone
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ENRICHED_CSV = os.path.join(ROOT, 'data', 'spectator_enriched.csv')
+STORY_IMAGES_CSV = os.path.join(ROOT, 'data', 'story_images.csv')
 
 # Canonical column order for spectator_enriched.csv. `tier` is appended last so
 # name-based (DictReader) consumers — sync_enriched_to_intel.py,
@@ -39,8 +40,14 @@ ENRICHED_COLUMNS = [
     'countries', 'entities_people', 'entities_orgs', 'entities_weapons',
     'entities_locations', 'lat', 'lng', 'sentiment', 'severity', 'is_breaking',
     'summary', 'context', 'implications', 'confirmation_status', 'source_count',
-    'sources_json', 'images', 'enriched_at', 'tier',
+    'sources_json', 'images', 'source', 'source_url', 'perspective',
+    'enriched_at', 'tier',
 ]
+
+# Provenance of an enriched row. Spectator tweets are the historical default;
+# wire items (pull_wires.py) carry their outlet name + article URL + the
+# reporting-country perspective so the feed can attribute and cross-reference.
+DEFAULT_SOURCE = 'spectator'
 
 # Rows written before the two-tier split were all agent-researched, so a
 # missing `tier` means the row is already deep.
@@ -130,6 +137,22 @@ def is_noise(text):
     return bool(_NOISE_RE.search(text or ''))
 
 
+# Wire URL sections that are genuinely NOT geopolitics — sport, entertainment,
+# lifestyle, quizzes, galleries. Deliberately NARROW: documentaries, explainers,
+# long-form, features, opinion and video are the *deep* content the tracker is
+# for (Johnny-Harris "understand how the world works"), so they stay in the feed.
+_WIRE_LOWVALUE_RE = re.compile(
+    r'/(sport|sports|entertainment|lifestyle|celebrity|celebrities|'
+    r'quiz|quizzes|gallery|galleries|arts?-and-culture|food|travel|gaming)/',
+    re.I,
+)
+
+
+def is_wire_low_value(url):
+    """True only for clearly non-news wire URLs (sport/entertainment/etc.)."""
+    return bool(_WIRE_LOWVALUE_RE.search(url or ''))
+
+
 # --------------------------------------------------------------------------- #
 # Deterministic classification
 # --------------------------------------------------------------------------- #
@@ -216,6 +239,55 @@ def classify(text):
     }
 
 
+# --------------------------------------------------------------------------- #
+# Deterministic image matching (mirrors findImage() in js/home.js /
+# js/tracker.js — first story_images.csv row whose semicolon-split keyword is a
+# substring of the item text; rows are ordered most-specific first).
+# --------------------------------------------------------------------------- #
+
+_STORY_IMAGES = None
+
+
+def load_story_images():
+    """Return the story_images.csv rows in priority order (cached). Each row is
+    {keywords,label,url,caption,credit}."""
+    global _STORY_IMAGES
+    if _STORY_IMAGES is None:
+        rows = []
+        if os.path.exists(STORY_IMAGES_CSV):
+            with open(STORY_IMAGES_CSV, newline='', encoding='utf-8') as f:
+                rows = list(csv.DictReader(f))
+        _STORY_IMAGES = rows
+    return _STORY_IMAGES
+
+
+def match_image(text, countries=''):
+    """Return the URL of the first keyword-matching hero image, or '' if none.
+
+    Deterministic and offline. Country-gated: a row that declares `countries`
+    only matches when the item shares at least one of them. This stops a generic
+    keyword from cross-assigning a wrong-country photo — e.g. an Indian election
+    story matching the US "voting" image, or a non-US airstrike grabbing the B-2.
+    Rows with no `countries` (generic munitions, oil, stadiums) match anything;
+    when the item itself has no countries we can't gate, so keyword-only applies.
+    """
+    hay = (text or '').lower()
+    if not hay:
+        return ''
+    item_cs = {c.strip().upper() for c in (countries or '').replace(',', ';').split(';') if c.strip()}
+    for row in load_story_images():
+        row_cs = {c.strip().upper() for c in (row.get('countries') or '').split(';') if c.strip()}
+        # Gate: if both the row and the item name countries and they don't
+        # overlap, this image is the wrong place — skip it.
+        if row_cs and item_cs and not (row_cs & item_cs):
+            continue
+        for kw in (row.get('keywords') or '').lower().split(';'):
+            kw = kw.strip()
+            if kw and kw in hay:
+                return row.get('url', '') or ''
+    return ''
+
+
 def base_record(raw_row):
     """Build a full base-tier enriched row (dict) from a raw tweet row."""
     text = raw_row.get('text', '') or ''
@@ -246,7 +318,60 @@ def base_record(raw_row):
         'confirmation_status': 'unconfirmed',
         'source_count': '0',
         'sources_json': '[]',
-        'images': '',
+        'images': match_image(text, cls['countries']),
+        'source': DEFAULT_SOURCE,
+        'source_url': '',
+        'perspective': '',
+        'enriched_at': now_iso(),
+        'tier': 'base',
+    }
+
+
+def wire_base_record(wire_row):
+    """Build a base-tier enriched row from a wire_raw.csv item (pull_wires.py).
+
+    Wire items already carry an outlet, an article URL, a reporting-country
+    perspective, and often a native image — all richer than a bare tweet, so we
+    thread them straight through. The headline+lede feed the same deterministic
+    classifier tweets use, and the native image beats the keyword match."""
+    title = (wire_row.get('title') or '').strip()
+    lede = (wire_row.get('lede') or '').strip()
+    text = title if not lede else f'{title} — {lede}'
+    cls = classify(text)
+    # Editorial/video/long-form sections → mark noise so the feed hides them.
+    if is_wire_low_value(wire_row.get('url', '')):
+        cls = dict(cls, category='social', subcategory=NOISE_SUBCATEGORY, severity=1)
+    summary = ' '.join(title.split())
+    if len(summary) > 140:
+        summary = summary[:137].rstrip() + '...'
+    native = (wire_row.get('image') or '').strip()
+    return {
+        'id': wire_row.get('id', ''),
+        'tweet_id': '',
+        'pub_date': wire_row.get('pub_date', ''),
+        'original_text': text,
+        'category': cls['category'],
+        'subcategory': cls['subcategory'],
+        'countries': cls['countries'],
+        'entities_people': '',
+        'entities_orgs': '',
+        'entities_weapons': '',
+        'entities_locations': '',
+        'lat': '',
+        'lng': '',
+        'sentiment': cls['sentiment'],
+        'severity': str(cls['severity']),
+        'is_breaking': cls['is_breaking'],
+        'summary': summary,
+        'context': '',
+        'implications': '',
+        'confirmation_status': 'unconfirmed',
+        'source_count': '1',
+        'sources_json': '[]',
+        'images': native or match_image(text, cls['countries']),
+        'source': wire_row.get('source', '') or 'wire',
+        'source_url': wire_row.get('url', ''),
+        'perspective': wire_row.get('perspective', ''),
         'enriched_at': now_iso(),
         'tier': 'base',
     }
@@ -284,6 +409,15 @@ def write_enriched(rows):
 
 def load_raw():
     raw_path = os.path.join(ROOT, 'data', 'raw_data', 'spectator_raw.csv')
+    if not os.path.exists(raw_path):
+        return []
+    with open(raw_path, newline='', encoding='utf-8') as f:
+        return list(csv.DictReader(f))
+
+
+def load_wire_raw():
+    """Rows from data/raw_data/wire_raw.csv (pull_wires.py), or [] if absent."""
+    raw_path = os.path.join(ROOT, 'data', 'raw_data', 'wire_raw.csv')
     if not os.path.exists(raw_path):
         return []
     with open(raw_path, newline='', encoding='utf-8') as f:

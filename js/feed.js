@@ -9,8 +9,13 @@
     'political', 'cyber', 'trade', 'terrorism', 'intelligence', 'legal', 'social',
   ];
 
+  // Categories where a confirmation status ("unconfirmed") is meaningful — a
+  // kinetic/security claim you'd want corroborated. Elsewhere the tag is noise.
+  var CONFIRM_CATEGORIES = new Set(['military', 'nuclear', 'terrorism', 'cyber']);
+
   var activeCategories = new Set(ALL_CATEGORIES);
   var items = [];
+  var creditByUrl = {};
   var expanded = new Set();
   var focusKey = FeedItem.readQueryItem();
   // Reveal on scroll only for the first paint — re-renders from filtering or
@@ -58,24 +63,30 @@
     var isOpen = expanded.has(key);
     var hasExpand = FeedItem.hasDetails(item);
     var focused = focusKey && key === focusKey;
+    var thumb = FeedItem.imageHtml(item, creditByUrl);
 
     return (
       '<div class="card feed-card ' + (reveal ? 'animate-on-scroll ' : '') +
         (item.is_breaking === 'TRUE' ? 'breaking ' : '') +
         (starred ? 'starred ' : '') +
+        (thumb ? 'has-img ' : '') +
         (focused ? 'feed-card-focus ' : '') +
         '" data-key="' + FeedItem.esc(key) + '" id="feed-item-' + FeedItem.esc(key) + '">' +
-        '<div class="feed-card-top">' +
-          '<span class="' + pillClass(item.category) + '">' + (item.category || 'social') + '</span>' +
-          (item.confirmation_status ? '<span class="pill" style="color:var(--text);border-color:var(--border2);background:var(--bg1);">' + item.confirmation_status + '</span>' : '') +
-          sevDots(item.severity) +
-          '<span class="feed-time">' + fmtTime(item.created_at) + '</span>' +
-          '<button class="star-btn ' + (starred ? 'on' : '') + '" title="Mark important" data-action="star">' + (starred ? '★' : '☆') + '</button>' +
+        thumb +
+        '<div class="feed-card-body">' +
+          '<div class="feed-card-top">' +
+            '<span class="' + pillClass(item.category) + '">' + (item.category || 'social') + '</span>' +
+            (item.confirmation_status && CONFIRM_CATEGORIES.has((item.category || '').toLowerCase()) ? '<span class="pill" style="color:var(--text);border-color:var(--border2);background:var(--bg1);">' + item.confirmation_status + '</span>' : '') +
+            sevDots(item.severity) +
+            '<span class="feed-time">' + fmtTime(item.created_at) + '</span>' +
+            '<button class="star-btn ' + (starred ? 'on' : '') + '" title="Mark important" data-action="star">' + (starred ? '★' : '☆') + '</button>' +
+          '</div>' +
+          FeedItem.sourceBadgeHtml(item) +
+          '<div class="feed-text">' + (item.summary || item.full_text || '') + '</div>' +
+          FeedItem.storyTagsHtml(item) +
+          (hasExpand ? FeedItem.toggleBtnHtml(isOpen) : '') +
+          '<div class="feed-expand ' + (isOpen ? 'open' : '') + '">' + FeedItem.expandHtml(item) + '</div>' +
         '</div>' +
-        '<div class="feed-text">' + (item.summary || item.full_text || '') + '</div>' +
-        FeedItem.storyTagsHtml(item) +
-        (hasExpand ? FeedItem.toggleBtnHtml(isOpen) : '') +
-        '<div class="feed-expand ' + (isOpen ? 'open' : '') + '">' + FeedItem.expandHtml(item) + '</div>' +
       '</div>'
     );
   }
@@ -93,6 +104,7 @@
   function renderList() {
     var wrap = document.getElementById('feed-list');
     var visible = items.filter(function (it) {
+      if ((it.subcategory || '') === 'noise') return false; // sports/editorial one-liners
       return activeCategories.has((it.category || 'social').toLowerCase());
     });
 
@@ -136,6 +148,9 @@
 
   DataLayer.loadFeed().then(function (data) {
     WatchlistStore.init(data.watchlist);
+    (data.storyImages || []).forEach(function (r) {
+      if (r && r.url) creditByUrl[r.url] = r.credit || '';
+    });
     items = (data.tweetEnriched || []).slice().sort(function (a, b) {
       return (b.created_at || '').localeCompare(a.created_at || '');
     });

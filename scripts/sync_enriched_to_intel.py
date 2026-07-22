@@ -32,7 +32,7 @@ INTEL_COLUMNS = [
     'lat', 'lng', 'location_confidence',
     'linked_operation', 'linked_incident_ids',
     'entities_people', 'entities_orgs', 'entities_weapons', 'entities_locations',
-    'summary', 'linked_story_ids',
+    'summary', 'images', 'source', 'source_url', 'perspective', 'linked_story_ids',
 ]
 
 # Conservative keyword → operation linking. Only link when the evidence in
@@ -113,6 +113,10 @@ def to_intel_row(row, known_ops):
         'entities_weapons': row.get('entities_weapons', ''),
         'entities_locations': row.get('entities_locations', ''),
         'summary': summary,
+        'images': row.get('images', ''),
+        'source': row.get('source', '') or 'spectator',
+        'source_url': row.get('source_url', ''),
+        'perspective': row.get('perspective', ''),
     }
 
 

@@ -37,6 +37,22 @@
     else root.classList.add('light-mode');
   }
 
+  // localStorage is the single source of truth; the personal site (same origin)
+  // ships no theme JS and is always light, so an UNSET preference defaults to
+  // light — matching it. Reconciling here (not just in the pre-paint inline
+  // script) fixes desyncs where the class and the stored value disagree, e.g.
+  // after a bfcache restore, so the Feed can't open dark while storage says light.
+  function storedTheme() {
+    try { return localStorage.getItem('theme') === 'dark' ? 'dark' : 'light'; }
+    catch (e) { return 'light'; }
+  }
+
+  function syncTheme() {
+    applyTheme(storedTheme());
+    var input = document.getElementById('theme-toggle');
+    if (input) input.checked = isLight();
+  }
+
   function isLight() {
     return document.documentElement.classList.contains('light-mode');
   }
@@ -72,7 +88,14 @@
         '</div>' +
       '</nav>';
     wireToggle();
+    syncTheme();
   }
 
   render();
+
+  // Re-apply on back/forward cache restore — bfcache can resurrect a page with
+  // a stale <html> class while localStorage is current.
+  window.addEventListener('pageshow', function (e) {
+    if (e.persisted) syncTheme();
+  });
 })();

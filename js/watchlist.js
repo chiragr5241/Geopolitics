@@ -36,20 +36,32 @@ var WatchlistStore = (function () {
     } catch (e) { /* storage full or unavailable — marks still work in-session */ }
   }
 
+  // Merge local + server stories, PRESERVING the local array order — that order
+  // is the user's manual priority (drives the main-page tile sizes and the
+  // tracker rail). Local rows keep their slot; the newer record's *content*
+  // wins; server-only stories append at the end.
   function mergeStories(a, b) {
-    var byId = {};
-    (a || []).forEach(function (s) { byId[s.story_id] = s; });
-    (b || []).forEach(function (s) {
-      var existing = byId[s.story_id];
-      if (!existing) { byId[s.story_id] = s; return; }
-      // Newer marked_at/last_update_at wins for the whole record — simplest
-      // rule that avoids clobbering server-side tracker updates with a
-      // stale local copy, or vice versa.
-      var aTime = existing.last_update_at || existing.marked_at || '';
-      var bTime = s.last_update_at || s.marked_at || '';
-      byId[s.story_id] = (bTime > aTime) ? s : existing;
+    var bById = {};
+    (b || []).forEach(function (s) { bById[s.story_id] = s; });
+    var out = [];
+    var seen = {};
+    (a || []).forEach(function (s) {
+      if (seen[s.story_id]) return;
+      seen[s.story_id] = 1;
+      var other = bById[s.story_id];
+      if (!other) { out.push(s); return; }
+      var aTime = s.last_update_at || s.marked_at || '';
+      var bTime = other.last_update_at || other.marked_at || '';
+      // Take the newer record's content but hold the local slot. Carry the
+      // local `order`/position implicitly by pushing here.
+      out.push((bTime > aTime) ? other : s);
     });
-    return Object.keys(byId).map(function (k) { return byId[k]; });
+    (b || []).forEach(function (s) {
+      if (seen[s.story_id]) return;
+      seen[s.story_id] = 1;
+      out.push(s);
+    });
+    return out;
   }
 
   function init(serverStories) {
@@ -61,14 +73,30 @@ var WatchlistStore = (function () {
   }
 
   function slugify(text) {
-    return (text || '').toLowerCase().split(/[;,]/)[0]
-      .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'story';
+    var s = (text || '').toLowerCase().split(/[;,]/)[0]
+      .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+    // Cap length so a headline-derived id stays readable and stable.
+    if (s.length > 48) s = s.slice(0, 48).replace(/-+$/, '');
+    return s || 'story';
   }
 
+  // A stable story id for a feed item. Tweets keep the coarse
+  // day+location/country bucket (each tweet is its own seed anyway, via
+  // findByTweet). Wire / no-tweet_id items MUST derive from the headline: a
+  // country-only id collapsed every same-day, same-country item into one
+  // bucket, so starring one appeared to star its siblings and unstarring
+  // couldn't target just one (the "can't remove the cockroach headline" bug).
   function storyIdFor(item) {
     var day = (item.created_at || '').slice(0, 10).replace(/-/g, '');
-    var slugSource = (item.entities_locations || item.countries || '').split(';')[0];
-    return 'st-' + (day || '00000000') + '-' + slugify(slugSource || item.summary);
+    var slugSource;
+    if (item.tweet_id) {
+      slugSource = (item.entities_locations || item.countries || '').split(';')[0] ||
+        item.summary || item.full_text;
+    } else {
+      slugSource = item.summary || item.full_text ||
+        (item.entities_locations || item.countries || '').split(';')[0];
+    }
+    return 'st-' + (day || '00000000') + '-' + slugify(slugSource);
   }
 
   function findByTweet(item) {
@@ -185,6 +213,63 @@ var WatchlistStore = (function () {
     saveLocal();
   }
 
+  function indexOf(id) {
+    for (var i = 0; i < doc.stories.length; i++) {
+      if (doc.stories[i].story_id === id) return i;
+    }
+    return -1;
+  }
+
+  // Priority reorder. Array position IS the priority (top = highest), so both
+  // the ▲/▼ nudge and drag-to-index just splice the array and persist.
+  function moveBy(id, delta) {
+    var i = indexOf(id);
+    if (i < 0) return;
+    var j = i + delta;
+    if (j < 0 || j >= doc.stories.length) return;
+    var tmp = doc.stories[i];
+    doc.stories[i] = doc.stories[j];
+    doc.stories[j] = tmp;
+    doc.updated_at = nowIso();
+    saveLocal();
+  }
+
+  function moveTo(id, index) {
+    var i = indexOf(id);
+    if (i < 0) return;
+    var item = doc.stories.splice(i, 1)[0];
+    index = Math.max(0, Math.min(index, doc.stories.length));
+    doc.stories.splice(index, 0, item);
+    doc.updated_at = nowIso();
+    saveLocal();
+  }
+
+  // Edit a tracked story's user-facing fields (title, seed text, keywords,
+  // country codes). Keywords/countries drive story-linking and image matching,
+  // so they're split on comma/semicolon and normalised the same way as addCustom.
+  function updateStory(id, fields) {
+    var s = byId(id);
+    if (!s) return null;
+    fields = fields || {};
+    if (fields.title != null) s.title = String(fields.title).trim().slice(0, 140);
+    if (fields.text != null) {
+      s.seed = s.seed || {};
+      s.seed.text = String(fields.text).trim();
+    }
+    if (fields.keywords != null) {
+      s.keywords = String(fields.keywords).split(/[,;]/)
+        .map(function (k) { return k.trim().toLowerCase(); }).filter(Boolean).slice(0, 12);
+    }
+    if (fields.countries != null) {
+      s.seed = s.seed || {};
+      s.seed.countries = String(fields.countries).split(/[,;]/)
+        .map(function (c) { return c.trim().toUpperCase(); }).filter(Boolean);
+    }
+    doc.updated_at = nowIso();
+    saveLocal();
+    return s;
+  }
+
   function unmark(item) {
     var story = findByTweet(item) || byId(storyIdFor(item));
     if (!story) return;
@@ -229,6 +314,9 @@ var WatchlistStore = (function () {
     trackItem: trackItem,
     unmark: unmark,
     removeById: removeById,
+    moveBy: moveBy,
+    moveTo: moveTo,
+    updateStory: updateStory,
     addCustom: addCustom,
     storyIdFor: storyIdFor,
     hasId: hasId,

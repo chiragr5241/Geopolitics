@@ -14,6 +14,8 @@
   var lastSuggestions = [];
   var selectedId = null;
   var panelOpen = false;
+  var editingId = null;   // story currently open in the inline edit form
+  var dragId = null;      // story being dragged in the reorder list
 
   function esc(s) {
     return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -26,20 +28,62 @@
     return Math.floor((Date.now() - d.getTime()) / 86400000);
   }
 
+  // The date of the most recent NEWS the scrapers actually linked to this story
+  // — the newest of its linked feed items and curated updates. This is what
+  // staleness should key off (not last_update_at, which the tracker task bumps
+  // even when nothing new was found), so a story the feed is actively covering
+  // never shows "stale". Memoised per render pass.
+  var _lastNewsCache = {};
+  function lastNewsAt(story) {
+    if (story.story_id in _lastNewsCache) return _lastNewsCache[story.story_id];
+    var best = '';
+    feedItems.forEach(function (it) {
+      if (String(it.linked_story_ids || '').split(';').indexOf(story.story_id) === -1) return;
+      var d = (it.created_at || '').slice(0, 10);
+      if (d > best) best = d;
+    });
+    storyUpdates.forEach(function (u) {
+      if (u.story_id !== story.story_id) return;
+      var d = (u.date || '').slice(0, 10);
+      if (d > best) best = d;
+    });
+    if ((story.last_update_at || '') > best) best = story.last_update_at || '';
+    _lastNewsCache[story.story_id] = best;
+    return best;
+  }
+
   function statusFor(story) {
     if (story.status === 'resolved') return 'resolved';
     if (story.status === 'archived') return 'archived';
-    if (daysSince(story.last_update_at) > STALE_DAYS) return 'stale';
+    // Stale ONLY if the scrapers have surfaced nothing for this story in
+    // STALE_DAYS — driven by real coverage, not the tracker's bookkeeping.
+    if (daysSince(lastNewsAt(story)) > STALE_DAYS) return 'stale';
     return 'active';
+  }
+
+  // "3 days ago" / "today" — small provenance tag for a story's freshness.
+  function lastNewsLabel(story) {
+    var n = daysSince(lastNewsAt(story));
+    if (!isFinite(n)) return 'no news yet';
+    if (n <= 0) return 'today';
+    if (n === 1) return 'yesterday';
+    return n + ' days ago';
   }
 
   // ── Image matching (mirrors home.js findImage) ───────────
   // story_images.csv rows are ordered most-specific first; match on
   // keyword substrings found in the supplied text.
-  function findImage(text, usedUrls) {
+  function findImage(text, usedUrls, countries) {
     var hay = (text || '').toLowerCase();
+    var itemCs = (countries || '').toUpperCase().replace(/,/g, ';').split(';')
+      .map(function (c) { return c.trim(); }).filter(Boolean);
     for (var i = 0; i < storyImages.length; i++) {
       if (usedUrls && usedUrls.indexOf(storyImages[i].url) !== -1) continue;
+      // Country gate (mirrors match_image in enrich_lib.py): a country-tagged
+      // image only matches a story sharing one of those countries.
+      var rowCs = (storyImages[i].countries || '').toUpperCase().split(';')
+        .map(function (c) { return c.trim(); }).filter(Boolean);
+      if (rowCs.length && itemCs.length && !rowCs.some(function (c) { return itemCs.indexOf(c) !== -1; })) continue;
       var keys = (storyImages[i].keywords || '').toLowerCase().split(';');
       for (var j = 0; j < keys.length; j++) {
         var k = keys[j].trim();
@@ -47,6 +91,10 @@
       }
     }
     return null;
+  }
+
+  function storyCountries(story) {
+    return ((story.seed && story.seed.countries) || []).join(';');
   }
 
   function storyMatchText(story) {
@@ -108,6 +156,7 @@
   }
 
   function refreshAll() {
+    _lastNewsCache = {};
     renderRail();
     renderMain();
     if (panelOpen) renderManagePanel();
@@ -129,7 +178,7 @@
         '<div class="card tracker-story-item ' + (s.story_id === selectedId ? 'selected' : '') + '" data-id="' + esc(s.story_id) + '">' +
           '<span class="tracker-status ' + st + '">' + st + '</span>' +
           '<div class="story-mini-title" style="margin-top:6px;">' + esc(s.title) + '</div>' +
-          '<div class="story-mini-meta"><span>' + count + ' update' + (count === 1 ? '' : 's') + '</span><span>last: ' + (s.last_update_at || '—') + '</span></div>' +
+          '<div class="story-mini-meta"><span>' + count + ' update' + (count === 1 ? '' : 's') + '</span><span class="last-news">news ' + esc(lastNewsLabel(s)) + '</span></div>' +
         '</div>'
       );
     }).join('');
@@ -222,7 +271,7 @@
     entries.sort(function (a, b) { return (b.date || '').localeCompare(a.date || ''); });
 
     // Header hero image — the most representative image for the whole story.
-    var heroImg = findImage(storyMatchText(story), []);
+    var heroImg = findImage(storyMatchText(story), [], storyCountries(story));
     // Node thumbnails may repeat down a long timeline, but never on two adjacent
     // nodes (or right under the hero), so the thread stays lively.
     var prevUrl = heroImg ? heroImg.url : null;
@@ -240,7 +289,8 @@
     }
 
     var nodes = entries.map(function (e) {
-      var img = findImage((e.headline || '') + ' ' + (e.summary || ''), prevUrl ? [prevUrl] : []);
+      var nodeCs = (e.feed && e.feed.countries) || storyCountries(story);
+      var img = findImage((e.headline || '') + ' ' + (e.summary || ''), prevUrl ? [prevUrl] : [], nodeCs);
       if (img) prevUrl = img.url;
       var det = (e.feed && FeedItem.hasDetails(e.feed)) ? FeedItem.expandHtml(e.feed) : '';
       var sev = (e.feed && e.feed.severity) ? (parseInt(e.feed.severity, 10) || 0) : 0;
@@ -257,7 +307,9 @@
               (e.status ? '<span>· ' + esc(e.status) + '</span>' : '') +
               (sev >= 4 ? '<span class="node-sev">sev ' + sev + '</span>' : '') +
             '</div>' +
-            '<div class="timeline-node-headline">' + esc(e.headline) + '</div>' +
+            '<div class="timeline-node-headline">' +
+              (e.feed ? '<a class="node-feed-link" href="' + esc(FeedItem.feedUrl(e.feed)) + '" title="Open in Feed">' + esc(e.headline) + '</a>' : esc(e.headline)) +
+            '</div>' +
             (e.summary ? '<div class="timeline-node-summary">' + esc(e.summary) + '</div>' : '') +
             (e.source_name || e.url ?
               '<div class="timeline-node-source">' +
@@ -287,7 +339,7 @@
         '<div class="tracker-story-header-body">' +
           '<span class="tracker-status ' + st + '">' + st + '</span>' +
           '<div class="tracker-story-title">' + esc(story.title) + '</div>' +
-          '<div class="story-mini-meta"><span>' + entries.length + ' update' + (entries.length === 1 ? '' : 's') + '</span><span>marked ' + esc((story.marked_at || '').slice(0, 10)) + '</span></div>' +
+          '<div class="story-mini-meta"><span>' + entries.length + ' update' + (entries.length === 1 ? '' : 's') + '</span><span class="last-news">last news ' + esc(lastNewsLabel(story)) + '</span><span>marked ' + esc((story.marked_at || '').slice(0, 10)) + '</span></div>' +
           '<div class="tracker-story-actions">' +
             (story.status !== 'resolved' ? '<button class="tracker-btn" data-action="resolve">Mark resolved</button>' : '<button class="tracker-btn" data-action="reactivate">Reactivate</button>') +
             (story.status !== 'archived' ? '<button class="tracker-btn" data-action="archive">Archive</button>' : '') +
@@ -352,19 +404,46 @@
     panel.hidden = !panelOpen;
     if (!panelOpen) { panel.innerHTML = ''; return; }
 
-    var tracked = WatchlistStore.all().slice().sort(function (a, b) {
-      return (b.marked_at || '').localeCompare(a.marked_at || '');
-    });
+    // Priority order (array position) — this is what the reorder controls and
+    // the main page tile sizes follow, so DON'T re-sort here.
+    var tracked = WatchlistStore.all().slice();
     lastSuggestions = buildSuggestions();
     var suggestions = lastSuggestions;
 
-    var trackedHtml = tracked.length ? tracked.map(function (s) {
-      var st = statusFor(s);
+    function editFormHtml(s) {
+      var kw = (s.keywords || []).join(', ');
+      var cs = ((s.seed && s.seed.countries) || []).join(', ');
       return (
-        '<div class="manage-row" data-id="' + esc(s.story_id) + '">' +
+        '<div class="manage-edit" data-id="' + esc(s.story_id) + '">' +
+          '<input type="text" data-ef="title" value="' + esc(s.title) + '" placeholder="Title">' +
+          '<textarea data-ef="text" rows="2" placeholder="Seed / what to watch">' + esc((s.seed && s.seed.text) || '') + '</textarea>' +
+          '<div class="manage-form-row">' +
+            '<input type="text" data-ef="keywords" value="' + esc(kw) + '" placeholder="keywords, comma-separated">' +
+            '<input type="text" data-ef="countries" value="' + esc(cs) + '" placeholder="country codes e.g. US, CN">' +
+          '</div>' +
+          '<div class="manage-edit-actions">' +
+            '<button class="tracker-btn primary" data-mact="save">Save</button>' +
+            '<button class="tracker-btn" data-mact="cancel">Cancel</button>' +
+          '</div>' +
+        '</div>'
+      );
+    }
+
+    var trackedHtml = tracked.length ? tracked.map(function (s, i) {
+      var st = statusFor(s);
+      if (editingId === s.story_id) return editFormHtml(s);
+      return (
+        '<div class="manage-row" data-id="' + esc(s.story_id) + '" draggable="true">' +
+          '<span class="drag-handle" title="Drag to reorder">⠿</span>' +
+          '<span class="reorder-btns">' +
+            '<button class="reorder-btn" data-mact="up" title="Move up"' + (i === 0 ? ' disabled' : '') + '>▲</button>' +
+            '<button class="reorder-btn" data-mact="down" title="Move down"' + (i === tracked.length - 1 ? ' disabled' : '') + '>▼</button>' +
+          '</span>' +
+          '<span class="manage-prio" title="Priority">' + (i + 1) + '</span>' +
           '<span class="tracker-status ' + st + '">' + st + '</span>' +
           '<span class="manage-row-title">' + esc(s.title) + (s.custom ? ' <span class="manage-tag">custom</span>' : '') + '</span>' +
           '<span class="manage-row-actions">' +
+            '<button class="tracker-btn" data-mact="edit">Edit</button>' +
             '<button class="tracker-btn" data-mact="status">' + statusCycleLabel(s.status) + '</button>' +
             (s.status !== 'archived' ? '<button class="tracker-btn" data-mact="archive">Archive</button>' : '') +
             '<button class="tracker-btn danger" data-mact="remove">Remove</button>' +
@@ -413,7 +492,7 @@
         '</div>' +
       '</div>';
 
-    // Tracked-row actions
+    // Tracked-row actions (status / archive / remove / edit / reorder)
     panel.querySelectorAll('.manage-row').forEach(function (row) {
       var id = row.dataset.id;
       row.querySelectorAll('[data-mact]').forEach(function (btn) {
@@ -428,7 +507,57 @@
             var s = WatchlistStore.all().filter(function (x) { return x.story_id === id; })[0];
             var next = (s && (s.status === 'active')) ? 'resolved' : 'active';
             WatchlistStore.setStatus(id, next);
+          } else if (act === 'up') {
+            WatchlistStore.moveBy(id, -1);
+          } else if (act === 'down') {
+            WatchlistStore.moveBy(id, 1);
+          } else if (act === 'edit') {
+            editingId = id;
           }
+          refreshAll();
+        });
+      });
+
+      // Drag-and-drop reorder. Dropping onto a row moves the dragged story to
+      // that row's index; array position is the persisted priority.
+      row.addEventListener('dragstart', function (e) {
+        dragId = id;
+        row.classList.add('dragging');
+        try { e.dataTransfer.effectAllowed = 'move'; } catch (err) { /* noop */ }
+      });
+      row.addEventListener('dragend', function () {
+        dragId = null;
+        row.classList.remove('dragging');
+      });
+      row.addEventListener('dragover', function (e) {
+        e.preventDefault();
+        row.classList.add('drag-over');
+      });
+      row.addEventListener('dragleave', function () { row.classList.remove('drag-over'); });
+      row.addEventListener('drop', function (e) {
+        e.preventDefault();
+        row.classList.remove('drag-over');
+        if (!dragId || dragId === id) return;
+        var ids = WatchlistStore.all().map(function (s) { return s.story_id; });
+        WatchlistStore.moveTo(dragId, ids.indexOf(id));
+        refreshAll();
+      });
+    });
+
+    // Inline edit form actions
+    panel.querySelectorAll('.manage-edit').forEach(function (box) {
+      var id = box.dataset.id;
+      box.querySelectorAll('[data-mact]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          if (btn.dataset.mact === 'save') {
+            WatchlistStore.updateStory(id, {
+              title: (box.querySelector('[data-ef="title"]') || {}).value,
+              text: (box.querySelector('[data-ef="text"]') || {}).value,
+              keywords: (box.querySelector('[data-ef="keywords"]') || {}).value,
+              countries: (box.querySelector('[data-ef="countries"]') || {}).value,
+            });
+          }
+          editingId = null;
           refreshAll();
         });
       });

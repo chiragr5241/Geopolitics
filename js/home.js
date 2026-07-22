@@ -11,7 +11,11 @@
    and feed the same tile format. */
 
 (function () {
-  var HERO_COUNT = 6;
+  // No hard cap: every ACTIVE tracked story becomes a tile, in the user's
+  // manual priority order (first = biggest). Auto-picked feed stories only
+  // backfill up to MIN_TILES so a lightly-used tracker still fills the page;
+  // track 2 and you get 2 (+ fill), track 40 and you get 40.
+  var MIN_TILES = 6;
   var REST_LIMIT = 40;
 
   function fmtTime(ts) {
@@ -64,50 +68,54 @@
     var heroes = [];
     var trackedPseudo = []; // country-set stand-ins so auto picks dedupe against tracked stories
 
-    // Tracked stories first — the tracker drives the front page.
+    // Every active tracked story becomes a tile, in manual PRIORITY order
+    // (WatchlistStore.all() array order) — no cap, no re-sort.
     WatchlistStore.all()
       .filter(function (s) { return s.status === 'active'; })
-      .sort(function (a, b) { return (b.last_update_at || b.marked_at || '').localeCompare(a.last_update_at || a.marked_at || ''); })
-      .slice(0, HERO_COUNT)
       .forEach(function (s) {
+        var cs = ((s.seed && s.seed.countries) || []).join(';');
         heroes.push({
           kind: 'tracked',
           title: s.title,
           dek: (s.seed && s.seed.text) || '',
           category: 'tracked',
+          countries: cs,
           time: s.last_update_at || s.marked_at || '',
           href: 'tracker.html?story=' + encodeURIComponent(s.story_id),
           matchText: (s.title + ' ' + ((s.seed && s.seed.text) || '')).toLowerCase(),
           updates: s.update_count || 0,
         });
-        trackedPseudo.push({ subcategory: '', countries: ((s.seed && s.seed.countries) || []).join(';') });
+        trackedPseudo.push({ subcategory: '', countries: cs });
       });
 
-    // Fill remaining slots from the feed, deduped by story.
-    var picked = [];
-    var candidates = items
-      .filter(function (it) { return it.is_breaking === 'TRUE' || (parseInt(it.severity, 10) || 0) >= 4; })
-      .slice().sort(function (a, b) { return score(b) - score(a); });
+    // Backfill from the feed ONLY up to MIN_TILES, deduped by story.
+    if (heroes.length < MIN_TILES) {
+      var picked = [];
+      var candidates = items
+        .filter(function (it) { return it.is_breaking === 'TRUE' || (parseInt(it.severity, 10) || 0) >= 4; })
+        .slice().sort(function (a, b) { return score(b) - score(a); });
 
-    candidates.forEach(function (it) {
-      if (heroes.length + picked.length >= HERO_COUNT) return;
-      var dup = picked.concat(trackedPseudo).some(function (p) { return sameStory(p, it); });
-      if (!dup) picked.push(it);
-    });
-
-    picked.forEach(function (it) {
-      heroes.push({
-        kind: 'feed',
-        item: it,
-        title: it.summary || it.full_text || '',
-        dek: it.context || it.implications || '',
-        category: it.category || 'social',
-        time: it.created_at,
-        // Deep-link to the same feed cell when enrichment exists.
-        href: FeedItem.hasDetails(it) ? FeedItem.feedUrl(it) : 'feed.html',
-        matchText: ((it.subcategory || '').replace(/_/g, ' ') + ' ' + (it.summary || '')).toLowerCase(),
+      candidates.forEach(function (it) {
+        if (heroes.length + picked.length >= MIN_TILES) return;
+        var dup = picked.concat(trackedPseudo).some(function (p) { return sameStory(p, it); });
+        if (!dup) picked.push(it);
       });
-    });
+
+      picked.forEach(function (it) {
+        heroes.push({
+          kind: 'feed',
+          item: it,
+          title: it.summary || it.full_text || '',
+          dek: it.context || it.implications || '',
+          category: it.category || 'social',
+          countries: it.countries || '',
+          time: it.created_at,
+          // Deep-link to the same feed cell when enrichment exists.
+          href: FeedItem.hasDetails(it) ? FeedItem.feedUrl(it) : 'feed.html',
+          matchText: ((it.subcategory || '').replace(/_/g, ' ') + ' ' + (it.summary || '')).toLowerCase(),
+        });
+      });
+    }
 
     return heroes;
   }
@@ -117,8 +125,15 @@
   // First matching row whose image isn't already on another tile —
   // rows in story_images.csv are ordered most-specific first.
   function findImage(hero, storyImages, usedUrls) {
+    var itemCs = (hero.countries || '').toUpperCase().split(';')
+      .map(function (c) { return c.trim(); }).filter(Boolean);
     for (var i = 0; i < storyImages.length; i++) {
       if (usedUrls.indexOf(storyImages[i].url) !== -1) continue;
+      // Country gate (mirrors match_image in enrich_lib.py) — a country-tagged
+      // image can't land on a story from a different country.
+      var rowCs = (storyImages[i].countries || '').toUpperCase().split(';')
+        .map(function (c) { return c.trim(); }).filter(Boolean);
+      if (rowCs.length && itemCs.length && !rowCs.some(function (c) { return itemCs.indexOf(c) !== -1; })) continue;
       var keys = (storyImages[i].keywords || '').toLowerCase().split(';');
       for (var j = 0; j < keys.length; j++) {
         var k = keys[j].trim();
@@ -201,9 +216,11 @@
 
   DataLayer.loadFeed().then(function (data) {
     WatchlistStore.init(data.watchlist);
-    var items = (data.tweetEnriched || []).slice().sort(function (a, b) {
-      return (b.created_at || '').localeCompare(a.created_at || '');
-    });
+    var items = (data.tweetEnriched || [])
+      .filter(function (it) { return (it.subcategory || '') !== 'noise'; })
+      .slice().sort(function (a, b) {
+        return (b.created_at || '').localeCompare(a.created_at || '');
+      });
     var heroes = selectHeroes(items);
     renderHeroes(heroes, data.storyImages || []);
     renderRest(items, heroes);
@@ -211,7 +228,7 @@
     var meta = data.meta || {};
     if (meta.generated) {
       document.getElementById('page-sub').textContent =
-        'The six main stories, followed by the rest of the news. Updated ' +
+        'Your tracked stories first, then the rest of the news. Updated ' +
         meta.generated.slice(0, 16).replace('T', ' ') + ' UTC.';
     }
   }).catch(function (err) {

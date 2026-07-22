@@ -130,6 +130,53 @@ var FeedItem = (function () {
     return chips.length ? '<div class="story-tags">' + chips.join('') + '</div>' : '';
   }
 
+  // Source / perspective badge for wire items (pull_wires.py). Spectator tweets
+  // carry no badge — they're the implicit default. `perspective` drives the
+  // colour (see .persp-* in site.css) so a Russian-sourced and a Gulf-sourced
+  // take on the same event read as visibly different viewpoints.
+  var PERSPECTIVE_LABEL = {
+    'western-uk': 'UK', 'german': 'DE', 'gulf': 'Gulf', 'institutional': 'UN',
+    'humanitarian': 'Aid', 'wire-fast': 'Wire', 'russia': 'RU view',
+    'chinese': 'CN view', 'iranian': 'IR view',
+  };
+
+  function sourceBadgeHtml(item) {
+    if (!item) return '';
+    var src = String(item.source || '');
+    if (!src || src === 'spectator') return '';
+    var persp = String(item.perspective || '');
+    var label = PERSPECTIVE_LABEL[persp] || persp;
+    var cls = 'source-badge' + (persp ? ' persp-' + persp : '');
+    var inner = '<span class="source-badge-name">' + esc(src) + '</span>' +
+      (label ? '<span class="source-badge-persp">' + esc(label) + '</span>' : '');
+    return item.source_url
+      ? '<a class="' + cls + '" href="' + esc(item.source_url) + '" target="_blank" rel="noopener" title="Open original">' + inner + '</a>'
+      : '<span class="' + cls + '">' + inner + '</span>';
+  }
+
+  // First image URL for an item. `images` is a semicolon-separated list
+  // (deterministic keyword match at base tier, or agent-supplied at deep tier).
+  function firstImage(item) {
+    if (!item || !item.images) return '';
+    var first = String(item.images).split(';')[0];
+    return first ? first.trim() : '';
+  }
+
+  // Thumbnail markup for a feed card, or '' when the item has no image. On load
+  // error the thumb removes itself and drops the card's has-img layout —
+  // mirroring the graceful degradation in home.js / tracker.js.
+  function imageHtml(item, creditByUrl) {
+    var url = firstImage(item);
+    if (!url) return '';
+    var credit = (creditByUrl && creditByUrl[url]) || '';
+    return '<div class="feed-card-thumb">' +
+      '<img src="' + esc(url) + '" alt="" loading="lazy" ' +
+      'onerror="var c=this.closest(\'.feed-card\');if(c){c.classList.remove(\'has-img\');}' +
+      'if(this.parentNode){this.parentNode.remove();}">' +
+      (credit ? '<span class="feed-card-credit">' + esc(credit) + '</span>' : '') +
+      '</div>';
+  }
+
   function readQueryItem() {
     try {
       var params = new URLSearchParams(window.location.search);
@@ -151,6 +198,9 @@ var FeedItem = (function () {
     toggleBtnHtml: toggleBtnHtml,
     linkBtnHtml: linkBtnHtml,
     storyTagsHtml: storyTagsHtml,
+    sourceBadgeHtml: sourceBadgeHtml,
+    firstImage: firstImage,
+    imageHtml: imageHtml,
     readQueryItem: readQueryItem,
   };
 })();

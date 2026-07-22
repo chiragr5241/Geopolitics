@@ -400,6 +400,58 @@ body {
 .feed-card.breaking { border-left-color: var(--accent2); }
 .feed-card.starred  { border-left-color: #f59e0b; background: rgba(245,158,11,.03); }
 
+/* Feed cards with a matched/enriched image become a thumb + body row. Cards
+   without one keep the original flat layout (no .feed-card-body wrapping cost
+   is visible — it just fills the width). */
+.feed-card.has-img {
+  display: flex;
+  gap: 14px;
+  align-items: stretch;
+  padding: 0;
+  overflow: hidden;
+}
+
+.feed-card-thumb {
+  position: relative;
+  flex-shrink: 0;
+  width: 116px;
+  align-self: stretch;
+  overflow: hidden;
+  background: var(--bg1);
+}
+
+.feed-card-thumb img {
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.feed-card-credit {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  padding: 2px 5px;
+  font-size: 8px;
+  line-height: 1.25;
+  color: rgba(255,255,255,.82);
+  background: linear-gradient(transparent, rgba(0,0,0,.55));
+}
+
+.feed-card.has-img .feed-card-body {
+  flex: 1;
+  min-width: 0;
+  padding: 14px 16px 14px 0;
+}
+
+@media (max-width: 640px) {
+  .feed-card.has-img { flex-direction: column; }
+  .feed-card-thumb { width: 100%; height: 150px; align-self: auto; }
+  .feed-card.has-img .feed-card-body { padding: 0 16px 14px; }
+}
+
 .feed-card-top {
   display: flex;
   align-items: center;
@@ -434,6 +486,48 @@ body {
   color: var(--text2);
   line-height: 1.55;
 }
+
+/* Source / perspective badge for wire items. Neutral by default; the
+   perspective tint (persp-*) makes contrasting viewpoints visually distinct. */
+.source-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  margin: 0 0 7px;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  line-height: 1;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid var(--border2);
+  text-decoration: none;
+  vertical-align: middle;
+}
+a.source-badge:hover { border-color: var(--accent); }
+
+.source-badge-name {
+  padding: 3px 6px;
+  color: var(--text2);
+  background: var(--bg1);
+  letter-spacing: .02em;
+}
+
+.source-badge-persp {
+  padding: 3px 6px;
+  color: #fff;
+  background: var(--border2);
+}
+
+/* Perspective tints — Western vs non-Western read at a glance. */
+.persp-western-uk   .source-badge-persp { background: #2e6fd6; }
+.persp-german       .source-badge-persp { background: #444; }
+.persp-gulf         .source-badge-persp { background: #0a8f6e; }
+.persp-institutional .source-badge-persp { background: #4a7bb5; }
+.persp-humanitarian .source-badge-persp { background: #c77d2e; }
+.persp-wire-fast    .source-badge-persp { background: #8a6d3b; }
+.persp-russia       .source-badge-persp { background: #b23a3a; }
+.persp-chinese      .source-badge-persp { background: #c0392b; }
+.persp-iranian      .source-badge-persp { background: #7a5c9e; }
 
 .feed-expand {
   margin-top: 10px;
@@ -730,7 +824,75 @@ body {
   color: var(--text);
 }
 
-.manage-row-actions { display: flex; gap: 6px; flex-shrink: 0; }
+.manage-row-actions { display: flex; gap: 6px; flex-shrink: 0; margin-left: auto; }
+
+/* Reorder controls */
+.manage-row[draggable="true"] { cursor: default; }
+.manage-row.dragging { opacity: .5; }
+.manage-row.drag-over { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+.drag-handle {
+  cursor: grab;
+  color: var(--text2);
+  font-size: 13px;
+  line-height: 1;
+  user-select: none;
+  flex-shrink: 0;
+}
+.drag-handle:active { cursor: grabbing; }
+.reorder-btns { display: flex; flex-direction: column; gap: 1px; flex-shrink: 0; }
+.reorder-btn {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  line-height: 1;
+  padding: 2px 4px;
+  border: 1px solid var(--border2);
+  border-radius: 3px;
+  background: var(--bg1);
+  color: var(--text);
+  cursor: pointer;
+}
+.reorder-btn:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+.reorder-btn:disabled { opacity: .3; cursor: default; }
+.manage-prio {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text2);
+  min-width: 16px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+/* Inline edit form (replaces a row while editing) */
+.manage-edit {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  background: var(--card);
+  border: 1px solid var(--accent);
+  border-radius: var(--radius-sm);
+}
+.manage-edit input,
+.manage-edit textarea {
+  font-family: var(--font-body);
+  font-size: 12px;
+  padding: 8px 10px;
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-sm);
+  background: var(--bg1);
+  color: var(--bright);
+  width: 100%;
+}
+.manage-edit textarea { resize: vertical; }
+.manage-edit input:focus,
+.manage-edit textarea:focus { outline: none; border-color: var(--accent); }
+.manage-edit-actions { display: flex; gap: 6px; }
+
+/* Story freshness tag + deep-link headline */
+.last-news { color: var(--text2); }
+.node-feed-link { color: inherit; text-decoration: none; }
+.node-feed-link:hover { text-decoration: underline; text-decoration-color: var(--accent); }
 
 .suggest-grid {
   display: grid;

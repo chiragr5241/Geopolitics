@@ -264,7 +264,11 @@ CREATE TABLE IF NOT EXISTS tweets (
     context             TEXT,
     implications        TEXT,
     sources_json        TEXT,
-    confirmation_status TEXT
+    confirmation_status TEXT,
+    images              TEXT,
+    source              TEXT,
+    source_url          TEXT,
+    perspective         TEXT
 )'''
 
 TWEET_DB_COLS = [
@@ -275,6 +279,7 @@ TWEET_DB_COLS = [
     'entities_people', 'entities_orgs', 'entities_weapons',
     'entities_locations', 'summary',
     'tweet_id', 'context', 'implications', 'sources_json', 'confirmation_status',
+    'images', 'source', 'source_url', 'perspective',
 ]
 
 
@@ -310,12 +315,13 @@ def build():
     c.execute(TWEETS_SCHEMA)
     c.execute('''
     CREATE TABLE IF NOT EXISTS story_images (
-        id       INTEGER PRIMARY KEY AUTOINCREMENT,
-        keywords TEXT,
-        label    TEXT,
-        url      TEXT,
-        caption  TEXT,
-        credit   TEXT
+        id        INTEGER PRIMARY KEY AUTOINCREMENT,
+        keywords  TEXT,
+        countries TEXT,
+        label     TEXT,
+        url       TEXT,
+        caption   TEXT,
+        credit    TEXT
     )''')
     c.execute('''
     CREATE TABLE IF NOT EXISTS story_updates (
@@ -362,8 +368,8 @@ def build():
     simgs = read_csv(os.path.join(DATA_DIR, 'story_images.csv'))
     for r in simgs:
         c.execute(
-            'INSERT INTO story_images (keywords,label,url,caption,credit) VALUES (?,?,?,?,?)',
-            [r.get('keywords', ''), r.get('label', ''), r.get('url', ''),
+            'INSERT INTO story_images (keywords,countries,label,url,caption,credit) VALUES (?,?,?,?,?,?)',
+            [r.get('keywords', ''), r.get('countries', ''), r.get('label', ''), r.get('url', ''),
              r.get('caption', ''),  r.get('credit', '')]
         )
     print(f'  Story images: {len(simgs)} rows')
@@ -422,6 +428,8 @@ def build():
             r['implications'] = match.get('implications', '')
             r['sources_json'] = match.get('sources_json', '')
             r['confirmation_status'] = match.get('confirmation_status', '')
+            if match.get('images'):
+                r['images'] = match.get('images', '')
         try:
             vals = [r.get(col, '') for col in TWEET_DB_COLS]
             c.execute(
@@ -495,7 +503,7 @@ def export_json(conn, out_path):
 
     meta = {
         'generated': now.strftime('%Y-%m-%dT%H:%M:%SZ'),
-        'version':   5,
+        'version':   7,
         'timeline':  timeline,
         'counts': {
             'incidents_curated':  len(curated),
