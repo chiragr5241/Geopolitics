@@ -470,15 +470,21 @@ body {
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 15px;
+  font-size: 16px;
   line-height: 1;
-  color: var(--border2);
+  color: var(--text2);
   transition: color .15s;
   padding: 2px;
 }
 
+/* The empty star was near-invisible on light backgrounds (border-grey on
+   off-white). Use a clearly-readable amber-tinted grey in light mode. */
+.light-mode .star-btn { color: #b6801f; opacity: .7; }
+.light-mode .star-btn:hover { opacity: 1; }
+
 .star-btn:hover { color: var(--gold); }
-.star-btn.on { color: #f59e0b; }
+.star-btn.on,
+.light-mode .star-btn.on { color: #f59e0b; opacity: 1; }
 
 .feed-text {
   font-family: var(--font-body);

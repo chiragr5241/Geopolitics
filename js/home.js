@@ -216,11 +216,9 @@
 
   DataLayer.loadFeed().then(function (data) {
     WatchlistStore.init(data.watchlist);
-    var items = (data.tweetEnriched || [])
-      .filter(function (it) { return (it.subcategory || '') !== 'noise'; })
-      .slice().sort(function (a, b) {
-        return (b.created_at || '').localeCompare(a.created_at || '');
-      });
+    var items = (data.tweetEnriched || []).slice().sort(function (a, b) {
+      return (b.created_at || '').localeCompare(a.created_at || '');
+    });
     var heroes = selectHeroes(items);
     renderHeroes(heroes, data.storyImages || []);
     renderRest(items, heroes);

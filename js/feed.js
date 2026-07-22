@@ -104,7 +104,6 @@
   function renderList() {
     var wrap = document.getElementById('feed-list');
     var visible = items.filter(function (it) {
-      if ((it.subcategory || '') === 'noise') return false; // sports/editorial one-liners
       return activeCategories.has((it.category || 'social').toLowerCase());
     });
 
