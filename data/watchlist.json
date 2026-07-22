@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-07-22T04:15:53Z",
+  "updated_at": "2026-07-22T17:16:25Z",
   "stories": [
     {
       "story_id": "st-20260115-venezuela-us",
@@ -67,8 +67,8 @@
         "zaporizhzhia",
         "kherson"
       ],
-      "last_update_at": "2026-06-03",
-      "update_count": 32,
+      "last_update_at": "2026-07-22",
+      "update_count": 37,
       "resolved_at": null,
       "notes": "Backfilled 2026-07-21 from intel_feed via scripts/backfill_story_updates.py."
     },
@@ -136,7 +136,7 @@
         "missile"
       ],
       "last_update_at": "2026-07-22",
-      "update_count": 25,
+      "update_count": 30,
       "resolved_at": null,
       "notes": "Backfilled 2026-07-17 from intel_feed, past-4-months major beats."
     },
@@ -162,8 +162,8 @@
         "world cup",
         "fifa"
       ],
-      "last_update_at": "2026-07-14",
-      "update_count": 10,
+      "last_update_at": "2026-07-22",
+      "update_count": 11,
       "resolved_at": null,
       "notes": "Backfilled 2026-07-17 from intel_feed, tournament milestones only."
     },
