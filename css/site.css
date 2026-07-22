@@ -4,7 +4,7 @@
    covers the scrolling news chrome — map.html never loads it.
    ========================================================= */
 
-@import url('tokens.css');
+@import url('tokens.css?v=10');
 
 html, body {
   min-height: 100%;
@@ -71,7 +71,7 @@ body {
 /* ===== Cards ===== */
 
 .card {
-  background: #fff;
+  background: var(--card);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-sm);
@@ -98,10 +98,10 @@ body {
   box-shadow: var(--shadow-sm);
   text-decoration: none;
   background: #1a2230;
-  transition: transform .15s, box-shadow .15s;
+  transition: box-shadow .15s, border-color .15s;
 }
 
-.story-tile:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.story-tile:hover { box-shadow: var(--shadow-md); border-color: var(--border2); }
 
 .story-tile.lead { grid-column: span 2; grid-row: span 2; }
 
@@ -111,10 +111,7 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform .3s;
 }
-
-.story-tile:hover .story-tile-img { transform: scale(1.04); }
 
 .story-tile-scrim {
   position: absolute;
@@ -212,10 +209,10 @@ body {
   gap: 10px;
   padding: 10px 14px;
   text-decoration: none;
-  transition: transform .15s, box-shadow .15s;
+  transition: box-shadow .15s, border-color .15s;
 }
 
-.rest-row:hover { transform: translateY(-1px); box-shadow: var(--shadow-md); }
+.rest-row:hover { box-shadow: var(--shadow-md); border-color: var(--border2); }
 
 .rest-row .pill { flex-shrink: 0; align-self: center; }
 
@@ -265,12 +262,11 @@ body {
 .hero-card {
   padding: 14px 16px;
   cursor: pointer;
-  transition: transform .15s, box-shadow .15s;
+  transition: box-shadow .15s, border-color .15s;
   border-left: 3px solid var(--border2);
 }
 
 .hero-card:hover {
-  transform: translateY(-2px);
   box-shadow: var(--shadow-md);
 }
 
@@ -338,10 +334,10 @@ body {
 .story-mini {
   padding: 12px 14px;
   cursor: pointer;
-  transition: transform .15s, box-shadow .15s;
+  transition: box-shadow .15s, border-color .15s;
 }
 
-.story-mini:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.story-mini:hover { box-shadow: var(--shadow-md); }
 
 .story-mini-title {
   font-family: var(--font-body);
@@ -378,15 +374,15 @@ body {
   border-radius: var(--radius-pill);
   border: 1px solid var(--border2);
   cursor: pointer;
-  background: #fff;
+  background: var(--card);
   color: var(--text2);
-  transition: all .15s;
+  transition: color .15s, border-color .15s, opacity .15s;
   text-transform: uppercase;
   user-select: none;
 }
 
 .filter-pill.off { opacity: .35; filter: grayscale(.7); }
-.filter-pill:hover { transform: translateY(-1px); box-shadow: var(--shadow-sm); }
+.filter-pill:hover { box-shadow: var(--shadow-sm); border-color: var(--border2); }
 
 .feed-list {
   display: flex;
@@ -423,11 +419,11 @@ body {
   font-size: 15px;
   line-height: 1;
   color: var(--border2);
-  transition: color .15s, transform .15s;
+  transition: color .15s;
   padding: 2px;
 }
 
-.star-btn:hover { transform: scale(1.15); }
+.star-btn:hover { color: var(--gold); }
 .star-btn.on { color: #f59e0b; }
 
 .feed-text {
@@ -601,14 +597,15 @@ body {
   padding: 6px 14px;
   border-radius: var(--radius-sm);
   border: 1px solid var(--border2);
-  background: #fff;
+  background: var(--card);
+  color: var(--text2);
   cursor: pointer;
-  transition: all .15s;
+  transition: background .15s, border-color .15s, color .15s;
 }
 
-.tracker-btn:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
+.tracker-btn:hover { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
 
-.tracker-btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.tracker-btn.primary { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
 .tracker-btn.primary:hover { filter: brightness(1.08); }
 .tracker-btn.danger { color: #c62828; border-color: rgba(198,40,40,.4); }
 .tracker-btn.danger:hover { background: #c62828; border-color: #c62828; color: #fff; }
@@ -668,7 +665,7 @@ body {
   align-items: center;
   gap: 10px;
   padding: 8px 10px;
-  background: #fff;
+  background: var(--card);
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
 }
@@ -710,7 +707,7 @@ body {
   flex-direction: column;
   gap: 8px;
   padding: 12px;
-  background: #fff;
+  background: var(--card);
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
 }
@@ -744,7 +741,7 @@ body {
   padding: 8px 10px;
   border: 1px solid var(--border2);
   border-radius: var(--radius-sm);
-  background: #fff;
+  background: var(--card);
   color: var(--bright);
   width: 100%;
 }
@@ -929,11 +926,33 @@ body {
 @media (max-width: 720px) {
   .tracker-layout { flex-direction: column; }
   .tracker-rail { width: 100%; max-height: 260px; overflow-y: auto; }
-  .timeline-node-thumb { width: 96px; }
+
+  /* Stack the node image on top, full-width and centred, instead of a
+     cramped left thumbnail — reads far better on a narrow screen. */
+  .timeline-node-card.has-img { flex-direction: column; }
+  .timeline-node-thumb {
+    width: 100%;
+    height: 180px;
+    align-self: auto;
+  }
+  .timeline-node-card.has-img .timeline-node-content { padding: 12px 14px; }
+
   .suggest-grid { grid-template-columns: 1fr; }
   .manage-form-row { flex-direction: column; }
   .manage-row { flex-wrap: wrap; }
-  #site-nav { gap: 12px; padding: 0 12px; }
-  .nav-links { gap: 0; }
-  .nav-links a { padding: 6px 8px; font-size: 9px; }
+}
+
+@media (max-width: 640px) {
+  .page-wrap { padding: 20px 16px 48px; }
+
+  #site-nav { gap: 12px; padding: 0 14px; }
+  /* Drop the OSINT DAILY brand on phones — the page links + chirag link
+     already fill the bar, and this keeps everything on one row. */
+  .nav-brand { display: none; }
+  .nav-links { gap: 14px; }
+  .nav-links a { font-size: 13px; }
+  .nav-right { gap: 14px; }
+
+  .page-title { font-size: 22px; }
+  .tracker-toolbar { gap: 8px; }
 }

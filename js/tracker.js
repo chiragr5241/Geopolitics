@@ -407,7 +407,7 @@
     }
   }
 
-  DataLayer.loadAll().then(function (data) {
+  DataLayer.loadFeed().then(function (data) {
     WatchlistStore.init(data.watchlist);
     storyUpdates = data.storyUpdates || [];
     storyImages = data.storyImages || [];

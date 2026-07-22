@@ -119,7 +119,7 @@
     });
   }
 
-  DataLayer.loadAll().then(function (data) {
+  DataLayer.loadFeed().then(function (data) {
     WatchlistStore.init(data.watchlist);
     items = (data.tweetEnriched || []).map(function (r, i) {
       r._key = (r.tweet_id || r.created_at || 'row') + '-' + i;

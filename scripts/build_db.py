@@ -23,10 +23,11 @@ import re
 import sqlite3
 from datetime import datetime
 
-ROOT     = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-DATA_DIR = os.path.join(ROOT, 'data')
-DB_PATH  = os.path.join(DATA_DIR, 'geopolitics.db')
-OUT_PATH = os.path.join(DATA_DIR, 'database.json')
+ROOT      = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DATA_DIR  = os.path.join(ROOT, 'data')
+DB_PATH   = os.path.join(DATA_DIR, 'geopolitics.db')
+OUT_PATH  = os.path.join(DATA_DIR, 'database.json')
+FEED_PATH = os.path.join(DATA_DIR, 'feed.json')
 
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
@@ -491,24 +492,26 @@ def export_json(conn, out_path):
         'max': now_val,
     }
 
+    meta = {
+        'generated': now.strftime('%Y-%m-%dT%H:%M:%SZ'),
+        'version':   5,
+        'timeline':  timeline,
+        'counts': {
+            'incidents_curated':  len(curated),
+            'incidents_enriched': len(enriched),
+            'incidents_total':    len(incidents),
+            'operations':         len(operations),
+            'imagery':            len(imagery),
+            'story_images':       len(story_images),
+            'tweets':             len(tweets),
+            'watchlist_stories':  len(watchlist.get('stories', [])),
+            'watchlist_active':   active_stories,
+            'story_updates':      len(story_updates),
+        }
+    }
+
     data = {
-        '_meta': {
-            'generated': now.strftime('%Y-%m-%dT%H:%M:%SZ'),
-            'version':   5,
-            'timeline':  timeline,
-            'counts': {
-                'incidents_curated':  len(curated),
-                'incidents_enriched': len(enriched),
-                'incidents_total':    len(incidents),
-                'operations':         len(operations),
-                'imagery':            len(imagery),
-                'story_images':       len(story_images),
-                'tweets':             len(tweets),
-                'watchlist_stories':  len(watchlist.get('stories', [])),
-                'watchlist_active':   active_stories,
-                'story_updates':      len(story_updates),
-            }
-        },
+        '_meta':         meta,
         'incidents':     incidents,
         'operations':    operations,
         'imagery':       imagery,
@@ -521,13 +524,30 @@ def export_json(conn, out_path):
     with open(out_path, 'w', encoding='utf-8') as f:
         json.dump(data, f, ensure_ascii=False, separators=(',', ':'))
 
+    # ── Lightweight feed.json for the news pages ──────────────────────────
+    # index/feed/tracker only ever use the intel feed, watchlist, story
+    # images and story updates — never incidents/operations/imagery (those
+    # are map-only). Shipping the multi-MB incident payload to those pages
+    # was pure waste, so we emit a slim companion file for them.
+    feed_data = {
+        '_meta':         meta,
+        'story_images':  story_images,
+        'tweets':        tweets,
+        'watchlist':     watchlist.get('stories', []),
+        'story_updates': story_updates,
+    }
+    with open(FEED_PATH, 'w', encoding='utf-8') as f:
+        json.dump(feed_data, f, ensure_ascii=False, separators=(',', ':'))
+
     print(f'\nExported:')
     print(f'  {len(curated)} curated + {len(enriched)} enriched = {len(incidents)} total incidents')
     print(f'  {len(operations)} operations, {len(imagery)} imagery, {len(tweets)} tweets')
     print(f'  {len(watchlist.get("stories", []))} watchlist stories ({active_stories} active), {len(story_updates)} story updates')
     print(f'  timeline: min={timeline["min"]} max={timeline["max"]}')
     size_kb = os.path.getsize(out_path) // 1024
+    feed_kb = os.path.getsize(FEED_PATH) // 1024
     print(f'  database.json: {size_kb} KB')
+    print(f'  feed.json:     {feed_kb} KB  (news pages)')
 
 
 if __name__ == '__main__':

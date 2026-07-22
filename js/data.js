@@ -81,8 +81,15 @@ var DataLayer = (function () {
     return rows;
   }
 
+  // Note: we deliberately do NOT append a cache-busting query string.
+  // These data files are large (database.json is several MB); busting the
+  // cache on every load forced a full re-download on every navigation and
+  // reload. GitHub Pages serves them with ETag/Last-Modified, so the browser
+  // revalidates cheaply (304) and only re-downloads when the file actually
+  // changes — which is exactly the behaviour we want.
+
   function fetchCSV(url) {
-    return fetch(url + '?v=' + Date.now())
+    return fetch(url)
       .then(function (res) {
         if (!res.ok) throw new Error('Fetch failed for ' + url + ': ' + res.status);
         return res.text();
@@ -91,7 +98,7 @@ var DataLayer = (function () {
   }
 
   function fetchCSVOptional(url) {
-    return fetch(url + '?v=' + Date.now())
+    return fetch(url)
       .then(function (res) { return res.ok ? res.text() : ''; })
       .then(function (text) { return text ? parseCSV(text) : []; })
       .catch(function () { return []; });
@@ -108,9 +115,33 @@ var DataLayer = (function () {
     return out;
   }
 
-  // ── Load from unified database.json ──────────────────────
+  // ── Shape a parsed db/feed JSON object into the DataLayer contract ──
+  // Works for both the full database.json and the lightweight feed.json
+  // (which simply omits incidents/operations/imagery — the map-only data).
+  function shapeDb(db) {
+    var meta = db._meta || {};
+    // Intel feed tweets include full_text directly.
+    // Synthesise raw tweet rows for app.js merge compatibility.
+    var enrichedTweets = (db.tweets || []).map(normaliseRow);
+    var syntheticRaw   = enrichedTweets.map(function (e) {
+      return { created_at: e.created_at, full_text: e.full_text || e.summary || '' };
+    });
+    return {
+      incidents:     (db.incidents  || []).map(normaliseRow),
+      operations:    (db.operations || []).map(normaliseRow),
+      imagery:       (db.imagery    || []).map(normaliseRow),
+      storyImages:   (db.story_images || []).map(normaliseRow),
+      tweets:        syntheticRaw,
+      tweetEnriched: enrichedTweets,
+      watchlist:     db.watchlist     || [],
+      storyUpdates:  (db.story_updates || []).map(normaliseRow),
+      meta:          meta,
+    };
+  }
+
+  // ── Load from unified database.json (full dataset, incl. incidents) ──
   function loadFromDatabase(url) {
-    return fetch(url + '?v=' + Date.now())
+    return fetch(url)
       .then(function (res) {
         if (!res.ok) throw new Error('database.json not found (' + res.status + ')');
         return res.json();
@@ -126,24 +157,18 @@ var DataLayer = (function () {
             ' + ' + (meta.counts.incidents_enriched || 0) + ' enriched)'
           );
         }
-        // Intel feed tweets now include full_text directly.
-        // Synthesise raw tweet rows for app.js merge compatibility.
-        var enrichedTweets = (db.tweets || []).map(normaliseRow);
-        var syntheticRaw   = enrichedTweets.map(function (e) {
-          return { created_at: e.created_at, full_text: e.full_text || e.summary || '' };
-        });
-        return {
-          incidents:     (db.incidents  || []).map(normaliseRow),
-          operations:    (db.operations || []).map(normaliseRow),
-          imagery:       (db.imagery    || []).map(normaliseRow),
-          storyImages:   (db.story_images || []).map(normaliseRow),
-          tweets:        syntheticRaw,
-          tweetEnriched: enrichedTweets,
-          watchlist:     db.watchlist     || [],
-          storyUpdates:  (db.story_updates || []).map(normaliseRow),
-          meta:          meta,
-        };
+        return shapeDb(db);
       });
+  }
+
+  // ── Load the lightweight feed.json (news pages: no incident payload) ──
+  function loadFromFeed(url) {
+    return fetch(url)
+      .then(function (res) {
+        if (!res.ok) throw new Error('feed.json not found (' + res.status + ')');
+        return res.json();
+      })
+      .then(shapeDb);
   }
 
   // ── CSV fallback (for local dev without database.json) ───
@@ -177,9 +202,21 @@ var DataLayer = (function () {
 
   // ── Public API ────────────────────────────────────────────
   return {
+    // Full dataset (incidents/operations/imagery + feed). Used by the map.
     loadAll: function () {
       // Prefer unified database.json; fall back to individual CSVs.
       return loadFromDatabase(DATA_SOURCES.database || 'data/database.json')
+        .catch(function () { return loadFromCSVs(); });
+    },
+    // Lightweight feed-only payload for the news pages (index/feed/tracker).
+    // These pages never touch incidents/operations/imagery, so shipping the
+    // full multi-MB database.json to them was pure waste. Falls back to the
+    // full database (then CSVs) if feed.json hasn't been generated yet.
+    loadFeed: function () {
+      return loadFromFeed(DATA_SOURCES.feed || 'data/feed.json')
+        .catch(function () {
+          return loadFromDatabase(DATA_SOURCES.database || 'data/database.json');
+        })
         .catch(function () { return loadFromCSVs(); });
     },
   };

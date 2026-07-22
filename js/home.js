@@ -193,7 +193,7 @@
     }).join('');
   }
 
-  DataLayer.loadAll().then(function (data) {
+  DataLayer.loadFeed().then(function (data) {
     WatchlistStore.init(data.watchlist);
     var items = (data.tweetEnriched || []).slice().sort(function (a, b) {
       return (b.created_at || '').localeCompare(a.created_at || '');

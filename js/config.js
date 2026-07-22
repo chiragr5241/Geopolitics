@@ -24,6 +24,8 @@
 var DATA_SOURCES = {
   // Primary: unified JSON database (built by scripts/build_db.py)
   database:     'data/database.json',
+  // Lightweight feed-only payload for the news pages (no incident data).
+  feed:         'data/feed.json',
   // Fallback: individual CSV files (used if database.json is absent)
   incidents:    'data/incidents.csv',
   operations:   'data/operations.csv',
