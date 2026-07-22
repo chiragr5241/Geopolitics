@@ -946,12 +946,10 @@ body {
   .page-wrap { padding: 20px 16px 48px; }
 
   #site-nav { gap: 12px; padding: 0 14px; }
-  /* Drop the OSINT DAILY brand on phones — the page links + chirag link
-     already fill the bar, and this keeps everything on one row. */
-  .nav-brand { display: none; }
-  .nav-links { gap: 14px; }
-  .nav-links a { font-size: 13px; }
-  .nav-right { gap: 14px; }
+  .nav-brand { font-size: 15px; }
+  .nav-links { gap: 13px; flex: 1; justify-content: flex-end; }
+  .nav-links a { font-size: 12.5px; }
+  .nav-right { gap: 12px; }
 
   .page-title { font-size: 22px; }
   .tracker-toolbar { gap: 8px; }

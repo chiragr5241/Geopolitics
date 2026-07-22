@@ -62,14 +62,13 @@
     }).join('');
     mount.outerHTML =
       '<nav id="site-nav">' +
-        '<div class="nav-brand">OSINT<span class="nav-brand-sub">DAILY</span></div>' +
+        '<a class="nav-brand" href="' + PERSONAL_URL + '" target="_blank" rel="noopener">chirag</a>' +
         '<div class="nav-links">' + links + '</div>' +
         '<div class="nav-right">' +
           '<label class="theme-toggle" title="Toggle light / dark">' +
             '<input type="checkbox" class="theme-toggle__input" id="theme-toggle" aria-label="Toggle colour theme">' +
             '<span class="theme-toggle__slider">' + SUN + MOON + '</span>' +
           '</label>' +
-          '<a class="nav-personal" href="' + PERSONAL_URL + '" target="_blank" rel="noopener">chirag</a>' +
         '</div>' +
       '</nav>';
     wireToggle();
