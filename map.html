@@ -21,7 +21,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
   <!-- App Styles -->
-  <link rel="stylesheet" href="css/styles.css?v=7">
+  <link rel="stylesheet" href="css/styles.css?v=12">
 </head>
 <body>
 
@@ -139,10 +139,14 @@
         <span class="tl-lbl">Timeline</span>
         <span id="tl-date">NOW</span>
       </div>
-      <input type="range" id="tl-slider" min="-65" max="100" value="100">
+      <div class="tl-range">
+        <label class="tl-range-field"><span>From</span><input type="date" id="tl-start"></label>
+        <label class="tl-range-field"><span>To</span><input type="date" id="tl-end"></label>
+      </div>
+      <input type="range" id="tl-slider" min="0" max="1000" value="1000">
       <div class="tl-marks" id="tl-marks"></div>
       <div class="tl-btns">
-        <button class="tl-btn" id="btn-show-all">All Time</button>
+        <button class="tl-btn" id="btn-show-all">Full Range</button>
         <button class="tl-btn" id="btn-play">&#9654; Play</button>
         <button class="tl-btn" id="btn-pause">&#9208; Pause</button>
         <button class="tl-btn" id="btn-reset">&#8634; Reset</button>
@@ -173,9 +177,9 @@
 </div>
 
 <!-- App Scripts: nav → config → data layer → app logic -->
-<script src="js/nav.js?v=10"></script>
-<script src="js/config.js?v=10"></script>
-<script src="js/data.js?v=10"></script>
-<script src="js/app.js?v=7"></script>
+<script src="js/nav.js?v=12"></script>
+<script src="js/config.js?v=12"></script>
+<script src="js/data.js?v=12"></script>
+<script src="js/app.js?v=12"></script>
 </body>
 </html>

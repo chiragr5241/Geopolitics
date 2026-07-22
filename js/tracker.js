@@ -177,17 +177,30 @@
     // without a wall of the same photo.
     var prevUrl = heroImg ? heroImg.url : null;
 
+    // Resolve the seed back to its enriched feed row so "Show details"
+    // opens the same cell on the Feed page.
+    var seedFeed = null;
+    if (story.seed) {
+      seedFeed = FeedItem.findByKey(feedItems, FeedItem.itemKey(story.seed))
+        || feedItems.filter(function (it) {
+          return (story.seed.tweet_id && it.tweet_id === story.seed.tweet_id)
+            || (story.seed.created_at && it.created_at === story.seed.created_at);
+        })[0]
+        || null;
+    }
+
     var nodes = '<div class="timeline-node seed"><div class="card timeline-node-card">' +
       '<div class="timeline-node-meta"><span class="origin-tag">seed</span><span>' + esc(story.seed.created_at || story.marked_at || '') + '</span></div>' +
       '<div class="timeline-node-headline">Marked important</div>' +
       '<div class="timeline-node-summary">' + esc(story.seed.text || '') + '</div>' +
+      FeedItem.linkBtnHtml(seedFeed) +
     '</div></div>';
 
     nodes += updates.map(function (u) {
       var img = findImage(((u.headline || '') + ' ' + (u.summary || '')), prevUrl ? [prevUrl] : []);
       if (img) prevUrl = img.url;
       return (
-        '<div class="timeline-node"><div class="card timeline-node-card' + (img ? ' has-img' : '') + '">' +
+        '<div class="timeline-node animate-on-scroll"><div class="card timeline-node-card' + (img ? ' has-img' : '') + '">' +
           (img ?
             '<div class="timeline-node-thumb">' +
               '<img src="' + esc(img.url) + '" alt="' + esc(img.label) + '" loading="lazy">' +
@@ -246,6 +259,8 @@
         }
       });
     });
+
+    if (window.Reveal) window.Reveal.scan(main);
 
     main.querySelectorAll('[data-action]').forEach(function (btn) {
       btn.addEventListener('click', function () {

@@ -8,7 +8,7 @@
    never leak into the scrolling news pages).
    ========================================================= */
 
-@import url('tokens.css?v=10');
+@import url('tokens.css?v=12');
 
 html, body {
   height: 100%;
@@ -573,6 +573,58 @@ body {
   font-weight: 700;
   color: var(--accent);
   letter-spacing: .5px;
+}
+
+.tl-range {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.tl-range-field {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+}
+
+.tl-range-field span {
+  font-family: var(--font-display);
+  font-size: 9px;
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.tl-range-field input[type="date"] {
+  flex: 1;
+  min-width: 0;
+  background: var(--bg0);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text2);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  padding: 4px 8px;
+  outline: none;
+  cursor: pointer;
+  transition: border-color .2s;
+}
+
+.tl-range-field input[type="date"]:hover,
+.tl-range-field input[type="date"]:focus {
+  border-color: var(--accent);
+}
+
+/* Recolour the native calendar picker so it reads in both themes. */
+.tl-range-field input[type="date"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  opacity: .7;
+}
+
+:root:not(.light-mode) .tl-range-field input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
 }
 
 #tl-slider {

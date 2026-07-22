@@ -103,7 +103,8 @@
         dek: it.context || it.implications || '',
         category: it.category || 'social',
         time: it.created_at,
-        href: 'feed.html',
+        // Deep-link to the same feed cell when enrichment exists.
+        href: FeedItem.hasDetails(it) ? FeedItem.feedUrl(it) : 'feed.html',
         matchText: ((it.subcategory || '').replace(/_/g, ' ') + ' ' + (it.summary || '')).toLowerCase(),
       });
     });
@@ -142,7 +143,7 @@
       var lead = idx === 0 ? ' lead' : '';
       var breaking = h.item && h.item.is_breaking === 'TRUE';
       return (
-        '<a class="story-tile' + lead + (img ? '' : ' no-img') + ' tile-cat-' + esc(h.category).toLowerCase() + '" href="' + h.href + '">' +
+        '<a class="story-tile animate-on-scroll' + lead + (img ? '' : ' no-img') + ' tile-cat-' + esc(h.category).toLowerCase() + '" href="' + h.href + '">' +
           (img ? '<img class="story-tile-img" src="' + esc(img.url) + '" alt="' + esc(img.label) + '">' : '') +
           '<div class="story-tile-scrim"></div>' +
           '<div class="story-tile-body">' +
@@ -172,6 +173,8 @@
         el.remove();
       });
     });
+
+    if (window.Reveal) window.Reveal.scan(wrap);
   }
 
   function renderRest(items, heroes) {
@@ -184,13 +187,16 @@
     }
     wrap.innerHTML = rest.map(function (it) {
       return (
-        '<a class="card rest-row" href="feed.html">' +
+        '<div class="card rest-row animate-on-scroll">' +
           '<span class="rest-time">' + fmtTime(it.created_at) + '</span>' +
           '<span class="' + pillClass(it.category) + '">' + esc(it.category || 'social') + '</span>' +
           '<span class="rest-text">' + esc(it.summary || it.full_text || '') + '</span>' +
-        '</a>'
+          FeedItem.linkBtnHtml(it) +
+        '</div>'
       );
     }).join('');
+
+    if (window.Reveal) window.Reveal.scan(wrap);
   }
 
   DataLayer.loadFeed().then(function (data) {

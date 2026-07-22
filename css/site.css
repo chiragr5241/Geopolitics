@@ -4,7 +4,7 @@
    covers the scrolling news chrome — map.html never loads it.
    ========================================================= */
 
-@import url('tokens.css?v=10');
+@import url('tokens.css?v=12');
 
 html, body {
   min-height: 100%;
@@ -205,12 +205,14 @@ body {
 
 .rest-row {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   gap: 10px;
   padding: 10px 14px;
   text-decoration: none;
   transition: box-shadow .15s, border-color .15s;
 }
+
+.rest-row .rest-text { flex: 1; min-width: 0; }
 
 .rest-row:hover { box-shadow: var(--shadow-md); border-color: var(--border2); }
 
@@ -465,13 +467,47 @@ body {
 .feed-expand-v a { color: var(--accent); text-decoration: none; }
 .feed-expand-v a:hover { text-decoration: underline; }
 
-.feed-toggle-more {
-  font-family: var(--font-mono);
-  font-size: 9px;
-  color: var(--accent);
+/* Accent-filled details control: blue in light (--accent #2e86ff),
+   amber/orange in dark (--accent #f0a030). Used as <button> on Feed
+   and as <a> deep-links from Tracker / Timelines. */
+.feed-details-btn {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 10px;
+  padding: 5px 12px;
+  background: var(--accent);
+  color: var(--on-accent);
+  border: 1px solid var(--accent);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .8px;
+  text-transform: uppercase;
+  text-decoration: none;
   cursor: pointer;
-  margin-top: 8px;
   user-select: none;
+  flex-shrink: 0;
+  line-height: 1.2;
+}
+
+.feed-details-btn:hover {
+  filter: brightness(1.08);
+}
+
+.feed-card-focus {
+  box-shadow: 0 0 0 2px var(--accent);
+  border-color: var(--accent);
+}
+
+.rest-row .feed-details-btn {
+  margin-top: 0;
+  margin-left: auto;
+  align-self: center;
+}
+
+.timeline-node-card .feed-details-btn {
+  margin-top: 10px;
 }
 
 /* ===== Tracker page ===== */
@@ -954,3 +990,36 @@ body {
   .page-title { font-size: 22px; }
   .tracker-toolbar { gap: 8px; }
 }
+
+/* ===== Progressive reveal + render performance ===== */
+
+/* Mirrors the personal site's scroll reveal: reveal.js adds .visible as each
+   block scrolls into view, so sections appear one at a time instead of all
+   at once. */
+.animate-on-scroll {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity .5s ease, transform .5s ease;
+  will-change: opacity, transform;
+}
+
+.animate-on-scroll.visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-on-scroll {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* Let the browser skip layout/paint for off-screen items in the long lists,
+   so a big feed or timeline doesn't render everything up front.
+   contain-intrinsic-size reserves an approximate height to keep scrolling
+   stable before an item is rendered. */
+.rest-row     { content-visibility: auto; contain-intrinsic-size: 0 46px; }
+.feed-card    { content-visibility: auto; contain-intrinsic-size: 0 96px; }
+.timeline-node{ content-visibility: auto; contain-intrinsic-size: 0 130px; }

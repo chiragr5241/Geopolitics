@@ -1,10 +1,7 @@
 'use strict';
 
 /* Feed page — full intel feed with filters + mark-important star.
-   Reuses DataLayer for data and WatchlistStore for marking; rendering
-   is a fresh implementation (not a refactor of js/app.js's tweet list)
-   since feed cards show more (context/implications/sources) and need
-   the star control that the map sidebar never had. */
+   Reuses DataLayer, WatchlistStore, and FeedItem (shared expand / deep-link). */
 
 (function () {
   var ALL_CATEGORIES = [
@@ -15,6 +12,10 @@
   var activeCategories = new Set(ALL_CATEGORIES);
   var items = [];
   var expanded = new Set();
+  var focusKey = FeedItem.readQueryItem();
+  // Reveal on scroll only for the first paint — re-renders from filtering or
+  // starring should update in place, not re-fade the whole list.
+  var initialRender = true;
 
   function fmtTime(ts) {
     if (!ts) return '';
@@ -36,14 +37,6 @@
     return 'pill pill-' + (category || 'social').toLowerCase();
   }
 
-  function parseSources(json) {
-    if (!json) return [];
-    try {
-      var arr = JSON.parse(json);
-      return Array.isArray(arr) ? arr : [];
-    } catch (e) { return []; }
-  }
-
   function renderFilterBar() {
     var el = document.getElementById('filter-bar');
     el.innerHTML = ALL_CATEGORIES.map(function (c) {
@@ -59,25 +52,19 @@
     });
   }
 
-  function cardHtml(item) {
+  function cardHtml(item, reveal) {
+    var key = FeedItem.itemKey(item);
     var starred = WatchlistStore.isMarked(item);
-    var sources = parseSources(item.sources_json);
-    var isOpen = expanded.has(item._key);
-    var hasExpand = item.context || item.implications || sources.length;
-
-    var expandHtml = '';
-    if (item.context) expandHtml += '<div class="feed-expand-row"><div class="feed-expand-k">Context</div><div class="feed-expand-v">' + item.context + '</div></div>';
-    if (item.implications) expandHtml += '<div class="feed-expand-row"><div class="feed-expand-k">Implications</div><div class="feed-expand-v">' + item.implications + '</div></div>';
-    if (sources.length) {
-      expandHtml += '<div class="feed-expand-row"><div class="feed-expand-k">Sources (' + sources.length + ')</div><div class="feed-expand-v">' +
-        sources.map(function (s) {
-          var label = (s.name || 'Source') + (s.title ? ': ' + s.title : '');
-          return s.url ? '<a href="' + s.url + '" target="_blank" rel="noopener">' + label + '</a>' : label;
-        }).join('<br>') + '</div></div>';
-    }
+    var isOpen = expanded.has(key);
+    var hasExpand = FeedItem.hasDetails(item);
+    var focused = focusKey && key === focusKey;
 
     return (
-      '<div class="card feed-card ' + (item.is_breaking === 'TRUE' ? 'breaking' : '') + ' ' + (starred ? 'starred' : '') + '" data-key="' + item._key + '">' +
+      '<div class="card feed-card ' + (reveal ? 'animate-on-scroll ' : '') +
+        (item.is_breaking === 'TRUE' ? 'breaking ' : '') +
+        (starred ? 'starred ' : '') +
+        (focused ? 'feed-card-focus ' : '') +
+        '" data-key="' + FeedItem.esc(key) + '" id="feed-item-' + FeedItem.esc(key) + '">' +
         '<div class="feed-card-top">' +
           '<span class="' + pillClass(item.category) + '">' + (item.category || 'social') + '</span>' +
           (item.confirmation_status ? '<span class="pill" style="color:var(--text);border-color:var(--border2);background:var(--bg1);">' + item.confirmation_status + '</span>' : '') +
@@ -86,27 +73,52 @@
           '<button class="star-btn ' + (starred ? 'on' : '') + '" title="Mark important" data-action="star">' + (starred ? '★' : '☆') + '</button>' +
         '</div>' +
         '<div class="feed-text">' + (item.summary || item.full_text || '') + '</div>' +
-        (hasExpand ? '<div class="feed-toggle-more" data-action="toggle">' + (isOpen ? 'Hide details −' : 'Show details +') + '</div>' : '') +
-        '<div class="feed-expand ' + (isOpen ? 'open' : '') + '">' + expandHtml + '</div>' +
+        (hasExpand ? FeedItem.toggleBtnHtml(isOpen) : '') +
+        '<div class="feed-expand ' + (isOpen ? 'open' : '') + '">' + FeedItem.expandHtml(item) + '</div>' +
       '</div>'
     );
   }
 
+  function scrollToFocus() {
+    if (!focusKey) return;
+    var el = document.getElementById('feed-item-' + focusKey);
+    if (!el) return;
+    // Wait a frame so layout is settled after the list paint.
+    requestAnimationFrame(function () {
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+  }
+
   function renderList() {
     var wrap = document.getElementById('feed-list');
-    var visible = items.filter(function (it) { return activeCategories.has((it.category || 'social').toLowerCase()); });
+    var visible = items.filter(function (it) {
+      return activeCategories.has((it.category || 'social').toLowerCase());
+    });
+
+    // Ensure a deep-linked item is visible even if its category filter is off.
+    if (focusKey) {
+      var focused = FeedItem.findByKey(items, focusKey);
+      if (focused && visible.indexOf(focused) === -1) {
+        visible = [focused].concat(visible);
+      }
+    }
+
     if (!visible.length) {
       wrap.innerHTML = '<div class="empty-note">No items match the current filters.</div>';
       return;
     }
-    wrap.innerHTML = visible.slice(0, 300).map(cardHtml).join('');
+
+    var reveal = initialRender;
+    wrap.innerHTML = visible.slice(0, 300).map(function (it) { return cardHtml(it, reveal); }).join('');
+    if (reveal && window.Reveal) window.Reveal.scan(wrap);
+    initialRender = false;
 
     wrap.querySelectorAll('[data-action="star"]').forEach(function (btn) {
       btn.addEventListener('click', function (e) {
         e.stopPropagation();
         var key = btn.closest('.feed-card').dataset.key;
-        var item = items.filter(function (it) { return it._key === key; })[0];
-        WatchlistStore.toggle(item);
+        var item = FeedItem.findByKey(items, key);
+        if (item) WatchlistStore.toggle(item);
         renderList();
       });
     });
@@ -117,14 +129,25 @@
         renderList();
       });
     });
+
+    if (focusKey) scrollToFocus();
   }
 
   DataLayer.loadFeed().then(function (data) {
     WatchlistStore.init(data.watchlist);
-    items = (data.tweetEnriched || []).map(function (r, i) {
-      r._key = (r.tweet_id || r.created_at || 'row') + '-' + i;
-      return r;
-    }).sort(function (a, b) { return (b.created_at || '').localeCompare(a.created_at || ''); });
+    items = (data.tweetEnriched || []).slice().sort(function (a, b) {
+      return (b.created_at || '').localeCompare(a.created_at || '');
+    });
+
+    if (focusKey) {
+      var hit = FeedItem.findByKey(items, focusKey);
+      if (hit) {
+        expanded.add(focusKey);
+        // Turn on the item's category so filters don't hide it.
+        var cat = (hit.category || 'social').toLowerCase();
+        if (!activeCategories.has(cat)) activeCategories.add(cat);
+      }
+    }
 
     renderFilterBar();
     renderList();

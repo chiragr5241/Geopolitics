@@ -108,12 +108,25 @@
     return tags.map(function (t, i) { return [t, colors[i] || 'blue']; });
   }
 
+  // Parse the various date string shapes used across the data
+  // ("2026-03-24 16:40:02", "2026-03-24", "Mar 24, 2026", "Jun 2025") into a
+  // millisecond timestamp for the date-range filter. Returns NaN if unparseable.
+  function parseDateMs(s) {
+    if (!s) return NaN;
+    var str = String(s).trim().replace('Z', '');
+    var t = Date.parse(str.replace(' ', 'T'));
+    if (!isNaN(t)) return t;
+    t = Date.parse(str);
+    return isNaN(t) ? NaN : t;
+  }
+
   function csvRowToIncident(r, imageryIndex) {
     return {
       id:        r.incident_id,
       op:        r.operation_name,
       type:      r.strike_type,
       timeVal:   parseInt(r.date_sort_value, 10) || 0,
+      dateMs:    parseDateMs(r.date),
       title:     r.incident_title,
       date:      r.date,
       confirmed: r.confirmed === 'TRUE' || r.confirmed === 'true',
@@ -178,6 +191,7 @@
       var lng = e.lng ? parseFloat(e.lng) : NaN;
       return {
         created_at:   r.created_at,
+        dateMs:       parseDateMs(r.created_at),
         text:         r.full_text,
         category:     e.category     || '',
         subcategory:  e.subcategory  || '',
@@ -206,15 +220,6 @@
 
   function initApp(INCIDENTS, OPS, TWEETS, META) {
     TWEETS = TWEETS || [];
-
-    // Timeline scale: prefer the data-driven marks computed by build_db.py
-    // (database.json._meta.timeline), which extrapolate past the last fixed
-    // mark automatically. Falls back to the static TL_MARKS in config.js
-    // when database.json is unavailable (CSV-fallback mode).
-    var timeline = (META && META.timeline && META.timeline.marks && META.timeline.marks.length)
-      ? META.timeline
-      : null;
-    var TL_MARKS = timeline ? timeline.marks : window.TL_MARKS;
 
     // Map
     var map = L.map('map', {
@@ -321,9 +326,19 @@
     var activeOps       = new Set(Object.keys(OPS));
     var activeCountries = new Set(Object.keys(COUNTRIES));
     var selectedId  = null;
-    var timeVal     = 100;
     var playTimer   = null;
     var allLayers   = {};
+
+    // Date-range window. rangeStart/rangeEnd are the outer bounds selected via
+    // the date pickers; headMs is the playback head (upper cutoff) that the
+    // slider/Play sweep between them. Default window: the last month.
+    var MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    var SLIDER_MAX = 1000;
+    var rangeEnd   = new Date(); rangeEnd.setHours(23, 59, 59, 999);
+    var rangeStart = new Date(rangeEnd);
+    rangeStart.setMonth(rangeStart.getMonth() - 1);
+    rangeStart.setHours(0, 0, 0, 0);
+    var headMs = rangeEnd.getTime();
 
     // Tweet state
     var activeTweetCategories = new Set(Object.keys(TWEET_CATEGORIES));
@@ -339,6 +354,8 @@
     var $tlMarks        = document.getElementById('tl-marks');
     var $tlDate         = document.getElementById('tl-date');
     var $tlSlider       = document.getElementById('tl-slider');
+    var $tlStart        = document.getElementById('tl-start');
+    var $tlEnd          = document.getElementById('tl-end');
     var $btnShowAll     = document.getElementById('btn-show-all');
     var $btnPlay        = document.getElementById('btn-play');
     var $btnPause       = document.getElementById('btn-pause');
@@ -371,9 +388,10 @@
     function buildMapIcon(inc, isSelected, isDimmed) {
       var st = STRIKE_TYPES[inc.type] || STRIKE_TYPES.missile;
       var sz = isSelected ? 18 : 13;
-      // Animate only the newest visible events relative to current slider position
-      var RECENT_THRESHOLD = 2; // ~10 days on the slider scale
-      var isRecent = !isDimmed && inc.timeVal <= timeVal && (timeVal - inc.timeVal) <= RECENT_THRESHOLD;
+      // Animate only the newest visible events relative to the playback head.
+      var RECENT_MS = 10 * 24 * 60 * 60 * 1000; // ~10 days
+      var isRecent = !isDimmed && !isNaN(inc.dateMs) &&
+        inc.dateMs <= headMs && (headMs - inc.dateMs) <= RECENT_MS;
       var mainOp  = isDimmed ? 0.7 : 1;
       var pulseOp = isRecent ? (isSelected ? 0.55 : 0.35) : 0;
       var c  = st.color, bg = st.bgFill;
@@ -446,7 +464,11 @@
     // Visibility
     function isVisible(inc) {
       if (!activeOps.has(inc.op)) return false;
-      if (inc.timeVal > timeVal) return false;
+      // Date-range window: hide incidents outside [rangeStart, headMs].
+      // Incidents with an unparseable date are left unfiltered by time.
+      if (!isNaN(inc.dateMs)) {
+        if (inc.dateMs < rangeStart.getTime() || inc.dateMs > headMs) return false;
+      }
       var opCountries = (OPS[inc.op] || {}).countries || [];
       if (opCountries.length === 0) return true;
       return opCountries.some(function (c) { return activeCountries.has(c); });
@@ -606,7 +628,8 @@
         var on = activeOps.has(k);
         // Visible count respects country filter (same logic as isVisible minus op-active check)
         var visibleCnt = INCIDENTS.filter(function (i) {
-          if (i.op !== k || i.timeVal > timeVal) return false;
+          if (i.op !== k) return false;
+          if (!isNaN(i.dateMs) && (i.dateMs < rangeStart.getTime() || i.dateMs > headMs)) return false;
           var opC = op.countries || [];
           if (opC.length === 0) return true;
           return opC.some(function (c) { return activeCountries.has(c); });
@@ -631,11 +654,48 @@
     }
 
 
-    // Timeline
+    // ── Timeline (date-range window + playback head) ──
+
+    // Map the 0..SLIDER_MAX slider position to a timestamp within the window,
+    // and back. Play sweeps the head from rangeStart → rangeEnd.
+    function sliderToMs(v) {
+      var span = rangeEnd.getTime() - rangeStart.getTime();
+      return rangeStart.getTime() + (v / SLIDER_MAX) * span;
+    }
+    function msToSlider(ms) {
+      var span = rangeEnd.getTime() - rangeStart.getTime();
+      if (span <= 0) return SLIDER_MAX;
+      var v = Math.round((ms - rangeStart.getTime()) / span * SLIDER_MAX);
+      return Math.max(0, Math.min(SLIDER_MAX, v));
+    }
+
+    function fmtWindowDate(ms) {
+      var d = new Date(ms);
+      return MONTHS[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
+    }
+    function fmtMarkDate(ms) {
+      var d = new Date(ms);
+      return MONTHS[d.getMonth()] + ' ' + d.getDate();
+    }
+    function toInputValue(d) {
+      return d.getFullYear() + '-' +
+        ('0' + (d.getMonth() + 1)).slice(-2) + '-' +
+        ('0' + d.getDate()).slice(-2);
+    }
+
+    // Evenly spaced date ticks spanning the current window. Clicking one moves
+    // the playback head to that date.
     function renderTLMarks() {
-      $tlMarks.innerHTML = TL_MARKS.map(function (m) {
-        return '<span class="tl-mark '+(m.v<=timeVal?'active':'')+'" data-tl-val="'+m.v+'">'+m.lbl+'</span>';
-      }).join('');
+      var n = 4;
+      var span = rangeEnd.getTime() - rangeStart.getTime();
+      var out = [];
+      for (var i = 0; i <= n; i++) {
+        var ms = rangeStart.getTime() + span * (i / n);
+        var sv = msToSlider(ms);
+        out.push('<span class="tl-mark ' + (ms <= headMs ? 'active' : '') +
+          '" data-tl-val="' + sv + '">' + fmtMarkDate(ms) + '</span>');
+      }
+      $tlMarks.innerHTML = out.join('');
     }
 
     $tlMarks.addEventListener('click', function (e) {
@@ -644,28 +704,52 @@
       setTime(parseInt(mark.dataset.tlVal, 10));
     });
 
+    // Move the playback head. v is a slider position in [0, SLIDER_MAX].
     function setTime(v) {
-      timeVal = v;
+      v = Math.max(0, Math.min(SLIDER_MAX, v));
+      headMs = sliderToMs(v);
       $tlSlider.value = v;
-      var lbl = TL_MARKS[0].lbl;
-      TL_MARKS.forEach(function (m) { if (v >= m.v) lbl = m.lbl; });
-      $tlDate.textContent = lbl.toUpperCase();
+      $tlDate.textContent = fmtWindowDate(headMs);
       renderTLMarks(); deselectIfHidden(); refresh();
     }
 
-    $tlSlider.addEventListener('input', function () { setTime(parseInt(this.value,10)); });
-    $btnShowAll.addEventListener('click', function () { setTime(parseInt($tlSlider.max, 10)); });
-    $btnReset.addEventListener('click', function () { stopPlay(); setTime(parseInt($tlSlider.min, 10)); });
+    // Apply a new [start, end] window from the date pickers, then reset the
+    // head to the end so the whole window is shown.
+    function syncRangeInputs() {
+      $tlStart.value = toInputValue(rangeStart);
+      $tlEnd.value   = toInputValue(rangeEnd);
+      $tlStart.max   = toInputValue(rangeEnd);
+      $tlEnd.min     = toInputValue(rangeStart);
+    }
+
+    function applyRange() {
+      var s = $tlStart.value ? new Date($tlStart.value + 'T00:00:00') : rangeStart;
+      var e = $tlEnd.value ? new Date($tlEnd.value + 'T23:59:59') : rangeEnd;
+      if (isNaN(s.getTime())) s = rangeStart;
+      if (isNaN(e.getTime())) e = rangeEnd;
+      if (s.getTime() > e.getTime()) { var tmp = s; s = e; e = tmp; }
+      rangeStart = s;
+      rangeEnd = e;
+      stopPlay();
+      syncRangeInputs();
+      setTime(SLIDER_MAX);
+    }
+
+    $tlStart.addEventListener('change', applyRange);
+    $tlEnd.addEventListener('change', applyRange);
+
+    $tlSlider.addEventListener('input', function () { setTime(parseInt(this.value, 10)); });
+    $btnShowAll.addEventListener('click', function () { setTime(SLIDER_MAX); });
+    $btnReset.addEventListener('click', function () { stopPlay(); setTime(0); });
     $btnPlay.addEventListener('click', function () {
       if (playTimer) { stopPlay(); return; }
       $btnPlay.classList.add('playing');
       $btnPlay.textContent = '\u23F8 Pause';
       playTimer = setInterval(function () {
         var cur = parseInt($tlSlider.value, 10);
-        var maxVal = parseInt($tlSlider.max, 10);
-        if (cur >= maxVal) { stopPlay(); return; }
-        setTime(Math.min(cur+1, maxVal));
-      }, 90);
+        if (cur >= SLIDER_MAX) { stopPlay(); return; }
+        setTime(Math.min(cur + 8, SLIDER_MAX));
+      }, 40);
     });
     $btnPause.addEventListener('click', stopPlay);
 
@@ -745,6 +829,9 @@
     function isTweetVisible(t) {
       if (t.category && !activeTweetCategories.has(t.category)) return false;
       if (t.sentiment && !activeSentiments.has(t.sentiment)) return false;
+      if (!isNaN(t.dateMs)) {
+        if (t.dateMs < rangeStart.getTime() || t.dateMs > headMs) return false;
+      }
       return true;
     }
 
@@ -941,15 +1028,12 @@
     function refresh() { renderMap(); renderList(); renderOpFilter(); renderCountryFilter(); refreshBorders(); renderTweetList(); renderTweetMarkers(); }
 
     // Init
-    if (timeline) {
-      $tlSlider.min = timeline.min;
-      $tlSlider.max = timeline.max;
-    }
-    renderTLMarks();
+    $tlSlider.min = 0;
+    $tlSlider.max = SLIDER_MAX;
+    syncRangeInputs();
     renderNewsTicker();
     renderTweetCategoryFilter();
-    refresh();
-    setTime(parseInt($tlSlider.max, 10));
+    setTime(SLIDER_MAX);
   }
 
   // ── Load all data via DataLayer and start ──

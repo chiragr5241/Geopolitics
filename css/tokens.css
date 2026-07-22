@@ -72,8 +72,10 @@
   --text2: #33342e;
   --bright: #1a1a1a;
 
-  --accent: #6b5b3e;
-  --accent-soft: rgba(107, 91, 62, .10);
+  /* Blue accent to match the personal site's light theme (its section marks
+     and Cherenkov-blue particles). Dark mode keeps the amber above. */
+  --accent: #2e86ff;
+  --accent-soft: rgba(46, 134, 255, .12);
   --on-accent: #ffffff;
 
   --accent2: #dc2626;
