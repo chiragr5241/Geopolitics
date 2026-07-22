@@ -908,6 +908,60 @@ body {
   color: var(--text);
 }
 
+/* ===== Story tags (cross-link from a feed/timeline item to its tracked story) ===== */
+
+.story-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.story-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .2px;
+  padding: 2px 8px 2px 7px;
+  border-radius: 999px;
+  text-decoration: none;
+  color: var(--accent);
+  border: 1px solid var(--accent-soft);
+  background: var(--accent-soft);
+  transition: border-color .15s, background .15s;
+}
+
+.story-tag:hover { border-color: var(--accent); }
+
+.story-tag-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex-shrink: 0;
+}
+
+/* Resolved / archived stories: greyed out, but still linked. */
+.story-tag.muted {
+  color: var(--text2);
+  border-color: var(--border2);
+  background: transparent;
+  opacity: .7;
+}
+
+.story-tag.muted .story-tag-dot { background: var(--text2); }
+
+.node-sev {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--accent2);
+  letter-spacing: .3px;
+}
+
 /* ===== Empty states ===== */
 
 .empty-note {

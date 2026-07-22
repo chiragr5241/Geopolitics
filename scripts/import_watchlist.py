@@ -92,9 +92,11 @@ def main():
         print('Skipped rebuild (--no-build). Run scripts/build_db.py when ready.')
         return
 
+    print('\nRe-linking tweets to stories...')
+    subprocess.run([sys.executable, os.path.join(ROOT, 'scripts', 'link_stories.py')], check=True)
     print('\nRebuilding database...')
     subprocess.run([sys.executable, BUILD], check=True)
-    print('\nDone. Review `git diff data/watchlist.json` and commit.')
+    print('\nDone. Review `git diff data/watchlist.json data/intel_feed.csv` and commit.')
 
 
 if __name__ == '__main__':

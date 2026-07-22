@@ -32,7 +32,7 @@ INTEL_COLUMNS = [
     'lat', 'lng', 'location_confidence',
     'linked_operation', 'linked_incident_ids',
     'entities_people', 'entities_orgs', 'entities_weapons', 'entities_locations',
-    'summary',
+    'summary', 'linked_story_ids',
 ]
 
 # Conservative keyword → operation linking. Only link when the evidence in
@@ -137,10 +137,12 @@ def main():
         with open(OPS_CSV, newline='', encoding='utf-8') as f:
             known_ops = {r.get('operation_name', '') for r in csv.DictReader(f)}
 
-    # Columns refreshed on upsert. `linked_incident_ids` is preserved (it can be
-    # set by promotion / by hand) and `full_text`/`created_at` are the key.
+    # Columns refreshed on upsert. `linked_incident_ids` and `linked_story_ids`
+    # are preserved (set by promotion / link_stories.py, not by enrichment) and
+    # `full_text`/`created_at` are the key.
     REFRESH_COLS = [c for c in INTEL_COLUMNS
-                    if c not in ('created_at', 'full_text', 'linked_incident_ids')]
+                    if c not in ('created_at', 'full_text',
+                                 'linked_incident_ids', 'linked_story_ids')]
 
     new_rows = []
     updated = 0

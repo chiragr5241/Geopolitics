@@ -232,6 +232,7 @@ var WatchlistStore = (function () {
     addCustom: addCustom,
     storyIdFor: storyIdFor,
     hasId: hasId,
+    byId: byId,
     setStatus: setStatus,
     all: all,
     exportFile: exportFile,

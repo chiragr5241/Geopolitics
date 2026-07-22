@@ -97,6 +97,39 @@ var FeedItem = (function () {
       '</a>';
   }
 
+  // Short, chip-friendly story label: the part before the first colon, else a
+  // truncated title.
+  function shortStoryTitle(t) {
+    t = String(t || '');
+    var i = t.indexOf(':');
+    if (i > 2 && i <= 40) return t.slice(0, i);
+    return t.length > 34 ? t.slice(0, 32) + '…' : t;
+  }
+
+  // Story tag chips for an item, from its `linked_story_ids`. Active stories
+  // render coloured; resolved/archived render greyed; a story that no longer
+  // exists in the watchlist (removed) simply produces no chip. Requires
+  // WatchlistStore to be initialised.
+  function storyTagsHtml(item) {
+    if (!item || typeof WatchlistStore === 'undefined' || !WatchlistStore.byId) return '';
+    var ids = String(item.linked_story_ids || '').split(';');
+    var chips = [];
+    for (var i = 0; i < ids.length; i++) {
+      var id = ids[i];
+      if (!id) continue;
+      var s = WatchlistStore.byId(id);
+      if (!s) continue; // removed from watchlist → no tag
+      var muted = (s.status === 'resolved' || s.status === 'archived');
+      var title = s.title || id;
+      chips.push(
+        '<a class="story-tag' + (muted ? ' muted' : '') + '" href="tracker.html?story=' +
+        encodeURIComponent(id) + '" title="' + esc(title) + (muted ? ' — ' + esc(s.status) : '') + '">' +
+        '<span class="story-tag-dot"></span>' + esc(shortStoryTitle(title)) + '</a>'
+      );
+    }
+    return chips.length ? '<div class="story-tags">' + chips.join('') + '</div>' : '';
+  }
+
   function readQueryItem() {
     try {
       var params = new URLSearchParams(window.location.search);
@@ -117,6 +150,7 @@ var FeedItem = (function () {
     expandHtml: expandHtml,
     toggleBtnHtml: toggleBtnHtml,
     linkBtnHtml: linkBtnHtml,
+    storyTagsHtml: storyTagsHtml,
     readQueryItem: readQueryItem,
   };
 })();

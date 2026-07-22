@@ -73,6 +73,7 @@
           '<button class="star-btn ' + (starred ? 'on' : '') + '" title="Mark important" data-action="star">' + (starred ? '★' : '☆') + '</button>' +
         '</div>' +
         '<div class="feed-text">' + (item.summary || item.full_text || '') + '</div>' +
+        FeedItem.storyTagsHtml(item) +
         (hasExpand ? FeedItem.toggleBtnHtml(isOpen) : '') +
         '<div class="feed-expand ' + (isOpen ? 'open' : '') + '">' + FeedItem.expandHtml(item) + '</div>' +
       '</div>'

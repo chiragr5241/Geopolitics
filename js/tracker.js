@@ -165,20 +165,70 @@
       return;
     }
     var st = statusFor(story);
-    var updates = storyUpdates
-      .filter(function (u) { return u.story_id === story.story_id; })
-      .sort(function (a, b) { return (a.date || '').localeCompare(b.date || ''); });
+    // ── Merged timeline: curated beats + every linked feed tweet ──────────
+    // Curated story_updates are the hand/agent-authored beats; linked tweets
+    // come from linked_story_ids (the whole feed, retroactively — not just rows
+    // newer than the last update) and carry enriched context/sources. We merge
+    // the two, drop near-duplicates, sort NEWEST-FIRST, and pin the seed at the
+    // bottom as the story's origin anchor.
+    function normHead(s) {
+      return String(s || '').toLowerCase().replace(/[^a-z0-9 ]/g, ' ')
+        .replace(/\s+/g, ' ').trim().slice(0, 70);
+    }
+
+    // Lets an intel-origin curated beat resolve to its feed row so it can open
+    // the same enriched "Show details" as a raw tweet node.
+    var feedByNorm = {};
+    feedItems.forEach(function (it) {
+      var fk = (it.created_at || '').slice(0, 10) + '|' + normHead(it.summary || it.full_text);
+      if (!feedByNorm[fk]) feedByNorm[fk] = it;
+    });
+
+    var seen = {};
+    var entries = [];
+
+    // Curated beats first (authoritative — dedup wins over a raw tweet).
+    storyUpdates.filter(function (u) { return u.story_id === story.story_id; })
+      .forEach(function (u) {
+        var head = u.headline || u.summary || '';
+        var k = (u.date || '') + '|' + normHead(head);
+        if (seen[k]) return;
+        seen[k] = 1;
+        entries.push({
+          date: u.date || '', headline: head, summary: u.summary || '',
+          origin: u.origin || 'update', status: u.status || '',
+          source_name: u.source_name || '', url: u.url || '',
+          feed: (!u.url && feedByNorm[k]) || null,
+        });
+      });
+
+    // Every linked feed tweet.
+    feedItems.filter(function (it) {
+      return String(it.linked_story_ids || '').split(';').indexOf(story.story_id) !== -1;
+    }).forEach(function (it) {
+      var date = (it.created_at || '').slice(0, 10);
+      var head = it.summary || it.full_text || '';
+      var k = date + '|' + normHead(head);
+      if (seen[k]) return;
+      seen[k] = 1;
+      entries.push({
+        date: date, headline: head, summary: '',
+        origin: 'feed', status: '', source_name: 'Spectator Index', url: '',
+        feed: it,
+      });
+    });
+
+    // Newest first.
+    entries.sort(function (a, b) { return (b.date || '').localeCompare(a.date || ''); });
 
     // Header hero image — the most representative image for the whole story.
     var heroImg = findImage(storyMatchText(story), []);
-
-    // Node thumbnails may repeat down a long timeline, but never on two
-    // adjacent nodes (or right under the hero), so the thread stays lively
-    // without a wall of the same photo.
+    // Node thumbnails may repeat down a long timeline, but never on two adjacent
+    // nodes (or right under the hero), so the thread stays lively.
     var prevUrl = heroImg ? heroImg.url : null;
 
-    // Resolve the seed back to its enriched feed row so "Show details"
-    // opens the same cell on the Feed page.
+    // Resolve the seed back to its enriched feed row so "Show details" opens the
+    // same cell on the Feed page.
     var seedFeed = null;
     if (story.seed) {
       seedFeed = FeedItem.findByKey(feedItems, FeedItem.itemKey(story.seed))
@@ -189,16 +239,11 @@
         || null;
     }
 
-    var nodes = '<div class="timeline-node seed"><div class="card timeline-node-card">' +
-      '<div class="timeline-node-meta"><span class="origin-tag">seed</span><span>' + esc(story.seed.created_at || story.marked_at || '') + '</span></div>' +
-      '<div class="timeline-node-headline">Marked important</div>' +
-      '<div class="timeline-node-summary">' + esc(story.seed.text || '') + '</div>' +
-      FeedItem.linkBtnHtml(seedFeed) +
-    '</div></div>';
-
-    nodes += updates.map(function (u) {
-      var img = findImage(((u.headline || '') + ' ' + (u.summary || '')), prevUrl ? [prevUrl] : []);
+    var nodes = entries.map(function (e) {
+      var img = findImage((e.headline || '') + ' ' + (e.summary || ''), prevUrl ? [prevUrl] : []);
       if (img) prevUrl = img.url;
+      var det = (e.feed && FeedItem.hasDetails(e.feed)) ? FeedItem.expandHtml(e.feed) : '';
+      var sev = (e.feed && e.feed.severity) ? (parseInt(e.feed.severity, 10) || 0) : 0;
       return (
         '<div class="timeline-node animate-on-scroll"><div class="card timeline-node-card' + (img ? ' has-img' : '') + '">' +
           (img ?
@@ -207,20 +252,30 @@
             '</div>' : '') +
           '<div class="timeline-node-content">' +
             '<div class="timeline-node-meta">' +
-              '<span class="origin-tag">' + esc(u.origin || 'update') + '</span>' +
-              '<span>' + esc(u.date) + '</span>' +
-              (u.status ? '<span>· ' + esc(u.status) + '</span>' : '') +
+              '<span class="origin-tag">' + esc(e.origin) + '</span>' +
+              '<span>' + esc(e.date) + '</span>' +
+              (e.status ? '<span>· ' + esc(e.status) + '</span>' : '') +
+              (sev >= 4 ? '<span class="node-sev">sev ' + sev + '</span>' : '') +
             '</div>' +
-            '<div class="timeline-node-headline">' + esc(u.headline) + '</div>' +
-            '<div class="timeline-node-summary">' + esc(u.summary || '') + '</div>' +
-            (u.source_name || u.url ?
+            '<div class="timeline-node-headline">' + esc(e.headline) + '</div>' +
+            (e.summary ? '<div class="timeline-node-summary">' + esc(e.summary) + '</div>' : '') +
+            (e.source_name || e.url ?
               '<div class="timeline-node-source">' +
-                (u.url ? '<a href="' + esc(u.url) + '" target="_blank" rel="noopener">' + esc(u.source_name || u.url) + '</a>' : esc(u.source_name)) +
+                (e.url ? '<a href="' + esc(e.url) + '" target="_blank" rel="noopener">' + esc(e.source_name || e.url) + '</a>' : esc(e.source_name)) +
               '</div>' : '') +
+            (det ? FeedItem.toggleBtnHtml(false) + '<div class="feed-expand" data-expand>' + det + '</div>' : '') +
           '</div>' +
         '</div></div>'
       );
     }).join('');
+
+    // Seed pinned at the bottom.
+    nodes += '<div class="timeline-node seed"><div class="card timeline-node-card">' +
+      '<div class="timeline-node-meta"><span class="origin-tag">seed</span><span>' + esc(story.seed.created_at || story.marked_at || '') + '</span></div>' +
+      '<div class="timeline-node-headline">Marked important</div>' +
+      '<div class="timeline-node-summary">' + esc(story.seed.text || '') + '</div>' +
+      FeedItem.linkBtnHtml(seedFeed) +
+    '</div></div>';
 
     main.innerHTML =
       '<div class="card tracker-story-header' + (heroImg ? ' has-hero' : '') + '">' +
@@ -232,7 +287,7 @@
         '<div class="tracker-story-header-body">' +
           '<span class="tracker-status ' + st + '">' + st + '</span>' +
           '<div class="tracker-story-title">' + esc(story.title) + '</div>' +
-          '<div class="story-mini-meta"><span>' + updates.length + ' update' + (updates.length === 1 ? '' : 's') + '</span><span>marked ' + esc((story.marked_at || '').slice(0, 10)) + '</span></div>' +
+          '<div class="story-mini-meta"><span>' + entries.length + ' update' + (entries.length === 1 ? '' : 's') + '</span><span>marked ' + esc((story.marked_at || '').slice(0, 10)) + '</span></div>' +
           '<div class="tracker-story-actions">' +
             (story.status !== 'resolved' ? '<button class="tracker-btn" data-action="resolve">Mark resolved</button>' : '<button class="tracker-btn" data-action="reactivate">Reactivate</button>') +
             (story.status !== 'archived' ? '<button class="tracker-btn" data-action="archive">Archive</button>' : '') +
@@ -262,13 +317,24 @@
 
     if (window.Reveal) window.Reveal.scan(main);
 
-    main.querySelectorAll('[data-action]').forEach(function (btn) {
+    main.querySelectorAll('.tracker-story-actions [data-action]').forEach(function (btn) {
       btn.addEventListener('click', function () {
         var action = btn.dataset.action;
         var status = action === 'resolve' ? 'resolved' : action === 'reactivate' ? 'active' : 'archived';
         WatchlistStore.setStatus(story.story_id, status);
         renderRail();
         renderMain();
+      });
+    });
+
+    // Inline "Show details" expanders on tweet/enriched timeline nodes.
+    main.querySelectorAll('.timeline-node .feed-details-btn[data-action="toggle"]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var content = btn.closest('.timeline-node-content');
+        var exp = content && content.querySelector('[data-expand]');
+        if (!exp) return;
+        var open = exp.classList.toggle('open');
+        btn.textContent = open ? 'Hide details −' : 'Show details +';
       });
     });
   }
