@@ -10,6 +10,7 @@ Reads:  data/incidents.csv         (24-col core incidents)
         data/operations.csv        (operation metadata)
         data/imagery.csv           (per-incident imagery)
         data/intel_feed.csv        (unified tweet intelligence)
+        data/story_images.csv      (keyword-matched hero images for top stories)
 
 Exports: data/database.json  (single file for the frontend DataLayer)
          data/geopolitics.db (SQLite for backend queries / agent reads)
@@ -306,6 +307,15 @@ def build():
     )''')
     c.execute(TWEETS_SCHEMA)
     c.execute('''
+    CREATE TABLE IF NOT EXISTS story_images (
+        id       INTEGER PRIMARY KEY AUTOINCREMENT,
+        keywords TEXT,
+        label    TEXT,
+        url      TEXT,
+        caption  TEXT,
+        credit   TEXT
+    )''')
+    c.execute('''
     CREATE TABLE IF NOT EXISTS story_updates (
         update_id   TEXT PRIMARY KEY,
         story_id    TEXT,
@@ -345,6 +355,16 @@ def build():
              r.get('source', '')]
         )
     print(f'  Imagery: {len(imgs)} rows')
+
+    # ── Import story hero images (keyword-matched, ordered by priority) ───────
+    simgs = read_csv(os.path.join(DATA_DIR, 'story_images.csv'))
+    for r in simgs:
+        c.execute(
+            'INSERT INTO story_images (keywords,label,url,caption,credit) VALUES (?,?,?,?,?)',
+            [r.get('keywords', ''), r.get('label', ''), r.get('url', ''),
+             r.get('caption', ''),  r.get('credit', '')]
+        )
+    print(f'  Story images: {len(simgs)} rows')
 
     # ── Import incidents (new 24-col CSV) + inline details ────────────────────
     incidents = read_csv(os.path.join(DATA_DIR, 'incidents.csv'))
@@ -444,6 +464,7 @@ def export_json(conn, out_path):
     incidents     = query('SELECT * FROM incidents ORDER BY CAST(date_sort_value AS REAL)')
     operations    = query('SELECT * FROM operations')
     imagery       = query('SELECT * FROM imagery')
+    story_images  = query('SELECT * FROM story_images ORDER BY id')
     tweets        = query('SELECT * FROM tweets ORDER BY created_at DESC LIMIT 2000')
     story_updates = query('SELECT * FROM story_updates ORDER BY story_id, date')
 
@@ -473,7 +494,7 @@ def export_json(conn, out_path):
     data = {
         '_meta': {
             'generated': now.strftime('%Y-%m-%dT%H:%M:%SZ'),
-            'version':   4,
+            'version':   5,
             'timeline':  timeline,
             'counts': {
                 'incidents_curated':  len(curated),
@@ -481,6 +502,7 @@ def export_json(conn, out_path):
                 'incidents_total':    len(incidents),
                 'operations':         len(operations),
                 'imagery':            len(imagery),
+                'story_images':       len(story_images),
                 'tweets':             len(tweets),
                 'watchlist_stories':  len(watchlist.get('stories', [])),
                 'watchlist_active':   active_stories,
@@ -490,6 +512,7 @@ def export_json(conn, out_path):
         'incidents':     incidents,
         'operations':    operations,
         'imagery':       imagery,
+        'story_images':  story_images,
         'tweets':        tweets,
         'watchlist':     watchlist.get('stories', []),
         'story_updates': story_updates,

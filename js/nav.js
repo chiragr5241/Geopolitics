@@ -6,9 +6,9 @@
 
 (function () {
   var PAGES = [
-    { href: 'index.html',   key: 'home',    label: 'Briefing' },
+    { href: 'index.html',   key: 'home',    label: 'Tracker' },
     { href: 'feed.html',    key: 'feed',    label: 'Feed' },
-    { href: 'tracker.html', key: 'tracker', label: 'Tracker' },
+    { href: 'tracker.html', key: 'tracker', label: 'Timelines' },
     { href: 'map.html',     key: 'map',     label: 'Map' },
   ];
 

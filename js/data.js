@@ -12,11 +12,12 @@
    app.js depends only on this contract.
 
    Contract:
-     DataLayer.loadAll() → Promise<{ incidents, operations, imagery, tweets,
-                                     tweetEnriched, watchlist, storyUpdates, meta }>
+     DataLayer.loadAll() → Promise<{ incidents, operations, imagery, storyImages,
+                                     tweets, tweetEnriched, watchlist, storyUpdates, meta }>
        incidents     : Array of raw incident row objects (curated + enriched)
        operations    : Array of raw operation row objects
        imagery       : Array of raw imagery row objects
+       storyImages   : Array of keyword→hero-image rows (data/story_images.csv)
        tweets        : Array of raw tweet row objects (created_at + full_text)
        tweetEnriched : Array of enriched tweet row objects (intel feed; includes
                        tweet_id/context/implications/sources_json/confirmation_status
@@ -135,6 +136,7 @@ var DataLayer = (function () {
           incidents:     (db.incidents  || []).map(normaliseRow),
           operations:    (db.operations || []).map(normaliseRow),
           imagery:       (db.imagery    || []).map(normaliseRow),
+          storyImages:   (db.story_images || []).map(normaliseRow),
           tweets:        syntheticRaw,
           tweetEnriched: enrichedTweets,
           watchlist:     db.watchlist     || [],
@@ -152,6 +154,7 @@ var DataLayer = (function () {
       fetchCSV(DATA_SOURCES.operations),
       fetchCSV(DATA_SOURCES.imagery),
       fetchCSVOptional(DATA_SOURCES.intelFeed),
+      fetchCSVOptional(DATA_SOURCES.storyImages),
     ]).then(function (results) {
       var intelFeed = results[3];
       // Synthesise raw tweet rows for app.js merge compatibility
@@ -162,6 +165,7 @@ var DataLayer = (function () {
         incidents:     results[0],
         operations:    results[1],
         imagery:       results[2],
+        storyImages:   results[4],
         tweets:        syntheticRaw,
         tweetEnriched: intelFeed,
         watchlist:     [],

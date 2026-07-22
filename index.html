@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="OSINT Daily — geopolitical news briefing, intel feed, story tracker and operations map">
-  <title>OSINT Daily — Briefing</title>
+  <meta name="description" content="OSINT Daily — story tracker: the six main stories, followed by the rest of the news">
+  <title>OSINT Daily — Tracker</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/site.css?v=6">
+  <link rel="stylesheet" href="css/site.css?v=9">
 </head>
 <body>
 
@@ -17,33 +17,21 @@
 
 <div class="page-wrap">
   <div class="page-head">
-    <div class="page-title">Daily Briefing</div>
-    <div class="page-sub">Open-source intelligence, updated continuously.</div>
+    <div class="page-title">Story Tracker</div>
+    <div class="page-sub" id="page-sub">The six main stories, followed by the rest of the news.</div>
   </div>
 
-  <div class="home-stats">
-    <div class="card home-stat-cell"><div class="home-stat-val" id="stat-incidents">—</div><div class="home-stat-lbl">Incidents Tracked</div></div>
-    <div class="card home-stat-cell"><div class="home-stat-val" id="stat-tweets">—</div><div class="home-stat-lbl">Intel Items</div></div>
-    <div class="card home-stat-cell"><div class="home-stat-val" id="stat-stories">—</div><div class="home-stat-lbl">Active Stories</div></div>
-    <div class="card home-stat-cell"><div class="home-stat-val" id="stat-generated" style="font-size:11px;">—</div><div class="home-stat-lbl">Last Updated (UTC)</div></div>
-  </div>
+  <div class="story-hero" id="story-hero"></div>
 
-  <div class="section-label">Top Stories</div>
-  <div class="hero-grid" id="hero-grid"></div>
-
-  <div id="stories-section">
-    <div class="section-label">Tracked Stories</div>
-    <div class="hero-grid" id="story-grid"></div>
-  </div>
-
-  <div class="section-label">By Category</div>
-  <div class="digest-grid" id="digest-grid"></div>
+  <div class="section-label">The Rest of the News</div>
+  <div class="rest-list" id="rest-list"></div>
+  <div class="rest-more"><a href="feed.html">Open the full intel feed →</a></div>
 </div>
 
-<script src="js/nav.js?v=6"></script>
-<script src="js/config.js?v=6"></script>
-<script src="js/data.js?v=6"></script>
-<script src="js/watchlist.js?v=6"></script>
-<script src="js/home.js?v=6"></script>
+<script src="js/nav.js?v=9"></script>
+<script src="js/config.js?v=9"></script>
+<script src="js/data.js?v=9"></script>
+<script src="js/watchlist.js?v=9"></script>
+<script src="js/home.js?v=9"></script>
 </body>
 </html>

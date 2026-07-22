@@ -29,6 +29,7 @@ var DATA_SOURCES = {
   operations:   'data/operations.csv',
   imagery:      'data/imagery.csv',
   intelFeed:    'data/intel_feed.csv',
+  storyImages:  'data/story_images.csv',
 };
 
 // ── Tweet / Intelligence Feed Categories ──

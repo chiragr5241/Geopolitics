@@ -4,12 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Story tracker — chronological update timelines for stories you've marked important">
-  <title>Tracker | OSINT Daily</title>
+  <title>Timelines | OSINT Daily</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/site.css?v=6">
+  <link rel="stylesheet" href="css/site.css?v=9">
 </head>
 <body>
 
@@ -17,13 +17,17 @@
 
 <div class="page-wrap">
   <div class="page-head">
-    <div class="page-title">Story Tracker</div>
+    <div class="page-title">Story Timelines</div>
     <div class="page-sub">Stories you've marked important, with every update since.</div>
   </div>
 
-  <div style="margin-bottom:16px;">
+  <div class="tracker-toolbar">
+    <button class="tracker-btn primary" id="manage-toggle-btn">Manage stories</button>
     <button class="tracker-btn" id="export-watchlist-btn">Export watchlist.json</button>
+    <span class="tracker-toolbar-note">Your selection is saved on this device automatically. Export to commit it to the repo.</span>
   </div>
+
+  <div class="manage-panel" id="manage-panel" hidden></div>
 
   <div class="tracker-layout">
     <div class="tracker-rail" id="tracker-rail"></div>
@@ -31,10 +35,10 @@
   </div>
 </div>
 
-<script src="js/nav.js?v=6"></script>
-<script src="js/config.js?v=6"></script>
-<script src="js/data.js?v=6"></script>
-<script src="js/watchlist.js?v=6"></script>
-<script src="js/tracker.js?v=6"></script>
+<script src="js/nav.js?v=9"></script>
+<script src="js/config.js?v=9"></script>
+<script src="js/data.js?v=9"></script>
+<script src="js/watchlist.js?v=9"></script>
+<script src="js/tracker.js?v=9"></script>
 </body>
 </html>

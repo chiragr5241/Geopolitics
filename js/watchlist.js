@@ -77,17 +77,28 @@ var WatchlistStore = (function () {
     })[0];
   }
 
-  function isMarked(item) {
-    return !!findByTweet(item);
+  function byId(id) {
+    return doc.stories.filter(function (s) { return s.story_id === id; })[0];
   }
 
-  function mark(item) {
-    if (isMarked(item)) return findByTweet(item);
+  function hasId(id) {
+    return !!byId(id);
+  }
+
+  // A feed item counts as "marked" if either its tweet is the seed of a story
+  // or a story already exists for the story_id it would generate — so the Feed
+  // star and the Tracker catalog stay in sync on the same underlying story.
+  function isMarked(item) {
+    return !!findByTweet(item) || hasId(storyIdFor(item));
+  }
+
+  // Build a full watchlist story record from a feed/enriched item.
+  function buildStory(item) {
     var countries = (item.countries || '').split(';').map(function (c) { return c.trim(); }).filter(Boolean);
     var keywords = [];
     (item.entities_locations || '').split(';').forEach(function (l) { if (l.trim()) keywords.push(l.trim().toLowerCase()); });
     (item.entities_orgs || '').split(';').forEach(function (o) { if (o.trim()) keywords.push(o.trim().toLowerCase()); });
-    var story = {
+    return {
       story_id: storyIdFor(item),
       status: 'active',
       title: (item.summary || item.full_text || '').slice(0, 100),
@@ -111,22 +122,77 @@ var WatchlistStore = (function () {
       resolved_at: null,
       notes: '',
     };
+  }
+
+  // Track a feed/suggested item. Idempotent by story_id — re-tracking a story
+  // that already exists just returns the existing record.
+  function trackItem(item) {
+    var existing = findByTweet(item) || byId(storyIdFor(item));
+    if (existing) return existing;
+    var story = buildStory(item);
     doc.stories.push(story);
     doc.updated_at = nowIso();
     saveLocal();
     return story;
   }
 
-  function unmark(item) {
-    var story = findByTweet(item);
-    if (!story) return;
-    doc.stories = doc.stories.filter(function (s) { return s.story_id !== story.story_id; });
+  // Create a fully custom tracked story from a small form. Generates a stable
+  // story_id from the title (+ today), de-duplicating on collision.
+  function addCustom(fields) {
+    fields = fields || {};
+    var title = (fields.title || '').trim();
+    if (!title) return null;
+    var day = nowIso().slice(0, 10).replace(/-/g, '');
+    var base = 'st-' + day + '-' + slugify(title);
+    var id = base;
+    var n = 2;
+    while (hasId(id)) { id = base + '-' + n; n++; }
+    var countries = (fields.countries || '')
+      .split(/[,;]/).map(function (c) { return c.trim().toUpperCase(); }).filter(Boolean);
+    var keywords = (fields.keywords || '')
+      .split(/[,;]/).map(function (k) { return k.trim().toLowerCase(); }).filter(Boolean);
+    var story = {
+      story_id: id,
+      status: 'active',
+      title: title.slice(0, 120),
+      marked_at: nowIso(),
+      seed: {
+        created_at: nowIso().replace('T', ' ').replace('Z', ''),
+        tweet_id: '',
+        text: (fields.text || '').trim(),
+        category: (fields.category || '').trim(),
+        countries: countries,
+        lat: null,
+        lng: null,
+      },
+      query_hints: [title],
+      keywords: keywords.slice(0, 8),
+      last_update_at: nowIso().slice(0, 10),
+      update_count: 0,
+      resolved_at: null,
+      notes: '',
+      custom: true,
+    };
+    doc.stories.push(story);
+    doc.updated_at = nowIso();
+    saveLocal();
+    return story;
+  }
+
+  function removeById(id) {
+    doc.stories = doc.stories.filter(function (s) { return s.story_id !== id; });
     doc.updated_at = nowIso();
     saveLocal();
   }
 
+  function unmark(item) {
+    var story = findByTweet(item) || byId(storyIdFor(item));
+    if (!story) return;
+    removeById(story.story_id);
+  }
+
   function toggle(item) {
-    return isMarked(item) ? (unmark(item), false) : (mark(item), true);
+    return isMarked(item) ? (unmark(item), false) : (trackItem(item), true);
   }
 
   function setStatus(storyId, status) {
@@ -159,8 +225,13 @@ var WatchlistStore = (function () {
     init: init,
     isMarked: isMarked,
     toggle: toggle,
-    mark: mark,
+    mark: trackItem,
+    trackItem: trackItem,
     unmark: unmark,
+    removeById: removeById,
+    addCustom: addCustom,
+    storyIdFor: storyIdFor,
+    hasId: hasId,
     setStatus: setStatus,
     all: all,
     exportFile: exportFile,
