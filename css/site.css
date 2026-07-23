@@ -4,7 +4,7 @@
    covers the scrolling news chrome — map.html never loads it.
    ========================================================= */
 
-@import url('tokens.css?v=12');
+@import url('tokens.css?v=13');
 
 html, body {
   min-height: 100%;
@@ -746,6 +746,14 @@ a.source-badge:hover { border-color: var(--accent); }
 .tracker-btn.danger { color: #c62828; border-color: rgba(198,40,40,.4); }
 .tracker-btn.danger:hover { background: #c62828; border-color: #c62828; color: #fff; }
 
+/* Pager button under the feed / rest-of-news list. */
+.load-more-btn {
+  display: block;
+  width: 100%;
+  margin: 18px 0 4px;
+  padding: 11px 14px;
+}
+
 /* ── Tracker toolbar + manage panel ─────────────────────────── */
 .tracker-toolbar {
   display: flex;
@@ -895,6 +903,22 @@ a.source-badge:hover { border-color: var(--accent); }
 .manage-edit textarea:focus { outline: none; border-color: var(--accent); }
 .manage-edit-actions { display: flex; gap: 6px; }
 
+/* Story image field (edit + add-your-own forms): preview + URL/upload controls. */
+.manage-image-field { display: flex; gap: 10px; align-items: flex-start; }
+.manage-image-preview {
+  width: 72px;
+  height: 54px;
+  flex-shrink: 0;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border2);
+  background: var(--bg1);
+}
+.manage-image-preview.empty { display: none; }
+.manage-image-inputs { display: flex; flex-wrap: wrap; gap: 6px; flex: 1; align-items: center; }
+.manage-image-inputs input[type="text"] { flex: 1; min-width: 140px; }
+.manage-upload-btn { cursor: pointer; }
+
 /* Story freshness tag + deep-link headline */
 .last-news { color: var(--text2); }
 .node-feed-link { color: inherit; text-decoration: none; }
@@ -996,6 +1020,17 @@ a.source-badge:hover { border-color: var(--accent); }
 
 .timeline-node-card {
   padding: 12px 14px;
+}
+
+/* A node linked to a feed item: the whole card is clickable (jumps to the
+   Feed page). Inner links/buttons stop propagation, so they still work. */
+.timeline-node-card.clickable {
+  cursor: pointer;
+  transition: box-shadow .15s, border-color .15s;
+}
+.timeline-node-card.clickable:hover {
+  border-color: var(--border2);
+  box-shadow: var(--shadow-md);
 }
 
 /* Node with a matched image: thumbnail on the left, text on the right.

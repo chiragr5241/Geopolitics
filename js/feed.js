@@ -18,18 +18,13 @@
   var creditByUrl = {};
   var expanded = new Set();
   var focusKey = FeedItem.readQueryItem();
+  var PAGE = 50;        // page size for the "load more" pager
+  var shown = PAGE;     // how many items are currently rendered
   // Reveal on scroll only for the first paint — re-renders from filtering or
   // starring should update in place, not re-fade the whole list.
   var initialRender = true;
 
-  function fmtTime(ts) {
-    if (!ts) return '';
-    var d = new Date((ts || '').replace(' ', 'T') + 'Z');
-    if (isNaN(d.getTime())) return ts;
-    return d.toLocaleString(undefined, {
-      month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit',
-    });
-  }
+  var fmtTime = Util.fmtTime;
 
   function sevDots(sev) {
     sev = parseInt(sev, 10) || 0;
@@ -51,6 +46,7 @@
       pill.addEventListener('click', function () {
         var c = pill.dataset.cat;
         if (activeCategories.has(c)) activeCategories.delete(c); else activeCategories.add(c);
+        shown = PAGE; // a new filter starts from the top
         renderFilterBar();
         renderList();
       });
@@ -112,6 +108,10 @@
       var focused = FeedItem.findByKey(items, focusKey);
       if (focused && visible.indexOf(focused) === -1) {
         visible = [focused].concat(visible);
+      } else if (focused) {
+        // Already in the list but possibly past the current page — page up to it.
+        var fi = visible.indexOf(focused);
+        if (fi >= shown) shown = Math.ceil((fi + 1) / PAGE) * PAGE;
       }
     }
 
@@ -120,10 +120,24 @@
       return;
     }
 
+    var page = visible.slice(0, shown);
+    var remaining = visible.length - page.length;
     var reveal = initialRender;
-    wrap.innerHTML = visible.slice(0, 300).map(function (it) { return cardHtml(it, reveal); }).join('');
+    wrap.innerHTML = page.map(function (it) { return cardHtml(it, reveal); }).join('') +
+      (remaining > 0
+        ? '<button class="tracker-btn load-more-btn" id="feed-load-more">Load ' +
+            Math.min(PAGE, remaining) + ' more (' + remaining + ' remaining)</button>'
+        : '');
     if (reveal && window.Reveal) window.Reveal.scan(wrap);
     initialRender = false;
+
+    var moreBtn = document.getElementById('feed-load-more');
+    if (moreBtn) {
+      moreBtn.addEventListener('click', function () {
+        shown += PAGE;
+        renderList();
+      });
+    }
 
     wrap.querySelectorAll('[data-action="star"]').forEach(function (btn) {
       btn.addEventListener('click', function (e) {

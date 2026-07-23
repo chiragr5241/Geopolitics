@@ -8,7 +8,7 @@
    never leak into the scrolling news pages).
    ========================================================= */
 
-@import url('tokens.css?v=12');
+@import url('tokens.css?v=13');
 
 html, body {
   height: 100%;
@@ -458,14 +458,14 @@ body {
 #map {
   width: 100%;
   height: 100%;
-  background: #c5d8e8 !important;
+  background: var(--map-canvas-bg) !important;
 }
 
 /* Floating legend panels */
 
 .float-panel {
   position: absolute;
-  background: rgba(243, 244, 247, .92);
+  background: var(--map-panel-bg);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   padding: 12px 14px;
@@ -540,7 +540,7 @@ body {
   bottom: 16px;
   left: 50%;
   transform: translateX(-50%);
-  background: rgba(243, 244, 247, .92);
+  background: var(--map-panel-bg);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   padding: 12px 20px 10px;
@@ -1207,7 +1207,7 @@ a.source-link:hover {
 }
 
 .leaflet-container {
-  background: #c5d8e8 !important;
+  background: var(--map-canvas-bg) !important;
 }
 
 .leaflet-tile {
@@ -1231,7 +1231,7 @@ a.source-link:hover {
 }
 
 .leaflet-control-zoom a {
-  background: rgba(243, 244, 247, .94) !important;
+  background: var(--map-panel-bg) !important;
   color: var(--text2) !important;
   border-color: var(--border) !important;
   font-size: 15px !important;
@@ -1251,7 +1251,7 @@ a.source-link:hover {
 }
 
 .leaflet-tooltip {
-  background: rgba(243, 244, 247, .97) !important;
+  background: var(--map-panel-bg) !important;
   border: 1px solid var(--border) !important;
   color: var(--text2) !important;
   font-family: var(--font-body) !important;
@@ -1317,6 +1317,17 @@ a.source-link:hover {
   white-space: nowrap;
   letter-spacing: .5px;
   text-shadow: 0 1px 3px rgba(255, 255, 255, .85);
+}
+
+/* On the dark basemap, flip city labels to light text with a dark halo so
+   they stay legible over dark tiles. */
+:root:not(.light-mode) .city-name {
+  color: rgba(220, 228, 245, .75);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, .85);
+}
+:root:not(.light-mode) .city-dot {
+  background: #8ea2c8;
+  opacity: .6;
 }
 
 /* ===== NEWS TICKER ===== */

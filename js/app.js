@@ -234,12 +234,51 @@
     });
     L.control.zoom({ position: 'bottomleft' }).addTo(map);
 
-    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', {
-      maxZoom: 19, minZoom: 2, noWrap: true,
-      updateWhenZooming: false,
-      updateWhenIdle: true,
-      keepBuffer: 4,
-    }).addTo(map);
+    // ── Theme-aware basemap ──────────────────────────────────────────────
+    // Light: ArcGIS World Topo. Dark: CartoDB dark matter. The active tiles
+    // follow the site theme toggle (the .light-mode class on <html>, wired by
+    // nav.js), so one control themes the whole page including the map.
+    var TILES = {
+      light: {
+        url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}',
+        opts: { maxZoom: 19, minZoom: 2, noWrap: true, updateWhenZooming: false, updateWhenIdle: true, keepBuffer: 4 },
+      },
+      dark: {
+        url: 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
+        opts: { maxZoom: 19, minZoom: 2, noWrap: true, updateWhenZooming: false, updateWhenIdle: true, keepBuffer: 4, subdomains: 'abcd' },
+      },
+    };
+
+    function currentTheme() {
+      return document.documentElement.classList.contains('light-mode') ? 'light' : 'dark';
+    }
+
+    var baseTileLayer = null;
+    function applyMapTheme() {
+      var t = TILES[currentTheme()];
+      if (baseTileLayer) map.removeLayer(baseTileLayer);
+      baseTileLayer = L.tileLayer(t.url, t.opts).addTo(map);
+      baseTileLayer.bringToBack();
+      if (worldBorderLayer) worldBorderLayer.bringToBack();
+    }
+
+    applyMapTheme();
+
+    // React to the nav's theme toggle (it flips the <html> class) without
+    // coupling nav.js to the map — watch the class attribute directly.
+    var _lastTheme = currentTheme();
+    new MutationObserver(function () {
+      var t = currentTheme();
+      if (t !== _lastTheme) { _lastTheme = t; applyMapTheme(); }
+    }).observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+
+    // bfcache restore can resurrect a stale theme; re-sync on show.
+    window.addEventListener('pageshow', function (e) {
+      if (e.persisted) {
+        var t = currentTheme();
+        if (t !== _lastTheme) { _lastTheme = t; applyMapTheme(); }
+      }
+    });
 
     // ── World borders + country highlights ──
     var worldBorderLayer = null;

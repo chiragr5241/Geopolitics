@@ -5,13 +5,9 @@
    the same cell on feed.html. */
 
 var FeedItem = (function () {
-  function esc(s) {
-    return String(s || '')
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;');
-  }
+  // Delegates to Util.esc (shared). Kept as a local alias so the many
+  // FeedItem.esc call-sites across the news pages keep working.
+  var esc = Util.esc;
 
   // Prefer tweet_id; fall back to created_at. Stable across pages (no index).
   function itemKey(item) {

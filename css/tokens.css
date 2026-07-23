@@ -46,6 +46,11 @@
   --header-bright: #f0f0f0;
   --header-accent: var(--accent);
 
+  /* Map-page surfaces (map.html / styles.css) — flip with the theme so the
+     Leaflet canvas, floating panels, timeline and tooltips read in dark mode. */
+  --map-canvas-bg: #0b0f14;
+  --map-panel-bg: rgba(23, 23, 23, .92);
+
   --font-display: 'Space Grotesk', 'Inter', sans-serif;
   --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono: 'JetBrains Mono', 'Menlo', monospace;
@@ -93,6 +98,10 @@
   --header-text: #6b6b66;
   --header-bright: #1a1a1a;
   --header-accent: var(--accent);
+
+  /* Map surfaces — light theme (original values). */
+  --map-canvas-bg: #c5d8e8;
+  --map-panel-bg: rgba(243, 244, 247, .92);
 
   --shadow-sm: 0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
   --shadow-md: 0 4px 16px rgba(0,0,0,.08), 0 1px 4px rgba(0,0,0,.04);

@@ -149,6 +149,7 @@ var WatchlistStore = (function () {
       update_count: 0,
       resolved_at: null,
       notes: '',
+      image: '',
     };
   }
 
@@ -200,6 +201,7 @@ var WatchlistStore = (function () {
       resolved_at: null,
       notes: '',
       custom: true,
+      image: (fields.image || '').trim(),
     };
     doc.stories.push(story);
     doc.updated_at = nowIso();
@@ -265,6 +267,8 @@ var WatchlistStore = (function () {
       s.seed.countries = String(fields.countries).split(/[,;]/)
         .map(function (c) { return c.trim().toUpperCase(); }).filter(Boolean);
     }
+    // A URL or a data: base64 string. Empty string clears the custom image.
+    if (fields.image != null) s.image = String(fields.image).trim();
     doc.updated_at = nowIso();
     saveLocal();
     return s;

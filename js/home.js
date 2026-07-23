@@ -16,53 +16,18 @@
   // backfill up to MIN_TILES so a lightly-used tracker still fills the page;
   // track 2 and you get 2 (+ fill), track 40 and you get 40.
   var MIN_TILES = 6;
-  var REST_LIMIT = 40;
+  var REST_PAGE = 50;   // initial rest-of-news count; "load more" adds another page
+  var restShown = REST_PAGE;
+  var restRevealed = 0; // how many rest rows have already faded in (don't re-animate)
 
-  function fmtTime(ts) {
-    if (!ts) return '';
-    var d = new Date((ts || '').replace(' ', 'T') + 'Z');
-    if (isNaN(d.getTime())) return ts;
-    return d.toLocaleString(undefined, { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
-  }
+  var esc = Util.esc;
+  var fmtTime = Util.fmtTime;
 
   function pillClass(category) {
     return 'pill pill-' + (category || 'social').toLowerCase();
   }
 
-  function esc(s) {
-    return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-  }
-
-  function ageDays(ts) {
-    var d = new Date((ts || '').replace(' ', 'T') + 'Z');
-    if (isNaN(d.getTime())) return 999;
-    return (Date.now() - d.getTime()) / 86400000;
-  }
-
   // ── Story selection ──────────────────────────────────────
-
-  function countrySet(it) {
-    return (it.countries || '').split(';').map(function (c) { return c.trim(); }).filter(Boolean);
-  }
-
-  function jaccard(a, b) {
-    if (!a.length || !b.length) return 0;
-    var inter = a.filter(function (x) { return b.indexOf(x) !== -1; }).length;
-    return inter / (a.length + b.length - inter);
-  }
-
-  // Two feed items are "the same story" if their country sets mostly
-  // overlap or they share a subcategory — keeps the grid from filling
-  // up with six variations of the same conflict.
-  function sameStory(a, b) {
-    if (a.subcategory && a.subcategory === b.subcategory) return true;
-    return jaccard(countrySet(a), countrySet(b)) >= 0.5;
-  }
-
-  function score(it) {
-    var sev = parseInt(it.severity, 10) || 0;
-    return sev * 2 + (it.is_breaking === 'TRUE' ? 3 : 0) - ageDays(it.created_at) * 0.6;
-  }
 
   function selectHeroes(items) {
     var heroes = [];
@@ -84,6 +49,7 @@
           href: 'tracker.html?story=' + encodeURIComponent(s.story_id),
           matchText: (s.title + ' ' + ((s.seed && s.seed.text) || '')).toLowerCase(),
           updates: s.update_count || 0,
+          image: s.image || '',
         });
         trackedPseudo.push({ subcategory: '', countries: cs });
       });
@@ -93,11 +59,11 @@
       var picked = [];
       var candidates = items
         .filter(function (it) { return it.is_breaking === 'TRUE' || (parseInt(it.severity, 10) || 0) >= 4; })
-        .slice().sort(function (a, b) { return score(b) - score(a); });
+        .slice().sort(function (a, b) { return Util.score(b) - Util.score(a); });
 
       candidates.forEach(function (it) {
         if (heroes.length + picked.length >= MIN_TILES) return;
-        var dup = picked.concat(trackedPseudo).some(function (p) { return sameStory(p, it); });
+        var dup = picked.concat(trackedPseudo).some(function (p) { return Util.sameStory(p, it); });
         if (!dup) picked.push(it);
       });
 
@@ -153,7 +119,9 @@
     }
     var usedUrls = [];
     wrap.innerHTML = heroes.map(function (h, idx) {
-      var img = findImage(h, storyImages, usedUrls);
+      // A user-set story image wins; otherwise keyword-match from story_images.
+      var img = h.image ? { url: h.image, label: h.title || '', credit: '' }
+                        : findImage(h, storyImages, usedUrls);
       if (img) usedUrls.push(img.url);
       var lead = idx === 0 ? ' lead' : '';
       var breaking = h.item && h.item.is_breaking === 'TRUE';
@@ -194,24 +162,41 @@
 
   function renderRest(items, heroes) {
     var heroItems = heroes.filter(function (h) { return h.item; }).map(function (h) { return h.item; });
-    var rest = items.filter(function (it) { return heroItems.indexOf(it) === -1; }).slice(0, REST_LIMIT);
+    var all = items.filter(function (it) { return heroItems.indexOf(it) === -1; });
     var wrap = document.getElementById('rest-list');
-    if (!rest.length) {
+    if (!all.length) {
       wrap.innerHTML = '<div class="empty-note">Nothing else right now.</div>';
       return;
     }
-    wrap.innerHTML = rest.map(function (it) {
+    var rest = all.slice(0, restShown);
+    var remaining = all.length - rest.length;
+    wrap.innerHTML = rest.map(function (it, i) {
+      // Only newly appended rows animate; already-shown rows stay put.
+      var reveal = i >= restRevealed ? ' animate-on-scroll' : ' visible';
       return (
-        '<div class="card rest-row animate-on-scroll">' +
+        '<div class="card rest-row' + reveal + '">' +
           '<span class="rest-time">' + fmtTime(it.created_at) + '</span>' +
           '<span class="' + pillClass(it.category) + '">' + esc(it.category || 'social') + '</span>' +
           '<span class="rest-text">' + esc(it.summary || it.full_text || '') + '</span>' +
           FeedItem.linkBtnHtml(it) +
         '</div>'
       );
-    }).join('');
+    }).join('') +
+      (remaining > 0
+        ? '<button class="tracker-btn load-more-btn" id="rest-load-more">Load ' +
+            Math.min(REST_PAGE, remaining) + ' more (' + remaining + ' remaining)</button>'
+        : '');
 
+    restRevealed = rest.length;
     if (window.Reveal) window.Reveal.scan(wrap);
+
+    var moreBtn = document.getElementById('rest-load-more');
+    if (moreBtn) {
+      moreBtn.addEventListener('click', function () {
+        restShown += REST_PAGE;
+        renderRest(items, heroes);
+      });
+    }
   }
 
   DataLayer.loadFeed().then(function (data) {

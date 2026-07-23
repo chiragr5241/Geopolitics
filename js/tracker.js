@@ -17,8 +17,46 @@
   var editingId = null;   // story currently open in the inline edit form
   var dragId = null;      // story being dragged in the reorder list
 
-  function esc(s) {
-    return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  var esc = Util.esc;
+
+  // Wire an image field group (URL input + file picker + preview + optional
+  // Clear) inside a container. File uploads are read as base64 data URLs and
+  // written into the URL input, so Save/Add only ever reads one value.
+  function wireImageField(container) {
+    if (!container) return;
+    var urlInput = container.querySelector('[data-ef="image"]');
+    var fileInput = container.querySelector('[data-ei="file"]');
+    var preview = container.querySelector('[data-ei="preview"]');
+    var clearBtn = container.querySelector('[data-ei="clear"]');
+
+    function setPreview(src) {
+      if (!preview) return;
+      if (src) { preview.src = src; preview.classList.remove('empty'); }
+      else { preview.removeAttribute('src'); preview.classList.add('empty'); }
+    }
+
+    if (urlInput) {
+      urlInput.addEventListener('input', function () { setPreview(urlInput.value.trim()); });
+    }
+    if (fileInput) {
+      fileInput.addEventListener('change', function () {
+        var file = fileInput.files && fileInput.files[0];
+        if (!file) return;
+        var reader = new FileReader();
+        reader.onload = function () {
+          if (urlInput) urlInput.value = reader.result;
+          setPreview(reader.result);
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+    if (clearBtn) {
+      clearBtn.addEventListener('click', function () {
+        if (urlInput) urlInput.value = '';
+        if (fileInput) fileInput.value = '';
+        setPreview('');
+      });
+    }
   }
 
   function daysSince(dateStr) {
@@ -103,130 +141,21 @@
     return (story.title + ' ' + ((story.seed && story.seed.text) || '') + ' ' + kw + ' ' + countries).toLowerCase();
   }
 
-  // ── Suggested-story detection (clusters from the intel feed) ──────────
-  // Mirrors js/home.js hero selection: rank breaking / high-severity recent
-  // feed items, dedupe by overlapping country-set or shared subcategory, and
-  // drop anything already tracked. Produces a catalog of stories the user can
-  // one-click track from the Manage panel.
-  function countrySet(it) {
-    return (it.countries || '').split(';').map(function (c) { return c.trim(); }).filter(Boolean);
+  // Normalise a headline for dedup keys (shared by buildEntries).
+  function normHead(s) {
+    return String(s || '').toLowerCase().replace(/[^a-z0-9 ]/g, ' ')
+      .replace(/\s+/g, ' ').trim().slice(0, 70);
   }
 
-  function jaccard(a, b) {
-    if (!a.length || !b.length) return 0;
-    var inter = a.filter(function (x) { return b.indexOf(x) !== -1; }).length;
-    return inter / (a.length + b.length - inter);
-  }
-
-  function sameStory(a, b) {
-    if (a.subcategory && a.subcategory === b.subcategory) return true;
-    return jaccard(countrySet(a), countrySet(b)) >= 0.5;
-  }
-
-  function ageDays(ts) {
-    var d = new Date((ts || '').replace(' ', 'T') + 'Z');
-    if (isNaN(d.getTime())) return 999;
-    return (Date.now() - d.getTime()) / 86400000;
-  }
-
-  function score(it) {
-    var sev = parseInt(it.severity, 10) || 0;
-    return sev * 2 + (it.is_breaking === 'TRUE' ? 3 : 0) - ageDays(it.created_at) * 0.6;
-  }
-
-  function buildSuggestions() {
-    // Country-set / subcategory stand-ins for everything already tracked, so
-    // suggestions never duplicate an existing story.
-    var trackedPseudo = WatchlistStore.all().map(function (s) {
-      return { subcategory: '', countries: ((s.seed && s.seed.countries) || []).join(';') };
-    });
-
-    var candidates = feedItems
-      .filter(function (it) { return it.is_breaking === 'TRUE' || (parseInt(it.severity, 10) || 0) >= 4; })
-      .slice().sort(function (a, b) { return score(b) - score(a); });
-
-    var picked = [];
-    candidates.forEach(function (it) {
-      if (picked.length >= SUGGEST_COUNT) return;
-      if (WatchlistStore.hasId(WatchlistStore.storyIdFor(it))) return;
-      var dup = picked.concat(trackedPseudo).some(function (p) { return sameStory(p, it); });
-      if (!dup) picked.push(it);
-    });
-    return picked;
-  }
-
-  function refreshAll() {
-    _lastNewsCache = {};
-    renderRail();
-    renderMain();
-    if (panelOpen) renderManagePanel();
-  }
-
-  function renderRail() {
-    var stories = WatchlistStore.all().slice().sort(function (a, b) {
-      return (b.last_update_at || b.marked_at || '').localeCompare(a.last_update_at || a.marked_at || '');
-    });
-    var rail = document.getElementById('tracker-rail');
-    if (!stories.length) {
-      rail.innerHTML = '<div class="empty-note">No stories tracked yet.<br>Use <strong>Manage stories</strong> above to add some, or star items on the Feed page.</div>';
-      return;
-    }
-    rail.innerHTML = stories.map(function (s) {
-      var st = statusFor(s);
-      var count = storyUpdates.filter(function (u) { return u.story_id === s.story_id; }).length;
-      return (
-        '<div class="card tracker-story-item ' + (s.story_id === selectedId ? 'selected' : '') + '" data-id="' + esc(s.story_id) + '">' +
-          '<span class="tracker-status ' + st + '">' + st + '</span>' +
-          '<div class="story-mini-title" style="margin-top:6px;">' + esc(s.title) + '</div>' +
-          '<div class="story-mini-meta"><span>' + count + ' update' + (count === 1 ? '' : 's') + '</span><span class="last-news">news ' + esc(lastNewsLabel(s)) + '</span></div>' +
-        '</div>'
-      );
-    }).join('');
-    rail.querySelectorAll('.tracker-story-item').forEach(function (el) {
-      el.addEventListener('click', function () {
-        selectStory(el.dataset.id, true);
-      });
-    });
-  }
-
-  // Select a story, re-render, and bring its timeline into view. On mobile
-  // the rail stacks above the timeline, so clicking a story would otherwise
-  // leave the reader looking at the list; scrolling makes the click "go" to
-  // the timeline. On desktop it's a no-op scroll (main already visible).
-  function selectStory(id, scroll) {
-    selectedId = id;
-    renderRail();
-    renderMain();
-    if (scroll) {
-      var main = document.getElementById('tracker-main');
-      if (main) {
-        try { main.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
-        catch (e) { main.scrollIntoView(); }
-      }
-    }
-  }
-
-  function renderMain() {
-    var main = document.getElementById('tracker-main');
-    var story = WatchlistStore.all().filter(function (s) { return s.story_id === selectedId; })[0];
-    if (!story) {
-      main.innerHTML = '<div class="tracker-empty">Select a tracked story from the left to view its timeline.</div>';
-      return;
-    }
-    var st = statusFor(story);
-    // ── Merged timeline: curated beats + every linked feed tweet ──────────
-    // Curated story_updates are the hand/agent-authored beats; linked tweets
-    // come from linked_story_ids (the whole feed, retroactively — not just rows
-    // newer than the last update) and carry enriched context/sources. We merge
-    // the two, drop near-duplicates, sort NEWEST-FIRST, and pin the seed at the
-    // bottom as the story's origin anchor.
-    function normHead(s) {
-      return String(s || '').toLowerCase().replace(/[^a-z0-9 ]/g, ' ')
-        .replace(/\s+/g, ' ').trim().slice(0, 70);
-    }
-
-    // Lets an intel-origin curated beat resolve to its feed row so it can open
-    // the same enriched "Show details" as a raw tweet node.
+  // ── Merged story timeline: curated beats + every linked feed tweet ────────
+  // Curated story_updates are the hand/agent-authored beats; linked tweets come
+  // from linked_story_ids (the whole feed, retroactively) and carry enriched
+  // context/sources. We merge, drop near-duplicates (by date|normHead), and sort
+  // NEWEST-FIRST. This is the SINGLE source of truth for a story's update list —
+  // both the rail count and the timeline header/thread read from it, so the
+  // number the rail shows always matches the timeline it opens (previously the
+  // rail counted only curated rows and showed 0 for feed-linked-only stories).
+  function buildEntries(story) {
     var feedByNorm = {};
     feedItems.forEach(function (it) {
       var fk = (it.created_at || '').slice(0, 10) + '|' + normHead(it.summary || it.full_text);
@@ -269,9 +198,107 @@
 
     // Newest first.
     entries.sort(function (a, b) { return (b.date || '').localeCompare(a.date || ''); });
+    return entries;
+  }
 
-    // Header hero image — the most representative image for the whole story.
-    var heroImg = findImage(storyMatchText(story), [], storyCountries(story));
+  function countEntries(story) {
+    return buildEntries(story).length;
+  }
+
+  // ── Suggested-story detection (clusters from the intel feed) ──────────
+  // Mirrors js/home.js hero selection: rank breaking / high-severity recent
+  // feed items, dedupe by overlapping country-set or shared subcategory, and
+  // drop anything already tracked. Produces a catalog of stories the user can
+  // one-click track from the Manage panel. (Ranking helpers live in Util.)
+
+  function buildSuggestions() {
+    // Country-set / subcategory stand-ins for everything already tracked, so
+    // suggestions never duplicate an existing story.
+    var trackedPseudo = WatchlistStore.all().map(function (s) {
+      return { subcategory: '', countries: ((s.seed && s.seed.countries) || []).join(';') };
+    });
+
+    var candidates = feedItems
+      .filter(function (it) { return it.is_breaking === 'TRUE' || (parseInt(it.severity, 10) || 0) >= 4; })
+      .slice().sort(function (a, b) { return Util.score(b) - Util.score(a); });
+
+    var picked = [];
+    candidates.forEach(function (it) {
+      if (picked.length >= SUGGEST_COUNT) return;
+      if (WatchlistStore.hasId(WatchlistStore.storyIdFor(it))) return;
+      var dup = picked.concat(trackedPseudo).some(function (p) { return Util.sameStory(p, it); });
+      if (!dup) picked.push(it);
+    });
+    return picked;
+  }
+
+  function refreshAll() {
+    _lastNewsCache = {};
+    renderRail();
+    renderMain();
+    if (panelOpen) renderManagePanel();
+  }
+
+  function renderRail() {
+    var stories = WatchlistStore.all().slice().sort(function (a, b) {
+      return (b.last_update_at || b.marked_at || '').localeCompare(a.last_update_at || a.marked_at || '');
+    });
+    var rail = document.getElementById('tracker-rail');
+    if (!stories.length) {
+      rail.innerHTML = '<div class="empty-note">No stories tracked yet.<br>Use <strong>Manage stories</strong> above to add some, or star items on the Feed page.</div>';
+      return;
+    }
+    rail.innerHTML = stories.map(function (s) {
+      var st = statusFor(s);
+      var count = countEntries(s);
+      return (
+        '<div class="card tracker-story-item ' + (s.story_id === selectedId ? 'selected' : '') + '" data-id="' + esc(s.story_id) + '">' +
+          '<span class="tracker-status ' + st + '">' + st + '</span>' +
+          '<div class="story-mini-title" style="margin-top:6px;">' + esc(s.title) + '</div>' +
+          '<div class="story-mini-meta"><span>' + count + ' update' + (count === 1 ? '' : 's') + '</span><span class="last-news">news ' + esc(lastNewsLabel(s)) + '</span></div>' +
+        '</div>'
+      );
+    }).join('');
+    rail.querySelectorAll('.tracker-story-item').forEach(function (el) {
+      el.addEventListener('click', function () {
+        selectStory(el.dataset.id, true);
+      });
+    });
+  }
+
+  // Select a story, re-render, and bring its timeline into view. On mobile
+  // the rail stacks above the timeline, so clicking a story would otherwise
+  // leave the reader looking at the list; scrolling makes the click "go" to
+  // the timeline. On desktop it's a no-op scroll (main already visible).
+  function selectStory(id, scroll) {
+    selectedId = id;
+    renderRail();
+    renderMain();
+    if (scroll) {
+      var main = document.getElementById('tracker-main');
+      if (main) {
+        try { main.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+        catch (e) { main.scrollIntoView(); }
+      }
+    }
+  }
+
+  function renderMain() {
+    var main = document.getElementById('tracker-main');
+    var story = WatchlistStore.all().filter(function (s) { return s.story_id === selectedId; })[0];
+    if (!story) {
+      main.innerHTML = '<div class="tracker-empty">Select a tracked story from the left to view its timeline.</div>';
+      return;
+    }
+    var st = statusFor(story);
+    // Merged timeline (curated beats + linked feed tweets), newest-first.
+    var entries = buildEntries(story);
+
+    // Header hero image — a user-set story.image wins; otherwise the most
+    // representative keyword-matched image for the whole story.
+    var heroImg = story.image
+      ? { url: story.image, label: story.title || '', credit: '' }
+      : findImage(storyMatchText(story), [], storyCountries(story));
     // Node thumbnails may repeat down a long timeline, but never on two adjacent
     // nodes (or right under the hero), so the thread stays lively.
     var prevUrl = heroImg ? heroImg.url : null;
@@ -294,8 +321,12 @@
       if (img) prevUrl = img.url;
       var det = (e.feed && FeedItem.hasDetails(e.feed)) ? FeedItem.expandHtml(e.feed) : '';
       var sev = (e.feed && e.feed.severity) ? (parseInt(e.feed.severity, 10) || 0) : 0;
+      // The whole card jumps to the matching item on the Feed page when this
+      // node has a linked feed row.
+      var feedUrl = e.feed ? FeedItem.feedUrl(e.feed) : '';
       return (
-        '<div class="timeline-node animate-on-scroll"><div class="card timeline-node-card' + (img ? ' has-img' : '') + '">' +
+        '<div class="timeline-node animate-on-scroll"><div class="card timeline-node-card' + (img ? ' has-img' : '') + (feedUrl ? ' clickable' : '') + '"' +
+          (feedUrl ? ' data-feed-url="' + esc(feedUrl) + '" title="Open in Feed"' : '') + '>' +
           (img ?
             '<div class="timeline-node-thumb">' +
               '<img src="' + esc(img.url) + '" alt="' + esc(img.label) + '" loading="lazy">' +
@@ -322,7 +353,9 @@
     }).join('');
 
     // Seed pinned at the bottom.
-    nodes += '<div class="timeline-node seed"><div class="card timeline-node-card">' +
+    var seedUrl = (seedFeed && FeedItem.hasDetails(seedFeed)) ? FeedItem.feedUrl(seedFeed) : '';
+    nodes += '<div class="timeline-node seed"><div class="card timeline-node-card' + (seedUrl ? ' clickable' : '') + '"' +
+      (seedUrl ? ' data-feed-url="' + esc(seedUrl) + '" title="Open in Feed"' : '') + '>' +
       '<div class="timeline-node-meta"><span class="origin-tag">seed</span><span>' + esc(story.seed.created_at || story.marked_at || '') + '</span></div>' +
       '<div class="timeline-node-headline">Marked important</div>' +
       '<div class="timeline-node-summary">' + esc(story.seed.text || '') + '</div>' +
@@ -389,6 +422,17 @@
         btn.textContent = open ? 'Hide details −' : 'Show details +';
       });
     });
+
+    // Clicking a timeline node opens the matching item on the Feed page.
+    // Inner links (source URLs, headline anchor) and the Show-details toggle
+    // keep their own behaviour — don't hijack those clicks.
+    main.querySelectorAll('.timeline-node-card.clickable').forEach(function (card) {
+      card.addEventListener('click', function (e) {
+        if (e.target.closest('a, button, .feed-details-btn')) return;
+        var url = card.dataset.feedUrl;
+        if (url) window.location.href = url;
+      });
+    });
   }
 
   // ── Manage-stories panel ─────────────────────────────────────────────
@@ -413,6 +457,7 @@
     function editFormHtml(s) {
       var kw = (s.keywords || []).join(', ');
       var cs = ((s.seed && s.seed.countries) || []).join(', ');
+      var img = s.image || '';
       return (
         '<div class="manage-edit" data-id="' + esc(s.story_id) + '">' +
           '<input type="text" data-ef="title" value="' + esc(s.title) + '" placeholder="Title">' +
@@ -420,6 +465,14 @@
           '<div class="manage-form-row">' +
             '<input type="text" data-ef="keywords" value="' + esc(kw) + '" placeholder="keywords, comma-separated">' +
             '<input type="text" data-ef="countries" value="' + esc(cs) + '" placeholder="country codes e.g. US, CN">' +
+          '</div>' +
+          '<div class="manage-image-field">' +
+            '<img class="manage-image-preview' + (img ? '' : ' empty') + '" data-ei="preview" src="' + esc(img) + '" alt="">' +
+            '<div class="manage-image-inputs">' +
+              '<input type="text" data-ef="image" value="' + esc(img) + '" placeholder="Image URL (or upload →)">' +
+              '<label class="tracker-btn manage-upload-btn">Upload<input type="file" accept="image/*" data-ei="file" hidden></label>' +
+              (img ? '<button type="button" class="tracker-btn" data-ei="clear">Clear</button>' : '') +
+            '</div>' +
           '</div>' +
           '<div class="manage-edit-actions">' +
             '<button class="tracker-btn primary" data-mact="save">Save</button>' +
@@ -487,6 +540,13 @@
               '<input type="text" name="keywords" placeholder="keywords, comma-separated">' +
               '<input type="text" name="countries" placeholder="country codes e.g. US, CN">' +
             '</div>' +
+            '<div class="manage-image-field">' +
+              '<img class="manage-image-preview empty" data-ei="preview" src="" alt="">' +
+              '<div class="manage-image-inputs">' +
+                '<input type="text" name="image" data-ef="image" placeholder="Image URL (or upload →)">' +
+                '<label class="tracker-btn manage-upload-btn">Upload<input type="file" accept="image/*" data-ei="file" hidden></label>' +
+              '</div>' +
+            '</div>' +
             '<button type="submit" class="tracker-btn primary">+ Add story</button>' +
           '</form>' +
         '</div>' +
@@ -547,6 +607,7 @@
     // Inline edit form actions
     panel.querySelectorAll('.manage-edit').forEach(function (box) {
       var id = box.dataset.id;
+      wireImageField(box);
       box.querySelectorAll('[data-mact]').forEach(function (btn) {
         btn.addEventListener('click', function () {
           if (btn.dataset.mact === 'save') {
@@ -555,6 +616,7 @@
               text: (box.querySelector('[data-ef="text"]') || {}).value,
               keywords: (box.querySelector('[data-ef="keywords"]') || {}).value,
               countries: (box.querySelector('[data-ef="countries"]') || {}).value,
+              image: (box.querySelector('[data-ef="image"]') || {}).value,
             });
           }
           editingId = null;
@@ -583,6 +645,7 @@
     // Add-your-own form
     var form = panel.querySelector('#add-story-form');
     if (form) {
+      wireImageField(form);
       form.addEventListener('submit', function (e) {
         e.preventDefault();
         var fd = new FormData(form);
@@ -591,6 +654,7 @@
           text: fd.get('text'),
           keywords: fd.get('keywords'),
           countries: fd.get('countries'),
+          image: fd.get('image'),
         });
         if (story) {
           selectedId = story.story_id;
