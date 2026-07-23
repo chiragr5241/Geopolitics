@@ -9,10 +9,6 @@
     'political', 'cyber', 'trade', 'terrorism', 'intelligence', 'legal', 'social',
   ];
 
-  // Categories where a confirmation status ("unconfirmed") is meaningful — a
-  // kinetic/security claim you'd want corroborated. Elsewhere the tag is noise.
-  var CONFIRM_CATEGORIES = new Set(['military', 'nuclear', 'terrorism', 'cyber']);
-
   var activeCategories = new Set(ALL_CATEGORIES);
   var items = [];
   var creditByUrl = {};
@@ -23,19 +19,6 @@
   // Reveal on scroll only for the first paint — re-renders from filtering or
   // starring should update in place, not re-fade the whole list.
   var initialRender = true;
-
-  var fmtTime = Util.fmtTime;
-
-  function sevDots(sev) {
-    sev = parseInt(sev, 10) || 0;
-    var out = '<span class="sev-dots">';
-    for (var i = 1; i <= 5; i++) out += '<span class="sev-dot ' + (i <= sev ? 'on' : '') + '"></span>';
-    return out + '</span>';
-  }
-
-  function pillClass(category) {
-    return 'pill pill-' + (category || 'social').toLowerCase();
-  }
 
   function renderFilterBar() {
     var el = document.getElementById('filter-bar');
@@ -53,38 +36,17 @@
     });
   }
 
+  // Feed card = the shared FeedItem.cardHtml with a star control.
   function cardHtml(item, reveal) {
     var key = FeedItem.itemKey(item);
-    var starred = WatchlistStore.isMarked(item);
-    var isOpen = expanded.has(key);
-    var hasExpand = FeedItem.hasDetails(item);
-    var focused = focusKey && key === focusKey;
-    var thumb = FeedItem.imageHtml(item, creditByUrl);
-
-    return (
-      '<div class="card feed-card ' + (reveal ? 'animate-on-scroll ' : '') +
-        (item.is_breaking === 'TRUE' ? 'breaking ' : '') +
-        (starred ? 'starred ' : '') +
-        (thumb ? 'has-img ' : '') +
-        (focused ? 'feed-card-focus ' : '') +
-        '" data-key="' + FeedItem.esc(key) + '" id="feed-item-' + FeedItem.esc(key) + '">' +
-        thumb +
-        '<div class="feed-card-body">' +
-          '<div class="feed-card-top">' +
-            '<span class="' + pillClass(item.category) + '">' + (item.category || 'social') + '</span>' +
-            (item.confirmation_status && CONFIRM_CATEGORIES.has((item.category || '').toLowerCase()) ? '<span class="pill" style="color:var(--text);border-color:var(--border2);background:var(--bg1);">' + item.confirmation_status + '</span>' : '') +
-            sevDots(item.severity) +
-            '<span class="feed-time">' + fmtTime(item.created_at) + '</span>' +
-            '<button class="star-btn ' + (starred ? 'on' : '') + '" title="Mark important" data-action="star">' + (starred ? '★' : '☆') + '</button>' +
-          '</div>' +
-          FeedItem.sourceBadgeHtml(item) +
-          '<div class="feed-text">' + (item.summary || item.full_text || '') + '</div>' +
-          FeedItem.storyTagsHtml(item) +
-          (hasExpand ? FeedItem.toggleBtnHtml(isOpen) : '') +
-          '<div class="feed-expand ' + (isOpen ? 'open' : '') + '">' + FeedItem.expandHtml(item) + '</div>' +
-        '</div>' +
-      '</div>'
-    );
+    return FeedItem.cardHtml(item, {
+      control: 'star',
+      controlOn: WatchlistStore.isMarked(item),
+      reveal: reveal,
+      focused: focusKey && key === focusKey,
+      expandedOpen: expanded.has(key),
+      creditByUrl: creditByUrl,
+    });
   }
 
   function scrollToFocus() {
@@ -107,9 +69,11 @@
     if (focusKey) {
       var focused = FeedItem.findByKey(items, focusKey);
       if (focused && visible.indexOf(focused) === -1) {
+        // Filtered out entirely — prepend it so it's always shown at the top.
         visible = [focused].concat(visible);
       } else if (focused) {
-        // Already in the list but possibly past the current page — page up to it.
+        // Already in the list but possibly past the current page — auto-load
+        // pages (in PAGE-sized steps) until the item is included.
         var fi = visible.indexOf(focused);
         if (fi >= shown) shown = Math.ceil((fi + 1) / PAGE) * PAGE;
       }

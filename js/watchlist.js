@@ -150,6 +150,7 @@ var WatchlistStore = (function () {
       resolved_at: null,
       notes: '',
       image: '',
+      parent_id: null,
     };
   }
 
@@ -163,6 +164,29 @@ var WatchlistStore = (function () {
     doc.updated_at = nowIso();
     saveLocal();
     return story;
+  }
+
+  // Sub-track: seed a CHILD story from a feed item, linked to a parent story via
+  // `parent_id`. Barebones scaffolding for a future "sub-thread" feature — a child
+  // is a normal tracked story that also records which story it branched from.
+  // Idempotent by story_id (re-seeding the same item returns the existing child).
+  function addSubTrack(parentId, item) {
+    var existing = findByTweet(item) || byId(storyIdFor(item));
+    if (existing) {
+      if (!existing.parent_id) existing.parent_id = parentId;
+      return existing;
+    }
+    var story = buildStory(item);
+    story.parent_id = parentId;
+    doc.stories.push(story);
+    doc.updated_at = nowIso();
+    saveLocal();
+    return story;
+  }
+
+  // All stories that branched from a given parent story.
+  function childrenOf(parentId) {
+    return doc.stories.filter(function (s) { return s.parent_id === parentId; });
   }
 
   // Create a fully custom tracked story from a small form. Generates a stable
@@ -202,6 +226,7 @@ var WatchlistStore = (function () {
       notes: '',
       custom: true,
       image: (fields.image || '').trim(),
+      parent_id: null,
     };
     doc.stories.push(story);
     doc.updated_at = nowIso();
@@ -318,6 +343,8 @@ var WatchlistStore = (function () {
     trackItem: trackItem,
     unmark: unmark,
     removeById: removeById,
+    addSubTrack: addSubTrack,
+    childrenOf: childrenOf,
     moveBy: moveBy,
     moveTo: moveTo,
     updateStory: updateStory,

@@ -606,7 +606,7 @@ a.source-badge:hover { border-color: var(--accent); }
   align-self: center;
 }
 
-.timeline-node-card .feed-details-btn {
+.timeline-node .feed-card .feed-details-btn {
   margin-top: 10px;
 }
 
@@ -1018,77 +1018,60 @@ a.source-badge:hover { border-color: var(--accent); }
 
 .timeline-node.seed::before { background: var(--gold); box-shadow: 0 0 0 1px var(--gold); }
 
-.timeline-node-card {
-  padding: 12px 14px;
-}
+/* Timeline cells now reuse the shared .feed-card markup (identical to the Feed
+   page). The thread spine + node dot come from .timeline-thread / .timeline-node
+   above; the card itself is styled by the .feed-card rules. A card that
+   deep-links to the Feed page gets a pointer + hover lift. */
+.timeline-node .feed-card { margin: 0; }
 
-/* A node linked to a feed item: the whole card is clickable (jumps to the
-   Feed page). Inner links/buttons stop propagation, so they still work. */
-.timeline-node-card.clickable {
+.timeline-node .feed-card.clickable {
   cursor: pointer;
   transition: box-shadow .15s, border-color .15s;
 }
-.timeline-node-card.clickable:hover {
+.timeline-node .feed-card.clickable:hover {
   border-color: var(--border2);
   box-shadow: var(--shadow-md);
 }
 
-/* Node with a matched image: thumbnail on the left, text on the right.
-   Falls back to full-width text when the image is absent or fails. */
-.timeline-node-card.has-img {
-  display: flex;
-  gap: 14px;
-  align-items: stretch;
-  padding: 0;
-  overflow: hidden;
-}
-
-.timeline-node-thumb {
-  flex-shrink: 0;
-  width: 120px;
-  align-self: stretch;
-  overflow: hidden;
-  background: var(--bg1);
-}
-
-.timeline-node-thumb img {
-  width: 100%;
-  height: 100%;
-  min-height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.timeline-node-card.has-img .timeline-node-content {
-  flex: 1;
-  min-width: 0;
-  padding: 12px 14px 12px 0;
-}
-
-.timeline-node-meta {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 6px;
-  font-family: var(--font-mono);
-  font-size: 9px;
-  color: var(--text);
-}
-
-.timeline-node-headline {
-  font-family: var(--font-body);
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--bright);
-  margin-bottom: 4px;
-}
-
-.timeline-node-summary {
-  font-family: var(--font-body);
-  font-size: 11px;
+/* Sub-track control — replaces the star on timeline cells. Seeds a child story
+   ("sub-thread") from this news item. Barebones: same box as .star-btn. */
+.subtrack-btn {
+  margin-left: auto;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+  line-height: 1;
   color: var(--text2);
-  line-height: 1.55;
+  transition: color .15s;
+  padding: 2px 4px;
 }
+.subtrack-btn:hover { color: var(--accent); }
+.subtrack-btn.on { color: var(--accent); font-weight: 700; }
+.light-mode .subtrack-btn { color: #6b6b66; opacity: .8; }
+.light-mode .subtrack-btn:hover,
+.light-mode .subtrack-btn.on { color: var(--accent); opacity: 1; }
+
+/* Nested sub-thread indicator shown under a sub-tracked cell. */
+.subthread {
+  margin: 4px 0 0 20px;
+  padding-left: 12px;
+  border-left: 2px solid var(--accent-soft);
+}
+.subthread-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 0;
+  text-decoration: none;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--accent);
+}
+.subthread-link:hover .subthread-title { text-decoration: underline; }
+.subthread-branch { font-size: 12px; }
+.subthread-title { color: var(--text2); font-weight: 600; }
+.subthread-count { color: var(--text); }
 
 .timeline-node-source {
   margin-top: 6px;

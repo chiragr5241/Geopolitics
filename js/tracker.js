@@ -205,6 +205,21 @@
     return buildEntries(story).length;
   }
 
+  // Nested sub-thread indicator shown under a news cell that has been
+  // sub-tracked into its own child story. Barebones: a link into the child's
+  // timeline (deep-link via ?story=). `child` may be null (not sub-tracked yet).
+  function subthreadHtml(child, isSub) {
+    if (!isSub || !child) return '';
+    var count = countEntries(child);
+    return '<div class="subthread">' +
+      '<a class="subthread-link" href="tracker.html?story=' + encodeURIComponent(child.story_id) + '">' +
+        '<span class="subthread-branch">⑂</span>' +
+        '<span class="subthread-title">' + esc(child.title) + '</span>' +
+        '<span class="subthread-count">' + count + ' update' + (count === 1 ? '' : 's') + '</span>' +
+      '</a>' +
+    '</div>';
+  }
+
   // ── Suggested-story detection (clusters from the intel feed) ──────────
   // Mirrors js/home.js hero selection: rank breaking / high-severity recent
   // feed items, dedupe by overlapping country-set or shared subcategory, and
@@ -299,9 +314,6 @@
     var heroImg = story.image
       ? { url: story.image, label: story.title || '', credit: '' }
       : findImage(storyMatchText(story), [], storyCountries(story));
-    // Node thumbnails may repeat down a long timeline, but never on two adjacent
-    // nodes (or right under the hero), so the thread stays lively.
-    var prevUrl = heroImg ? heroImg.url : null;
 
     // Resolve the seed back to its enriched feed row so "Show details" opens the
     // same cell on the Feed page.
@@ -316,51 +328,65 @@
     }
 
     var nodes = entries.map(function (e) {
-      var nodeCs = (e.feed && e.feed.countries) || storyCountries(story);
-      var img = findImage((e.headline || '') + ' ' + (e.summary || ''), prevUrl ? [prevUrl] : [], nodeCs);
-      if (img) prevUrl = img.url;
-      var det = (e.feed && FeedItem.hasDetails(e.feed)) ? FeedItem.expandHtml(e.feed) : '';
-      var sev = (e.feed && e.feed.severity) ? (parseInt(e.feed.severity, 10) || 0) : 0;
-      // The whole card jumps to the matching item on the Feed page when this
-      // node has a linked feed row.
-      var feedUrl = e.feed ? FeedItem.feedUrl(e.feed) : '';
+      // Feed-backed entries render as the SHARED feed card (identical to the
+      // Feed page) but with a sub-track control instead of the star, and the
+      // whole card deep-links to the matching feed item.
+      if (e.feed) {
+        var childId = WatchlistStore.storyIdFor(e.feed);
+        var childStory = WatchlistStore.byId(childId);
+        var isSub = !!(childStory && childStory.parent_id === story.story_id);
+        var card = FeedItem.cardHtml(e.feed, {
+          control: 'subtrack',
+          controlOn: isSub,
+          feedUrl: FeedItem.feedUrl(e.feed),
+          creditByUrl: creditByUrl,
+        });
+        return '<div class="timeline-node animate-on-scroll">' + card + subthreadHtml(childStory, isSub) + '</div>';
+      }
+
+      // Curated-only beats (hand/agent-authored story_updates with no matching
+      // feed row) have no feed item to mirror 1:1 — render a compact card in the
+      // same visual family (no category pill), with a sub-track control seeded
+      // from the beat text.
+      var sev = 0;
       return (
-        '<div class="timeline-node animate-on-scroll"><div class="card timeline-node-card' + (img ? ' has-img' : '') + (feedUrl ? ' clickable' : '') + '"' +
-          (feedUrl ? ' data-feed-url="' + esc(feedUrl) + '" title="Open in Feed"' : '') + '>' +
-          (img ?
-            '<div class="timeline-node-thumb">' +
-              '<img src="' + esc(img.url) + '" alt="' + esc(img.label) + '" loading="lazy">' +
-            '</div>' : '') +
-          '<div class="timeline-node-content">' +
-            '<div class="timeline-node-meta">' +
+        '<div class="timeline-node animate-on-scroll">' +
+        '<div class="card feed-card">' +
+          '<div class="feed-card-body">' +
+            '<div class="feed-card-top">' +
               '<span class="origin-tag">' + esc(e.origin) + '</span>' +
-              '<span>' + esc(e.date) + '</span>' +
-              (e.status ? '<span>· ' + esc(e.status) + '</span>' : '') +
-              (sev >= 4 ? '<span class="node-sev">sev ' + sev + '</span>' : '') +
+              (e.status ? '<span class="pill" style="color:var(--text);border-color:var(--border2);background:var(--bg1);">' + esc(e.status) + '</span>' : '') +
+              '<span class="feed-time">' + esc(e.date) + '</span>' +
             '</div>' +
-            '<div class="timeline-node-headline">' +
-              (e.feed ? '<a class="node-feed-link" href="' + esc(FeedItem.feedUrl(e.feed)) + '" title="Open in Feed">' + esc(e.headline) + '</a>' : esc(e.headline)) +
-            '</div>' +
-            (e.summary ? '<div class="timeline-node-summary">' + esc(e.summary) + '</div>' : '') +
+            '<div class="feed-text"><strong>' + esc(e.headline) + '</strong></div>' +
+            (e.summary ? '<div class="feed-text">' + esc(e.summary) + '</div>' : '') +
             (e.source_name || e.url ?
               '<div class="timeline-node-source">' +
                 (e.url ? '<a href="' + esc(e.url) + '" target="_blank" rel="noopener">' + esc(e.source_name || e.url) + '</a>' : esc(e.source_name)) +
               '</div>' : '') +
-            (det ? FeedItem.toggleBtnHtml(false) + '<div class="feed-expand" data-expand>' + det + '</div>' : '') +
           '</div>' +
-        '</div></div>'
+        '</div>' +
+        '</div>'
       );
     }).join('');
 
-    // Seed pinned at the bottom.
+    // Seed pinned at the bottom — the story's origin anchor. Rendered in the
+    // feed-card family; deep-links to its feed row when one exists. No sub-track
+    // control (it is already this story's own seed).
     var seedUrl = (seedFeed && FeedItem.hasDetails(seedFeed)) ? FeedItem.feedUrl(seedFeed) : '';
-    nodes += '<div class="timeline-node seed"><div class="card timeline-node-card' + (seedUrl ? ' clickable' : '') + '"' +
-      (seedUrl ? ' data-feed-url="' + esc(seedUrl) + '" title="Open in Feed"' : '') + '>' +
-      '<div class="timeline-node-meta"><span class="origin-tag">seed</span><span>' + esc(story.seed.created_at || story.marked_at || '') + '</span></div>' +
-      '<div class="timeline-node-headline">Marked important</div>' +
-      '<div class="timeline-node-summary">' + esc(story.seed.text || '') + '</div>' +
-      FeedItem.linkBtnHtml(seedFeed) +
-    '</div></div>';
+    nodes += '<div class="timeline-node seed">' +
+      '<div class="card feed-card' + (seedUrl ? ' clickable' : '') + '"' +
+        (seedUrl ? ' data-feed-url="' + esc(seedUrl) + '" title="Open in Feed"' : '') + '>' +
+        '<div class="feed-card-body">' +
+          '<div class="feed-card-top">' +
+            '<span class="origin-tag">seed</span>' +
+            '<span class="feed-time">' + esc((story.seed.created_at || story.marked_at || '').slice(0, 16)) + '</span>' +
+          '</div>' +
+          '<div class="feed-text"><strong>Marked important</strong></div>' +
+          '<div class="feed-text">' + esc(story.seed.text || '') + '</div>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
 
     main.innerHTML =
       '<div class="card tracker-story-header' + (heroImg ? ' has-hero' : '') + '">' +
@@ -381,16 +407,10 @@
       '</div>' +
       '<div class="timeline-thread">' + nodes + '</div>';
 
-    // Broken image → drop the thumb/hero and reflow to the text-only layout.
-    main.querySelectorAll('.timeline-node-thumb img, .tracker-story-hero img').forEach(function (el) {
+    // Broken hero image → drop it and reflow. (Feed-card thumbnails inside the
+    // thread self-heal via the inline onerror in FeedItem.imageHtml.)
+    main.querySelectorAll('.tracker-story-hero img').forEach(function (el) {
       el.addEventListener('error', function () {
-        var thumb = el.closest('.timeline-node-thumb');
-        if (thumb) {
-          var card = thumb.closest('.timeline-node-card');
-          if (card) card.classList.remove('has-img');
-          thumb.remove();
-          return;
-        }
         var hero = el.closest('.tracker-story-hero');
         if (hero) {
           var header = hero.closest('.tracker-story-header');
@@ -412,27 +432,48 @@
       });
     });
 
-    // Inline "Show details" expanders on tweet/enriched timeline nodes.
-    main.querySelectorAll('.timeline-node .feed-details-btn[data-action="toggle"]').forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        var content = btn.closest('.timeline-node-content');
-        var exp = content && content.querySelector('[data-expand]');
-        if (!exp) return;
-        var open = exp.classList.toggle('open');
-        btn.textContent = open ? 'Hide details −' : 'Show details +';
-      });
-    });
+    var thread = main.querySelector('.timeline-thread');
+    if (thread) {
+      // Delegated handler for the whole thread: sub-track toggle, "Show details"
+      // expander, and card → Feed deep-link. One listener covers every cell.
+      thread.addEventListener('click', function (e) {
+        var card = e.target.closest('.feed-card');
+        if (!card) return;
 
-    // Clicking a timeline node opens the matching item on the Feed page.
-    // Inner links (source URLs, headline anchor) and the Show-details toggle
-    // keep their own behaviour — don't hijack those clicks.
-    main.querySelectorAll('.timeline-node-card.clickable').forEach(function (card) {
-      card.addEventListener('click', function (e) {
-        if (e.target.closest('a, button, .feed-details-btn')) return;
-        var url = card.dataset.feedUrl;
-        if (url) window.location.href = url;
+        // Sub-track control — seed / un-seed a child story from this news item.
+        var subBtn = e.target.closest('[data-action="subtrack"]');
+        if (subBtn) {
+          e.stopPropagation();
+          var it = FeedItem.findByKey(feedItems, card.dataset.key);
+          if (!it) return;
+          var childId = WatchlistStore.storyIdFor(it);
+          var existing = WatchlistStore.byId(childId);
+          if (existing && existing.parent_id === story.story_id) {
+            WatchlistStore.removeById(childId);
+          } else {
+            WatchlistStore.addSubTrack(story.story_id, it);
+          }
+          refreshAll();
+          return;
+        }
+
+        // "Show details" expander (inline, no navigation).
+        var toggle = e.target.closest('[data-action="toggle"]');
+        if (toggle) {
+          e.stopPropagation();
+          var exp = card.querySelector('.feed-expand');
+          if (!exp) return;
+          var open = exp.classList.toggle('open');
+          toggle.textContent = open ? 'Hide details −' : 'Show details +';
+          return;
+        }
+
+        // Any other click on a deep-linkable card → open it on the Feed page.
+        // Ignore inner links (source URLs) and the sub-thread link.
+        if (e.target.closest('a')) return;
+        if (card.dataset.feedUrl) window.location.href = card.dataset.feedUrl;
       });
-    });
+    }
   }
 
   // ── Manage-stories panel ─────────────────────────────────────────────

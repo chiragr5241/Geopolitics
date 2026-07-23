@@ -182,6 +182,84 @@ var FeedItem = (function () {
     }
   }
 
+  // Categories where a confirmation status ("unconfirmed") is meaningful — a
+  // kinetic/security claim you'd want corroborated. Elsewhere the tag is noise.
+  var CONFIRM_CATEGORIES = { military: 1, nuclear: 1, terrorism: 1, cyber: 1 };
+
+  function pillClass(category) {
+    return 'pill pill-' + (category || 'social').toLowerCase();
+  }
+
+  function sevDots(sev) {
+    sev = parseInt(sev, 10) || 0;
+    var out = '<span class="sev-dots">';
+    for (var i = 1; i <= 5; i++) out += '<span class="sev-dot ' + (i <= sev ? 'on' : '') + '"></span>';
+    return out + '</span>';
+  }
+
+  // The right-side control on a card. 'star' (Feed) / 'subtrack' (Tracker
+  // timeline — seed a child story) / 'none'. `on` renders the active state.
+  function controlHtml(control, on) {
+    if (control === 'star') {
+      return '<button class="star-btn ' + (on ? 'on' : '') + '" title="Mark important" data-action="star">' +
+        (on ? '★' : '☆') + '</button>';
+    }
+    if (control === 'subtrack') {
+      // Branch/fork glyph — seeds a sub-thread from this news item.
+      return '<button class="subtrack-btn ' + (on ? 'on' : '') + '" title="Sub-track this story" data-action="subtrack">⑂</button>';
+    }
+    return '';
+  }
+
+  // The canonical feed-card renderer — shared by the Feed page and the Tracker
+  // timeline so a news cell looks identical in both. opts:
+  //   control     : 'star' | 'subtrack' | 'none'  (right-side control)
+  //   controlOn   : boolean — active state of the control (starred / sub-tracked)
+  //   reveal      : add .animate-on-scroll (first paint only)
+  //   focused     : add .feed-card-focus + the deep-link anchor id
+  //   expandedOpen: render the details expander already open
+  //   creditByUrl : url→credit map for the thumbnail caption
+  //   feedUrl     : if set, the card is a clickable deep-link (Tracker use);
+  //                 carries data-feed-url so a delegated handler can navigate.
+  function cardHtml(item, opts) {
+    opts = opts || {};
+    var key = itemKey(item);
+    var isOpen = !!opts.expandedOpen;
+    var hasExpand = hasDetails(item);
+    var thumb = imageHtml(item, opts.creditByUrl);
+    var cat = (item.category || '').toLowerCase();
+    var confirm = item.confirmation_status && CONFIRM_CATEGORIES[cat]
+      ? '<span class="pill" style="color:var(--text);border-color:var(--border2);background:var(--bg1);">' + esc(item.confirmation_status) + '</span>'
+      : '';
+
+    return (
+      '<div class="card feed-card ' + (opts.reveal ? 'animate-on-scroll ' : '') +
+        (item.is_breaking === 'TRUE' ? 'breaking ' : '') +
+        (opts.controlOn && opts.control === 'star' ? 'starred ' : '') +
+        (thumb ? 'has-img ' : '') +
+        (opts.focused ? 'feed-card-focus ' : '') +
+        (opts.feedUrl ? 'clickable ' : '') +
+        '" data-key="' + esc(key) + '" id="feed-item-' + esc(key) + '"' +
+        (opts.feedUrl ? ' data-feed-url="' + esc(opts.feedUrl) + '" title="Open in Feed"' : '') + '>' +
+        thumb +
+        '<div class="feed-card-body">' +
+          '<div class="feed-card-top">' +
+            '<span class="' + pillClass(item.category) + '">' + esc(item.category || 'social') + '</span>' +
+            confirm +
+            sevDots(item.severity) +
+            '<span class="feed-time">' + Util.fmtTime(item.created_at) + '</span>' +
+            controlHtml(opts.control, opts.controlOn) +
+          '</div>' +
+          sourceBadgeHtml(item) +
+          '<div class="feed-text">' + (item.summary || item.full_text || '') + '</div>' +
+          storyTagsHtml(item) +
+          (hasExpand ? toggleBtnHtml(isOpen) : '') +
+          '<div class="feed-expand ' + (isOpen ? 'open' : '') + '">' + expandHtml(item) + '</div>' +
+        '</div>' +
+      '</div>'
+    );
+  }
+
   return {
     esc: esc,
     itemKey: itemKey,
@@ -198,5 +276,8 @@ var FeedItem = (function () {
     firstImage: firstImage,
     imageHtml: imageHtml,
     readQueryItem: readQueryItem,
+    pillClass: pillClass,
+    sevDots: sevDots,
+    cardHtml: cardHtml,
   };
 })();
