@@ -202,9 +202,11 @@
   }
 
   function renderRail() {
-    var stories = WatchlistStore.all().slice().sort(function (a, b) {
-      return (b.last_update_at || b.marked_at || '').localeCompare(a.last_update_at || a.marked_at || '');
-    });
+    // Array order IS the user's manual priority (set via drag/▲▼ in Manage
+    // stories — see WatchlistStore.moveBy/moveTo) — same convention as the
+    // main page's hero tiles. Don't re-sort by date; that silently discarded
+    // the order the user set.
+    var stories = WatchlistStore.all();
     var rail = document.getElementById('tracker-rail');
     if (!stories.length) {
       rail.innerHTML = '<div class="empty-note">No stories tracked yet.<br>Use <strong>Manage stories</strong> above to add some, or star items on the Feed page.</div>';
