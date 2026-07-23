@@ -34,6 +34,8 @@ import re
 import sys
 from datetime import datetime, timezone
 
+from story_dedup import build_index, is_fuzzy_dup, note_accepted
+
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 WATCHLIST_JSON = os.path.join(ROOT, 'data', 'watchlist.json')
 STORY_UPDATES_CSV = os.path.join(ROOT, 'data', 'story_updates.csv')
@@ -107,6 +109,7 @@ def main():
     items = payload if isinstance(payload, list) else [payload]
     known_story_ids = load_story_ids()
     existing_rows, existing_keys = load_existing()
+    fuzzy_index = build_index(existing_rows)
 
     accepted, rejected = [], []
     now_iso = datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
@@ -126,7 +129,12 @@ def main():
         if key in existing_keys:
             rejected.append((item['story_id'], 'duplicate (already recorded)'))
             continue
+        # Fuzzy: same event scraped with different wording / from another source.
+        if is_fuzzy_dup(item['story_id'], item['date'], headline, fuzzy_index):
+            rejected.append((item['story_id'], 'duplicate (near-match of an existing beat)'))
+            continue
         existing_keys.add(key)
+        note_accepted(item['story_id'], item['date'], headline, fuzzy_index)
 
         update_id_num = next_update_id(existing_rows + accepted, item['story_id'])
         accepted.append({
