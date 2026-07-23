@@ -29,7 +29,7 @@
 
   // ── Story selection ──────────────────────────────────────
 
-  function selectHeroes(items) {
+  function selectHeroes(items, storyUpdates) {
     var heroes = [];
     var trackedPseudo = []; // country-set stand-ins so auto picks dedupe against tracked stories
 
@@ -48,7 +48,12 @@
           time: s.last_update_at || s.marked_at || '',
           href: 'tracker.html?story=' + encodeURIComponent(s.story_id),
           matchText: (s.title + ' ' + ((s.seed && s.seed.text) || '')).toLowerCase(),
-          updates: s.update_count || 0,
+          // Live count (curated updates + linked feed items) — NOT the static
+          // update_count field, which is rarely kept in sync and shows 0 for
+          // any story whose only coverage is linked feed tweets. Mirrors the
+          // Tracker page's rail count (js/tracker.js countEntries) so the two
+          // pages always agree.
+          updates: Util.countStoryEntries(s, storyUpdates, items),
           image: s.image || '',
         });
         trackedPseudo.push({ subcategory: '', countries: cs });
@@ -204,7 +209,7 @@
     var items = (data.tweetEnriched || []).slice().sort(function (a, b) {
       return (b.created_at || '').localeCompare(a.created_at || '');
     });
-    var heroes = selectHeroes(items);
+    var heroes = selectHeroes(items, data.storyUpdates || []);
     renderHeroes(heroes, data.storyImages || []);
     renderRest(items, heroes);
 

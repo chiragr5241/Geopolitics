@@ -57,6 +57,71 @@ var Util = (function () {
     return jaccard(countrySet(a), countrySet(b)) >= 0.5;
   }
 
+  // Normalise a headline for dedup keys (shared by buildStoryEntries).
+  function normHead(s) {
+    return String(s || '').toLowerCase().replace(/[^a-z0-9 ]/g, ' ')
+      .replace(/\s+/g, ' ').trim().slice(0, 70);
+  }
+
+  // ── Merged story timeline: curated beats + every linked feed tweet ────────
+  // Curated story_updates are the hand/agent-authored beats; linked tweets come
+  // from linked_story_ids (the whole feed, retroactively) and carry enriched
+  // context/sources. We merge, drop near-duplicates (by date|normHead), and
+  // sort NEWEST-FIRST. This is the SINGLE source of truth for a story's update
+  // list — used by the Tracker (rail count + timeline thread) AND the main
+  // page's hero tiles, so the number shown always matches reality (a story's
+  // static `update_count` field is NOT reliable — it's rarely kept in sync,
+  // e.g. it stays 0 for a story whose only coverage is linked feed tweets).
+  function buildStoryEntries(story, storyUpdates, feedItems) {
+    var feedByNorm = {};
+    feedItems.forEach(function (it) {
+      var fk = (it.created_at || '').slice(0, 10) + '|' + normHead(it.summary || it.full_text);
+      if (!feedByNorm[fk]) feedByNorm[fk] = it;
+    });
+
+    var seen = {};
+    var entries = [];
+
+    // Curated beats first (authoritative — dedup wins over a raw tweet).
+    storyUpdates.filter(function (u) { return u.story_id === story.story_id; })
+      .forEach(function (u) {
+        var head = u.headline || u.summary || '';
+        var k = (u.date || '') + '|' + normHead(head);
+        if (seen[k]) return;
+        seen[k] = 1;
+        entries.push({
+          date: u.date || '', headline: head, summary: u.summary || '',
+          origin: u.origin || 'update', status: u.status || '',
+          source_name: u.source_name || '', url: u.url || '',
+          feed: (!u.url && feedByNorm[k]) || null,
+        });
+      });
+
+    // Every linked feed tweet.
+    feedItems.filter(function (it) {
+      return String(it.linked_story_ids || '').split(';').indexOf(story.story_id) !== -1;
+    }).forEach(function (it) {
+      var date = (it.created_at || '').slice(0, 10);
+      var head = it.summary || it.full_text || '';
+      var k = date + '|' + normHead(head);
+      if (seen[k]) return;
+      seen[k] = 1;
+      entries.push({
+        date: date, headline: head, summary: '',
+        origin: 'feed', status: '', source_name: 'Spectator Index', url: '',
+        feed: it,
+      });
+    });
+
+    // Newest first.
+    entries.sort(function (a, b) { return (b.date || '').localeCompare(a.date || ''); });
+    return entries;
+  }
+
+  function countStoryEntries(story, storyUpdates, feedItems) {
+    return buildStoryEntries(story, storyUpdates, feedItems).length;
+  }
+
   return {
     esc: esc,
     fmtTime: fmtTime,
@@ -65,5 +130,7 @@ var Util = (function () {
     countrySet: countrySet,
     jaccard: jaccard,
     sameStory: sameStory,
+    buildStoryEntries: buildStoryEntries,
+    countStoryEntries: countStoryEntries,
   };
 })();

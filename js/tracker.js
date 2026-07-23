@@ -10,6 +10,7 @@
   var SUGGEST_COUNT = 12;
   var storyUpdates = [];
   var storyImages = [];
+  var creditByUrl = {};   // url → credit, for feed-card thumbnails in the timeline
   var feedItems = [];
   var lastSuggestions = [];
   var selectedId = null;
@@ -141,68 +142,14 @@
     return (story.title + ' ' + ((story.seed && story.seed.text) || '') + ' ' + kw + ' ' + countries).toLowerCase();
   }
 
-  // Normalise a headline for dedup keys (shared by buildEntries).
-  function normHead(s) {
-    return String(s || '').toLowerCase().replace(/[^a-z0-9 ]/g, ' ')
-      .replace(/\s+/g, ' ').trim().slice(0, 70);
-  }
-
-  // ── Merged story timeline: curated beats + every linked feed tweet ────────
-  // Curated story_updates are the hand/agent-authored beats; linked tweets come
-  // from linked_story_ids (the whole feed, retroactively) and carry enriched
-  // context/sources. We merge, drop near-duplicates (by date|normHead), and sort
-  // NEWEST-FIRST. This is the SINGLE source of truth for a story's update list —
-  // both the rail count and the timeline header/thread read from it, so the
-  // number the rail shows always matches the timeline it opens (previously the
-  // rail counted only curated rows and showed 0 for feed-linked-only stories).
+  // Merged timeline (curated beats + linked feed tweets) for a story — shared
+  // with js/home.js via Util so both pages always agree on "how many updates".
   function buildEntries(story) {
-    var feedByNorm = {};
-    feedItems.forEach(function (it) {
-      var fk = (it.created_at || '').slice(0, 10) + '|' + normHead(it.summary || it.full_text);
-      if (!feedByNorm[fk]) feedByNorm[fk] = it;
-    });
-
-    var seen = {};
-    var entries = [];
-
-    // Curated beats first (authoritative — dedup wins over a raw tweet).
-    storyUpdates.filter(function (u) { return u.story_id === story.story_id; })
-      .forEach(function (u) {
-        var head = u.headline || u.summary || '';
-        var k = (u.date || '') + '|' + normHead(head);
-        if (seen[k]) return;
-        seen[k] = 1;
-        entries.push({
-          date: u.date || '', headline: head, summary: u.summary || '',
-          origin: u.origin || 'update', status: u.status || '',
-          source_name: u.source_name || '', url: u.url || '',
-          feed: (!u.url && feedByNorm[k]) || null,
-        });
-      });
-
-    // Every linked feed tweet.
-    feedItems.filter(function (it) {
-      return String(it.linked_story_ids || '').split(';').indexOf(story.story_id) !== -1;
-    }).forEach(function (it) {
-      var date = (it.created_at || '').slice(0, 10);
-      var head = it.summary || it.full_text || '';
-      var k = date + '|' + normHead(head);
-      if (seen[k]) return;
-      seen[k] = 1;
-      entries.push({
-        date: date, headline: head, summary: '',
-        origin: 'feed', status: '', source_name: 'Spectator Index', url: '',
-        feed: it,
-      });
-    });
-
-    // Newest first.
-    entries.sort(function (a, b) { return (b.date || '').localeCompare(a.date || ''); });
-    return entries;
+    return Util.buildStoryEntries(story, storyUpdates, feedItems);
   }
 
   function countEntries(story) {
-    return buildEntries(story).length;
+    return Util.countStoryEntries(story, storyUpdates, feedItems);
   }
 
   // Nested sub-thread indicator shown under a news cell that has been
@@ -726,6 +673,9 @@
     WatchlistStore.init(data.watchlist);
     storyUpdates = data.storyUpdates || [];
     storyImages = data.storyImages || [];
+    (data.storyImages || []).forEach(function (r) {
+      if (r && r.url) creditByUrl[r.url] = r.credit || '';
+    });
     feedItems = (data.tweetEnriched || []).slice().sort(function (a, b) {
       return (b.created_at || '').localeCompare(a.created_at || '');
     });
