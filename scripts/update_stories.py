@@ -22,6 +22,8 @@ import re
 import sys
 from datetime import datetime, timezone
 
+from story_dedup import build_index, is_fuzzy_dup, note_accepted
+
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 INTEL_CSV = os.path.join(ROOT, 'data', 'intel_feed.csv')
 WATCHLIST_JSON = os.path.join(ROOT, 'data', 'watchlist.json')
@@ -105,6 +107,7 @@ def main():
         intel_rows = list(csv.DictReader(f))
 
     existing_rows, existing_keys = load_existing_updates()
+    fuzzy_index = build_index(existing_rows)
     now_iso = datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
 
     new_updates = []
@@ -146,7 +149,12 @@ def main():
             key = (story_id, 'text', date_str, headline)
             if key in existing_keys:
                 continue
+            # Fuzzy: same event already recorded (7b websearch or an earlier row)
+            # with slightly different wording — don't append a near-duplicate.
+            if is_fuzzy_dup(story_id, date_str, headline, fuzzy_index):
+                continue
             existing_keys.add(key)
+            note_accepted(story_id, date_str, headline, fuzzy_index)
 
             update_id_num = next_update_id(existing_rows + new_updates, story_id)
             new_updates.append({
