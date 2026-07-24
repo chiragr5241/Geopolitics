@@ -59,6 +59,12 @@ def load_watchlist():
         return json.load(f)
 
 
+def save_watchlist(doc):
+    with open(WATCHLIST_JSON, 'w', encoding='utf-8') as f:
+        json.dump(doc, f, indent=2, ensure_ascii=False)
+        f.write('\n')
+
+
 def load_intel():
     if not os.path.exists(INTEL_CSV):
         return []
@@ -78,15 +84,42 @@ def story_countries(story):
     return ';'.join((story.get('seed', {}) or {}).get('countries', []) or [])
 
 
-def has_image(story):
-    """True if the frontend keyword matcher already gives this story an image."""
-    return bool(match_image(story_match_text(story), story_countries(story)))
+def has_good_image(story):
+    """True if this story already has a TRUSTWORTHY hero image.
+
+    An explicit story.image always counts. Otherwise we consult the keyword
+    matcher — but only trust the match when it is country-consistent: the matched
+    image must be generic (no countries) OR share the story's PRIMARY (first)
+    country. This rejects false positives where a broad keyword + a shared
+    secondary country (e.g. "Taiwan Strait" hitting the US-gated Hormuz photo via
+    a US tag) cross-assigns a wrong-country image, which is exactly what let the
+    routine believe a story "had an image" when it had the wrong one.
+    """
+    if (story.get('image') or '').strip():
+        return True
+    url = match_image(story_match_text(story), story_countries(story))
+    if not url:
+        return False
+    row = _row_for_url(url)
+    row_cs = {c.strip().upper() for c in (row.get('countries') or '').split(';') if c.strip()}
+    if not row_cs:
+        return True   # generic image (munitions, oil, stadium) — always fine
+    countries = (story.get('seed', {}) or {}).get('countries', []) or []
+    primary = (countries[0].strip().upper() if countries else '')
+    return primary in row_cs
+
+
+def _row_for_url(url):
+    for r in load_story_images():
+        if (r.get('url') or '') == url:
+            return r
+    return {}
 
 
 def missing_stories():
     doc = load_watchlist()
     return [s for s in doc.get('stories', [])
-            if s.get('status') == 'active' and not has_image(s)]
+            if s.get('status') == 'active' and not has_good_image(s)]
 
 
 def existing_urls():
@@ -150,13 +183,15 @@ def cmd_missing():
 
 
 def cmd_from_feed(dry_run):
-    miss = missing_stories()
+    doc = load_watchlist()
+    stories = doc.get('stories', [])
+    miss = [s for s in stories if s.get('status') == 'active' and not has_good_image(s)]
     if not miss:
-        print('All active stories already have an image.')
+        print('All active stories already have a trustworthy image.')
         return
     intel = load_intel()
     story_urls = existing_urls()
-    rows = []
+    changed = 0
     still = []
     for s in miss:
         sid = s['story_id']
@@ -176,26 +211,25 @@ def cmd_from_feed(dry_run):
             still.append(sid)
             continue
         cands.sort(key=lambda c: (c[0], c[1]), reverse=True)
-        best = cands[0]
-        rows.append({
-            'keywords': story_keywords_field(s),
-            'countries': story_countries(s),
-            'label': s.get('title', '')[:80],
-            'url': best[2],
-            'caption': s.get('title', ''),
-            'credit': best[3],
-        })
+        # Set an EXPLICIT per-story image. The frontend prefers story.image over
+        # keyword matching, so this reliably overrides any wrong keyword match
+        # (a low-priority story_images row could never win against an earlier
+        # false positive). Deterministic and correct-by-construction: the photo
+        # comes from an article literally linked to this story.
+        s['image'] = cands[0][2]
+        changed += 1
+        print(f'  + {sid}  ->  {cands[0][2][:70]}  ({cands[0][3]})')
 
-    print(f'from-feed: {len(rows)} story(ies) get a linked native image, '
+    print(f'from-feed: {changed} story(ies) get their own linked native image, '
           f'{len(still)} still need an agent WebSearch')
     for sid in still:
         print(f'  still missing: {sid}')
     if dry_run:
         print('Dry run — nothing written.')
         return
-    if rows:
-        n = append_rows(rows)
-        print(f'Appended {n} row(s) to data/story_images.csv.')
+    if changed:
+        save_watchlist(doc)
+        print(f'Wrote {changed} story.image value(s) to data/watchlist.json.')
 
 
 def cmd_stdin():
@@ -203,9 +237,40 @@ def cmd_stdin():
     if not raw:
         sys.exit('No input on stdin. Pipe a JSON object/array, or use --missing / --from-feed.')
     payload = json.loads(raw)
-    rows = payload if isinstance(payload, list) else [payload]
-    n = append_rows(rows)
-    print(f'Appended {n} row(s) to data/story_images.csv.')
+    items = payload if isinstance(payload, list) else [payload]
+
+    # Two kinds of item, both accepted in one array:
+    #  - {"story_id": "...", "url": "..."} → set that story's EXPLICIT story.image
+    #    (highest priority; the reliable fix for a story with a wrong keyword
+    #    match, since a low-priority story_images row can never override it).
+    #  - {"keywords": "...", "url": "...", ...} → append a generic story_images row
+    #    (the keyword table, shared by any story that matches those keywords).
+    direct = [it for it in items if (it.get('story_id') or '').strip()]
+    generic = [it for it in items if not (it.get('story_id') or '').strip()]
+
+    if direct:
+        doc = load_watchlist()
+        by_id = {s.get('story_id'): s for s in doc.get('stories', [])}
+        set_n = 0
+        for it in direct:
+            sid = it['story_id'].strip()
+            url = (it.get('url') or '').strip()
+            if sid not in by_id:
+                print(f'  skipped (unknown story_id): {sid}')
+                continue
+            if not url.startswith(('http://', 'https://')):
+                print(f'  skipped (bad url) for {sid}: {url[:60]}')
+                continue
+            by_id[sid]['image'] = url
+            set_n += 1
+            print(f'  set story.image [{sid}] -> {url[:70]}')
+        if set_n:
+            save_watchlist(doc)
+            print(f'Wrote {set_n} story.image value(s) to data/watchlist.json.')
+
+    if generic:
+        n = append_rows(generic)
+        print(f'Appended {n} row(s) to data/story_images.csv.')
 
 
 def main():

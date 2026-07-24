@@ -17,7 +17,6 @@
   var panelOpen = false;
   var editingId = null;   // story currently open in the inline edit form
   var dragId = null;      // story being dragged in the reorder list
-  var searchQuery = '';   // live timeline search (rail + open timeline filter)
 
   var esc = Util.esc;
 
@@ -153,41 +152,31 @@
     return Util.countStoryEntries(story, storyUpdates, feedItems);
   }
 
-  // ── Search ───────────────────────────────────────────────
-  // Searchable text of one timeline entry (curated beat OR linked feed tweet).
-  function entryText(e) {
-    if (e.feed) {
-      return ((e.feed.summary || e.feed.full_text || '') + ' ' +
-              (e.feed.context || '') + ' ' + (e.feed.countries || '')).toLowerCase();
-    }
-    return ((e.headline || '') + ' ' + (e.summary || '') + ' ' +
-            (e.source_name || '')).toLowerCase();
-  }
-
-  // A story matches the query if its own metadata matches OR any of its
-  // timeline entries do — so searching an update's wording (e.g. "shahed")
-  // still surfaces the parent story in the rail.
-  function storyMatchesQuery(story, q) {
-    if (!q) return true;
-    if (storyMatchText(story).indexOf(q) !== -1) return true;
-    var ents = buildEntries(story);
-    for (var i = 0; i < ents.length; i++) {
-      if (entryText(ents[i]).indexOf(q) !== -1) return true;
-    }
-    return false;
-  }
-
-  // Re-render for the current query. When the selected story no longer matches,
-  // jump to the first story that does so the timeline shows relevant results.
-  function applySearch() {
-    if (searchQuery) {
-      var matches = WatchlistStore.all().filter(function (s) { return storyMatchesQuery(s, searchQuery); });
-      if (matches.length && !matches.some(function (s) { return s.story_id === selectedId; })) {
-        selectedId = matches[0].story_id;
+  // Live filter of the OPEN timeline (the selected story's own updates). Pure
+  // show/hide on the already-rendered nodes so the input keeps focus while
+  // typing — no re-render. Matches on each cell's visible text.
+  function filterTimeline(main, q) {
+    q = (q || '').trim().toLowerCase();
+    var thread = main.querySelector('.timeline-thread');
+    if (!thread) return;
+    var shown = 0;
+    thread.querySelectorAll('.timeline-node').forEach(function (n) {
+      var match = !q || n.textContent.toLowerCase().indexOf(q) !== -1;
+      n.style.display = match ? '' : 'none';
+      if (match) shown++;
+    });
+    var note = thread.querySelector('.timeline-search-empty');
+    if (q && shown === 0) {
+      if (!note) {
+        note = document.createElement('div');
+        note.className = 'empty-note timeline-search-empty';
+        thread.appendChild(note);
       }
+      note.textContent = 'No updates in this story match “' + q + '”.';
+      note.style.display = '';
+    } else if (note) {
+      note.style.display = 'none';
     }
-    renderRail();
-    renderMain();
   }
 
   // Nested sub-thread indicator shown under a news cell that has been
@@ -250,13 +239,6 @@
       rail.innerHTML = '<div class="empty-note">No stories tracked yet.<br>Use <strong>Manage stories</strong> above to add some, or star items on the Feed page.</div>';
       return;
     }
-    if (searchQuery) {
-      stories = stories.filter(function (s) { return storyMatchesQuery(s, searchQuery); });
-      if (!stories.length) {
-        rail.innerHTML = '<div class="empty-note">No stories match “' + esc(searchQuery) + '”.</div>';
-        return;
-      }
-    }
     rail.innerHTML = stories.map(function (s) {
       var st = statusFor(s);
       var count = countEntries(s);
@@ -302,12 +284,6 @@
     var st = statusFor(story);
     // Merged timeline (curated beats + linked feed tweets), newest-first.
     var entries = buildEntries(story);
-    // Live search narrows the open timeline to matching cells.
-    var seedMatches = !searchQuery ||
-      (story.seed && (story.seed.text || '').toLowerCase().indexOf(searchQuery) !== -1);
-    if (searchQuery) {
-      entries = entries.filter(function (e) { return entryText(e).indexOf(searchQuery) !== -1; });
-    }
 
     // Header hero image — a user-set story.image wins; otherwise the most
     // representative keyword-matched image for the whole story.
@@ -377,10 +353,9 @@
 
     // Seed pinned at the bottom — the story's origin anchor. Rendered in the
     // feed-card family; deep-links to its feed row when one exists. No sub-track
-    // control (it is already this story's own seed). Hidden when a search is
-    // active and the seed text doesn't match.
+    // control (it is already this story's own seed).
     var seedUrl = (seedFeed && FeedItem.hasDetails(seedFeed)) ? FeedItem.feedUrl(seedFeed) : '';
-    if (seedMatches) nodes += '<div class="timeline-node seed">' +
+    nodes += '<div class="timeline-node seed">' +
       '<div class="card feed-card' + (seedUrl ? ' clickable' : '') + '"' +
         (seedUrl ? ' data-feed-url="' + esc(seedUrl) + '" title="Open in Feed"' : '') + '>' +
         '<div class="feed-card-body">' +
@@ -396,11 +371,17 @@
       '</div>' +
     '</div>';
 
-    // Story matched on metadata but no cell text matched — say so rather than
-    // showing an empty thread.
-    if (searchQuery && !nodes) {
-      nodes = '<div class="empty-note">No updates in this story match “' + esc(searchQuery) + '”.</div>';
-    }
+    // Per-story timeline search — sits between the story header and its thread,
+    // filters only THIS story's updates (see filterTimeline).
+    var searchBar =
+      '<div class="tracker-search timeline-search">' +
+        '<svg class="tracker-search-icon" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">' +
+          '<circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"></circle>' +
+          '<line x1="16.5" y1="16.5" x2="21" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round"></line>' +
+        '</svg>' +
+        '<input type="search" id="timeline-search-input" class="tracker-search-input" ' +
+          'placeholder="Search this story’s updates…" autocomplete="off">' +
+      '</div>';
 
     main.innerHTML =
       '<div class="card tracker-story-header' + (heroImg ? ' has-hero' : '') + '">' +
@@ -419,7 +400,14 @@
           '</div>' +
         '</div>' +
       '</div>' +
+      searchBar +
       '<div class="timeline-thread">' + nodes + '</div>';
+
+    // Wire the per-story search (show/hide only — keeps input focus).
+    var tlSearch = main.querySelector('#timeline-search-input');
+    if (tlSearch) {
+      tlSearch.addEventListener('input', function () { filterTimeline(main, tlSearch.value); });
+    }
 
     // Broken hero image → drop it and reflow. (Feed-card thumbnails inside the
     // thread self-heal via the inline onerror in FeedItem.imageHtml.)
@@ -780,16 +768,6 @@
 
     var manageBtn = document.getElementById('manage-toggle-btn');
     if (manageBtn) manageBtn.addEventListener('click', function () { toggleManagePanel(); });
-
-    // Live search — filters the rail (by story metadata OR matching updates) and
-    // the open timeline. Attached once; survives rail/main re-renders.
-    var searchInput = document.getElementById('tracker-search-input');
-    if (searchInput) {
-      searchInput.addEventListener('input', function () {
-        searchQuery = (searchInput.value || '').trim().toLowerCase();
-        applySearch();
-      });
-    }
 
     // Open the manager automatically when there's nothing to show yet.
     if (!stories.length) toggleManagePanel(true);

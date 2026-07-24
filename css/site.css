@@ -770,12 +770,12 @@ a.source-badge:hover { border-color: var(--accent); }
   opacity: .7;
 }
 
-/* ── Timeline search ── */
+/* ── Timeline search (per selected story, above its thread) ── */
 .tracker-search {
   position: relative;
   display: flex;
   align-items: center;
-  margin-bottom: 16px;
+  margin: 14px 0;
 }
 
 .tracker-search-icon {
