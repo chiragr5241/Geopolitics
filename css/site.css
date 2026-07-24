@@ -209,12 +209,24 @@ body {
   gap: 10px;
   padding: 10px 14px;
   text-decoration: none;
+  color: inherit;
+  cursor: pointer;
   transition: box-shadow .15s, border-color .15s;
 }
 
 .rest-row .rest-text { flex: 1; min-width: 0; }
 
 .rest-row:hover { box-shadow: var(--shadow-md); border-color: var(--border2); }
+
+/* Open-on-feed affordance — faint until the row is hovered. */
+.rest-open {
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+  color: var(--accent);
+  opacity: 0;
+  transition: opacity .15s;
+}
+.rest-row:hover .rest-open { opacity: 1; }
 
 .rest-row .pill { flex-shrink: 0; align-self: center; }
 

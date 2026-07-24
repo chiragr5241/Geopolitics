@@ -178,13 +178,17 @@
     wrap.innerHTML = rest.map(function (it, i) {
       // Only newly appended rows animate; already-shown rows stay put.
       var reveal = i >= restRevealed ? ' animate-on-scroll' : ' visible';
+      // The whole row deep-links to the same item on the Feed page. Every feed
+      // item has a unique key (tweet_id, or a unique created_at fallback), and
+      // feed.html?item= focuses/pins that exact cell — so this works for every
+      // row, enriched or not (no separate "Show details" button needed).
       return (
-        '<div class="card rest-row' + reveal + '">' +
+        '<a class="card rest-row' + reveal + '" href="' + FeedItem.feedUrl(it) + '">' +
           '<span class="rest-time">' + fmtTime(it.created_at) + '</span>' +
           '<span class="' + pillClass(it.category) + '">' + esc(it.category || 'social') + '</span>' +
           '<span class="rest-text">' + esc(it.summary || it.full_text || '') + '</span>' +
-          FeedItem.linkBtnHtml(it) +
-        '</div>'
+          '<span class="rest-open" aria-hidden="true">→</span>' +
+        '</a>'
       );
     }).join('') +
       (remaining > 0
