@@ -770,6 +770,43 @@ a.source-badge:hover { border-color: var(--accent); }
   opacity: .7;
 }
 
+/* ── Timeline search ── */
+.tracker-search {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.tracker-search-icon {
+  position: absolute;
+  left: 12px;
+  color: var(--text);
+  opacity: .55;
+  pointer-events: none;
+}
+
+.tracker-search-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 14px 10px 38px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--text2);
+  background: var(--bg1);
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  transition: border-color .15s, box-shadow .15s;
+}
+
+.tracker-search-input::placeholder { color: var(--text); opacity: .6; }
+
+.tracker-search-input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 20%, transparent);
+}
+
 .manage-panel {
   margin-bottom: 20px;
   border: 1px solid var(--border2);

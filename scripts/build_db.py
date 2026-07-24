@@ -335,7 +335,8 @@ def build():
         status      TEXT,
         severity    TEXT,
         origin      TEXT,
-        found_at    TEXT
+        found_at    TEXT,
+        image       TEXT
     )''')
     conn.commit()
 
@@ -445,7 +446,7 @@ def build():
     story_updates = read_csv(os.path.join(DATA_DIR, 'story_updates.csv'))
     story_update_cols = [
         'update_id', 'story_id', 'date', 'headline', 'summary',
-        'source_name', 'url', 'status', 'severity', 'origin', 'found_at',
+        'source_name', 'url', 'status', 'severity', 'origin', 'found_at', 'image',
     ]
     for r in story_updates:
         vals = [r.get(col, '') for col in story_update_cols]

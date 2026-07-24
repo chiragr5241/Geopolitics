@@ -93,6 +93,7 @@ var Util = (function () {
           date: u.date || '', headline: head, summary: u.summary || '',
           origin: u.origin || 'update', status: u.status || '',
           source_name: u.source_name || '', url: u.url || '',
+          image: u.image || '',
           feed: (!u.url && feedByNorm[k]) || null,
         });
       });

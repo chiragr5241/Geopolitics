@@ -31,7 +31,7 @@ STORY_UPDATES_CSV = os.path.join(ROOT, 'data', 'story_updates.csv')
 
 STORY_UPDATE_COLUMNS = [
     'story_id', 'update_id', 'date', 'headline', 'summary',
-    'source_name', 'url', 'status', 'severity', 'origin', 'found_at',
+    'source_name', 'url', 'status', 'severity', 'origin', 'found_at', 'image',
 ]
 
 
@@ -169,6 +169,9 @@ def main():
                 'severity': row.get('severity', ''),
                 'origin': 'intel_feed',
                 'found_at': now_iso,
+                # Feed-sourced beats render via the linked feed card (which
+                # carries the tweet's native image), so no scraped image here.
+                'image': '',
             })
             story_hit_counts[story_id] = story_hit_counts.get(story_id, 0) + 1
 

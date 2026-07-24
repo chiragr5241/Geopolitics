@@ -15,16 +15,26 @@ Reads one JSON object, or a JSON array of objects, from stdin. Each object:
       "url": "https://...",                           (optional but recommended — used for dedup)
       "status": "developing",                         (optional: new|developing|confirmed|disputed|resolution; default "developing")
       "severity": "4",                                (optional)
-      "origin": "websearch"                           (optional; default "websearch")
+      "origin": "websearch",                          (optional; default "websearch")
+      "image": "https://.../photo.jpg"                (optional — if omitted, the
+                                                       source article's og:image
+                                                       is scraped from `url`)
     }
 
 Deduplicates on (story_id, url) when url is present, else on
 (story_id, date, normalized headline). Never edits story status —
 that is exclusively a user action via the tracker UI.
 
+Each update also gets a lead image: an explicit "image" in the payload wins,
+otherwise the source article at `url` is fetched and its og:image / twitter:image
+is used (best-effort — a miss just leaves the beat imageless, never an error).
+Pass --no-fetch to skip that network step (offline runs / tests).
+
 Usage (from project root):
     echo '{"story_id": "...", ...}' | python3 scripts/add_story_update.py
-    cat updates.json | python3 scripts/add_story_update.py [--dry-run]
+    cat updates.json | python3 scripts/add_story_update.py [--dry-run] [--no-fetch]
+    python3 scripts/add_story_update.py --backfill-images [--dry-run]
+        (fill the image column on existing beats that have a url but no image)
 """
 
 import csv
@@ -33,6 +43,7 @@ import os
 import re
 import sys
 from datetime import datetime, timezone
+from urllib.request import urlopen, Request
 
 from story_dedup import build_index, is_fuzzy_dup, note_accepted
 
@@ -42,10 +53,51 @@ STORY_UPDATES_CSV = os.path.join(ROOT, 'data', 'story_updates.csv')
 
 STORY_UPDATE_COLUMNS = [
     'story_id', 'update_id', 'date', 'headline', 'summary',
-    'source_name', 'url', 'status', 'severity', 'origin', 'found_at',
+    'source_name', 'url', 'status', 'severity', 'origin', 'found_at', 'image',
 ]
 VALID_STATUS = {'new', 'developing', 'confirmed', 'disputed', 'resolution'}
 REQUIRED_FIELDS = ('story_id', 'date', 'headline', 'summary', 'source_name')
+
+UA = ('Mozilla/5.0 (compatible; OSINTDaily/1.0; story-tracker; '
+      '+https://github.com/)')
+
+# Meta tags that carry a page's lead image, most-preferred first.
+_OG_IMAGE_PATTERNS = [
+    r'<meta[^>]+property=["\']og:image(?::url)?["\'][^>]+content=["\']([^"\']+)["\']',
+    r'<meta[^>]+content=["\']([^"\']+)["\'][^>]+property=["\']og:image(?::url)?["\']',
+    r'<meta[^>]+name=["\']twitter:image(?::src)?["\'][^>]+content=["\']([^"\']+)["\']',
+    r'<meta[^>]+content=["\']([^"\']+)["\'][^>]+name=["\']twitter:image(?::src)?["\']',
+]
+
+
+def scrape_og_image(url, timeout=12):
+    """Best-effort lead image (og:image / twitter:image) for an article URL.
+
+    Returns '' on ANY problem — a missing image must never fail an update or
+    block the routine, so every error is swallowed. Only reads the first chunk
+    of the response (the <head> is all we need) and only trusts absolute URLs.
+    """
+    if not url or not url.startswith(('http://', 'https://')):
+        return ''
+    try:
+        req = Request(url, headers={'User-Agent': UA})
+        with urlopen(req, timeout=timeout) as r:
+            if 'html' not in (r.headers.get('Content-Type', '') or '').lower():
+                return ''
+            raw = r.read(300000)  # ~300 KB covers <head> on real news pages
+    except Exception:
+        return ''
+    html = raw.decode('utf-8', 'ignore')
+    for pat in _OG_IMAGE_PATTERNS:
+        m = re.search(pat, html, re.IGNORECASE)
+        if not m:
+            continue
+        img = m.group(1).strip()
+        if img.startswith('//'):
+            img = 'https:' + img
+        if img.startswith(('http://', 'https://')):
+            return img
+    return ''
 
 
 def load_story_ids():
@@ -95,8 +147,55 @@ def validate(item):
     return None
 
 
+def backfill_images(dry_run=False, limit=None):
+    """Fill the `image` column on already-recorded beats that have a source
+    `url` but no image yet — the routine now scrapes og:image on insert, but
+    older rows (and any live miss) predate that. Idempotent: only ever fills
+    empties, never overwrites. Rewrites the CSV in place.
+    """
+    if not os.path.exists(STORY_UPDATES_CSV):
+        print('No story_updates.csv — nothing to backfill.')
+        return
+    with open(STORY_UPDATES_CSV, newline='', encoding='utf-8') as f:
+        rows = list(csv.DictReader(f))
+
+    todo = [r for r in rows if (r.get('url') or '').strip() and not (r.get('image') or '').strip()]
+    if limit:
+        todo = todo[:limit]
+    print(f'Backfilling images for {len(todo)} beat(s) with a url but no image.')
+
+    filled = 0
+    for r in todo:
+        img = scrape_og_image(r['url'].strip())
+        if img:
+            r['image'] = img
+            filled += 1
+            print(f'  + [{r["story_id"]}] {r["headline"][:60]} -> {img[:70]}')
+        else:
+            print(f'  · [{r["story_id"]}] {r["headline"][:60]} -> (no og:image)')
+
+    print(f'Filled {filled} of {len(todo)}.')
+    if not filled or dry_run:
+        if dry_run:
+            print('Dry run — no changes written.')
+        return
+
+    with open(STORY_UPDATES_CSV, 'w', newline='', encoding='utf-8') as f:
+        w = csv.DictWriter(f, fieldnames=STORY_UPDATE_COLUMNS, quoting=csv.QUOTE_ALL)
+        w.writeheader()
+        for r in rows:
+            w.writerow({k: r.get(k, '') for k in STORY_UPDATE_COLUMNS})
+    print(f'Rewrote story_updates.csv with {filled} new image(s).')
+
+
 def main():
     dry_run = '--dry-run' in sys.argv
+    no_fetch = '--no-fetch' in sys.argv  # skip og:image scraping (offline/tests)
+
+    if '--backfill-images' in sys.argv:
+        backfill_images(dry_run=dry_run)
+        return
+
     raw = sys.stdin.read().strip()
     if not raw:
         sys.exit('No input on stdin. Pipe a JSON object or array of objects.')
@@ -136,6 +235,12 @@ def main():
         existing_keys.add(key)
         note_accepted(item['story_id'], item['date'], headline, fuzzy_index)
 
+        # Lead image: an explicit one in the payload wins; otherwise scrape the
+        # source article's og:image (unless --no-fetch). Best-effort, '' on miss.
+        image = (item.get('image') or '').strip()
+        if not image and url and not no_fetch:
+            image = scrape_og_image(url)
+
         update_id_num = next_update_id(existing_rows + accepted, item['story_id'])
         accepted.append({
             'story_id': item['story_id'],
@@ -149,6 +254,7 @@ def main():
             'severity': str(item.get('severity', '')),
             'origin': item.get('origin', 'websearch'),
             'found_at': now_iso,
+            'image': image,
         })
 
     print(f'Accepted: {len(accepted)}')

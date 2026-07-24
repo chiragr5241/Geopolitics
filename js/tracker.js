@@ -17,6 +17,7 @@
   var panelOpen = false;
   var editingId = null;   // story currently open in the inline edit form
   var dragId = null;      // story being dragged in the reorder list
+  var searchQuery = '';   // live timeline search (rail + open timeline filter)
 
   var esc = Util.esc;
 
@@ -152,6 +153,43 @@
     return Util.countStoryEntries(story, storyUpdates, feedItems);
   }
 
+  // ── Search ───────────────────────────────────────────────
+  // Searchable text of one timeline entry (curated beat OR linked feed tweet).
+  function entryText(e) {
+    if (e.feed) {
+      return ((e.feed.summary || e.feed.full_text || '') + ' ' +
+              (e.feed.context || '') + ' ' + (e.feed.countries || '')).toLowerCase();
+    }
+    return ((e.headline || '') + ' ' + (e.summary || '') + ' ' +
+            (e.source_name || '')).toLowerCase();
+  }
+
+  // A story matches the query if its own metadata matches OR any of its
+  // timeline entries do — so searching an update's wording (e.g. "shahed")
+  // still surfaces the parent story in the rail.
+  function storyMatchesQuery(story, q) {
+    if (!q) return true;
+    if (storyMatchText(story).indexOf(q) !== -1) return true;
+    var ents = buildEntries(story);
+    for (var i = 0; i < ents.length; i++) {
+      if (entryText(ents[i]).indexOf(q) !== -1) return true;
+    }
+    return false;
+  }
+
+  // Re-render for the current query. When the selected story no longer matches,
+  // jump to the first story that does so the timeline shows relevant results.
+  function applySearch() {
+    if (searchQuery) {
+      var matches = WatchlistStore.all().filter(function (s) { return storyMatchesQuery(s, searchQuery); });
+      if (matches.length && !matches.some(function (s) { return s.story_id === selectedId; })) {
+        selectedId = matches[0].story_id;
+      }
+    }
+    renderRail();
+    renderMain();
+  }
+
   // Nested sub-thread indicator shown under a news cell that has been
   // sub-tracked into its own child story. Barebones: a link into the child's
   // timeline (deep-link via ?story=). `child` may be null (not sub-tracked yet).
@@ -212,6 +250,13 @@
       rail.innerHTML = '<div class="empty-note">No stories tracked yet.<br>Use <strong>Manage stories</strong> above to add some, or star items on the Feed page.</div>';
       return;
     }
+    if (searchQuery) {
+      stories = stories.filter(function (s) { return storyMatchesQuery(s, searchQuery); });
+      if (!stories.length) {
+        rail.innerHTML = '<div class="empty-note">No stories match “' + esc(searchQuery) + '”.</div>';
+        return;
+      }
+    }
     rail.innerHTML = stories.map(function (s) {
       var st = statusFor(s);
       var count = countEntries(s);
@@ -257,6 +302,12 @@
     var st = statusFor(story);
     // Merged timeline (curated beats + linked feed tweets), newest-first.
     var entries = buildEntries(story);
+    // Live search narrows the open timeline to matching cells.
+    var seedMatches = !searchQuery ||
+      (story.seed && (story.seed.text || '').toLowerCase().indexOf(searchQuery) !== -1);
+    if (searchQuery) {
+      entries = entries.filter(function (e) { return entryText(e).indexOf(searchQuery) !== -1; });
+    }
 
     // Header hero image — a user-set story.image wins; otherwise the most
     // representative keyword-matched image for the whole story.
@@ -294,13 +345,18 @@
       }
 
       // Curated-only beats (hand/agent-authored story_updates with no matching
-      // feed row) have no feed item to mirror 1:1 — render a compact card in the
-      // same visual family (no category pill), with a sub-track control seeded
-      // from the beat text.
-      var sev = 0;
+      // feed row). If the routine captured the source article's own image
+      // (story_updates.image, scraped from the update URL) show it — otherwise
+      // no thumbnail. NEVER substitute a keyword-matched stock image here.
+      var beatThumb = e.image
+        ? '<div class="feed-card-thumb"><img src="' + esc(e.image) + '" alt="" loading="lazy" ' +
+            'onerror="var c=this.closest(\'.feed-card\');if(c){c.classList.remove(\'has-img\');}' +
+            'if(this.parentNode){this.parentNode.remove();}"></div>'
+        : '';
       return (
         '<div class="timeline-node animate-on-scroll">' +
-        '<div class="card feed-card">' +
+        '<div class="card feed-card' + (beatThumb ? ' has-img' : '') + '">' +
+          beatThumb +
           '<div class="feed-card-body">' +
             '<div class="feed-card-top">' +
               '<span class="origin-tag">' + esc(e.origin) + '</span>' +
@@ -321,9 +377,10 @@
 
     // Seed pinned at the bottom — the story's origin anchor. Rendered in the
     // feed-card family; deep-links to its feed row when one exists. No sub-track
-    // control (it is already this story's own seed).
+    // control (it is already this story's own seed). Hidden when a search is
+    // active and the seed text doesn't match.
     var seedUrl = (seedFeed && FeedItem.hasDetails(seedFeed)) ? FeedItem.feedUrl(seedFeed) : '';
-    nodes += '<div class="timeline-node seed">' +
+    if (seedMatches) nodes += '<div class="timeline-node seed">' +
       '<div class="card feed-card' + (seedUrl ? ' clickable' : '') + '"' +
         (seedUrl ? ' data-feed-url="' + esc(seedUrl) + '" title="Open in Feed"' : '') + '>' +
         '<div class="feed-card-body">' +
@@ -332,10 +389,18 @@
             '<span class="feed-time">' + esc((story.seed.created_at || story.marked_at || '').slice(0, 16)) + '</span>' +
           '</div>' +
           '<div class="feed-text"><strong>Marked important</strong></div>' +
-          '<div class="feed-text">' + esc(story.seed.text || '') + '</div>' +
+          // Preserve blank-line paragraph breaks (e.g. an appended "AI suggestion:"
+          // paragraph) — the raw description can be multi-paragraph.
+          '<div class="feed-text" style="white-space:pre-line;">' + esc(story.seed.text || '') + '</div>' +
         '</div>' +
       '</div>' +
     '</div>';
+
+    // Story matched on metadata but no cell text matched — say so rather than
+    // showing an empty thread.
+    if (searchQuery && !nodes) {
+      nodes = '<div class="empty-note">No updates in this story match “' + esc(searchQuery) + '”.</div>';
+    }
 
     main.innerHTML =
       '<div class="card tracker-story-header' + (heroImg ? ' has-hero' : '') + '">' +
@@ -715,6 +780,16 @@
 
     var manageBtn = document.getElementById('manage-toggle-btn');
     if (manageBtn) manageBtn.addEventListener('click', function () { toggleManagePanel(); });
+
+    // Live search — filters the rail (by story metadata OR matching updates) and
+    // the open timeline. Attached once; survives rail/main re-renders.
+    var searchInput = document.getElementById('tracker-search-input');
+    if (searchInput) {
+      searchInput.addEventListener('input', function () {
+        searchQuery = (searchInput.value || '').trim().toLowerCase();
+        applySearch();
+      });
+    }
 
     // Open the manager automatically when there's nothing to show yet.
     if (!stories.length) toggleManagePanel(true);
