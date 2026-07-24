@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-07-24T19:00:49Z",
+  "updated_at": "2026-07-24T20:37:57Z",
   "stories": [
     {
       "story_id": "st-20260511-ukraine-corruption",
@@ -47,9 +47,9 @@
         "category": "",
         "countries": [
           "US",
-          "JPN",
-          "CHI",
-          "IND"
+          "JP",
+          "CN",
+          "IN"
         ],
         "lat": null,
         "lng": null
@@ -106,6 +106,102 @@
       "update_count": 46,
       "resolved_at": null,
       "notes": "Backfilled 2026-07-21 from intel_feed via scripts/backfill_story_updates.py."
+    },
+    {
+      "story_id": "st-20260724-china-hits-back-at-japan-over-taiwan-question-an",
+      "status": "active",
+      "title": "China-Taiwan and the South China Sea issue",
+      "marked_at": "2026-07-24T20:15:23Z",
+      "seed": {
+        "created_at": "2026-07-24 07:30:00",
+        "tweet_id": "",
+        "text": "China hits back at Japan over Taiwan question and South China Sea issue at ASEAN meeting , urges outsiders to stop stirring tension\n\nAI suggestion: Track the cross-Strait military and diplomatic balance — PLA air and naval activity around Taiwan (ADIZ incursions, blockade-style drills), US arms sales and Taiwan Relations Act signals, and semiconductor/chip-supply leverage (TSMC). In the South China Sea, follow Philippine–China clashes at Second Thomas Shoal and Scarborough Shoal, freedom-of-navigation operations, and ASEAN code-of-conduct talks. Watch Japan's role via the Senkaku Islands dispute and its 'Taiwan contingency' defense posture.",
+        "category": "political",
+        "countries": [
+          "CN",
+          "TW",
+          "JP",
+          "PH",
+          "US"
+        ],
+        "lat": null,
+        "lng": null
+      },
+      "query_hints": [
+        "China Taiwan tensions latest",
+        "South China Sea Philippines China clash",
+        "Taiwan Strait PLA drills"
+      ],
+      "keywords": [
+        "taiwan",
+        "china",
+        "south china sea",
+        "taiwan strait",
+        "asean",
+        "pla",
+        "japan",
+        "philippines",
+        "senkaku",
+        "scarborough shoal",
+        "reunification",
+        "taipei"
+      ],
+      "last_update_at": "2026-07-24",
+      "update_count": 3,
+      "resolved_at": null,
+      "notes": "",
+      "image": "",
+      "parent_id": null
+    },
+    {
+      "story_id": "st-20260724-ai-use-in-war-across-the-world",
+      "status": "active",
+      "title": "AI use in war across the world",
+      "marked_at": "2026-07-24T20:30:30Z",
+      "seed": {
+        "created_at": "2026-07-24 20:30:30",
+        "tweet_id": "",
+        "text": "I want focused news on how AI is directly being used in war, whether its drones in Ukraine, AI running battles in Africa with Africom, drones again in Iran, or even something like the use of drones in the Myanmar civil war or by ISIS. I want development of AI war tech in India, China, etc as well.\n\nAI suggestion: Focus on concrete battlefield deployments over policy talk — FPV and autonomous drone warfare in Ukraine and Russia, loitering munitions, AI-enabled targeting and ISR, and electronic-warfare / counter-drone systems. Track military-AI programs and procurement in the US (Replicator, Project Maven), China, India, Israel (Gaza targeting systems such as 'Lavender'/'Gospel'), and Iran. Cover non-state and irregular use: ISIS/insurgent drones, the Myanmar civil war, and AFRICOM operations across the Sahel. Note founders, contracts, and the autonomy/ethics (LAWS) debate.",
+        "category": "",
+        "countries": [
+          "UA",
+          "RU",
+          "US",
+          "CN",
+          "IR",
+          "IN",
+          "IL",
+          "MM"
+        ],
+        "lat": null,
+        "lng": null
+      },
+      "query_hints": [
+        "AI drones warfare Ukraine latest",
+        "military artificial intelligence weapons",
+        "autonomous weapons battlefield 2026"
+      ],
+      "keywords": [
+        "artificial intelligence",
+        "drones",
+        "autonomous weapons",
+        "loitering munitions",
+        "military ai",
+        "fpv drone",
+        "targeting",
+        "africom",
+        "myanmar",
+        "isis",
+        "uav",
+        "swarm"
+      ],
+      "last_update_at": "2026-07-24",
+      "update_count": 0,
+      "resolved_at": null,
+      "notes": "",
+      "custom": true,
+      "image": "",
+      "parent_id": null
     },
     {
       "story_id": "st-20260324-us-iran-strikes",
@@ -247,7 +343,7 @@
     },
     {
       "story_id": "st-20260626-united-states",
-      "status": "resolved",
+      "status": "archived",
       "title": "Anthropic nearing deal with US government to lift export/usage restrictions on its latest AI models.",
       "marked_at": "2026-07-08T16:40:35Z",
       "seed": {
@@ -273,7 +369,7 @@
       ],
       "last_update_at": "2026-06-26",
       "update_count": 0,
-      "resolved_at": "2026-07-22T04:14:27Z",
+      "resolved_at": null,
       "notes": ""
     },
     {
