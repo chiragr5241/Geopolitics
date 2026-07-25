@@ -17,6 +17,8 @@
   var panelOpen = false;
   var editingId = null;   // story currently open in the inline edit form
   var dragId = null;      // story being dragged in the reorder list
+  var renderSeq = 0;      // bumped each renderMain — in-flight chunk loops abort
+                          // when it changes (story switched mid-stream)
 
   var esc = Util.esc;
 
@@ -303,7 +305,10 @@
         || null;
     }
 
-    var nodes = entries.map(function (e) {
+    // Build the HTML for one timeline entry. Called per-chunk during the
+    // progressive append below rather than all at once, so a big story
+    // (hundreds of linked feed rows) never blocks the main thread in one shot.
+    function nodeHtml(e) {
       // Feed-backed entries render as the SHARED feed card (identical to the
       // Feed page) but with a sub-track control instead of the star, and the
       // whole card deep-links to the matching feed item.
@@ -349,13 +354,13 @@
         '</div>' +
         '</div>'
       );
-    }).join('');
+    }
 
     // Seed pinned at the bottom — the story's origin anchor. Rendered in the
     // feed-card family; deep-links to its feed row when one exists. No sub-track
     // control (it is already this story's own seed).
     var seedUrl = (seedFeed && FeedItem.hasDetails(seedFeed)) ? FeedItem.feedUrl(seedFeed) : '';
-    nodes += '<div class="timeline-node seed">' +
+    var seedHtml = '<div class="timeline-node seed">' +
       '<div class="card feed-card' + (seedUrl ? ' clickable' : '') + '"' +
         (seedUrl ? ' data-feed-url="' + esc(seedUrl) + '" title="Open in Feed"' : '') + '>' +
         '<div class="feed-card-body">' +
@@ -401,7 +406,12 @@
         '</div>' +
       '</div>' +
       searchBar +
-      '<div class="timeline-thread">' + nodes + '</div>';
+      // Thread starts EMPTY and is filled in chunks below so the header + search
+      // paint immediately even for a story with hundreds of updates. The loading
+      // indicator sits after the thread until the last chunk lands.
+      '<div class="timeline-thread"></div>' +
+      '<div class="timeline-loading" id="timeline-loading">' +
+        '<span class="timeline-loading-dot"></span>Loading updates…</div>';
 
     // Wire the per-story search (show/hide only — keeps input focus).
     var tlSearch = main.querySelector('#timeline-search-input');
@@ -421,8 +431,6 @@
         }
       });
     });
-
-    if (window.Reveal) window.Reveal.scan(main);
 
     main.querySelectorAll('.tracker-story-actions [data-action]').forEach(function (btn) {
       btn.addEventListener('click', function () {
@@ -476,6 +484,39 @@
         if (card.dataset.feedUrl) window.location.href = card.dataset.feedUrl;
       });
     }
+
+    // ── Progressive (chunked) thread fill ──────────────────────────────
+    // Append the timeline a batch at a time, yielding to the browser between
+    // batches with requestAnimationFrame. The user watches the thread stream
+    // in (so it's obviously loading, not crashed), and the main thread is never
+    // blocked building/parsing hundreds of nodes in one synchronous shot.
+    var loadingEl = main.querySelector('#timeline-loading');
+    var CHUNK = 20;
+    var idx = 0;
+    var seq = ++renderSeq;      // this render's token — a newer renderMain wins
+
+    function renderChunk() {
+      // Superseded (user picked another story) — stop appending stale nodes.
+      if (seq !== renderSeq || !thread) return;
+
+      if (idx >= entries.length) {
+        // All entries in — pin the seed at the bottom and drop the indicator.
+        thread.insertAdjacentHTML('beforeend', seedHtml);
+        if (loadingEl) loadingEl.remove();
+        if (window.Reveal) window.Reveal.scan(thread);
+        return;
+      }
+
+      var slice = entries.slice(idx, idx + CHUNK);
+      idx += CHUNK;
+      thread.insertAdjacentHTML('beforeend', slice.map(nodeHtml).join(''));
+      // Bind the freshly-appended .animate-on-scroll nodes (scan is idempotent —
+      // already-bound nodes are skipped via their data-revealBound flag).
+      if (window.Reveal) window.Reveal.scan(thread);
+      requestAnimationFrame(renderChunk);
+    }
+
+    renderChunk();
   }
 
   // ── Manage-stories panel ─────────────────────────────────────────────

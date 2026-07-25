@@ -19,6 +19,7 @@
   var REST_PAGE = 50;   // initial rest-of-news count; "load more" adds another page
   var restShown = REST_PAGE;
   var restRevealed = 0; // how many rest rows have already faded in (don't re-animate)
+  var restObserver = null; // watches the load-more button → auto-loads on scroll
 
   var esc = Util.esc;
   var fmtTime = Util.fmtTime;
@@ -132,7 +133,7 @@
       var breaking = h.item && h.item.is_breaking === 'TRUE';
       return (
         '<a class="story-tile animate-on-scroll' + lead + (img ? '' : ' no-img') + ' tile-cat-' + esc(h.category).toLowerCase() + '" href="' + h.href + '">' +
-          (img ? '<img class="story-tile-img" src="' + esc(img.url) + '" alt="' + esc(img.label) + '">' : '') +
+          (img ? '<img class="story-tile-img" src="' + esc(img.url) + '" alt="' + esc(img.label) + '" loading="lazy" decoding="async">' : '') +
           '<div class="story-tile-scrim"></div>' +
           '<div class="story-tile-body">' +
             '<div class="story-tile-meta">' +
@@ -201,10 +202,26 @@
 
     var moreBtn = document.getElementById('rest-load-more');
     if (moreBtn) {
-      moreBtn.addEventListener('click', function () {
+      var loadMore = function () {
         restShown += REST_PAGE;
         renderRest(items, heroes);
-      });
+      };
+      moreBtn.addEventListener('click', loadMore);
+      // Auto-load the next page as the button nears the viewport (infinite
+      // scroll) so the "rest of the news" streams in on scroll instead of
+      // needing a click. The click handler above stays as a fallback for
+      // no-IntersectionObserver environments. rootMargin pre-loads early so
+      // the reader rarely sees the button before more rows appear.
+      if (restObserver) restObserver.disconnect();
+      if ('IntersectionObserver' in window) {
+        restObserver = new IntersectionObserver(function (entries) {
+          if (entries.some(function (en) { return en.isIntersecting; })) {
+            restObserver.disconnect();
+            loadMore();
+          }
+        }, { rootMargin: '400px 0px' });
+        restObserver.observe(moreBtn);
+      }
     }
   }
 

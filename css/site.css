@@ -1312,3 +1312,30 @@ a.source-badge:hover { border-color: var(--accent); }
 .rest-row     { content-visibility: auto; contain-intrinsic-size: 0 46px; }
 .feed-card    { content-visibility: auto; contain-intrinsic-size: 0 96px; }
 .timeline-node{ content-visibility: auto; contain-intrinsic-size: 0 130px; }
+.story-tile   { content-visibility: auto; contain-intrinsic-size: 0 220px; }
+
+/* Timeline progressive-load indicator — shown at the bottom of the thread
+   while renderMain() streams the remaining nodes in, removed on the last
+   chunk. Signals "still loading", so a big story never looks frozen. */
+.timeline-loading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 4px;
+  color: var(--text);
+  font-size: 0.85rem;
+}
+.timeline-loading-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+  animation: timeline-loading-pulse 1s ease-in-out infinite;
+}
+@keyframes timeline-loading-pulse {
+  0%, 100% { opacity: 0.25; transform: scale(0.8); }
+  50%      { opacity: 1;    transform: scale(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .timeline-loading-dot { animation: none; opacity: 0.6; }
+}
