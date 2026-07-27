@@ -372,6 +372,86 @@ body {
 
 /* ===== Feed page ===== */
 
+/* Search sits above the category pills — it AND-s with them, so it reads as
+   the broader filter of the two. */
+.feed-search {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.feed-search__box {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex: 1;
+  max-width: 460px;
+}
+
+.feed-search__icon {
+  position: absolute;
+  left: 11px;
+  width: 14px;
+  height: 14px;
+  color: var(--text);
+  pointer-events: none;
+  transition: color .15s;
+}
+
+.feed-search.has-query .feed-search__icon { color: var(--accent); }
+
+.feed-search__input {
+  width: 100%;
+  padding: 9px 32px 9px 33px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--bright);
+  background: var(--card);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-pill);
+  outline: none;
+  transition: border-color .15s, box-shadow .15s;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.feed-search__input::placeholder { color: var(--text); }
+.feed-search__input::-webkit-search-cancel-button { display: none; }
+
+.feed-search__input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.feed-search__clear {
+  position: absolute;
+  right: 8px;
+  display: none;
+  width: 20px;
+  height: 20px;
+  line-height: 1;
+  font-size: 16px;
+  color: var(--text);
+  background: transparent;
+  border: 0;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: color .15s, background .15s;
+}
+
+.feed-search.has-query .feed-search__clear { display: block; }
+.feed-search__clear:hover { color: var(--bright); background: var(--bg2); }
+
+.feed-search__count {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--text);
+  white-space: nowrap;
+}
+
 .filter-bar {
   display: flex;
   flex-wrap: wrap;
@@ -936,6 +1016,32 @@ a.source-badge:hover { border-color: var(--accent); }
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
+}
+
+/* Catalog rows — published stories this profile isn't following yet. Same
+   shape as a tracked row, minus the reorder/edit controls it hasn't earned. */
+.catalog-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  opacity: .82;
+  transition: opacity .15s, border-color .15s;
+}
+
+.catalog-row:hover { opacity: 1; border-color: var(--border2); }
+
+.catalog-list { max-height: 320px; overflow-y: auto; }
+
+.catalog-countries {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: .04em;
+  color: var(--text);
+  margin-left: 6px;
 }
 
 .manage-row-title {

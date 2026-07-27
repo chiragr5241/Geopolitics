@@ -14,26 +14,29 @@
    the daily data rebuild. */
 
 var FlagStore = (function () {
-  var LS_KEY = 'geo.flags.v1';
+  // Per-user, through the same seam as the watchlist (js/user-store.js) —
+  // flags are personal, so every profile gets its own set and none of them
+  // is stored specially.
+  var DOC_NAME = 'flags';
   var keys = Object.create(null);
 
+  function uid() {
+    return (typeof Session !== 'undefined') ? Session.currentId() : 'local';
+  }
+
   function load() {
-    try {
-      var raw = localStorage.getItem(LS_KEY);
-      if (!raw) return;
-      var doc = JSON.parse(raw);
-      (doc && doc.keys || []).forEach(function (k) { if (k) keys[k] = 1; });
-    } catch (e) { /* unreadable store — start empty rather than break the page */ }
+    if (typeof UserStore === 'undefined') return;
+    var doc = UserStore.load(uid(), DOC_NAME);
+    (doc && doc.keys || []).forEach(function (k) { if (k) keys[k] = 1; });
   }
 
   function save() {
-    try {
-      localStorage.setItem(LS_KEY, JSON.stringify({
-        version: 1,
-        updated_at: new Date().toISOString(),
-        keys: Object.keys(keys),
-      }));
-    } catch (e) { /* storage full or unavailable — flags still work in-session */ }
+    if (typeof UserStore === 'undefined') return;
+    UserStore.save(uid(), DOC_NAME, {
+      version: 1,
+      updated_at: new Date().toISOString(),
+      keys: Object.keys(keys),
+    });
   }
 
   function keyOf(itemOrKey) {

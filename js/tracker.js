@@ -605,11 +605,31 @@
       );
     }).join('') : '<div class="manage-empty">No new suggestions right now — everything notable is already tracked.</div>';
 
+    // Published stories this profile doesn't follow. Every user's page is
+    // their own selection out of the shared catalog, so there has to be a way
+    // back to the stories they've dropped — and to ones published since.
+    var available = WatchlistStore.catalogAvailable();
+    var catalogHtml = available.length ? available.map(function (s) {
+      var cs = ((s.seed && s.seed.countries) || []).join(' · ');
+      return (
+        '<div class="catalog-row" data-id="' + esc(s.story_id) + '">' +
+          '<span class="tracker-status ' + esc(s.status || 'active') + '">' + esc(s.status || 'active') + '</span>' +
+          '<span class="manage-row-title">' + esc(s.title) +
+            (cs ? ' <span class="catalog-countries">' + esc(cs) + '</span>' : '') + '</span>' +
+          '<button class="tracker-btn primary" data-cact="follow">+ Follow</button>' +
+        '</div>'
+      );
+    }).join('') : '<div class="manage-empty">You\'re following every published story.</div>';
+
     panel.innerHTML =
       '<div class="manage-inner">' +
         '<div class="manage-section">' +
-          '<div class="manage-head">Tracked stories (' + tracked.length + ')</div>' +
+          '<div class="manage-head">Your stories (' + tracked.length + ')</div>' +
           '<div class="manage-list">' + trackedHtml + '</div>' +
+        '</div>' +
+        '<div class="manage-section">' +
+          '<div class="manage-head">Story catalog (' + available.length + ' not followed)</div>' +
+          '<div class="manage-list catalog-list">' + catalogHtml + '</div>' +
         '</div>' +
         '<div class="manage-section">' +
           '<div class="manage-head">Suggested from the feed</div>' +
@@ -709,6 +729,18 @@
       });
     });
 
+    // Catalog "Follow" buttons — adds a published story to this profile's list
+    panel.querySelectorAll('.catalog-row').forEach(function (row) {
+      var id = row.dataset.id;
+      var btn = row.querySelector('[data-cact="follow"]');
+      if (!btn) return;
+      btn.addEventListener('click', function () {
+        WatchlistStore.follow(id);
+        if (!selectedId) selectedId = id;
+        refreshAll();
+      });
+    });
+
     // Suggestion "Track" buttons
     panel.querySelectorAll('.suggest-card').forEach(function (card) {
       var id = card.dataset.key;
@@ -804,8 +836,13 @@
       });
     }
 
+    // Publishing the catalog is an owner action — a member's personal list is
+    // their own view, and committing it would prune everyone else's stories.
     var exportBtn = document.getElementById('export-watchlist-btn');
-    if (exportBtn) exportBtn.addEventListener('click', function () { WatchlistStore.exportFile(); });
+    if (exportBtn) {
+      if (typeof Session !== 'undefined' && !Session.isOwner()) exportBtn.hidden = true;
+      else exportBtn.addEventListener('click', function () { WatchlistStore.exportFile(); });
+    }
 
     var manageBtn = document.getElementById('manage-toggle-btn');
     if (manageBtn) manageBtn.addEventListener('click', function () { toggleManagePanel(); });

@@ -1,82 +1,190 @@
 'use strict';
 
 /* =========================================================
-   WATCHLIST STORE — "mark important" persistence.
+   WATCHLIST STORE — the story CATALOG plus one user's view of it.
 
-   The site is static (GitHub Pages), so there is no server to write to.
-   Marks are saved instantly to localStorage, and merged on load with
-   whatever data/watchlist.json shipped in the last deploy (union by
-   story_id; the newer marked_at/resolved_at/last_update_at wins). To get
-   marks into the repo (so the scheduled enrichment task can prioritize
-   and track them), use the "Export watchlist.json" button on the Feed or
-   Tracker page, then place the downloaded file at data/watchlist.json and
-   commit/push (or hand it to Claude Code to do so).
+   The v1 store kept a full copy of every story per user, which is what a
+   single-user site can get away with and a many-user site cannot: the
+   pipeline's work (timeline beats, hero images, linked tweets, enrichment)
+   is identical for everyone, so copying it per user duplicates the
+   expensive part and makes "which story is this, really" ambiguous.
+
+   So the data splits in two:
+
+     CATALOG  (shared, pipeline-owned — data/watchlist.json → database.json)
+       The story records themselves: title, seed, keywords, query_hints,
+       image. One copy. update_stories.py / link_stories.py / add_story_*.py
+       all keep working against exactly this, unchanged.
+
+     USER DOC (per person, tiny — UserStore, keyed by user id)
+       { follows: [story_id…]   ← membership AND priority order
+         own:     [story…]      ← stories this user authored, not yet published
+         overrides: { story_id: {title?, image?, status?, …} } }
+
+   A user's page is the catalog filtered and ordered by their own doc. That
+   is what makes the design scale: adding the ten-thousandth user costs one
+   small document of ids, not another copy of every story. It is also what
+   makes each page genuinely custom — two users following the same story see
+   the same timeline but their own ordering, status, and edits.
+
+   The public API below is unchanged from v1 on purpose, so home.js,
+   tracker.js and feed.js didn't need rewriting; `follow`/`unfollow`/
+   `catalogAvailable` are the additions the catalog model needs.
    ========================================================= */
 
 var WatchlistStore = (function () {
-  var LS_KEY = 'geo.watchlist.v1';
-  var doc = null; // { version, updated_at, stories: [] }
+  var DOC_NAME = 'watchlist';
+  var DOC_VERSION = 2;
+
+  var catalog = [];        // shared story records
+  var catalogById = {};
+  var doc = null;          // this user's overlay
+  var ownById = {};
+  var userId = null;
+  var _resolved = null;    // memoized all(), invalidated on every write
 
   function nowIso() {
     return new Date().toISOString().replace(/\.\d+Z$/, 'Z');
   }
 
-  function loadLocal() {
-    try {
-      var raw = localStorage.getItem(LS_KEY);
-      return raw ? JSON.parse(raw) : null;
-    } catch (e) {
-      return null;
+  function emptyDoc() {
+    return {
+      version: DOC_VERSION,
+      user_id: userId,
+      updated_at: nowIso(),
+      follows: [],
+      own: [],
+      overrides: {},
+    };
+  }
+
+  function save() {
+    doc.updated_at = nowIso();
+    _resolved = null;
+    if (typeof UserStore !== 'undefined') UserStore.save(userId, DOC_NAME, doc);
+  }
+
+  function reindexOwn() {
+    ownById = {};
+    (doc.own || []).forEach(function (s) { if (s && s.story_id) ownById[s.story_id] = s; });
+  }
+
+  /* ── Resolving a story = catalog (or own) record + this user's overrides ── */
+
+  function resolve(id) {
+    var base = catalogById[id] || ownById[id];
+    if (!base) return null;
+    var ov = doc.overrides[id];
+    if (!ov) return base;
+    var out = {};
+    for (var k in base) { if (Object.prototype.hasOwnProperty.call(base, k)) out[k] = base[k]; }
+    if (ov.title != null) out.title = ov.title;
+    if (ov.image != null) out.image = ov.image;
+    if (ov.keywords) out.keywords = ov.keywords;
+    if (ov.status) out.status = ov.status;
+    if (ov.resolved_at !== undefined) out.resolved_at = ov.resolved_at;
+    if (ov.notes != null) out.notes = ov.notes;
+    if (ov.parent_id !== undefined) out.parent_id = ov.parent_id;
+    if (ov.edited_at) out.edited_at = ov.edited_at;
+    if (ov.text != null || ov.countries) {
+      var seed = {};
+      var bs = base.seed || {};
+      for (var j in bs) { if (Object.prototype.hasOwnProperty.call(bs, j)) seed[j] = bs[j]; }
+      if (ov.text != null) seed.text = ov.text;
+      if (ov.countries) seed.countries = ov.countries;
+      out.seed = seed;
     }
-  }
-
-  function saveLocal() {
-    try {
-      localStorage.setItem(LS_KEY, JSON.stringify(doc));
-    } catch (e) { /* storage full or unavailable — marks still work in-session */ }
-  }
-
-  // Merge local + server stories, PRESERVING the local array order — that order
-  // is the user's manual priority (drives the main-page tile sizes and the
-  // tracker rail). Local rows keep their slot; the newer record's *content*
-  // wins; server-only stories append at the end.
-  function mergeStories(a, b) {
-    var bById = {};
-    (b || []).forEach(function (s) { bById[s.story_id] = s; });
-    var out = [];
-    var seen = {};
-    (a || []).forEach(function (s) {
-      if (seen[s.story_id]) return;
-      seen[s.story_id] = 1;
-      var other = bById[s.story_id];
-      if (!other) { out.push(s); return; }
-      var aTime = s.last_update_at || s.marked_at || '';
-      var bTime = other.last_update_at || other.marked_at || '';
-      // Take the newer record's content but hold the local slot. Carry the
-      // local `order`/position implicitly by pushing here.
-      //
-      // Ties go to the SERVER: a data-only edit (a new hero image, a reworded
-      // title) doesn't move last_update_at, so a strict `>` pinned the stale
-      // local copy forever for anyone who'd already cached the story.
-      // A genuine local edit stamps `edited_at` and outranks that.
-      if (s.edited_at && s.edited_at > bTime) { out.push(s); return; }
-      out.push((bTime >= aTime) ? other : s);
-    });
-    (b || []).forEach(function (s) {
-      if (seen[s.story_id]) return;
-      seen[s.story_id] = 1;
-      out.push(s);
-    });
     return out;
   }
 
-  function init(serverStories) {
-    var local = loadLocal();
-    var merged = mergeStories((local && local.stories) || [], serverStories || []);
-    doc = { version: 1, updated_at: nowIso(), stories: merged };
-    saveLocal();
+  function setOverride(id, patch) {
+    var ov = doc.overrides[id] || (doc.overrides[id] = {});
+    for (var k in patch) { if (Object.prototype.hasOwnProperty.call(patch, k)) ov[k] = patch[k]; }
+    return ov;
+  }
+
+  /* ── Migration ─────────────────────────────────────────────────────────
+     v1 docs held whole story records. Split each one: keep the id (and its
+     position, which is the user's priority) in `follows`, park anything the
+     catalog doesn't know about in `own`, and record only what the user
+     actually changed as an override. */
+
+  function migrateV1(old) {
+    var d = emptyDoc();
+    (old.stories || []).forEach(function (s) {
+      if (!s || !s.story_id || d.follows.indexOf(s.story_id) !== -1) return;
+      d.follows.push(s.story_id);
+      var cat = catalogById[s.story_id];
+      if (!cat) { d.own.push(s); return; }
+      var ov = {};
+      if (s.status && s.status !== cat.status) ov.status = s.status;
+      if ((s.resolved_at || null) !== (cat.resolved_at || null)) ov.resolved_at = s.resolved_at || null;
+      if (s.notes) ov.notes = s.notes;
+      if (s.parent_id) ov.parent_id = s.parent_id;
+      // Only a genuine local edit (stamped by v1's updateStory) overrides the
+      // catalog's own text/image — otherwise a stale copy would pin itself.
+      if (s.edited_at) {
+        if (s.title !== cat.title) ov.title = s.title;
+        if ((s.image || '') !== (cat.image || '')) ov.image = s.image || '';
+        if ((s.seed && s.seed.text) !== (cat.seed && cat.seed.text)) ov.text = (s.seed && s.seed.text) || '';
+        ov.keywords = s.keywords || [];
+        ov.countries = (s.seed && s.seed.countries) || [];
+        ov.edited_at = s.edited_at;
+      }
+      if (Object.keys(ov).length) d.overrides[s.story_id] = ov;
+    });
+    return d;
+  }
+
+  // A brand-new profile starts by following the catalog's active stories, so
+  // their first visit shows a working page rather than an empty one. From
+  // that moment the list is theirs: unfollowing, reordering and editing
+  // affect only them.
+  function seedForNewUser() {
+    var d = emptyDoc();
+    catalog.forEach(function (s) {
+      if (s && s.story_id && s.status === 'active') d.follows.push(s.story_id);
+    });
+    return d;
+  }
+
+  /* ── Init ─────────────────────────────────────────────────────────────── */
+
+  function init(catalogStories) {
+    catalog = (catalogStories || []).slice();
+    catalogById = {};
+    catalog.forEach(function (s) { if (s && s.story_id) catalogById[s.story_id] = s; });
+
+    userId = (typeof Session !== 'undefined') ? Session.currentId() : 'local';
+
+    var stored = (typeof UserStore !== 'undefined') ? UserStore.load(userId, DOC_NAME) : null;
+    if (stored && stored.version === DOC_VERSION) {
+      doc = stored;
+      doc.follows = doc.follows || [];
+      doc.own = doc.own || [];
+      doc.overrides = doc.overrides || {};
+    } else if (stored && stored.stories) {
+      doc = migrateV1(stored);           // v1 → v2, in place, once
+    } else {
+      doc = seedForNewUser();
+    }
+    doc.user_id = userId;
+
+    // A story the user authored that has since been published lives in the
+    // catalog now — drop the local copy so the pipeline's enriched version
+    // (images, updated fields) wins. Their overrides still apply.
+    doc.own = (doc.own || []).filter(function (s) { return s && s.story_id && !catalogById[s.story_id]; });
+    reindexOwn();
+
+    // Follows pointing at nothing (story deleted from the catalog upstream)
+    // would render as holes — drop them.
+    doc.follows = doc.follows.filter(function (id) { return !!(catalogById[id] || ownById[id]); });
+
+    save();
     return doc;
   }
+
+  /* ── Ids ──────────────────────────────────────────────────────────────── */
 
   function slugify(text) {
     var s = (text || '').toLowerCase().split(/[;,]/)[0]
@@ -105,18 +213,42 @@ var WatchlistStore = (function () {
     return 'st-' + (day || '00000000') + '-' + slugify(slugSource);
   }
 
-  function findByTweet(item) {
-    return doc.stories.filter(function (s) {
-      return s.seed && s.seed.tweet_id && item.tweet_id && s.seed.tweet_id === item.tweet_id;
-    })[0];
+  /* ── Reads ────────────────────────────────────────────────────────────── */
+
+  // The user's stories, in their priority order (array position = priority).
+  function all() {
+    if (_resolved) return _resolved;
+    _resolved = doc.follows.map(resolve).filter(Boolean);
+    return _resolved;
+  }
+
+  function isFollowing(id) {
+    return doc.follows.indexOf(id) !== -1;
+  }
+
+  // `hasId` means "on this user's list" — that's what the Feed's Track toggle
+  // and the suggestion filter mean by it.
+  function hasId(id) {
+    return isFollowing(id);
   }
 
   function byId(id) {
-    return doc.stories.filter(function (s) { return s.story_id === id; })[0];
+    return isFollowing(id) ? resolve(id) : null;
   }
 
-  function hasId(id) {
-    return !!byId(id);
+  // Catalog stories this user isn't following — the discovery list. Without
+  // it, anything a user unfollows (or that another user publishes later)
+  // would be unreachable from their page.
+  function catalogAvailable() {
+    return catalog.filter(function (s) {
+      return s && s.story_id && !isFollowing(s.story_id);
+    });
+  }
+
+  function findByTweet(item) {
+    return all().filter(function (s) {
+      return s.seed && s.seed.tweet_id && item.tweet_id && s.seed.tweet_id === item.tweet_id;
+    })[0];
   }
 
   // A feed item counts as "marked" if either its tweet is the seed of a story
@@ -126,7 +258,33 @@ var WatchlistStore = (function () {
     return !!findByTweet(item) || hasId(storyIdFor(item));
   }
 
-  // Build a full watchlist story record from a feed/enriched item.
+  /* ── Follow / unfollow ────────────────────────────────────────────────── */
+
+  function follow(id, atTop) {
+    if (!id || isFollowing(id)) return false;
+    if (!catalogById[id] && !ownById[id]) return false;
+    if (atTop) doc.follows.unshift(id); else doc.follows.push(id);
+    save();
+    return true;
+  }
+
+  function unfollow(id) {
+    if (!isFollowing(id)) return false;
+    doc.follows = doc.follows.filter(function (x) { return x !== id; });
+    // A story only this user had is theirs to discard entirely; a catalog
+    // story stays in the catalog for everyone else, just off their list.
+    if (ownById[id]) {
+      doc.own = doc.own.filter(function (s) { return s.story_id !== id; });
+      reindexOwn();
+      delete doc.overrides[id];
+    }
+    save();
+    return true;
+  }
+
+  /* ── Writes ───────────────────────────────────────────────────────────── */
+
+  // Build a full story record from a feed/enriched item.
   function buildStory(item) {
     var countries = (item.countries || '').split(';').map(function (c) { return c.trim(); }).filter(Boolean);
     var keywords = [];
@@ -137,6 +295,7 @@ var WatchlistStore = (function () {
       status: 'active',
       title: (item.summary || item.full_text || '').slice(0, 100),
       marked_at: nowIso(),
+      created_by: userId,
       seed: {
         created_at: item.created_at,
         tweet_id: item.tweet_id || '',
@@ -160,39 +319,36 @@ var WatchlistStore = (function () {
     };
   }
 
-  // Track a feed/suggested item. Idempotent by story_id — re-tracking a story
-  // that already exists just returns the existing record.
+  // Track a feed/suggested item. Idempotent — if the story is already in the
+  // catalog, this just follows it rather than making a second copy of it.
   function trackItem(item) {
-    var existing = findByTweet(item) || byId(storyIdFor(item));
+    var existing = findByTweet(item);
     if (existing) return existing;
+    var id = storyIdFor(item);
+    if (isFollowing(id)) return resolve(id);
+    if (catalogById[id]) { follow(id); return resolve(id); }
     var story = buildStory(item);
-    doc.stories.push(story);
-    doc.updated_at = nowIso();
-    saveLocal();
+    doc.own.push(story);
+    reindexOwn();
+    doc.follows.push(story.story_id);
+    save();
     return story;
   }
 
   // Sub-track: seed a CHILD story from a feed item, linked to a parent story via
   // `parent_id`. Barebones scaffolding for a future "sub-thread" feature — a child
   // is a normal tracked story that also records which story it branched from.
-  // Idempotent by story_id (re-seeding the same item returns the existing child).
   function addSubTrack(parentId, item) {
-    var existing = findByTweet(item) || byId(storyIdFor(item));
-    if (existing) {
-      if (!existing.parent_id) existing.parent_id = parentId;
-      return existing;
-    }
-    var story = buildStory(item);
-    story.parent_id = parentId;
-    doc.stories.push(story);
-    doc.updated_at = nowIso();
-    saveLocal();
-    return story;
+    var story = trackItem(item);
+    if (!story) return null;
+    if (!story.parent_id) setOverride(story.story_id, { parent_id: parentId });
+    save();
+    return resolve(story.story_id);
   }
 
   // All stories that branched from a given parent story.
   function childrenOf(parentId) {
-    return doc.stories.filter(function (s) { return s.parent_id === parentId; });
+    return all().filter(function (s) { return s.parent_id === parentId; });
   }
 
   // Create a fully custom tracked story from a small form. Generates a stable
@@ -205,7 +361,7 @@ var WatchlistStore = (function () {
     var base = 'st-' + day + '-' + slugify(title);
     var id = base;
     var n = 2;
-    while (hasId(id)) { id = base + '-' + n; n++; }
+    while (catalogById[id] || ownById[id]) { id = base + '-' + n; n++; }
     var countries = (fields.countries || '')
       .split(/[,;]/).map(function (c) { return c.trim().toUpperCase(); }).filter(Boolean);
     var keywords = (fields.keywords || '')
@@ -215,6 +371,7 @@ var WatchlistStore = (function () {
       status: 'active',
       title: title.slice(0, 120),
       marked_at: nowIso(),
+      created_by: userId,
       seed: {
         created_at: nowIso().replace('T', ' ').replace('Z', ''),
         tweet_id: '',
@@ -234,84 +391,88 @@ var WatchlistStore = (function () {
       image: (fields.image || '').trim(),
       parent_id: null,
     };
-    doc.stories.push(story);
-    doc.updated_at = nowIso();
-    saveLocal();
+    doc.own.push(story);
+    reindexOwn();
+    doc.follows.push(id);
+    save();
     return story;
   }
 
   function removeById(id) {
-    doc.stories = doc.stories.filter(function (s) { return s.story_id !== id; });
-    doc.updated_at = nowIso();
-    saveLocal();
+    unfollow(id);
   }
 
   function indexOf(id) {
-    for (var i = 0; i < doc.stories.length; i++) {
-      if (doc.stories[i].story_id === id) return i;
-    }
-    return -1;
+    return doc.follows.indexOf(id);
   }
 
   // Priority reorder. Array position IS the priority (top = highest), so both
-  // the ▲/▼ nudge and drag-to-index just splice the array and persist.
+  // the ▲/▼ nudge and drag-to-index just splice the list and persist.
   function moveBy(id, delta) {
     var i = indexOf(id);
     if (i < 0) return;
     var j = i + delta;
-    if (j < 0 || j >= doc.stories.length) return;
-    var tmp = doc.stories[i];
-    doc.stories[i] = doc.stories[j];
-    doc.stories[j] = tmp;
-    doc.updated_at = nowIso();
-    saveLocal();
+    if (j < 0 || j >= doc.follows.length) return;
+    var tmp = doc.follows[i];
+    doc.follows[i] = doc.follows[j];
+    doc.follows[j] = tmp;
+    save();
   }
 
   function moveTo(id, index) {
     var i = indexOf(id);
     if (i < 0) return;
-    var item = doc.stories.splice(i, 1)[0];
-    index = Math.max(0, Math.min(index, doc.stories.length));
-    doc.stories.splice(index, 0, item);
-    doc.updated_at = nowIso();
-    saveLocal();
+    var moved = doc.follows.splice(i, 1)[0];
+    index = Math.max(0, Math.min(index, doc.follows.length));
+    doc.follows.splice(index, 0, moved);
+    save();
   }
 
-  // Edit a tracked story's user-facing fields (title, seed text, keywords,
-  // country codes). Keywords/countries drive story-linking and image matching,
-  // so they're split on comma/semicolon and normalised the same way as addCustom.
+  // Edit a story's user-facing fields. On a catalog story this records a
+  // personal override — the shared record is untouched, so one user's retitle
+  // doesn't rewrite the story for everyone.
   function updateStory(id, fields) {
-    var s = byId(id);
-    if (!s) return null;
+    if (!isFollowing(id)) return null;
     fields = fields || {};
-    if (fields.title != null) s.title = String(fields.title).trim().slice(0, 140);
-    if (fields.text != null) {
-      s.seed = s.seed || {};
-      s.seed.text = String(fields.text).trim();
-    }
+    var own = ownById[id];
+    var patch = {};
+    if (fields.title != null) patch.title = String(fields.title).trim().slice(0, 140);
+    if (fields.text != null) patch.text = String(fields.text).trim();
     if (fields.keywords != null) {
-      s.keywords = String(fields.keywords).split(/[,;]/)
+      patch.keywords = String(fields.keywords).split(/[,;]/)
         .map(function (k) { return k.trim().toLowerCase(); }).filter(Boolean).slice(0, 12);
     }
     if (fields.countries != null) {
-      s.seed = s.seed || {};
-      s.seed.countries = String(fields.countries).split(/[,;]/)
+      patch.countries = String(fields.countries).split(/[,;]/)
         .map(function (c) { return c.trim().toUpperCase(); }).filter(Boolean);
     }
     // A URL or a data: base64 string. Empty string clears the custom image.
-    if (fields.image != null) s.image = String(fields.image).trim();
-    // Marks this record as user-authored so mergeStories won't let a same-day
-    // server record clobber it.
-    s.edited_at = nowIso();
-    doc.updated_at = nowIso();
-    saveLocal();
-    return s;
+    if (fields.image != null) patch.image = String(fields.image).trim();
+    patch.edited_at = nowIso();
+
+    if (own) {
+      // The user owns this record outright — write through instead of stacking
+      // an override on top of their own draft.
+      if (patch.title != null) own.title = patch.title;
+      if (patch.image != null) own.image = patch.image;
+      if (patch.keywords) own.keywords = patch.keywords;
+      if (patch.text != null || patch.countries) {
+        own.seed = own.seed || {};
+        if (patch.text != null) own.seed.text = patch.text;
+        if (patch.countries) own.seed.countries = patch.countries;
+      }
+      own.edited_at = patch.edited_at;
+    } else {
+      setOverride(id, patch);
+    }
+    save();
+    return resolve(id);
   }
 
   function unmark(item) {
     var story = findByTweet(item) || byId(storyIdFor(item));
     if (!story) return;
-    removeById(story.story_id);
+    unfollow(story.story_id);
   }
 
   function toggle(item) {
@@ -319,21 +480,36 @@ var WatchlistStore = (function () {
   }
 
   function setStatus(storyId, status) {
-    var story = doc.stories.filter(function (s) { return s.story_id === storyId; })[0];
-    if (!story) return;
-    story.status = status;
-    if (status === 'resolved') story.resolved_at = nowIso();
-    if (status === 'active') story.resolved_at = null;
-    doc.updated_at = nowIso();
-    saveLocal();
+    if (!isFollowing(storyId)) return;
+    var own = ownById[storyId];
+    var resolvedAt = status === 'resolved' ? nowIso() : (status === 'active' ? null : undefined);
+    if (own) {
+      own.status = status;
+      if (resolvedAt !== undefined) own.resolved_at = resolvedAt;
+    } else {
+      var patch = { status: status };
+      if (resolvedAt !== undefined) patch.resolved_at = resolvedAt;
+      setOverride(storyId, patch);
+    }
+    save();
   }
 
-  function all() {
-    return doc ? doc.stories : [];
-  }
+  /* ── Publishing ───────────────────────────────────────────────────────
+     Export writes the CATALOG shape the Python pipeline already reads
+     (scripts/import_watchlist.py → data/watchlist.json), so none of it has
+     to change. It's an owner action: a member's personal list is not the
+     shared catalog, and committing one would prune everyone else's stories.
+     When the backend lands this goes away — the server owns the catalog and
+     writes it directly. */
 
   function exportFile() {
-    var blob = new Blob([JSON.stringify(doc, null, 2)], { type: 'application/json' });
+    var stories = all().map(function (s) {
+      var copy = {};
+      for (var k in s) { if (Object.prototype.hasOwnProperty.call(s, k)) copy[k] = s[k]; }
+      return copy;
+    });
+    var out = { version: 1, updated_at: nowIso(), stories: stories };
+    var blob = new Blob([JSON.stringify(out, null, 2)], { type: 'application/json' });
     var url = URL.createObjectURL(blob);
     var a = document.createElement('a');
     a.href = url;
@@ -364,5 +540,10 @@ var WatchlistStore = (function () {
     setStatus: setStatus,
     all: all,
     exportFile: exportFile,
+    // Catalog model additions
+    follow: follow,
+    unfollow: unfollow,
+    isFollowing: isFollowing,
+    catalogAvailable: catalogAvailable,
   };
 })();
