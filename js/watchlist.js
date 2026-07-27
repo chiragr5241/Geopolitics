@@ -54,7 +54,13 @@ var WatchlistStore = (function () {
       var bTime = other.last_update_at || other.marked_at || '';
       // Take the newer record's content but hold the local slot. Carry the
       // local `order`/position implicitly by pushing here.
-      out.push((bTime > aTime) ? other : s);
+      //
+      // Ties go to the SERVER: a data-only edit (a new hero image, a reworded
+      // title) doesn't move last_update_at, so a strict `>` pinned the stale
+      // local copy forever for anyone who'd already cached the story.
+      // A genuine local edit stamps `edited_at` and outranks that.
+      if (s.edited_at && s.edited_at > bTime) { out.push(s); return; }
+      out.push((bTime >= aTime) ? other : s);
     });
     (b || []).forEach(function (s) {
       if (seen[s.story_id]) return;
@@ -294,6 +300,9 @@ var WatchlistStore = (function () {
     }
     // A URL or a data: base64 string. Empty string clears the custom image.
     if (fields.image != null) s.image = String(fields.image).trim();
+    // Marks this record as user-authored so mergeStories won't let a same-day
+    // server record clobber it.
+    s.edited_at = nowIso();
     doc.updated_at = nowIso();
     saveLocal();
     return s;
