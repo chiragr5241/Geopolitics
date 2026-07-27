@@ -108,8 +108,18 @@ var FeedItem = (function () {
   // WatchlistStore to be initialised.
   function storyTagsHtml(item) {
     if (!item || typeof WatchlistStore === 'undefined' || !WatchlistStore.byId) return '';
-    var ids = String(item.linked_story_ids || '').split(';');
     var chips = [];
+
+    // The flag is the FIRST tag — it always leads the row, ahead of any story
+    // chips, so a flagged card reads as flagged before anything else.
+    if (typeof FlagStore !== 'undefined' && FlagStore.isFlagged(item)) {
+      chips.push(
+        '<span class="story-tag flag-tag" title="Flagged — see the Flagged filter">' +
+        flagSvg(true) + 'Flagged</span>'
+      );
+    }
+
+    var ids = String(item.linked_story_ids || '').split(';');
     for (var i = 0; i < ids.length; i++) {
       var id = ids[i];
       if (!id) continue;
@@ -197,12 +207,34 @@ var FeedItem = (function () {
     return out + '</span>';
   }
 
-  // The right-side control on a card. 'star' (Feed) / 'subtrack' (Tracker
+  // Outline / filled flag glyph, shared by the card control and the tag chip.
+  function flagSvg(filled) {
+    return '<svg class="flag-glyph" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true">' +
+      '<path d="M5 3v18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>' +
+      '<path d="M5 4.5h12l-2.5 4L17 12.5H5z" stroke="currentColor" stroke-width="2" ' +
+      'stroke-linejoin="round" fill="' + (filled ? 'currentColor' : 'none') + '"/>' +
+      '</svg>';
+  }
+
+  // Flag toggle — a personal bookmark, independent of whether the item's story
+  // is tracked. Sits left of the track button so the two read as separate acts.
+  function flagBtnHtml(on) {
+    return '<button type="button" class="flag-btn ' + (on ? 'on' : '') +
+      '" title="' + (on ? 'Remove flag' : 'Flag this item') +
+      '" aria-pressed="' + (on ? 'true' : 'false') + '" data-action="flag">' +
+      flagSvg(on) + '</button>';
+  }
+
+  // The right-side control on a card. 'track' (Feed) / 'subtrack' (Tracker
   // timeline — seed a child story) / 'none'. `on` renders the active state.
   function controlHtml(control, on) {
-    if (control === 'star') {
-      return '<button class="star-btn ' + (on ? 'on' : '') + '" title="Mark important" data-action="star">' +
-        (on ? '★' : '☆') + '</button>';
+    if (control === 'track') {
+      // A labelled button, not a glyph: "am I tracking this?" should be
+      // readable at a glance rather than decoded from a filled/empty icon.
+      return '<button type="button" class="track-btn ' + (on ? 'on' : '') +
+        '" title="' + (on ? 'Stop tracking this story' : 'Track this story over time') +
+        '" aria-pressed="' + (on ? 'true' : 'false') + '" data-action="track">' +
+        (on ? 'Tracking' : 'Track') + '</button>';
     }
     if (control === 'subtrack') {
       // Branch/fork glyph — seeds a sub-thread from this news item.
@@ -213,8 +245,9 @@ var FeedItem = (function () {
 
   // The canonical feed-card renderer — shared by the Feed page and the Tracker
   // timeline so a news cell looks identical in both. opts:
-  //   control     : 'star' | 'subtrack' | 'none'  (right-side control)
-  //   controlOn   : boolean — active state of the control (starred / sub-tracked)
+  //   control     : 'track' | 'subtrack' | 'none'  (right-side control)
+  //   controlOn   : boolean — active state of the control (tracked / sub-tracked)
+  //   flag        : show the flag toggle (Feed only)
   //   reveal      : add .animate-on-scroll (first paint only)
   //   focused     : add .feed-card-focus + the deep-link anchor id
   //   expandedOpen: render the details expander already open
@@ -231,11 +264,13 @@ var FeedItem = (function () {
     var confirm = item.confirmation_status && CONFIRM_CATEGORIES[cat]
       ? '<span class="pill" style="color:var(--text);border-color:var(--border2);background:var(--bg1);">' + esc(item.confirmation_status) + '</span>'
       : '';
+    var flagged = !!(opts.flag && typeof FlagStore !== 'undefined' && FlagStore.isFlagged(item));
 
     return (
       '<div class="card feed-card ' + (opts.reveal ? 'animate-on-scroll ' : '') +
         (item.is_breaking === 'TRUE' ? 'breaking ' : '') +
-        (opts.controlOn && opts.control === 'star' ? 'starred ' : '') +
+        (opts.controlOn && opts.control === 'track' ? 'tracked ' : '') +
+        (flagged ? 'flagged ' : '') +
         (thumb ? 'has-img ' : '') +
         (opts.focused ? 'feed-card-focus ' : '') +
         (opts.feedUrl ? 'clickable ' : '') +
@@ -248,7 +283,9 @@ var FeedItem = (function () {
             confirm +
             sevDots(item.severity) +
             '<span class="feed-time">' + Util.fmtTime(item.created_at) + '</span>' +
-            controlHtml(opts.control, opts.controlOn) +
+            (opts.flag ? '<span class="feed-card-controls">' + flagBtnHtml(flagged) +
+              controlHtml(opts.control, opts.controlOn) + '</span>'
+              : controlHtml(opts.control, opts.controlOn)) +
           '</div>' +
           sourceBadgeHtml(item) +
           '<div class="feed-text">' + (item.summary || item.full_text || '') + '</div>' +
@@ -272,6 +309,8 @@ var FeedItem = (function () {
     toggleBtnHtml: toggleBtnHtml,
     linkBtnHtml: linkBtnHtml,
     storyTagsHtml: storyTagsHtml,
+    flagSvg: flagSvg,
+    flagBtnHtml: flagBtnHtml,
     sourceBadgeHtml: sourceBadgeHtml,
     firstImage: firstImage,
     imageHtml: imageHtml,

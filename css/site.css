@@ -4,7 +4,7 @@
    covers the scrolling news chrome — map.html never loads it.
    ========================================================= */
 
-@import url('tokens.css?v=13');
+@import url('tokens.css?v=26');
 
 html, body {
   min-height: 100%;
@@ -398,6 +398,35 @@ body {
 .filter-pill.off { opacity: .35; filter: grayscale(.7); }
 .filter-pill:hover { box-shadow: var(--shadow-sm); border-color: var(--border2); }
 
+/* The Flagged filter leads the bar (the flag is the first tag) and sits on its
+   own axis — it AND-s with the categories rather than being one of them, so a
+   rule separates it and it never takes the greyed-out `.off` treatment. */
+.filter-pill.flag-filter {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--flag);
+  border-color: var(--flag-line);
+}
+
+.filter-pill.flag-filter.on {
+  color: var(--on-flag);
+  background: var(--flag);
+  border-color: var(--flag);
+}
+
+.filter-count {
+  font-size: 9px;
+  opacity: .75;
+}
+
+.filter-sep {
+  width: 1px;
+  align-self: stretch;
+  margin: 2px 4px;
+  background: var(--border2);
+}
+
 .feed-list {
   display: flex;
   flex-direction: column;
@@ -410,7 +439,9 @@ body {
 }
 
 .feed-card.breaking { border-left-color: var(--accent2); }
-.feed-card.starred  { border-left-color: #f59e0b; background: rgba(245,158,11,.03); }
+.feed-card.tracked  { border-left-color: var(--accent); }
+/* Flagged wins the edge stripe — it's the user's own mark on the card. */
+.feed-card.flagged  { border-left-color: var(--flag); background: var(--flag-tint); }
 
 /* Feed cards with a matched/enriched image become a thumb + body row. Cards
    without one keep the original flat layout (no .feed-card-body wrapping cost
@@ -477,26 +508,70 @@ body {
   color: var(--text);
 }
 
-.star-btn {
+/* Flag + Track sit together at the right end of the card's top row. */
+.feed-card-controls {
   margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+/* Track / Tracking — a labelled button rather than a glyph, so the state is
+   readable without decoding an icon. Off = quiet outline; on = solid accent. */
+.track-btn {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .5px;
+  text-transform: uppercase;
+  padding: 4px 9px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border2);
+  background: transparent;
+  color: var(--text2);
+  cursor: pointer;
+  line-height: 1;
+  white-space: nowrap;
+  transition: color .15s, border-color .15s, background .15s;
+}
+
+.track-btn:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.track-btn.on {
+  /* --on-accent, not #fff: the dark theme's accent is amber, where white text
+     is unreadable. */
+  color: var(--on-accent);
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.track-btn.on:hover {
+  /* Hover on an active button means "stop tracking" — warn rather than invite. */
+  background: transparent;
+  color: var(--accent);
+}
+
+/* Flag toggle — the personal bookmark. --flag is its own hue precisely so it
+   never reads as the Track action, whose --accent flips amber/blue by theme. */
+.flag-btn {
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 16px;
-  line-height: 1;
-  color: var(--text2);
-  transition: color .15s;
-  padding: 2px;
+  padding: 3px;
+  line-height: 0;
+  color: var(--text);
+  opacity: .6;
+  transition: color .15s, opacity .15s;
 }
 
-/* The empty star was near-invisible on light backgrounds (border-grey on
-   off-white). Use a clearly-readable amber-tinted grey in light mode. */
-.light-mode .star-btn { color: #b6801f; opacity: .7; }
-.light-mode .star-btn:hover { opacity: 1; }
+.flag-btn:hover,
+.flag-btn.on { color: var(--flag); opacity: 1; }
 
-.star-btn:hover { color: var(--gold); }
-.star-btn.on,
-.light-mode .star-btn.on { color: #f59e0b; opacity: 1; }
+.flag-glyph { display: block; }
 
 .feed-text {
   font-family: var(--font-body);
@@ -1082,8 +1157,8 @@ a.source-badge:hover { border-color: var(--accent); }
   box-shadow: var(--shadow-md);
 }
 
-/* Sub-track control — replaces the star on timeline cells. Seeds a child story
-   ("sub-thread") from this news item. Barebones: same box as .star-btn. */
+/* Sub-track control — replaces the Track button on timeline cells. Seeds a
+   child story ("sub-thread") from this news item. */
 .subtrack-btn {
   margin-left: auto;
   background: none;
@@ -1177,6 +1252,15 @@ a.source-badge:hover { border-color: var(--accent); }
   border-radius: 50%;
   background: var(--accent);
   flex-shrink: 0;
+}
+
+/* The flag tag — first chip in the row, on its own hue so it stays distinct
+   from the --accent story chips it leads in BOTH themes. */
+.story-tag.flag-tag {
+  color: var(--flag);
+  border-color: var(--flag-line);
+  background: var(--flag-soft);
+  cursor: default;
 }
 
 /* Resolved / archived stories: greyed out, but still linked. */

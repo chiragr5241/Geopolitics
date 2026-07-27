@@ -1,7 +1,8 @@
 'use strict';
 
-/* Feed page — full intel feed with filters + mark-important star.
-   Reuses DataLayer, WatchlistStore, and FeedItem (shared expand / deep-link). */
+/* Feed page — full intel feed with filters, a Track toggle, and flags.
+   Reuses DataLayer, WatchlistStore, FlagStore, and FeedItem (shared expand /
+   deep-link). */
 
 (function () {
   var ALL_CATEGORIES = [
@@ -10,6 +11,9 @@
   ];
 
   var activeCategories = new Set(ALL_CATEGORIES);
+  // Flag is a tag, not a category — it filters on its own axis (AND-ed with
+  // the category pills) rather than joining the category set.
+  var flaggedOnly = false;
   var items = [];
   var creditByUrl = {};
   var expanded = new Set();
@@ -22,10 +26,17 @@
 
   function renderFilterBar() {
     var el = document.getElementById('filter-bar');
-    el.innerHTML = ALL_CATEGORIES.map(function (c) {
+    var n = FlagStore.count();
+    // The flag leads the bar — it's the first tag, so it's the first filter.
+    var flagPill = '<span class="filter-pill flag-filter ' + (flaggedOnly ? 'on' : '') +
+      '" data-flag="1" title="Show only flagged items">' + FeedItem.flagSvg(flaggedOnly) +
+      'Flagged' + (n ? ' <span class="filter-count">' + n + '</span>' : '') + '</span>';
+
+    el.innerHTML = flagPill + '<span class="filter-sep"></span>' + ALL_CATEGORIES.map(function (c) {
       return '<span class="filter-pill ' + (activeCategories.has(c) ? '' : 'off') + '" data-cat="' + c + '">' + c + '</span>';
     }).join('');
-    el.querySelectorAll('.filter-pill').forEach(function (pill) {
+
+    el.querySelectorAll('.filter-pill[data-cat]').forEach(function (pill) {
       pill.addEventListener('click', function () {
         var c = pill.dataset.cat;
         if (activeCategories.has(c)) activeCategories.delete(c); else activeCategories.add(c);
@@ -34,14 +45,24 @@
         renderList();
       });
     });
+    var flagEl = el.querySelector('.filter-pill[data-flag]');
+    if (flagEl) {
+      flagEl.addEventListener('click', function () {
+        flaggedOnly = !flaggedOnly;
+        shown = PAGE;
+        renderFilterBar();
+        renderList();
+      });
+    }
   }
 
-  // Feed card = the shared FeedItem.cardHtml with a star control.
+  // Feed card = the shared FeedItem.cardHtml with the Track button + flag.
   function cardHtml(item, reveal) {
     var key = FeedItem.itemKey(item);
     return FeedItem.cardHtml(item, {
-      control: 'star',
+      control: 'track',
       controlOn: WatchlistStore.isMarked(item),
+      flag: true,
       reveal: reveal,
       focused: focusKey && key === focusKey,
       expandedOpen: expanded.has(key),
@@ -62,6 +83,7 @@
   function renderList() {
     var wrap = document.getElementById('feed-list');
     var visible = items.filter(function (it) {
+      if (flaggedOnly && !FlagStore.isFlagged(it)) return false;
       return activeCategories.has((it.category || 'social').toLowerCase());
     });
 
@@ -80,7 +102,11 @@
     }
 
     if (!visible.length) {
-      wrap.innerHTML = '<div class="empty-note">No items match the current filters.</div>';
+      wrap.innerHTML = '<div class="empty-note">' +
+        (flaggedOnly && !FlagStore.count()
+          ? 'Nothing flagged yet — use the flag on a card to save it here.'
+          : 'No items match the current filters.') +
+        '</div>';
       return;
     }
 
@@ -103,12 +129,22 @@
       });
     }
 
-    wrap.querySelectorAll('[data-action="star"]').forEach(function (btn) {
+    wrap.querySelectorAll('[data-action="track"]').forEach(function (btn) {
       btn.addEventListener('click', function (e) {
         e.stopPropagation();
         var key = btn.closest('.feed-card').dataset.key;
         var item = FeedItem.findByKey(items, key);
         if (item) WatchlistStore.toggle(item);
+        renderList();
+      });
+    });
+    wrap.querySelectorAll('[data-action="flag"]').forEach(function (btn) {
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var key = btn.closest('.feed-card').dataset.key;
+        if (key) FlagStore.toggle(key);
+        // The count in the filter bar moves with every flag.
+        renderFilterBar();
         renderList();
       });
     });
