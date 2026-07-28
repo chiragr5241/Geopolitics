@@ -593,7 +593,7 @@
       var st = STRIKE_TYPES[inc.type] || STRIKE_TYPE_FALLBACK;
       var badgeHTML = (inc.badges||[]).map(function (b) { return badge(b[0],b[1]); }).join('');
       var intelRows = (inc.intel||[]).map(function (r) { return '<div class="drow"><div class="drow-k">'+r.k+'</div><div class="drow-v '+(r.hi?'hi':'')+' '+(r.cls||'')+'">'+r.v+'</div></div>'; }).join('');
-      var srcHTML = (inc.sources||[]).map(function (s) { var nameHTML = s.u ? '<a class="source-link" href="'+s.u+'" target="_blank" rel="noopener noreferrer">'+s.n+'</a>' : s.n; return '<div class="source-item"><div class="source-name">'+nameHTML+'</div><div class="source-type">'+s.t+'</div></div>'; }).join('');
+      var srcHTML = (inc.sources||[]).map(function (s) { var nameHTML = s.u ? '<a class="source-link" href="'+s.u+'">'+s.n+'</a>' : s.n; return '<div class="source-item"><div class="source-name">'+nameHTML+'</div><div class="source-type">'+s.t+'</div></div>'; }).join('');
       var hasImagery = inc.imagery && inc.imagery.length > 0;
       var imgTabBtn = hasImagery ? '<div class="det-tab" data-tab="tab-imagery">Imagery</div>' : '';
       var imgBody = hasImagery ? '<div id="tab-imagery" class="det-tab-body">' + inc.imagery.map(function (img) {

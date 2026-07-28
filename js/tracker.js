@@ -348,7 +348,7 @@
             (e.summary ? '<div class="feed-text">' + esc(e.summary) + '</div>' : '') +
             (e.source_name || e.url ?
               '<div class="timeline-node-source">' +
-                (e.url ? '<a href="' + esc(e.url) + '" target="_blank" rel="noopener">' + esc(e.source_name || e.url) + '</a>' : esc(e.source_name)) +
+                (e.url ? '<a href="' + esc(e.url) + '">' + esc(e.source_name || e.url) + '</a>' : esc(e.source_name)) +
               '</div>' : '') +
           '</div>' +
         '</div>' +

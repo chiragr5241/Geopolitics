@@ -70,7 +70,7 @@ var FeedItem = (function () {
         sources.map(function (s) {
           var label = (s.name || 'Source') + (s.title ? ': ' + s.title : '');
           return s.url
-            ? '<a href="' + esc(s.url) + '" target="_blank" rel="noopener">' + esc(label) + '</a>'
+            ? '<a href="' + esc(s.url) + '">' + esc(label) + '</a>'
             : esc(label);
         }).join('<br>') +
         '</div></div>';
@@ -155,7 +155,7 @@ var FeedItem = (function () {
     var inner = '<span class="source-badge-name">' + esc(src) + '</span>' +
       (label ? '<span class="source-badge-persp">' + esc(label) + '</span>' : '');
     return item.source_url
-      ? '<a class="' + cls + '" href="' + esc(item.source_url) + '" target="_blank" rel="noopener" title="Open original">' + inner + '</a>'
+      ? '<a class="' + cls + '" href="' + esc(item.source_url) + '" title="Open original">' + inner + '</a>'
       : '<span class="' + cls + '">' + inner + '</span>';
   }
 
