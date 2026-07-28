@@ -219,6 +219,35 @@ def _rss_date(item):
         return None
 
 
+def _degoogle(title, lede, item, label):
+    """Clean the two artefacts a Google News RSS query adds to every item.
+
+    Some outlets publish no usable feed of their own and are only reachable
+    through `news.google.com/rss/search?q=site:<domain>` (AP is the case that
+    forced this: no public RSS, nothing in GDELT, and apnews.com refuses
+    automated fetches). Google's items are real, but it rewrites both fields:
+
+      title       "<headline> - AP News"   — Google appends ITS name for the
+                  outlet, which is not necessarily our registry label
+                  ("Associated Press"), so strip the <source> element's text
+                  rather than the label we happen to use.
+      description the headline again, wrapped in markup and followed by the
+                  outlet name — not a lede at all. An empty lede is more honest
+                  and lets deep enrichment fill it later.
+    """
+    for name in (strip_html(_child_text(item, 'source')), label):
+        suffix = ' - ' + name
+        if name and title.endswith(suffix):
+            title = title[:-len(suffix)].rstrip()
+            break
+    # Google's description is a restatement of the headline; drop it rather than
+    # show the same sentence twice on the card.
+    flat = ' '.join(lede.replace('\xa0', ' ').split())
+    if flat.lower().startswith(title.lower()[:60]):
+        lede = ''
+    return title, lede
+
+
 def parse_rss(label, xml_bytes, perspective, source_country, is_fast_lead, cutoff):
     root = ET.fromstring(xml_bytes)
     rows = []
@@ -236,6 +265,8 @@ def parse_rss(label, xml_bytes, perspective, source_country, is_fast_lead, cutof
         if dt < cutoff:
             continue
         lede = strip_html(_child_text(item, 'description'))
+        if 'news.google.com' in link:
+            title, lede = _degoogle(title, lede, item, label)
         if len(lede) > 400:
             lede = lede[:397].rstrip() + '...'
         rows.append({

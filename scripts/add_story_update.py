@@ -41,6 +41,10 @@ Usage (from project root):
     cat updates.json | python3 scripts/add_story_update.py [--dry-run] [--no-fetch]
     python3 scripts/add_story_update.py --backfill-images [--dry-run]
         (fill the image column on existing beats that have a url but no image)
+    python3 scripts/add_story_update.py --recount [--dry-run]
+        (rebuild every story's update_count / last_update_at from
+         story_updates.csv — repairs stories whose only channel is WebSearch)
+
     python3 scripts/add_story_update.py --backfill-sources [--dry-run]
         (resolve existing beats' source_name to a registry source_id and
          canonicalise the spelling; also migrates a pre-source_id CSV)
@@ -127,6 +131,95 @@ def load_stories():
     with open(WATCHLIST_JSON, encoding='utf-8') as f:
         doc = json.load(f)
     return {s['story_id']: s for s in doc.get('stories', []) if s.get('story_id')}
+
+
+def bump_stories(counts):
+    """Credit each story with the beats just written: bump `last_update_at` and
+    `update_count` in watchlist.json.
+
+    update_stories.py (tracker Step 1) already does this for the beats IT finds,
+    but the WebSearch path came through here and never did — so a story with no
+    intel_feed coverage stayed frozen at the day it was created no matter how
+    much research landed on it. That is not cosmetic: Step 2 of the routine
+    processes active stories "oldest last_update_at first, at most 10", so a
+    story whose only channel is WebSearch reports itself permanently stale and
+    sorts on a number that never moves. The Space Companies story sat at
+    `update_count: 0, last_update_at: 2026-07-23` with 14 real beats on it.
+
+    Same convention as update_stories.py: the date is when we found the news,
+    not the article's own date.
+    """
+    if not counts or not os.path.exists(WATCHLIST_JSON):
+        return []
+    with open(WATCHLIST_JSON, encoding='utf-8') as f:
+        doc = json.load(f)
+    today = datetime.now(timezone.utc).strftime('%Y-%m-%d')
+    bumped = []
+    for s in doc.get('stories', []):
+        n = counts.get(s.get('story_id'))
+        if not n:
+            continue
+        s['last_update_at'] = today
+        s['update_count'] = int(s.get('update_count') or 0) + n
+        bumped.append((s['story_id'], n, s['update_count']))
+    if not bumped:
+        return []
+    doc['updated_at'] = datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
+    with open(WATCHLIST_JSON, 'w', encoding='utf-8') as f:
+        json.dump(doc, f, indent=2, ensure_ascii=False)
+        f.write('\n')
+    return bumped
+
+
+def recount_stories(dry_run=False):
+    """Rebuild every story's `update_count` / `last_update_at` from the CSV.
+
+    Repairs the drift the missing bump above left behind — story_updates.csv is
+    the record of what actually happened, so it is the authority. `update_count`
+    becomes the story's real number of beats; `last_update_at` becomes the
+    newest `found_at` among them (falling back to the beat date), never earlier
+    than what the story already claims.
+    """
+    if not os.path.exists(WATCHLIST_JSON) or not os.path.exists(STORY_UPDATES_CSV):
+        print('Nothing to recount.')
+        return
+    with open(STORY_UPDATES_CSV, newline='', encoding='utf-8') as f:
+        rows = list(csv.DictReader(f))
+    counts, newest = {}, {}
+    for r in rows:
+        sid = r.get('story_id')
+        if not sid:
+            continue
+        counts[sid] = counts.get(sid, 0) + 1
+        seen = (r.get('found_at') or '')[:10] or (r.get('date') or '')[:10]
+        if seen > newest.get(sid, ''):
+            newest[sid] = seen
+    with open(WATCHLIST_JSON, encoding='utf-8') as f:
+        doc = json.load(f)
+    changed = []
+    for s in doc.get('stories', []):
+        sid = s.get('story_id')
+        n, seen = counts.get(sid, 0), newest.get(sid, '')
+        before = (s.get('update_count'), s.get('last_update_at'))
+        if n != (s.get('update_count') or 0):
+            s['update_count'] = n
+        if seen and seen > (s.get('last_update_at') or ''):
+            s['last_update_at'] = seen
+        after = (s.get('update_count'), s.get('last_update_at'))
+        if before != after:
+            changed.append((sid, before, after))
+    for sid, before, after in changed:
+        print(f'  {sid}: count {before[0]} -> {after[0]}, '
+              f'last_update_at {before[1]} -> {after[1]}')
+    if dry_run:
+        print(f'Dry run — {len(changed)} story(ies) would change.')
+        return
+    if changed:
+        doc['updated_at'] = datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
+        with open(WATCHLIST_JSON, 'w', encoding='utf-8') as f:
+            json.dump(doc, f, indent=2, ensure_ascii=False)
+            f.write('\n')
+    print(f'Recounted {len(changed)} story(ies).')
 
 
 def load_existing():
@@ -281,6 +374,10 @@ def main():
         backfill_sources(dry_run=dry_run)
         return
 
+    if '--recount' in sys.argv:
+        recount_stories(dry_run=dry_run)
+        return
+
     raw = sys.stdin.read().strip()
     if not raw:
         sys.exit('No input on stdin. Pipe a JSON object or array of objects.')
@@ -406,6 +503,13 @@ def main():
         save_sources(registry)
 
     print(f'Appended {len(accepted)} rows to story_updates.csv.')
+
+    # Credit the stories, so a WebSearch-only story stops reporting itself stale.
+    story_counts = {}
+    for row in accepted:
+        story_counts[row['story_id']] = story_counts.get(row['story_id'], 0) + 1
+    for sid, n, total in bump_stories(story_counts):
+        print(f'  {sid}: +{n} update(s), count now {total}, last_update_at today')
 
 
 if __name__ == '__main__':
