@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-07-28T10:42:43Z",
+  "updated_at": "2026-07-28T14:25:01Z",
   "stories": [
     {
       "story_id": "st-20260511-ukraine-corruption",
@@ -102,8 +102,8 @@
         "zaporizhzhia",
         "kherson"
       ],
-      "last_update_at": "2026-07-27",
-      "update_count": 50,
+      "last_update_at": "2026-07-28",
+      "update_count": 52,
       "resolved_at": null,
       "notes": "Backfilled 2026-07-21 from intel_feed via scripts/backfill_story_updates.py."
     },
@@ -177,7 +177,7 @@
       "resolved_at": null,
       "notes": "",
       "custom": true,
-      "image": "",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Zohran_Mamdani_2026.jpg/1280px-Zohran_Mamdani_2026.jpg",
       "parent_id": null,
       "sources": {
         "selected": [
@@ -539,8 +539,8 @@
         "blockade",
         "missile"
       ],
-      "last_update_at": "2026-07-27",
-      "update_count": 47,
+      "last_update_at": "2026-07-28",
+      "update_count": 49,
       "resolved_at": null,
       "notes": "Backfilled 2026-07-17 from intel_feed, past-4-months major beats."
     },
@@ -641,8 +641,8 @@
         "lok sabha",
         "rahul gandhi"
       ],
-      "last_update_at": "2026-07-27",
-      "update_count": 10,
+      "last_update_at": "2026-07-28",
+      "update_count": 12,
       "resolved_at": null,
       "notes": "",
       "custom": true,

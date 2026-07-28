@@ -15,7 +15,7 @@ the-guardian,The Guardian,Guardian;Guardian UK,Official news channels,web,thegua
 new-york-times,The New York Times,NYT;New York Times;NY Times,Official news channels,web,nytimes.com,,,,western-us,US,research,active,seed,2026-07-28,,,,
 washington-post,The Washington Post,WaPo;Washington Post,Official news channels,web,washingtonpost.com,,,,western-us,US,research,active,seed,2026-07-28,,,,
 financial-times,Financial Times,FT;Financial Times London,Official news channels,web,ft.com,,,,western-uk,GB,research,active,seed,2026-07-28,,,,
-bloomberg,Bloomberg,Bloomberg News,Official news channels,web,bloomberg.com,,,,western-us,US,research,active,seed,2026-07-28,,,,
+bloomberg,Bloomberg,Bloomberg News,Official news channels,web,bloomberg.com,,,,western-us,US,research,active,seed,2026-07-28,,2026-07-28T14:29:07Z,1,
 cnbc,CNBC,,Official news channels,web,cnbc.com,,,,western-us,US,research,active,seed,2026-07-28,,,,
 cnn,CNN,CNN International,Official news channels,web,cnn.com,,,,western-us,US,research,active,seed,2026-07-28,,,,
 nbc-news,NBC News,NBC,Official news channels,web,nbcnews.com,,,,western-us,US,research,active,seed,2026-07-28,,,,
@@ -24,7 +24,7 @@ politico,Politico,Politico EU;Politico Europe,Official news channels,web,politic
 the-hill,The Hill,Hill,Official news channels,web,thehill.com,,,,western-us,US,research,active,seed,2026-07-28,,,,
 france-24,France 24,France24;F24,Official news channels,web,france24.com,,,,french,FR,research,active,seed,2026-07-28,,,,
 kyiv-independent,Kyiv Independent,The Kyiv Independent;Kiev Independent,Official news channels,web,kyivindependent.com,,,,ukrainian,UA,research,active,seed,2026-07-28,,,,
-kyiv-post,Kyiv Post,Kiev Post,Official news channels,web,kyivpost.com,,,,ukrainian,UA,research,active,seed,2026-07-28,,,,
+kyiv-post,Kyiv Post,Kiev Post,Official news channels,web,kyivpost.com,,,,ukrainian,UA,research,active,seed,2026-07-28,,2026-07-28T14:29:07Z,1,
 ukrainska-pravda,Ukrainska Pravda,Ukrayinska Pravda;Ukrainian Pravda,Official news channels,web,pravda.com.ua,,,,ukrainian,UA,research,active,seed,2026-07-28,,,,
 euromaidan-press,Euromaidan Press,Euromaidan,Official news channels,web,euromaidanpress.com,,,,ukrainian,UA,research,active,seed,2026-07-28,,,,
 hromadske,Hromadske,Hromadske International;Gromadske,Official news channels,web,hromadske.ua,,,,ukrainian,UA,research,active,seed,2026-07-28,,,,
@@ -46,7 +46,7 @@ times-of-israel,The Times of Israel,Times of Israel;ToI Israel,Official news cha
 haaretz,Haaretz,Ha'aretz,Official news channels,web,haaretz.com,,,,israeli,IL,research,active,seed,2026-07-28,,,,
 tehran-times,Tehran Times,,Official news channels,web,tehrantimes.com,,,,iranian,IR,research,active,seed,2026-07-28,,,,
 defense-news,Defense News,DefenseNews,Official news channels,web,defensenews.com,,,,defense-trade,US,research,active,seed,2026-07-28,,,,
-military-times,Military Times,MilitaryTimes,Official news channels,web,militarytimes.com,,,,defense-trade,US,research,active,seed,2026-07-28,,,,
+military-times,Military Times,MilitaryTimes,Official news channels,web,militarytimes.com,,,,defense-trade,US,research,active,seed,2026-07-28,,2026-07-28T14:29:07Z,1,
 defensescoop,DefenseScoop,Defense Scoop,Official news channels,web,defensescoop.com,,,,defense-trade,US,research,active,seed,2026-07-28,,,,
 army-recognition,Army Recognition,ArmyRecognition,Official news channels,web,armyrecognition.com,,,,defense-trade,FR,research,active,seed,2026-07-28,,,,
 space-news,SpaceNews,Space News,Official news channels,web,spacenews.com,,,,space-trade,US,research,active,seed,2026-07-28,,,,
@@ -251,3 +251,6 @@ yt-pursuit-of-wonder,Pursuit of Wonder,Pursuit of Wonder (YouTube),YouTube: Expl
 yt-the-paint-explainer,The Paint Explainer,The Paint Explainer (YouTube),YouTube: Explainers & Philosophy,youtube,youtube.com,ThePaintExplainer,https://www.youtube.com/feeds/videos.xml?channel_id=UCnwUjPK7dXety-AJ4fNw_RQ,,video,,video,active,seed-youtube,2026-07-28,,2026-07-28T10:53:54Z,0,confirmed as 'The Paint Explainer' (channel_id=UCnwUjPK7dXety-AJ4fNw_RQ)
 yt-the-school-of-life,The School of Life,The School of Life (YouTube),YouTube: Explainers & Philosophy,youtube,youtube.com,theschooloflifetv,https://www.youtube.com/feeds/videos.xml?channel_id=UC7IcJI8PUf5Z3zKxnZvTBog,,video,,video,active,seed-youtube,2026-07-28,,2026-07-28T10:53:54Z,0,confirmed as 'The School of Life' (channel_id=UC7IcJI8PUf5Z3zKxnZvTBog)
 yt-smart-nonsense,Smart Nonsense,Smart Nonsense (YouTube),YouTube: Explainers & Philosophy,youtube,youtube.com,SmartNonsense,https://www.youtube.com/feeds/videos.xml?channel_id=UCFN6lQpfY8XIRdhv9G-f4bg,,video,,video,active,seed-youtube,2026-07-28,,2026-07-28T10:53:54Z,0,confirmed as 'Smart Nonsense' (channel_id=UCFN6lQpfY8XIRdhv9G-f4bg)
+fox-news,Fox News,FOX news,Official news channels,web,foxnews.com,,,,western-us,US,research,active,user,2026-07-28,FOX news,,,
+the-new-yorker,The New Yorker,The new yorker,Official news channels,web,newyorker.com,,,,western-us,US,research,active,user,2026-07-28,The new yorker,,,
+nyc-mayor-s-office,NYC Mayor's Office,NYC Mayors Youtube: https://www.youtube.com/@NYCMayorsOffice,Official news channels,youtube,youtube.com,,https://www.youtube.com/feeds/videos.xml?channel_id=UClnI1zhyzv_BPb-VSHEtniw,,video,US,video,active,user,2026-07-28,NYC Mayors Youtube: https://www.youtube.com/@NYCMayorsOffice,,,
