@@ -491,6 +491,54 @@ body {
 .theme-toggle__input:checked ~ .theme-toggle__slider .theme-toggle__icon--moon,
 :root.light-mode .theme-toggle__icon--moon { opacity: 0; }
 
+/* ── Nav on phones ────────────────────────────────────────────────────────
+   The bar's natural width (brand + 4 page links + the profile chip's NAME +
+   toggle) is ~470px, and nothing in it was allowed to shrink — so at 375px
+   the nav alone stretched the document to 457px: every page picked up a
+   horizontal scroll and the theme toggle sat entirely off the right edge.
+
+   Fix it at the source rather than by hiding the overflow: drop the profile
+   name (the avatar still says who is signed in, and the panel still reads
+   "Signed in as"), tighten the spacing, and pin the brand and the right-hand
+   controls while letting only the link row give. The link row also gets its
+   own quiet overflow so an unexpectedly wide font can never push the toggle
+   off again — at these sizes all four links fit, so it never actually
+   scrolls. Lives here, not in site.css, so map.html gets it too. */
+@media (max-width: 640px) {
+  /* Belt-and-braces: `clip` (not `hidden`) keeps the viewport as the scroll
+     container, so #site-nav's position:sticky still works. */
+  html { overflow-x: clip; }
+
+  #site-nav { padding: 0 10px; gap: 10px; }
+
+  .nav-brand { flex-shrink: 0; font-size: 14px; }
+
+  .nav-links {
+    gap: 11px;
+    min-width: 0;
+    justify-content: flex-end;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .nav-links::-webkit-scrollbar { display: none; }
+  .nav-links a { font-size: 12.5px; white-space: nowrap; }
+
+  .nav-right { gap: 10px; flex-shrink: 0; }
+
+  /* Avatar-only chip. */
+  .user-menu__label,
+  .user-menu__chevron { display: none; }
+  .user-menu__trigger { gap: 0; padding: 3px; }
+
+  .user-menu__panel { min-width: 0; width: min(248px, calc(100vw - 20px)); }
+}
+
+/* Below ~360px even that is tight; the brand is the one thing on the bar
+   that isn't navigation, so it goes first. */
+@media (max-width: 360px) {
+  .nav-brand { display: none; }
+}
+
 ::-webkit-scrollbar { width: 8px; height: 8px; }
 ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }

@@ -4,7 +4,7 @@
    covers the scrolling news chrome — map.html never loads it.
    ========================================================= */
 
-@import url('tokens.css?v=27');
+@import url('tokens.css?v=29');
 
 html, body {
   min-height: 100%;
@@ -1451,11 +1451,8 @@ a.source-badge:hover { border-color: var(--accent); }
 @media (max-width: 640px) {
   .page-wrap { padding: 20px 16px 48px; }
 
-  #site-nav { gap: 12px; padding: 0 14px; }
-  .nav-brand { font-size: 15px; }
-  .nav-links { gap: 13px; flex: 1; justify-content: flex-end; }
-  .nav-links a { font-size: 12.5px; }
-  .nav-right { gap: 12px; }
+  /* The nav's phone layout lives in tokens.css (map.html loads that but not
+     this file, and the bar has to fit there too). */
 
   .page-title { font-size: 22px; }
   .tracker-toolbar { gap: 8px; }
