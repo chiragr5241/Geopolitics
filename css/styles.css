@@ -8,7 +8,7 @@
    never leak into the scrolling news pages).
    ========================================================= */
 
-@import url('tokens.css?v=26');
+@import url('tokens.css?v=27');
 
 html, body {
   height: 100%;
@@ -115,7 +115,7 @@ body {
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: var(--green);
+  background: var(--accent);
 }
 
 .hdr-source {
@@ -508,6 +508,16 @@ body {
   color: var(--text2);
 }
 
+.fleg-note {
+  font-family: var(--font-body);
+  font-size: 9px;
+  line-height: 1.4;
+  color: var(--text);
+  margin-top: 9px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+}
+
 .oleg-row {
   display: flex;
   align-items: center;
@@ -852,7 +862,7 @@ body {
   letter-spacing: .3px;
 }
 
-.det-conf-row {
+.det-type-row {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -882,13 +892,17 @@ body {
   transform: translateY(-1px);
 }
 
-.badge-blue   { color: var(--blue);    border-color: rgba(37, 99, 235, .25);   background: rgba(37, 99, 235, .06); }
-.badge-red    { color: var(--accent2); border-color: rgba(220, 38, 38, .25);   background: rgba(220, 38, 38, .06); }
-.badge-gold   { color: var(--gold);    border-color: rgba(180, 83, 9, .25);    background: rgba(180, 83, 9, .06); }
-.badge-green  { color: var(--green);   border-color: rgba(4, 120, 87, .25);    background: rgba(4, 120, 87, .06); }
-.badge-purple { color: var(--purple);  border-color: rgba(124, 58, 237, .25);  background: rgba(124, 58, 237, .06); }
-.badge-orange { color: var(--orange);  border-color: rgba(194, 65, 12, .25);   background: rgba(194, 65, 12, .06); }
-.badge-cyan   { color: #0891b2;        border-color: rgba(8, 145, 178, .25);   background: rgba(8, 145, 178, .06); }
+/* Two looks only: `hot` for a kinetic tag (something was struck), neutral for
+   everything else. The neutral rule matches the bare .badge class, so any
+   colour name an older database.json still holds in badge_colors — blue, gold,
+   teal, purple, orange, green, amber, cyan, brown, op — falls through to it and
+   the palette stays tight whichever build is loaded. `red` is the legacy name
+   for what is now `hot`. */
+.badge,
+.badge-quiet  { color: var(--text2);   border-color: var(--border2);         background: var(--bg1); }
+
+.badge-hot,
+.badge-red    { color: var(--accent2); border-color: rgba(192, 57, 43, .28); background: rgba(192, 57, 43, .07); }
 
 /* Tabs */
 
@@ -1015,9 +1029,11 @@ body {
 
 .drow-v.hi     { color: var(--accent); font-weight: 700; }
 .drow-v.danger { color: var(--accent2); font-weight: 700; }
-.drow-v.gold   { color: var(--gold); }
-.drow-v.green  { color: var(--green); }
-.drow-v.orange { color: var(--orange); }
+/* Formerly gold / green / orange. Emphasis without a hue of its own — casualty
+   and impact rows do not need three more colours to be readable. */
+.drow-v.gold,
+.drow-v.green,
+.drow-v.orange { color: var(--bright); }
 
 /* Assessment */
 
@@ -1282,7 +1298,7 @@ a.source-link:hover {
   letter-spacing: .3px;
 }
 
-.map-tooltip-inner .tt-conf {
+.map-tooltip-inner .tt-type {
   display: inline-block;
   margin-top: 5px;
   font-family: var(--font-mono);

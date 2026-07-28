@@ -3,7 +3,17 @@
    Palette + typography mirror the personal site
    (Dev/professional/website): Inter + Space Grotesk, warm
    near-monochrome with a single brand accent (amber in dark, blue in
-   light) and semantic colours for the category pills.
+   light).
+
+   COLOUR RULE - three roles, nothing else:
+     --accent   the reader's own state: tracked, active, selected, links
+     --accent2  conflict/kinetic + severity: the one alarm colour
+     --flag     the reader's personal bookmark mark
+   Neutrals (--text / --text2 / --border / --bg*) carry everything else.
+   Colour never encodes how well sourced an item is - nothing in the pipeline
+   can establish that, so no hue on this site claims confirmed / unverified.
+   The map adds exactly two mark hues of its own (MARK_HOT / MARK_COOL in
+   js/config.js) because SVG presentation attributes cannot read var().
 
    Theming follows the personal site's convention exactly:
    dark is the CSS default (:root) and light is an override under
@@ -39,14 +49,10 @@
   --flag-tint: rgba(236, 95, 164, .045);
   --on-flag:   #1a0a12;
 
-  /* Semantic category colours (tuned to read on dark cards) */
+  /* The one alarm colour: conflict/kinetic categories, severity, breaking.
+     There is no companion palette of category hues any more — see the colour
+     rule in the header. Tuned to read on dark cards. */
   --accent2: #f26569;
-  --gold:    #e0a33a;
-  --green:   #35c98b;
-  --purple:  #a98cf2;
-  --orange:  #f0843e;
-  --pink:    #ec5fa4;
-  --blue:    #5b9bf5;
 
   /* Shared nav / map header chrome — follows the theme */
   --header-bg: #0f0f0f;
@@ -101,12 +107,6 @@
   --on-flag:   #ffffff;
 
   --accent2: #dc2626;
-  --gold:    #b45309;
-  --green:   #047857;
-  --purple:  #7c3aed;
-  --orange:  #c2410c;
-  --pink:    #be185d;
-  --blue:    #2563eb;
 
   --header-bg: #fafaf8;
   --header-border: rgba(0, 0, 0, .08);

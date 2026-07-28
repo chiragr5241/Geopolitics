@@ -137,9 +137,8 @@ var FeedItem = (function () {
   }
 
   // Source / perspective badge for wire items (pull_wires.py). Spectator tweets
-  // carry no badge — they're the implicit default. `perspective` drives the
-  // colour (see .persp-* in site.css) so a Russian-sourced and a Gulf-sourced
-  // take on the same event read as visibly different viewpoints.
+  // carry no badge — they're the implicit default. The viewpoint is stated in
+  // words rather than a hue; the persp-* class is kept as a hook only.
   var PERSPECTIVE_LABEL = {
     'western-uk': 'UK', 'german': 'DE', 'gulf': 'Gulf', 'institutional': 'UN',
     'humanitarian': 'Aid', 'wire-fast': 'Wire', 'russia': 'RU view',
@@ -191,10 +190,6 @@ var FeedItem = (function () {
       return '';
     }
   }
-
-  // Categories where a confirmation status ("unconfirmed") is meaningful — a
-  // kinetic/security claim you'd want corroborated. Elsewhere the tag is noise.
-  var CONFIRM_CATEGORIES = { military: 1, nuclear: 1, terrorism: 1, cyber: 1 };
 
   function pillClass(category) {
     return 'pill pill-' + (category || 'social').toLowerCase();
@@ -260,10 +255,6 @@ var FeedItem = (function () {
     var isOpen = !!opts.expandedOpen;
     var hasExpand = hasDetails(item);
     var thumb = imageHtml(item, opts.creditByUrl);
-    var cat = (item.category || '').toLowerCase();
-    var confirm = item.confirmation_status && CONFIRM_CATEGORIES[cat]
-      ? '<span class="pill" style="color:var(--text);border-color:var(--border2);background:var(--bg1);">' + esc(item.confirmation_status) + '</span>'
-      : '';
     var flagged = !!(opts.flag && typeof FlagStore !== 'undefined' && FlagStore.isFlagged(item));
 
     return (
@@ -280,7 +271,6 @@ var FeedItem = (function () {
         '<div class="feed-card-body">' +
           '<div class="feed-card-top">' +
             '<span class="' + pillClass(item.category) + '">' + esc(item.category || 'social') + '</span>' +
-            confirm +
             sevDots(item.severity) +
             '<span class="feed-time">' + Util.fmtTime(item.created_at) + '</span>' +
             (opts.flag ? '<span class="feed-card-controls">' + flagBtnHtml(flagged) +

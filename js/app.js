@@ -105,7 +105,7 @@
   function buildBadges(r) {
     var tags = (r.tags || '').split(';').map(function (s) { return s.trim(); }).filter(Boolean);
     var colors = (r.badge_colors || '').split(';').map(function (s) { return s.trim(); });
-    return tags.map(function (t, i) { return [t, colors[i] || 'blue']; });
+    return tags.map(function (t, i) { return [t, colors[i] || 'quiet']; });
   }
 
   // Parse the various date string shapes used across the data
@@ -129,7 +129,6 @@
       dateMs:    parseDateMs(r.date),
       title:     r.incident_title,
       date:      r.date,
-      confirmed: r.confirmed === 'TRUE' || r.confirmed === 'true',
       from: {
         lat:   parseFloat(r.origin_lat),
         lng:   parseFloat(r.origin_lng),
@@ -425,7 +424,7 @@
 
     // Icon builders
     function buildMapIcon(inc, isSelected, isDimmed) {
-      var st = STRIKE_TYPES[inc.type] || STRIKE_TYPES.missile;
+      var st = STRIKE_TYPES[inc.type] || STRIKE_TYPE_FALLBACK;
       var sz = isSelected ? 18 : 13;
       // Animate only the newest visible events relative to the playback head.
       var RECENT_MS = 10 * 24 * 60 * 60 * 1000; // ~10 days
@@ -444,7 +443,7 @@
 
     function buildListIcon(type, sz) {
       sz = sz || 16;
-      var st = STRIKE_TYPES[type] || STRIKE_TYPES.missile;
+      var st = STRIKE_TYPES[type] || STRIKE_TYPE_FALLBACK;
       return '<svg width="' + sz + '" height="' + sz + '" viewBox="0 0 ' + sz + ' ' + sz + '"><circle cx="' + sz/2 + '" cy="' + sz/2 + '" r="' + (sz/2-1) + '" fill="' + st.bgFill + '" fill-opacity="0.9" stroke="' + st.color + '" stroke-width="1.5"/>' + st.getSVG(sz, st.color) + '</svg>';
     }
 
@@ -457,7 +456,7 @@
       var op = OPS[inc.op] || {};
       var opColor = op.color || '#fff';
       var isDash = !!op.dashed;
-      var st = STRIKE_TYPES[inc.type] || STRIKE_TYPES.missile;
+      var st = STRIKE_TYPES[inc.type] || STRIKE_TYPE_FALLBACK;
       var isSelected = inc.id === selectedId;
       var isDimmed = selectedId && !isSelected;
 
@@ -468,7 +467,7 @@
       var targetIcon = L.divIcon({ html: buildMapIcon(inc, isSelected, isDimmed), iconSize:[sz,sz], iconAnchor:[sz/2,sz/2], className:'' });
       var targetMark = L.marker(t, { icon: targetIcon, zIndexOffset: isSelected?200:100 });
       targetMark.on('click', function () { selectIncident(inc.id); });
-      targetMark.bindTooltip('<div class="map-tooltip-inner"><b>'+inc.title+'</b><span class="tt-date">'+inc.date+'</span><span class="tt-conf" style="background:'+st.color+'22;color:'+st.color+';border:1px solid '+st.color+'44;">'+st.label.toUpperCase()+'</span></div>', { sticky: true });
+      targetMark.bindTooltip('<div class="map-tooltip-inner"><b>'+inc.title+'</b><span class="tt-date">'+inc.date+'</span><span class="tt-type" style="background:'+st.color+'22;color:'+st.color+';border:1px solid '+st.color+'44;">'+st.label.toUpperCase()+'</span></div>', { sticky: true });
 
       if (!hasOrigin) {
         return L.layerGroup([targetMark]);
@@ -564,7 +563,7 @@
       var frag = document.createDocumentFragment();
       visible.slice().sort(function (a,b) { return b.timeVal-a.timeVal; }).forEach(function (inc) {
         var op = OPS[inc.op] || {}, col = op.color || '#fff';
-        var st = STRIKE_TYPES[inc.type] || STRIKE_TYPES.missile;
+        var st = STRIKE_TYPES[inc.type] || STRIKE_TYPE_FALLBACK;
         var d = document.createElement('div');
         d.className = 'inc-item' + (selectedId===inc.id?' selected':'');
         d.style.borderLeftColor = col;
@@ -591,7 +590,7 @@
       $detPlaceholder.style.display='none'; $detContent.style.display='block';
 
       var op = OPS[inc.op] || {}, col = op.color || '#fff';
-      var st = STRIKE_TYPES[inc.type] || STRIKE_TYPES.missile;
+      var st = STRIKE_TYPES[inc.type] || STRIKE_TYPE_FALLBACK;
       var badgeHTML = (inc.badges||[]).map(function (b) { return badge(b[0],b[1]); }).join('');
       var intelRows = (inc.intel||[]).map(function (r) { return '<div class="drow"><div class="drow-k">'+r.k+'</div><div class="drow-v '+(r.hi?'hi':'')+' '+(r.cls||'')+'">'+r.v+'</div></div>'; }).join('');
       var srcHTML = (inc.sources||[]).map(function (s) { var nameHTML = s.u ? '<a class="source-link" href="'+s.u+'" target="_blank" rel="noopener noreferrer">'+s.n+'</a>' : s.n; return '<div class="source-item"><div class="source-name">'+nameHTML+'</div><div class="source-type">'+s.t+'</div></div>'; }).join('');
@@ -607,7 +606,7 @@
       }).join('');
 
       $detContent.innerHTML =
-        '<div class="det-hero"><div style="display:flex;align-items:center;gap:6px;margin-bottom:7px;flex-wrap:wrap;"><div class="det-op-tag" style="background:'+col+'22;color:'+col+';border:1px solid '+col+'44;">'+(op.name||inc.op)+'</div>'+opCtags+'</div><div class="det-title">'+inc.title+'</div><div class="det-date">'+inc.date+'</div><div class="det-conf-row">'+buildListIcon(inc.type,14)+'<span style="font-size:9px;font-weight:700;letter-spacing:1px;color:'+st.color+';text-transform:uppercase;">'+st.label+'</span>'+(inc.confirmed?'<span style="font-size:8px;color:var(--green);font-weight:700;letter-spacing:1px;margin-left:4px;">\u25CF CONFIRMED</span>':'<span style="font-size:8px;color:var(--gold);font-weight:700;letter-spacing:1px;margin-left:4px;">\u25D1 REPORTED</span>')+'</div><div class="det-badges">'+badgeHTML+'</div></div>'
+        '<div class="det-hero"><div style="display:flex;align-items:center;gap:6px;margin-bottom:7px;flex-wrap:wrap;"><div class="det-op-tag" style="background:'+col+'22;color:'+col+';border:1px solid '+col+'44;">'+(op.name||inc.op)+'</div>'+opCtags+'</div><div class="det-title">'+inc.title+'</div><div class="det-date">'+inc.date+'</div><div class="det-type-row">'+buildListIcon(inc.type,14)+'<span style="font-size:9px;font-weight:700;letter-spacing:1px;color:'+st.color+';text-transform:uppercase;">'+st.label+'</span></div><div class="det-badges">'+badgeHTML+'</div></div>'
         + '<div class="det-tabs"><div class="det-tab active" data-tab="tab-summary">Summary</div><div class="det-tab" data-tab="tab-intel">Intel</div>'+imgTabBtn+'<div class="det-tab" data-tab="tab-assess">Assessment</div><div class="det-tab" data-tab="tab-sources">Sources</div></div>'
         + '<div id="tab-summary" class="det-tab-body active"><div class="route-strip"><div class="route-from"><div class="route-label">Origin</div><div class="route-val">'+inc.from.label+'</div><div class="route-label" style="margin-top:1px;">'+inc.from.sub+'</div></div><div class="route-arrow">\u2192</div><div class="route-to"><div class="route-label">Target</div><div class="route-val" style="color:var(--accent2);">'+inc.to.label+'</div><div class="route-label" style="margin-top:1px;">'+inc.to.sub+'</div></div></div><div class="assessment"><div class="assessment-body">'+inc.summary+'</div></div></div>'
         + '<div id="tab-intel" class="det-tab-body">'+intelRows+'</div>'
@@ -894,7 +893,7 @@
       var html = '';
       [items, items].forEach(function (arr) {
         arr.forEach(function (t) {
-          var cat = TWEET_CATEGORIES[t.category] || { color: '#8fa0b8' };
+          var cat = TWEET_CATEGORIES[t.category] || { color: MARK_COOL };
           var text = (t.summary || t.text).substring(0, 100).replace(/BREAKING:\s*/,'');
           html += '<div class="ticker-item" data-tid="' + (t.created_at || '') + '">'
             + '<span class="ticker-dot" style="background:' + cat.color + ';"></span>'
@@ -947,10 +946,12 @@
       });
 
       // Sentiment toggles
+      // Same two-hue rule as the marks: escalation is the only one that gets
+      // the alarm colour, the rest stay neutral.
       var sentiments = [
-        { k: 'escalatory',    label: 'Escalate', color: '#c62828' },
-        { k: 'de-escalatory', label: 'De-Escal.', color: '#2e7d32' },
-        { k: 'neutral',       label: 'Neutral',  color: '#546e7a' },
+        { k: 'escalatory',    label: 'Escalate', color: MARK_HOT },
+        { k: 'de-escalatory', label: 'De-Escal.', color: MARK_COOL },
+        { k: 'neutral',       label: 'Neutral',  color: MARK_COOL },
       ];
       sentiments.forEach(function (s) {
         var on = activeSentiments.has(s.k);
@@ -980,7 +981,7 @@
       }
       var frag = document.createDocumentFragment();
       visible.forEach(function (t) {
-        var cat = TWEET_CATEGORIES[t.category] || { color: '#8fa0b8', label: '' };
+        var cat = TWEET_CATEGORIES[t.category] || { color: MARK_COOL, label: '' };
         var d = document.createElement('div');
         d.className = 'tweet-item' + (t.is_breaking ? ' breaking' : '');
         d.style.borderLeftColor = cat.color;
@@ -1009,7 +1010,7 @@
     }
 
     function showTweetDetail(t) {
-      var cat = TWEET_CATEGORIES[t.category] || { color: '#8fa0b8', label: t.category || 'Intel' };
+      var cat = TWEET_CATEGORIES[t.category] || { color: MARK_COOL, label: t.category || 'Intel' };
       $detPlaceholder.style.display = 'none';
       $detContent.style.display = 'block';
       var countries = t.countries.map(function (c) {
@@ -1045,7 +1046,7 @@
       TWEETS.filter(function (t) {
         return isTweetVisible(t) && t.lat !== null && t.lng !== null;
       }).forEach(function (t) {
-        var cat = TWEET_CATEGORIES[t.category] || { color: '#8fa0b8' };
+        var cat = TWEET_CATEGORIES[t.category] || { color: MARK_COOL };
         var c = cat.color;
         // Speech bubble icon
         var svg = '<svg width="18" height="18" viewBox="0 0 18 18">'
