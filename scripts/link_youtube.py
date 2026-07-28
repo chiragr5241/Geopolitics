@@ -27,6 +27,13 @@ Scoring (a video must clear MIN_SCORE):
     -2  the video predates the story's earliest interest by years
 Ties break toward the more recent video.
 
+Scoring is a filter, not the verdict. It narrows thousands of videos to a few
+candidates; `review_youtube_links.py` then has the agent read each one and
+decide whether it is actually ABOUT the story, which is the part no keyword rule
+can do. Videos rejected there are remembered in data/youtube_review.csv and are
+never proposed again — necessary precisely because this matcher is retroactive
+and would otherwise re-add them every single run.
+
 Per-story source selection is honoured exactly as everywhere else: a channel
 the user deselected contributes nothing, and one they re-select is picked up on
 the next run (retroactively, since the whole archive is rescored).
@@ -47,6 +54,7 @@ from source_registry import load_sources, story_sources, categories_of  # noqa: 
 from story_dedup import build_index, is_fuzzy_dup, note_accepted        # noqa: E402
 from add_story_update import header_matches, backfill_sources           # noqa: E402
 from pull_youtube import load_videos                                    # noqa: E402
+from review_youtube_links import rejected_pairs                         # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 WATCHLIST_JSON = os.path.join(ROOT, 'data', 'watchlist.json')
@@ -348,11 +356,13 @@ def main():
 
     existing_rows, existing_keys, video_counts = load_existing_updates()
     fuzzy_index = build_index(existing_rows)
+    rejected = rejected_pairs()
     now_iso = datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
 
     new_rows = []
     per_story = {}
     skipped_deselected = {}
+    skipped_rejected = {}
 
     for story in stories:
         sid = story['story_id']
@@ -362,7 +372,11 @@ def main():
             continue
 
         ranked = []
+        rejected_here = 0
         for v in videos:
+            if (sid, v.get('url', '')) in rejected:
+                rejected_here += 1
+                continue
             src = v.get('source_id') or ''
             if src in excluded:
                 skipped_deselected[sid] = skipped_deselected.get(sid, 0) + 1
@@ -373,6 +387,9 @@ def main():
             score, why = score_video(v, story, src in core_ids, kw_counts, kw_total)
             if score >= MIN_SCORE:
                 ranked.append((score, v.get('published_at', ''), v, why))
+
+        if rejected_here:
+            skipped_rejected[sid] = rejected_here
 
         # Best score first; among equals, the most recent video.
         ranked.sort(key=lambda t: (t[0], t[1]), reverse=True)
@@ -424,6 +441,8 @@ def main():
             print(f'      [{score:2d}] {title}' + (f'   ({", ".join(why[:4])})' if verbose else ''))
     for sid, n in skipped_deselected.items():
         print(f'  {sid}: {n} video(s) skipped — their channel is deselected for this story')
+    for sid, n in skipped_rejected.items():
+        print(f'  {sid}: {n} video(s) skipped — rejected by an earlier review')
 
     if not new_rows:
         print('No new matches.')
