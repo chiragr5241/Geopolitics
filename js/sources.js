@@ -293,15 +293,35 @@ var SourcePicker = (function () {
     });
   }
 
+  // Does this chip match the search box? Word-start matching, not raw
+  // substring: plain `indexOf` made "AP" match "Geogr-ap-hy" and "C-ap-tain
+  // Disillusion", which is not what anyone typing "AP" means. A query with a
+  // space in it is treated as a phrase instead, so "new york" still works.
+  function chipMatches(hay, q) {
+    if (!q) return true;
+    if (q.indexOf(' ') !== -1) return hay.indexOf(q) !== -1;
+    var tokens = hay.split(/[^a-z0-9.+&'’-]+/);
+    for (var i = 0; i < tokens.length; i++) {
+      if (tokens[i] && tokens[i].indexOf(q) === 0) return true;
+    }
+    return false;
+  }
+
   function chipHtml(row, on) {
     var extra = SourceRegistry.categoriesOf(row).slice(1);
     var tip = [row.perspective, row.domain,
                extra.length ? 'also in: ' + extra.join(', ') : '']
       .filter(Boolean).join(' · ');
+    // Everything the filter should be able to match on. Searching by name
+    // alone would miss "AP", "SCMP", "spacenews.com" and "youtube" — the terms
+    // people actually reach for.
+    var hay = [row.name, row.aliases, row.category, row.domain, row.source_id]
+      .filter(Boolean).join(' ').toLowerCase();
     return (
       '<button type="button" class="source-chip' + (on ? ' on' : '') +
         (SourceRegistry.isVideo(row) ? ' video' : '') + '" ' +
         'data-src="' + esc(row.source_id) + '" data-on="' + (on ? '1' : '0') + '" ' +
+        'data-search="' + esc(hay) + '" ' +
         'title="' + esc(tip) + '">' +
         '<span class="source-chip-tick" aria-hidden="true"></span>' +
         esc(row.name) +
@@ -394,10 +414,11 @@ var SourcePicker = (function () {
     var body =
       '<div class="source-picker-body"' + (opts.compact ? ' hidden' : '') + '>' +
         '<div class="source-picker-tools">' +
-          '<input type="text" class="source-filter" data-sp="filter" placeholder="Filter sources…" autocomplete="off">' +
+          '<input type="text" class="source-filter" data-sp="filter" placeholder="Search sources…" autocomplete="off">' +
           '<button type="button" class="tracker-btn" data-sp="all">Select all</button>' +
           '<button type="button" class="tracker-btn" data-sp="none">Clear all</button>' +
         '</div>' +
+        '<div class="source-search-note" hidden></div>' +
         '<div class="source-groups">' +
           SourceRegistry.grouped(rows).map(function (g) {
             return groupHtml(g, excluded);
@@ -601,21 +622,35 @@ var SourcePicker = (function () {
 
     var filter = picker.querySelector('[data-sp="filter"]');
     if (filter) {
+      // Searching is a plain search: type, and you get the matching sources as
+      // one flat list of tags with their on/off state — not categories opening
+      // and closing around you. The chips stay where they are in the DOM (so
+      // read() is unaffected); `.searching` hides the group chrome so what's
+      // left reads as a single list.
       filter.addEventListener('input', function () {
         var q = filter.value.trim().toLowerCase();
+        var total = 0;
+        picker.classList.toggle('searching', !!q);
         picker.querySelectorAll('.source-group').forEach(function (g) {
           var shown = 0;
           g.querySelectorAll('.source-chip').forEach(function (c) {
-            var hit = !q || c.textContent.toLowerCase().indexOf(q) !== -1;
+            var hit = chipMatches(c.dataset.search || '', q);
             c.hidden = !hit;
             if (hit) shown++;
           });
-          // A search should reveal its hits — open groups that match, hide
-          // groups that don't, and restore the collapsed default when cleared.
           g.hidden = !!q && shown === 0;
-          if (q) openGroup(g, shown > 0);
-          else openGroup(g, false);
+          // While searching every surviving group is open, so the matches are
+          // simply visible; clearing restores the collapsed default.
+          openGroup(g, !!q && shown > 0);
+          total += shown;
         });
+        var note = picker.querySelector('.source-search-note');
+        if (note) {
+          note.hidden = !q;
+          note.textContent = total === 1 ? '1 source matches'
+            : total + ' sources match';
+          note.classList.toggle('empty', q && total === 0);
+        }
       });
       filter.addEventListener('keydown', function (e) {
         if (e.key === 'Enter') e.preventDefault();

@@ -161,6 +161,41 @@ def rarity_bonus(word, counts, total):
     return 0
 
 
+# Sponsor blocks, merch plugs and link dumps make up much of a typical
+# description and say nothing about the video's subject. Matching against them
+# only produces false hits.
+_PROMO_RE = re.compile(
+    r'https?://\S+'
+    r'|\b(?:subscribe|patreon|merch|sponsor(?:ed|ship)?|promo\s*code|coupon|discount'
+    r'|use\s+code|sign\s+up|newsletter|follow\s+me|follow\s+us|my\s+shirt'
+    r'|get\s+(?:my|the|yours)|check\s+out|affiliate|shop\s+now|link\s+in\s+(?:bio|description))\b'
+    r'[^.\n]*', re.IGNORECASE)
+
+
+def match_text(video):
+    """The part of a video that actually describes its subject."""
+    desc = _PROMO_RE.sub(' ', video.get('description') or '')
+    return (desc + ' ' + (video.get('keywords') or '')).lower()
+
+
+_KW_RE_CACHE = {}
+
+
+def kw_in(keyword, text):
+    """Whole-word keyword test.
+
+    Plain substring matching put "Why isn't Michigan, Wisconsin, Indiana..." on
+    the Indian Politics story, because "india" is inside "Indiana". A trailing
+    plural/possessive still counts ("strike" matches "strikes", "Iran" matches
+    "Iran's") but an arbitrary continuation does not.
+    """
+    rx = _KW_RE_CACHE.get(keyword)
+    if rx is None:
+        rx = re.compile(r'\b' + re.escape(keyword) + r"(?:s|'s|’s)?\b")
+        _KW_RE_CACHE[keyword] = rx
+    return bool(rx.search(text))
+
+
 def score_video(video, story, core_channel, counts=None, total=1):
     keywords = story_keywords(story)
     countries = {c.upper() for c in ((story.get('seed') or {}).get('countries') or [])}
@@ -168,19 +203,20 @@ def score_video(video, story, core_channel, counts=None, total=1):
         return 0, []
 
     title = (video.get('title') or '').lower()
-    body = ((video.get('description') or '') + ' ' +
-            (video.get('keywords') or '')).lower()
+    body = match_text(video)
 
-    score, why, kw_hits = 0, [], 0
+    score, why = 0, []
+    strong = 0     # keyword in the TITLE — the title states the subject
+    weak = 0       # keyword somewhere in the body — could be a passing mention
     for kw in keywords:
         bonus = rarity_bonus(kw, counts or {}, total)
-        if kw in title:
+        if kw_in(kw, title):
             score += 3 + bonus
-            kw_hits += 1
+            strong += 1
             why.append(f'title:{kw}' + ('+' if bonus else ''))
-        elif kw in body:
+        elif kw_in(kw, body):
             score += 2 + bonus
-            kw_hits += 1
+            weak += 1
             why.append(f'body:{kw}' + ('+' if bonus else ''))
 
     vid_countries = {c.strip().upper()
@@ -190,11 +226,19 @@ def score_video(video, story, core_channel, counts=None, total=1):
         score += 2
         why.append('country:' + ','.join(sorted(countries & vid_countries)))
 
-    # Two independent signals, or it's a coincidence. One keyword on its own
-    # matched "Mayor warns of possible Bordeaux evacuation" to a story about the
-    # mayor of New York — the word was shared, the subject was not. The channel
-    # being on-topic is NOT a second signal; most of them are.
-    if kw_hits < 2 and not (kw_hits and country_hit):
+    # Aboutness test. A title keyword is strong evidence — that is what the
+    # video says it is about. A body keyword is weak: it can be one clause deep
+    # in a 1500-character description.
+    #
+    # Country is NOT admissible as the second signal. "America Has No Good
+    # Options Left in Iran" landed on the US midterms story because "midterm"
+    # appeared once, in passing ("...why the coming 2026 midterm elections may
+    # shape Iran's strategy..."), and the video is US-tagged — which nearly
+    # every US-desk video is. One passing mention plus a near-free country match
+    # is not aboutness.
+    #
+    # So: one title hit, or two DIFFERENT keywords in the body.
+    if strong < 1 and weak < 2:
         return 0, []
 
     if core_channel:
@@ -212,9 +256,71 @@ def score_video(video, story, core_channel, counts=None, total=1):
     return score, why
 
 
+def prune(dry_run=False):
+    """Drop video beats that no longer clear the bar.
+
+    Scoring gets tightened when a bad match shows up (that is how the aboutness
+    test above came to exist), and rows written under the older, looser rule
+    stay on the timelines until something removes them. This re-scores every
+    `origin=youtube` row against the CURRENT rules and rewrites the file
+    without the ones that fail. Only ever touches origin=youtube rows — curated
+    beats and feed-derived beats are never in scope.
+    """
+    if not os.path.exists(STORY_UPDATES_CSV):
+        print('No story_updates.csv.')
+        return
+    with open(STORY_UPDATES_CSV, newline='', encoding='utf-8') as f:
+        rows = list(csv.DictReader(f))
+
+    videos = {v['url']: v for v in load_videos()}
+    counts, total = keyword_rarity(list(videos.values()))
+    registry = {r['source_id']: r for r in load_sources()}
+    core_ids = {sid for sid, r in registry.items()
+                if any(w in c for c in categories_of(r) for w in CORE_TOPIC_WORDS)}
+    stories = {s['story_id']: s for s in load_watchlist().get('stories', [])}
+
+    keep, dropped = [], []
+    for r in rows:
+        if r.get('origin') != 'youtube':
+            keep.append(r)
+            continue
+        video = videos.get(r.get('url', ''))
+        story = stories.get(r.get('story_id'))
+        if not video or not story:
+            # The video left the archive or the story is gone — nothing to
+            # re-score against, so leave the row alone rather than guess.
+            keep.append(r)
+            continue
+        score, _ = score_video(video, story, r.get('source_id') in core_ids, counts, total)
+        if score >= MIN_SCORE:
+            keep.append(r)
+        else:
+            dropped.append((r, score))
+
+    print(f'Video beats re-scored: {sum(1 for r in rows if r.get("origin") == "youtube")}')
+    print(f'Dropping {len(dropped)} that no longer qualify:')
+    for r, score in dropped:
+        print(f'  [{score:2d}] {r["story_id"]}  {r["headline"][:64]}')
+    if not dropped:
+        return
+    if dry_run:
+        print('Dry run — no changes written.')
+        return
+    with open(STORY_UPDATES_CSV, 'w', newline='', encoding='utf-8') as f:
+        w = csv.DictWriter(f, fieldnames=STORY_UPDATE_COLUMNS, quoting=csv.QUOTE_ALL)
+        w.writeheader()
+        for r in keep:
+            w.writerow({k: r.get(k, '') for k in STORY_UPDATE_COLUMNS})
+    print(f'Rewrote story_updates.csv without {len(dropped)} row(s).')
+
+
 def main():
     dry_run = '--dry-run' in sys.argv
     verbose = '--verbose' in sys.argv
+
+    if '--prune' in sys.argv:
+        prune(dry_run=dry_run)
+        return
     only_story = None
     if '--story' in sys.argv:
         i = sys.argv.index('--story')

@@ -1828,3 +1828,25 @@ a.source-badge:hover { border-color: var(--accent); }
   content: '▶ ';
   letter-spacing: 0;
 }
+
+/* ── Source picker: search mode ──────────────────────────────────────
+   Typing in the search box turns the grouped list into a plain flat list of
+   matching tags. The chips keep their place in the DOM (so reading the
+   selection back is unaffected) — the group chrome just gets out of the way,
+   which is what makes it read as one list of results rather than eighteen
+   categories opening and closing. */
+.source-picker.searching .source-group-head { display: none; }
+.source-picker.searching .source-group + .source-group { border-top: none; }
+.source-picker.searching .source-group .source-chips { padding: 0 10px; }
+.source-picker.searching .source-groups { padding: 8px 0; }
+/* Select all / Clear all act on the visible matches while searching, so the
+   pair reads as "select everything I just searched for". */
+.source-picker.searching .source-group:first-child .source-chips { padding-top: 2px; }
+
+.source-search-note {
+  margin: -2px 0 8px;
+  font-size: 11px;
+  color: var(--text2);
+  opacity: .7;
+}
+.source-search-note.empty { color: var(--accent2); opacity: 1; }
