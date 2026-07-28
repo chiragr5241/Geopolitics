@@ -15,15 +15,20 @@ data/sources.csv is now the single list. Columns:
   source_id       stable slug, the id stories and updates refer to
   name            canonical display name
   aliases         ';'-separated alternate names/abbreviations (AP, NYT, SCMP…)
-  kind            rss | gdelt | social | web
+  category        ';'-separated grouping, primary first. Everything that isn't
+                  a video channel is 'Official news channels'; YouTube channels
+                  are 'YouTube: <topic>' and often carry several topics.
+  kind            rss | gdelt | social | web | youtube
                     rss/gdelt/social = pull_wires.py / pull_spectator.py fetch it
                     web              = agent WebSearch only (no feed adapter)
+                    youtube          = pull_youtube.py fetches the channel feed
   domain          primary domain — also used to resolve a URL back to a source
-  feed_url        rss only
+  handle          youtube only — the @handle used to resolve the channel id
+  feed_url        rss, and youtube once its channel id has been resolved
   query           gdelt only (the DOC 2.0 query string)
   perspective     the framing label the feed already shows (western-uk, russia…)
   source_country  ISO-2 (or UN) of the reporting country
-  scope           wire (auto-pulled) | research (WebSearch)
+  scope           wire (auto-pulled) | research (WebSearch) | video (see below)
   status          active | unverified | not_found | retired
                     unverified = a user typed it, the routine hasn't checked yet
                     not_found  = the routine looked and no such outlet exists
@@ -31,6 +36,13 @@ data/sources.csv is now the single list. Columns:
                     NOTE: "the outlet exists but published nothing" is NOT a
                     status — that is normal and is reported via last_ok_at /
                     last_items, never as a failure.
+
+`scope=video` sources (the YouTube channels) are ordinary sources in every way
+— they appear in the picker, obey per-story selection, and can be corrected or
+flagged — with ONE difference: their items never enter data/intel_feed.csv, so
+they never show up on the Feed page. They reach the site only by being matched
+onto a tracked story (scripts/link_youtube.py → story_updates.csv), which is
+what "hidden unless it is part of a story" means in practice.
   corrected_from  what the user actually typed, when we corrected a misspelling
   last_ok_at      last time this source yielded anything (any story)
   last_items      how many it yielded that time
@@ -47,7 +59,8 @@ Library use:
 CLI (from project root):
     python3 scripts/source_registry.py --list [--kind rss] [--json]
     python3 scripts/source_registry.py --resolve "Kiyv Independant"
-    python3 scripts/source_registry.py --for-story st-2026...   [--json]
+    python3 scripts/source_registry.py --for-story st-2026... [--scope wire,research]
+    python3 scripts/source_registry.py --for-story st-2026... --scope video
     python3 scripts/source_registry.py --pending                [--json]
     python3 scripts/source_registry.py --coverage [--story ID]  [--json]
     echo '[{"name":"Kyiv Post","status":"active","domain":"kyivpost.com"}]' \
@@ -71,13 +84,44 @@ WATCHLIST_JSON = os.path.join(DATA_DIR, 'watchlist.json')
 STORY_UPDATES_CSV = os.path.join(DATA_DIR, 'story_updates.csv')
 
 SOURCE_COLUMNS = [
-    'source_id', 'name', 'aliases', 'kind', 'domain', 'feed_url', 'query',
-    'perspective', 'source_country', 'scope', 'status', 'added_by', 'added_at',
-    'corrected_from', 'last_ok_at', 'last_items', 'notes',
+    'source_id', 'name', 'aliases', 'category', 'kind', 'domain', 'handle',
+    'feed_url', 'query', 'perspective', 'source_country', 'scope', 'status',
+    'added_by', 'added_at', 'corrected_from', 'last_ok_at', 'last_items', 'notes',
 ]
 
 VALID_STATUS = {'active', 'unverified', 'not_found', 'retired'}
 USABLE_STATUS = {'active', 'unverified'}   # unverified is still worth trying
+
+# ── Categories ───────────────────────────────────────────────────────────── #
+# `category` is ';'-separated because a channel legitimately belongs to several
+# topics (CaspianReport is geopolitics AND geography; Quanta is maths AND
+# physics AND science). The first entry is the primary one — that's the group
+# the picker files it under; the rest make it findable from the others.
+OFFICIAL = 'Official news channels'
+YOUTUBE_PREFIX = 'YouTube: '
+
+
+def categories_of(row):
+    return [c.strip() for c in (row.get('category') or '').split(';') if c.strip()]
+
+
+def primary_category(row):
+    cats = categories_of(row)
+    return cats[0] if cats else OFFICIAL
+
+
+def all_categories(rows=None):
+    """Every category in use, official first then the YouTube topics A–Z —
+    the order the picker groups them in."""
+    rows = load_sources() if rows is None else rows
+    seen = []
+    for r in rows:
+        for c in categories_of(r):
+            if c not in seen:
+                seen.append(c)
+    official = [c for c in seen if not c.startswith(YOUTUBE_PREFIX)]
+    youtube = sorted(c for c in seen if c.startswith(YOUTUBE_PREFIX))
+    return official + youtube
 
 # Fuzzy threshold. High enough that "Kyiv Post" never resolves to "Kyiv
 # Independent", low enough to absorb a transposed letter or a dropped vowel.
@@ -117,6 +161,11 @@ def load_sources(path=SOURCES_CSV):
     for r in rows:
         for col in SOURCE_COLUMNS:
             r.setdefault(col, '')
+        # A row written before categories existed is, by definition, one of the
+        # original outlets — file it under the official group rather than
+        # leaving it uncategorised and invisible to a grouped picker.
+        if not r['category']:
+            r['category'] = OFFICIAL
     return rows
 
 
@@ -297,10 +346,18 @@ def upsert(entry, rows=None):
             have = {normalize(a) for a in aliases_of(row)} | {normalize(row['name'])}
             merged = aliases_of(row) + [a for a in extra if normalize(a) not in have]
             row['aliases'] = ';'.join(merged)
-        for col in ('kind', 'domain', 'feed_url', 'query', 'perspective',
+        for col in ('kind', 'domain', 'handle', 'feed_url', 'query', 'perspective',
                     'source_country', 'scope', 'status', 'notes'):
             if entry.get(col):
                 row[col] = entry[col]
+        # Categories merge rather than replace — a channel that turns up in a
+        # second topic list belongs to both.
+        if entry.get('category'):
+            have = categories_of(row)
+            for c in categories_of(entry):
+                if c not in have:
+                    have.append(c)
+            row['category'] = ';'.join(have)
     else:
         created = True
         row = {c: '' for c in SOURCE_COLUMNS}
@@ -310,8 +367,10 @@ def upsert(entry, rows=None):
             'aliases': ';'.join(
                 [a for a in [entry.get('corrected_from'), entry.get('alias')] if a] +
                 [a.strip() for a in (entry.get('aliases') or '').split(';') if a.strip()]),
+            'category': entry.get('category') or OFFICIAL,
             'kind': entry.get('kind') or 'web',
             'domain': entry.get('domain', ''),
+            'handle': entry.get('handle', ''),
             'feed_url': entry.get('feed_url', ''),
             'query': entry.get('query', ''),
             'perspective': entry.get('perspective', ''),
@@ -369,19 +428,25 @@ def story_sources(story):
     }
 
 
-def effective_for_story(story, rows=None):
+def effective_for_story(story, rows=None, scope=None):
     """The sources the pipeline may use for this story, in priority order.
 
     Anything the user deselected is dropped — that is the whole contract of the
     timeline-header picker. Newly registered sources are INCLUDED unless
     excluded, so adding a source to the registry lights it up everywhere
     without touching 50 stories.
+
+    `scope` narrows to one kind of work: the story-tracker routine asks for
+    'wire,research' (the outlets it WebSearches) and the YouTube routine asks
+    for 'video'. Without it you get everything, which is what the picker wants.
     """
     rows = load_sources() if rows is None else rows
     sel = story_sources(story)
     excluded = set(sel['excluded'])
+    wanted = {s.strip() for s in scope.split(',')} if scope else None
     usable = [r for r in rows
-              if r['status'] in USABLE_STATUS and r['source_id'] not in excluded]
+              if r['status'] in USABLE_STATUS and r['source_id'] not in excluded
+              and (wanted is None or r.get('scope') in wanted)]
     # Explicitly selected ids lead, in the user's order; the rest follow.
     order = {sid: i for i, sid in enumerate(sel['selected'])}
     usable.sort(key=lambda r: (order.get(r['source_id'], 10_000), r['name'].lower()))
@@ -645,14 +710,14 @@ def main():
         if story is None:
             print(f'No such story: {sid}', file=sys.stderr)
             return 1
-        eff = effective_for_story(story, rows)
+        eff = effective_for_story(story, rows, scope=_arg('--scope'))
         if as_json:
             print(json.dumps(eff, indent=2))
         else:
             excl = story_sources(story)['excluded']
             print(f"{story.get('title','')}  — {len(eff)} sources in use")
             for r in eff:
-                print(f"  {r['source_id']:22s} {r['name']:28s} {r['kind']:7s} {r['scope']}")
+                print(f"  {r['source_id']:26s} {r['name']:32s} {r['kind']:8s} {r['scope']}")
             if excl:
                 print(f"  excluded by the user ({len(excl)}): {', '.join(excl)}")
         return 0

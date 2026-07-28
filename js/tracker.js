@@ -340,7 +340,7 @@
           beatThumb +
           '<div class="feed-card-body">' +
             '<div class="feed-card-top">' +
-              '<span class="origin-tag">' + esc(e.origin) + '</span>' +
+              '<span class="origin-tag origin-' + esc((e.origin || '').replace(/[^a-z0-9]+/gi, '-')) + '">' + esc(e.origin) + '</span>' +
               (e.status ? '<span class="pill" style="color:var(--text);border-color:var(--border2);background:var(--bg1);">' + esc(e.status) + '</span>' : '') +
               '<span class="feed-time">' + esc(e.date) + '</span>' +
             '</div>' +

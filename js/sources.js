@@ -79,6 +79,44 @@ var SourceRegistry = (function () {
       .filter(Boolean);
   }
 
+  /* ── Categories ──────────────────────────────────────────────────────
+     ';'-separated, primary first. A channel genuinely belongs to several
+     topics, but the picker files it under its PRIMARY one only — two chips
+     with the same data-src would double-count on read(). */
+
+  var OFFICIAL = 'Official news channels';
+  var YT_PREFIX = 'YouTube: ';
+
+  function categoriesOf(row) {
+    return String(row.category || '').split(';')
+      .map(function (c) { return c.trim(); })
+      .filter(Boolean);
+  }
+
+  function primaryCategory(row) {
+    return categoriesOf(row)[0] || OFFICIAL;
+  }
+
+  // Grouped for display: official first, then the YouTube topics A–Z.
+  function grouped(rows) {
+    var map = {}, order = [];
+    rows.forEach(function (r) {
+      var c = primaryCategory(r);
+      if (!map[c]) { map[c] = []; order.push(c); }
+      map[c].push(r);
+    });
+    var official = order.filter(function (c) { return c.indexOf(YT_PREFIX) !== 0; });
+    var youtube = order.filter(function (c) { return c.indexOf(YT_PREFIX) === 0; }).sort();
+    return official.concat(youtube).map(function (c) {
+      return { category: c, rows: map[c] };
+    });
+  }
+
+  // A video source is hidden from the Feed and only ever surfaces inside a
+  // story. Everything else about it — selection, correction, flagging — is
+  // identical to any other source.
+  function isVideo(row) { return (row && row.scope) === 'video'; }
+
   function init(sourceRows) {
     rows = (sourceRows || []).filter(function (r) { return r && r.source_id; });
     index = {};
@@ -227,6 +265,12 @@ var SourceRegistry = (function () {
     effectiveFor: effectiveFor,
     defaultSelection: defaultSelection,
     problemsIn: problemsIn,
+    categoriesOf: categoriesOf,
+    primaryCategory: primaryCategory,
+    grouped: grouped,
+    isVideo: isVideo,
+    OFFICIAL: OFFICIAL,
+    YT_PREFIX: YT_PREFIX,
   };
 })();
 
@@ -250,13 +294,46 @@ var SourcePicker = (function () {
   }
 
   function chipHtml(row, on) {
+    var extra = SourceRegistry.categoriesOf(row).slice(1);
+    var tip = [row.perspective, row.domain,
+               extra.length ? 'also in: ' + extra.join(', ') : '']
+      .filter(Boolean).join(' · ');
     return (
-      '<button type="button" class="source-chip' + (on ? ' on' : '') + '" ' +
+      '<button type="button" class="source-chip' + (on ? ' on' : '') +
+        (SourceRegistry.isVideo(row) ? ' video' : '') + '" ' +
         'data-src="' + esc(row.source_id) + '" data-on="' + (on ? '1' : '0') + '" ' +
-        'title="' + esc((row.perspective || '') + (row.domain ? ' · ' + row.domain : '')) + '">' +
+        'title="' + esc(tip) + '">' +
         '<span class="source-chip-tick" aria-hidden="true"></span>' +
         esc(row.name) +
       '</button>'
+    );
+  }
+
+  // One collapsible category. Collapsed by default — there are ~18 groups and
+  // 250+ sources, and the common case is "leave it alone", so the control
+  // should open at a summary rather than a wall of chips.
+  function groupHtml(group, excluded) {
+    var on = group.rows.filter(function (r) { return !excluded[r.source_id]; }).length;
+    var isYt = group.category.indexOf(SourceRegistry.YT_PREFIX) === 0;
+    var label = isYt ? group.category.slice(SourceRegistry.YT_PREFIX.length) : group.category;
+    return (
+      '<div class="source-group' + (isYt ? ' youtube' : '') + '" data-cat="' + esc(group.category) + '">' +
+        '<div class="source-group-head" data-sp="group">' +
+          '<span class="source-group-caret" aria-hidden="true">▸</span>' +
+          (isYt ? '<span class="source-group-badge">YouTube</span>' : '') +
+          '<span class="source-group-name">' + esc(label) + '</span>' +
+          '<span class="source-group-count"' +
+            (on < group.rows.length ? ' data-partial="1"' : '') + '>' +
+            on + '/' + group.rows.length + '</span>' +
+          '<span class="source-group-acts">' +
+            '<button type="button" class="source-group-btn" data-sp="gall">all</button>' +
+            '<button type="button" class="source-group-btn" data-sp="gnone">none</button>' +
+          '</span>' +
+        '</div>' +
+        '<div class="source-chips" hidden>' +
+          group.rows.map(function (r) { return chipHtml(r, !excluded[r.source_id]); }).join('') +
+        '</div>' +
+      '</div>'
     );
   }
 
@@ -321,8 +398,10 @@ var SourcePicker = (function () {
           '<button type="button" class="tracker-btn" data-sp="all">Select all</button>' +
           '<button type="button" class="tracker-btn" data-sp="none">Clear all</button>' +
         '</div>' +
-        '<div class="source-chips">' +
-          rows.map(function (r) { return chipHtml(r, !excluded[r.source_id]); }).join('') +
+        '<div class="source-groups">' +
+          SourceRegistry.grouped(rows).map(function (g) {
+            return groupHtml(g, excluded);
+          }).join('') +
         '</div>' +
         '<div class="source-add">' +
           '<input type="text" class="source-add-input" data-sp="new" ' +
@@ -369,6 +448,18 @@ var SourcePicker = (function () {
     chips.forEach(function (c) { if (c.dataset.on === '1') on++; });
     var count = picker.querySelector('.source-picker-count');
     if (count) count.innerHTML = '<strong>' + on + '</strong> of ' + chips.length + ' sources';
+
+    // Per-group counts, so a collapsed group still shows what's off inside it.
+    picker.querySelectorAll('.source-group').forEach(function (g) {
+      var inGroup = g.querySelectorAll('.source-chip');
+      var gOn = 0;
+      inGroup.forEach(function (c) { if (c.dataset.on === '1') gOn++; });
+      var el = g.querySelector('.source-group-count');
+      if (!el) return;
+      el.textContent = gOn + '/' + inGroup.length;
+      if (gOn < inGroup.length) el.dataset.partial = '1';
+      else delete el.dataset.partial;
+    });
     var problems = SourceRegistry.problemsIn(read(picker)).length;
     var flag = picker.querySelector('.source-flag');
     if (problems && !flag) {
@@ -397,6 +488,16 @@ var SourcePicker = (function () {
       if (onChange) onChange(read(picker));
     }
 
+    function openGroup(group, open) {
+      if (!group) return;
+      var chips = group.querySelector('.source-chips');
+      var caret = group.querySelector('.source-group-caret');
+      var show = (open === undefined) ? true : open;
+      if (show) chips.removeAttribute('hidden'); else chips.setAttribute('hidden', '');
+      group.classList.toggle('open', show);
+      if (caret) caret.textContent = show ? '▾' : '▸';
+    }
+
     function addTyped() {
       var input = picker.querySelector('[data-sp="new"]');
       var name = (input.value || '').trim();
@@ -415,6 +516,8 @@ var SourcePicker = (function () {
           chip.classList.add('on');
           chip.classList.add('flash');
           setTimeout(function () { chip.classList.remove('flash'); }, 1200);
+          // Open the group it lives in, or the user sees nothing happen.
+          openGroup(chip.closest('.source-group'));
           try { chip.scrollIntoView({ block: 'nearest' }); } catch (e) { /* noop */ }
         }
         if (res.status === 'corrected') {
@@ -463,6 +566,20 @@ var SourcePicker = (function () {
           c.classList.toggle('on', act === 'all');
         });
         changed();
+      } else if (act === 'gall' || act === 'gnone') {
+        e.preventDefault();
+        e.stopPropagation();                    // don't also toggle the group
+        var grp = btn.closest('.source-group');
+        grp.querySelectorAll('.source-chip').forEach(function (c) {
+          if (c.hidden) return;
+          c.dataset.on = act === 'gall' ? '1' : '0';
+          c.classList.toggle('on', act === 'gall');
+        });
+        changed();
+      } else if (act === 'group') {
+        e.preventDefault();
+        var g = btn.closest('.source-group');
+        openGroup(g, !g.classList.contains('open'));
       } else if (act === 'add') {
         e.preventDefault();
         addTyped();
@@ -486,8 +603,18 @@ var SourcePicker = (function () {
     if (filter) {
       filter.addEventListener('input', function () {
         var q = filter.value.trim().toLowerCase();
-        picker.querySelectorAll('.source-chip').forEach(function (c) {
-          c.hidden = !!q && c.textContent.toLowerCase().indexOf(q) === -1;
+        picker.querySelectorAll('.source-group').forEach(function (g) {
+          var shown = 0;
+          g.querySelectorAll('.source-chip').forEach(function (c) {
+            var hit = !q || c.textContent.toLowerCase().indexOf(q) !== -1;
+            c.hidden = !hit;
+            if (hit) shown++;
+          });
+          // A search should reveal its hits — open groups that match, hide
+          // groups that don't, and restore the collapsed default when cleared.
+          g.hidden = !!q && shown === 0;
+          if (q) openGroup(g, shown > 0);
+          else openGroup(g, false);
         });
       });
       filter.addEventListener('keydown', function (e) {
