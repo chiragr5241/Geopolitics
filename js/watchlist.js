@@ -80,7 +80,12 @@ var WatchlistStore = (function () {
     for (var k in base) { if (Object.prototype.hasOwnProperty.call(base, k)) out[k] = base[k]; }
     if (ov.title != null) out.title = ov.title;
     if (ov.image != null) out.image = ov.image;
-    if (ov.keywords) out.keywords = ov.keywords;
+    // An EMPTY override array is not an override — [] is truthy in JS, so the
+    // old check let a user who saved the edit box with the keywords field blank
+    // pin an empty list on top of the catalog's, which hides the routine's
+    // metadata enhancement and (via exportFile → import_watchlist.py) can wipe
+    // it from the shared catalog. Empty means "I didn't set this".
+    if (ov.keywords && ov.keywords.length) out.keywords = ov.keywords;
     if (ov.status) out.status = ov.status;
     if (ov.resolved_at !== undefined) out.resolved_at = ov.resolved_at;
     if (ov.notes != null) out.notes = ov.notes;
@@ -90,12 +95,12 @@ var WatchlistStore = (function () {
     // title: one user muting Al Jazeera on a story must not mute it for
     // everyone else following the same story.
     if (ov.sources) out.sources = ov.sources;
-    if (ov.text != null || ov.countries) {
+    if (ov.text != null || (ov.countries && ov.countries.length)) {
       var seed = {};
       var bs = base.seed || {};
       for (var j in bs) { if (Object.prototype.hasOwnProperty.call(bs, j)) seed[j] = bs[j]; }
       if (ov.text != null) seed.text = ov.text;
-      if (ov.countries) seed.countries = ov.countries;
+      if (ov.countries && ov.countries.length) seed.countries = ov.countries;
       out.seed = seed;
     }
     return out;
