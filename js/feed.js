@@ -184,14 +184,29 @@
     });
   }
 
+  // One-shot: a deep-linked item is centred once, on first paint. Re-renders
+  // from starring/flagging must NOT re-scroll (that's what yanked the page
+  // around on mobile), so this no-ops after the first successful scroll.
+  var didScrollToFocus = false;
+
   function scrollToFocus() {
-    if (!focusKey) return;
+    if (!focusKey || didScrollToFocus) return;
     var el = document.getElementById('feed-item-' + focusKey);
     if (!el) return;
-    // Wait a frame so layout is settled after the list paint.
-    requestAnimationFrame(function () {
-      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    });
+    didScrollToFocus = true;
+
+    // Instant, not smooth: lazy-loaded thumbnails ABOVE the target keep
+    // resolving after the first scroll, growing the page above it. A smooth
+    // animation is computed against the pre-load layout, so it finishes above
+    // the target ("jumps somewhere above it"). Jump instantly, then re-centre a
+    // few times as images settle so the target ends up dead-centre.
+    var center = function () {
+      var node = document.getElementById('feed-item-' + focusKey);
+      if (node) node.scrollIntoView({ behavior: 'auto', block: 'center' });
+    };
+    requestAnimationFrame(center);
+    [120, 350, 700].forEach(function (ms) { setTimeout(center, ms); });
+    window.addEventListener('load', center, { once: true });
   }
 
   function renderList() {
@@ -245,13 +260,22 @@
       });
     }
 
+    // Re-rendering the list replaces its innerHTML; on mobile that (plus any
+    // deep-link re-scroll) yanked the viewport to the top. Rebuild in place but
+    // pin the scroll position so the card stays put under the reader's thumb.
+    function rerenderKeepingScroll() {
+      var y = window.pageYOffset || document.documentElement.scrollTop || 0;
+      renderList();
+      window.scrollTo(0, y);
+    }
+
     wrap.querySelectorAll('[data-action="track"]').forEach(function (btn) {
       btn.addEventListener('click', function (e) {
         e.stopPropagation();
         var key = btn.closest('.feed-card').dataset.key;
         var item = FeedItem.findByKey(items, key);
         if (item) WatchlistStore.toggle(item);
-        renderList();
+        rerenderKeepingScroll();
       });
     });
     wrap.querySelectorAll('[data-action="flag"]').forEach(function (btn) {
@@ -261,14 +285,14 @@
         if (key) FlagStore.toggle(key);
         // The count in the filter bar moves with every flag.
         renderFilterBar();
-        renderList();
+        rerenderKeepingScroll();
       });
     });
     wrap.querySelectorAll('[data-action="toggle"]').forEach(function (el) {
       el.addEventListener('click', function () {
         var key = el.closest('.feed-card').dataset.key;
         if (expanded.has(key)) expanded.delete(key); else expanded.add(key);
-        renderList();
+        rerenderKeepingScroll();
       });
     });
 
@@ -276,6 +300,9 @@
   }
 
   DataLayer.loadFeed().then(function (data) {
+    // Sources before the store: tracking a story from here seeds its source
+    // selection from the registry (see WatchlistStore.buildStory).
+    SourceRegistry.init(data.sources);
     WatchlistStore.init(data.watchlist);
     (data.storyImages || []).forEach(function (r) {
       if (r && r.url) creditByUrl[r.url] = r.credit || '';

@@ -11,7 +11,13 @@ Reads one JSON object, or a JSON array of objects, from stdin. Each object:
       "date": "2026-07-03",                          (required, YYYY-MM-DD)
       "headline": "...",                              (required, <=140 chars)
       "summary": "...",                               (required)
-      "source_name": "Reuters",                       (required)
+      "source_name": "Reuters",                       (required — resolved
+                                                       against data/sources.csv:
+                                                       a misspelling is corrected
+                                                       and reported, an unknown
+                                                       name is kept but flagged,
+                                                       and a source the story
+                                                       deselected is rejected)
       "url": "https://...",                           (optional but recommended — used for dedup)
       "status": "developing",                         (optional: new|developing|confirmed|disputed|resolution; default "developing")
       "severity": "4",                                (optional)
@@ -35,6 +41,9 @@ Usage (from project root):
     cat updates.json | python3 scripts/add_story_update.py [--dry-run] [--no-fetch]
     python3 scripts/add_story_update.py --backfill-images [--dry-run]
         (fill the image column on existing beats that have a url but no image)
+    python3 scripts/add_story_update.py --backfill-sources [--dry-run]
+        (resolve existing beats' source_name to a registry source_id and
+         canonicalise the spelling; also migrates a pre-source_id CSV)
 """
 
 import csv
@@ -46,6 +55,8 @@ from datetime import datetime, timezone
 from urllib.request import urlopen, Request
 
 from story_dedup import build_index, is_fuzzy_dup, note_accepted
+from source_registry import (load_sources, resolve, story_sources,
+                             record_fetch, save_sources)
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 WATCHLIST_JSON = os.path.join(ROOT, 'data', 'watchlist.json')
@@ -54,6 +65,7 @@ STORY_UPDATES_CSV = os.path.join(ROOT, 'data', 'story_updates.csv')
 STORY_UPDATE_COLUMNS = [
     'story_id', 'update_id', 'date', 'headline', 'summary',
     'source_name', 'url', 'status', 'severity', 'origin', 'found_at', 'image',
+    'source_id',
 ]
 VALID_STATUS = {'new', 'developing', 'confirmed', 'disputed', 'resolution'}
 REQUIRED_FIELDS = ('story_id', 'date', 'headline', 'summary', 'source_name')
@@ -108,6 +120,15 @@ def load_story_ids():
     return {s['story_id'] for s in doc.get('stories', [])}
 
 
+def load_stories():
+    """story_id → story record, for the per-story source selection."""
+    if not os.path.exists(WATCHLIST_JSON):
+        return {}
+    with open(WATCHLIST_JSON, encoding='utf-8') as f:
+        doc = json.load(f)
+    return {s['story_id']: s for s in doc.get('stories', []) if s.get('story_id')}
+
+
 def load_existing():
     if not os.path.exists(STORY_UPDATES_CSV):
         return [], set()
@@ -145,6 +166,66 @@ def validate(item):
     if status not in VALID_STATUS:
         return f'invalid status {status!r}, must be one of {sorted(VALID_STATUS)}'
     return None
+
+
+def backfill_sources(dry_run=False):
+    """Give every already-recorded beat a `source_id`, resolving its free-text
+    `source_name` through the registry — and canonicalise the spelling while
+    we're there ("Reuters (via Internazionale)" → Reuters). Idempotent: rows
+    that already carry a source_id are left alone.
+
+    Also what migrates the CSV when the `source_id` column is new: the writer
+    below refuses to append until the header matches, so this runs first.
+    """
+    if not os.path.exists(STORY_UPDATES_CSV):
+        print('No story_updates.csv — nothing to backfill.')
+        return
+    with open(STORY_UPDATES_CSV, newline='', encoding='utf-8') as f:
+        rows = list(csv.DictReader(f))
+
+    registry = load_sources()
+    filled = corrected = unknown = 0
+    unknown_names = set()
+    for r in rows:
+        if (r.get('source_id') or '').strip():
+            continue
+        res = resolve(r.get('source_name', ''), registry)
+        if not res.ok:
+            unknown += 1
+            unknown_names.add(r.get('source_name', ''))
+            continue
+        r['source_id'] = res['source_id']
+        filled += 1
+        if res.corrected and r['source_name'] != res['name']:
+            print(f'  ~ {r["source_name"]!r} -> {res["name"]!r}')
+            r['source_name'] = res['name']
+            corrected += 1
+
+    print(f'Resolved {filled} beat(s) to a registry source '
+          f'({corrected} name(s) corrected, {unknown} unresolved).')
+    for n in sorted(unknown_names):
+        print(f'  ! unresolved source name: {n!r}')
+    if dry_run:
+        print('Dry run — no changes written.')
+        return
+
+    with open(STORY_UPDATES_CSV, 'w', newline='', encoding='utf-8') as f:
+        w = csv.DictWriter(f, fieldnames=STORY_UPDATE_COLUMNS, quoting=csv.QUOTE_ALL)
+        w.writeheader()
+        for r in rows:
+            w.writerow({k: r.get(k, '') for k in STORY_UPDATE_COLUMNS})
+    print('Rewrote story_updates.csv with the source_id column.')
+
+
+def header_matches():
+    """True when the CSV on disk has exactly the columns we append with.
+    Appending rows through a DictWriter whose fieldnames differ from the file's
+    own header silently shifts every value one column — so we check first."""
+    if not os.path.exists(STORY_UPDATES_CSV):
+        return True
+    with open(STORY_UPDATES_CSV, newline='', encoding='utf-8') as f:
+        header = next(csv.reader(f), [])
+    return header == STORY_UPDATE_COLUMNS
 
 
 def backfill_images(dry_run=False, limit=None):
@@ -196,6 +277,10 @@ def main():
         backfill_images(dry_run=dry_run)
         return
 
+    if '--backfill-sources' in sys.argv:
+        backfill_sources(dry_run=dry_run)
+        return
+
     raw = sys.stdin.read().strip()
     if not raw:
         sys.exit('No input on stdin. Pipe a JSON object or array of objects.')
@@ -206,11 +291,16 @@ def main():
         sys.exit(f'Invalid JSON on stdin: {e}')
 
     items = payload if isinstance(payload, list) else [payload]
-    known_story_ids = load_story_ids()
+    stories = load_stories()
+    known_story_ids = set(stories)
     existing_rows, existing_keys = load_existing()
     fuzzy_index = build_index(existing_rows)
+    registry = load_sources()
 
     accepted, rejected = [], []
+    corrections = []          # (input, canonical) — reported, never silent
+    unknown_sources = []      # names the registry can't place — reported
+    touched_sources = {}      # source_id → how many updates it produced now
     now_iso = datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
 
     for item in items:
@@ -221,6 +311,27 @@ def main():
         if known_story_ids and item['story_id'] not in known_story_ids:
             rejected.append((item['story_id'], 'unknown story_id (not in watchlist.json)'))
             continue
+
+        # ── Source resolution ──────────────────────────────────────────────
+        # The credit line is free text ("Reuter", "U.S. News / Reuters"), so
+        # map it onto a registry entity: correct the spelling, keep the id, and
+        # honour a source the user switched off for this story.
+        story = stories.get(item['story_id'], {})
+        res = resolve(item['source_name'], registry)
+        source_id = res['source_id']
+        source_name = item['source_name']
+        if res.ok:
+            if source_id in set(story_sources(story)['excluded']):
+                rejected.append((item['story_id'],
+                                 f'source {res["name"]!r} is deselected for this story'))
+                continue
+            if res.corrected:
+                corrections.append((source_name, res['name']))
+            source_name = res['name']          # store the canonical spelling
+        else:
+            # Never drop a real scoop because the registry hasn't heard of the
+            # outlet — take it, keep the user's spelling, and flag it.
+            unknown_sources.append(source_name)
 
         url = (item.get('url') or '').strip()
         headline = ' '.join(item['headline'].split())
@@ -248,18 +359,26 @@ def main():
             'date': item['date'],
             'headline': headline,
             'summary': ' '.join(item['summary'].split()),
-            'source_name': item['source_name'],
+            'source_name': source_name,
             'url': url,
             'status': item.get('status', 'developing'),
             'severity': str(item.get('severity', '')),
             'origin': item.get('origin', 'websearch'),
             'found_at': now_iso,
             'image': image,
+            'source_id': source_id,
         })
+        if source_id:
+            touched_sources[source_id] = touched_sources.get(source_id, 0) + 1
 
     print(f'Accepted: {len(accepted)}')
     for sid, err in rejected:
         print(f'  REJECTED [{sid}]: {err}')
+    for typed, canonical in corrections:
+        print(f'  CORRECTED source: {typed!r} -> {canonical!r}')
+    for name in sorted(set(unknown_sources)):
+        print(f'  UNKNOWN source: {name!r} — kept, but not in data/sources.csv. '
+              f'Verify it exists, then register it with source_registry.py --upsert.')
 
     if not accepted:
         return
@@ -267,12 +386,24 @@ def main():
         print('Dry run — no changes written.')
         return
 
+    # A file written before the source_id column existed must be migrated
+    # first, or every appended value lands one column off.
+    if not header_matches():
+        print('story_updates.csv predates the source_id column — migrating it first.')
+        backfill_sources()
+
     write_header = not os.path.exists(STORY_UPDATES_CSV)
     with open(STORY_UPDATES_CSV, 'a', newline='', encoding='utf-8') as f:
         w = csv.DictWriter(f, fieldnames=STORY_UPDATE_COLUMNS, quoting=csv.QUOTE_ALL)
         if write_header:
             w.writeheader()
         w.writerows(accepted)
+
+    # Stamp the registry: these sources demonstrably produced news just now.
+    if touched_sources:
+        for sid, n in touched_sources.items():
+            record_fetch(sid, n, registry, persist=False)
+        save_sources(registry)
 
     print(f'Appended {len(accepted)} rows to story_updates.csv.')
 

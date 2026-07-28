@@ -403,6 +403,12 @@
             (story.status !== 'resolved' ? '<button class="tracker-btn" data-action="resolve">Mark resolved</button>' : '<button class="tracker-btn" data-action="reactivate">Reactivate</button>') +
             (story.status !== 'archived' ? '<button class="tracker-btn" data-action="archive">Archive</button>' : '') +
           '</div>' +
+          // Which sources feed this story, editable in place. Deselecting one
+          // here is what stops the routine using it from the next run on.
+          SourcePicker.html(SourceRegistry.selectionFor(story), {
+            compact: true,
+            title: 'Sources',
+          }) +
         '</div>' +
       '</div>' +
       searchBar +
@@ -431,6 +437,16 @@
         }
       });
     });
+
+    // Source picker in the header — persists on every toggle. No Save button
+    // on purpose: this is a switch, not a form, and a half-edited selection
+    // that silently reverts on navigation would be worse than saving early.
+    var headerPicker = main.querySelector('.tracker-story-header .source-picker');
+    if (headerPicker) {
+      SourcePicker.wire(headerPicker, function (sel) {
+        WatchlistStore.setSources(story.story_id, sel);
+      });
+    }
 
     main.querySelectorAll('.tracker-story-actions [data-action]').forEach(function (btn) {
       btn.addEventListener('click', function () {
@@ -558,6 +574,10 @@
               (img ? '<button type="button" class="tracker-btn" data-ei="clear">Clear</button>' : '') +
             '</div>' +
           '</div>' +
+          SourcePicker.html(SourceRegistry.selectionFor(s), {
+            compact: true,
+            title: 'Sources',
+          }) +
           '<div class="manage-edit-actions">' +
             '<button class="tracker-btn primary" data-mact="save">Save</button>' +
             '<button class="tracker-btn" data-mact="cancel">Cancel</button>' +
@@ -651,6 +671,12 @@
                 '<label class="tracker-btn manage-upload-btn">Upload<input type="file" accept="image/*" data-ei="file" hidden></label>' +
               '</div>' +
             '</div>' +
+            // Sources for the new story — everything pre-selected, plus a field
+            // for typing in one we don't carry yet.
+            SourcePicker.html(SourceRegistry.defaultSelection(), {
+              compact: true,
+              title: 'Sources to research this story with',
+            }) +
             '<button type="submit" class="tracker-btn primary">+ Add story</button>' +
           '</form>' +
         '</div>' +
@@ -712,6 +738,7 @@
     panel.querySelectorAll('.manage-edit').forEach(function (box) {
       var id = box.dataset.id;
       wireImageField(box);
+      SourcePicker.wire(box);
       box.querySelectorAll('[data-mact]').forEach(function (btn) {
         btn.addEventListener('click', function () {
           if (btn.dataset.mact === 'save') {
@@ -721,6 +748,7 @@
               keywords: (box.querySelector('[data-ef="keywords"]') || {}).value,
               countries: (box.querySelector('[data-ef="countries"]') || {}).value,
               image: (box.querySelector('[data-ef="image"]') || {}).value,
+              sources: SourcePicker.read(box),
             });
           }
           editingId = null;
@@ -762,6 +790,7 @@
     var form = panel.querySelector('#add-story-form');
     if (form) {
       wireImageField(form);
+      SourcePicker.wire(form);
       form.addEventListener('submit', function (e) {
         e.preventDefault();
         var fd = new FormData(form);
@@ -771,6 +800,7 @@
           keywords: fd.get('keywords'),
           countries: fd.get('countries'),
           image: fd.get('image'),
+          sources: SourcePicker.read(form),
         });
         if (story) {
           selectedId = story.story_id;
@@ -798,6 +828,9 @@
   }
 
   DataLayer.loadFeed().then(function (data) {
+    // Sources first: WatchlistStore seeds a new story's selection from the
+    // registry, so it has to be loaded before init().
+    SourceRegistry.init(data.sources);
     WatchlistStore.init(data.watchlist);
     storyUpdates = data.storyUpdates || [];
     storyImages = data.storyImages || [];

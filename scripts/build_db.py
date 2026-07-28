@@ -125,38 +125,40 @@ def sync_dedup_key(created_at, text):
 
 
 def compute_badge_colors(row):
-    """Derive badge_colors from tags and is_retaliation (matches frontend logic)."""
+    """Derive badge_colors from tags and is_retaliation (matches frontend logic).
+
+    Two values only, matching the frontend's two-hue rule: 'hot' for a kinetic
+    event (something was struck) and 'quiet' for everything else. Colour never
+    encodes how well sourced a row is — nothing in the pipeline can establish
+    that. (css/styles.css still maps the older colour names onto the same two
+    looks, so a stale database.json renders identically.)
+    """
     tags = (row.get('tags', '') or '').split(';')
     strike_type = (row.get('strike_type', '') or '').lower()
     colors = []
 
-    type_color_map = {
-        'bomber': 'blue', 'fighter': 'blue', 'missile': 'red',
-        'naval': 'teal', 'drone': 'orange', 'artillery': 'brown',
-        'special_ops': 'green', 'sof': 'green', 'nuclear': 'gold',
-        'nuke': 'gold', 'retaliation': 'amber', 'intel': 'purple',
-        'maritime': 'teal', 'strike': 'red',
+    kinetic_types = {
+        'bomber', 'fighter', 'airstrike', 'missile', 'cruise missile', 'strike',
+        'drone', 'artillery', 'special_ops', 'sof', 'nuclear', 'nuke',
+        'retaliation', 'naval strike', 'submarine torpedo',
     }
 
-    # Operation color
+    # Operation membership — neutral, it is an identity not a severity.
     if row.get('operation_name') and row['operation_name'] != 'Independent Actions':
-        colors.append('op')
+        colors.append('quiet')
 
-    # Strike type color
-    if strike_type in type_color_map:
-        colors.append(type_color_map[strike_type])
+    if strike_type:
+        colors.append('hot' if strike_type in kinetic_types else 'quiet')
 
     # Retaliation flag
     if (row.get('is_retaliation', '') or '').upper() == 'TRUE':
-        colors.append('amber')
+        colors.append('hot')
 
     # Tag-based extras
     for tag in tags:
         tag_up = tag.strip().upper()
-        if 'NUCLEAR' in tag_up or 'NUKE' in tag_up:
-            colors.append('gold')
-        elif 'FIRST USE' in tag_up:
-            colors.append('gold')
+        if 'NUCLEAR' in tag_up or 'NUKE' in tag_up or 'FIRST USE' in tag_up:
+            colors.append('hot')
 
     # Deduplicate while preserving order
     seen = set()
@@ -336,7 +338,8 @@ def build():
         severity    TEXT,
         origin      TEXT,
         found_at    TEXT,
-        image       TEXT
+        image       TEXT,
+        source_id   TEXT
     )''')
     conn.commit()
 
@@ -447,6 +450,7 @@ def build():
     story_update_cols = [
         'update_id', 'story_id', 'date', 'headline', 'summary',
         'source_name', 'url', 'status', 'severity', 'origin', 'found_at', 'image',
+        'source_id',
     ]
     for r in story_updates:
         vals = [r.get(col, '') for col in story_update_cols]
@@ -489,6 +493,14 @@ def export_json(conn, out_path):
             watchlist = json.load(f)
     active_stories = sum(1 for s in watchlist.get('stories', []) if s.get('status') == 'active')
 
+    # Source registry — shipped whole so the Tracker page can render the source
+    # picker (and flag not_found entries) without a second fetch. It's ~60 tiny
+    # rows; the registry file itself stays the single source of truth.
+    sources = []
+    sources_path = os.path.join(DATA_DIR, 'sources.csv')
+    if os.path.exists(sources_path):
+        sources = read_csv(sources_path)
+
     now = datetime.utcnow()
     now_val = value_for_date(now)
     timeline_marks = [{'v': v, 'lbl': lbl} for _, v, lbl in TIMELINE_MARKS]
@@ -504,7 +516,7 @@ def export_json(conn, out_path):
 
     meta = {
         'generated': now.strftime('%Y-%m-%dT%H:%M:%SZ'),
-        'version':   7,
+        'version':   8,
         'timeline':  timeline,
         'counts': {
             'incidents_curated':  len(curated),
@@ -517,6 +529,7 @@ def export_json(conn, out_path):
             'watchlist_stories':  len(watchlist.get('stories', [])),
             'watchlist_active':   active_stories,
             'story_updates':      len(story_updates),
+            'sources':            len(sources),
         }
     }
 
@@ -529,6 +542,7 @@ def export_json(conn, out_path):
         'tweets':        tweets,
         'watchlist':     watchlist.get('stories', []),
         'story_updates': story_updates,
+        'sources':       sources,
     }
 
     with open(out_path, 'w', encoding='utf-8') as f:
@@ -545,6 +559,7 @@ def export_json(conn, out_path):
         'tweets':        tweets,
         'watchlist':     watchlist.get('stories', []),
         'story_updates': story_updates,
+        'sources':       sources,
     }
     with open(FEED_PATH, 'w', encoding='utf-8') as f:
         json.dump(feed_data, f, ensure_ascii=False, separators=(',', ':'))
@@ -553,6 +568,7 @@ def export_json(conn, out_path):
     print(f'  {len(curated)} curated + {len(enriched)} enriched = {len(incidents)} total incidents')
     print(f'  {len(operations)} operations, {len(imagery)} imagery, {len(tweets)} tweets')
     print(f'  {len(watchlist.get("stories", []))} watchlist stories ({active_stories} active), {len(story_updates)} story updates')
+    print(f'  {len(sources)} sources in the registry')
     print(f'  timeline: min={timeline["min"]} max={timeline["max"]}')
     size_kb = os.path.getsize(out_path) // 1024
     feed_kb = os.path.getsize(FEED_PATH) // 1024

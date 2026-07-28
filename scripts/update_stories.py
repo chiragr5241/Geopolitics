@@ -23,6 +23,8 @@ import sys
 from datetime import datetime, timezone
 
 from story_dedup import build_index, is_fuzzy_dup, note_accepted
+from source_registry import load_sources, resolve_feed_source, story_sources
+from add_story_update import header_matches, backfill_sources
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 INTEL_CSV = os.path.join(ROOT, 'data', 'intel_feed.csv')
@@ -32,6 +34,7 @@ STORY_UPDATES_CSV = os.path.join(ROOT, 'data', 'story_updates.csv')
 STORY_UPDATE_COLUMNS = [
     'story_id', 'update_id', 'date', 'headline', 'summary',
     'source_name', 'url', 'status', 'severity', 'origin', 'found_at', 'image',
+    'source_id',
 ]
 
 
@@ -110,20 +113,34 @@ def main():
     fuzzy_index = build_index(existing_rows)
     now_iso = datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
 
+    registry = load_sources()
+    # Resolve each feed row's source ONCE — the inner loop runs
+    # stories × rows, and resolution is the expensive part.
+    row_sources = [resolve_feed_source(r, registry) for r in intel_rows]
+
     new_updates = []
     story_hit_counts = {}
+    skipped_by_source = {}       # story_id → {source name: n} (user deselected)
 
     for story in active_stories:
         story_id = story['story_id']
+        excluded = set(story_sources(story)['excluded'])
         last_update = parse_dt(story.get('last_update_at')) or parse_dt(story.get('marked_at')) or datetime.min
         countries = {c.upper() for c in story.get('seed', {}).get('countries', [])}
         keywords = [k.lower() for k in story.get('keywords', [])]
         seed_lat = story.get('seed', {}).get('lat')
         seed_lng = story.get('seed', {}).get('lng')
 
-        for row in intel_rows:
+        for row, src in zip(intel_rows, row_sources):
             dt = parse_dt(row.get('created_at'))
             if not dt or dt <= last_update:
+                continue
+            # A source the user switched off on this story's timeline header
+            # stops feeding it — including retroactively, from this run on.
+            if src.ok and src['source_id'] in excluded:
+                skipped_by_source.setdefault(story_id, {})
+                skipped_by_source[story_id][src['name']] = \
+                    skipped_by_source[story_id].get(src['name'], 0) + 1
                 continue
             row_countries = {c.strip().upper() for c in (row.get('countries') or '').split(';') if c.strip()}
             if countries and not (countries & row_countries):
@@ -146,7 +163,11 @@ def main():
 
             headline = ' '.join((row.get('summary') or row.get('full_text') or '').split())[:140]
             date_str = dt.strftime('%Y-%m-%d')
-            key = (story_id, 'text', date_str, headline)
+            # Same key rule as load_existing_updates(): url when there is one,
+            # else date+headline. Wire rows carry a source_url now, so this MUST
+            # mirror that logic or a wire beat re-appends on every run.
+            row_url = (row.get('source_url') or '').strip()
+            key = (story_id, 'url', row_url) if row_url else (story_id, 'text', date_str, headline)
             if key in existing_keys:
                 continue
             # Fuzzy: same event already recorded (7b websearch or an earlier row)
@@ -163,8 +184,13 @@ def main():
                 'date': date_str,
                 'headline': headline,
                 'summary': ' '.join((row.get('summary') or '').split()),
-                'source_name': 'Spectator Index',
-                'url': '',
+                # Credit the outlet the row actually came from. This used to be
+                # hardcoded to "Spectator Index", which was true when tweets
+                # were the only input and wrong ever since wire ingestion landed
+                # — a BBC row was filed under the tweet stream's name.
+                'source_name': src['name'] or (row.get('source') or 'Spectator Index'),
+                'source_id': src['source_id'],
+                'url': row_url,
                 'status': 'developing',
                 'severity': row.get('severity', ''),
                 'origin': 'intel_feed',
@@ -179,6 +205,9 @@ def main():
     print(f'New updates found: {len(new_updates)}')
     for sid, count in story_hit_counts.items():
         print(f'  {sid}: +{count}')
+    for sid, per in skipped_by_source.items():
+        detail = ', '.join(f'{name} ({n})' for name, n in sorted(per.items()))
+        print(f'  {sid}: skipped {sum(per.values())} row(s) from deselected sources — {detail}')
 
     if not new_updates:
         print('No new matches.')
@@ -186,6 +215,10 @@ def main():
     if dry_run:
         print('Dry run — no changes written.')
         return
+
+    if not header_matches():
+        print('story_updates.csv predates the source_id column — migrating it first.')
+        backfill_sources()
 
     write_header = not os.path.exists(STORY_UPDATES_CSV)
     with open(STORY_UPDATES_CSV, 'a', newline='', encoding='utf-8') as f:

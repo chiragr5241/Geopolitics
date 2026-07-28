@@ -31,9 +31,14 @@ DATA_DIR = os.path.join(ROOT, 'data')
 FEED_PATH = os.path.join(DATA_DIR, 'intel_feed.csv')
 OUT_PATH = os.path.join(DATA_DIR, 'story_updates.csv')
 
+# Must stay in step with add_story_update.STORY_UPDATE_COLUMNS — this script
+# rewrites the whole file, so a column missing here is a column deleted from
+# every existing row. (`image` and `source_id` were both added after this
+# one-shot backfill was written.)
 OUT_COLS = [
     'story_id', 'update_id', 'date', 'headline', 'summary',
     'source_name', 'url', 'status', 'severity', 'origin', 'found_at',
+    'image', 'source_id',
 ]
 
 CAP_PER_STORY = 32

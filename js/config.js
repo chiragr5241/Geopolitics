@@ -32,17 +32,34 @@ var DATA_SOURCES = {
   imagery:      'data/imagery.csv',
   intelFeed:    'data/intel_feed.csv',
   storyImages:  'data/story_images.csv',
+  sources:      'data/sources.csv',
+};
+
+// ── Mark palette ──
+// Two hues, and neither of them claims anything about how well sourced an
+// event is: we have no reliable way to prove a report, so colour never means
+// "confirmed" / "unverified". HOT = something was struck (kinetic). COOL =
+// posture, presence, intel, everything non-kinetic. The glyph carries the
+// specific type; the hue only carries that one distinction.
+// Hex rather than var() because these go into SVG presentation attributes,
+// which do not resolve CSS custom properties.
+var MARK_HOT  = '#c0392b';
+var MARK_COOL = '#4a6572';
+
+var MARK_TINT = {
+  hot:  { bg: 'rgba(192,57,43,.12)',  border: 'rgba(192,57,43,.4)'  },
+  cool: { bg: 'rgba(74,101,114,.12)', border: 'rgba(74,101,114,.4)' },
 };
 
 // ── Tweet / Intelligence Feed Categories ──
 
 var TWEET_CATEGORIES = {
-  military:     { label: 'Military',    color: '#c62828', bg: 'rgba(198,40,40,.12)',  border: 'rgba(198,40,40,.4)'  },
-  diplomatic:   { label: 'Diplomatic',  color: '#1565c0', bg: 'rgba(21,101,192,.12)', border: 'rgba(21,101,192,.4)' },
-  economic:     { label: 'Economic',    color: '#2e7d32', bg: 'rgba(46,125,50,.12)',  border: 'rgba(46,125,50,.4)'  },
-  nuclear:      { label: 'Nuclear',     color: '#e65100', bg: 'rgba(230,81,0,.12)',   border: 'rgba(230,81,0,.4)'   },
-  energy:       { label: 'Energy',      color: '#6a1b9a', bg: 'rgba(106,27,154,.12)', border: 'rgba(106,27,154,.4)' },
-  humanitarian: { label: 'Human.',      color: '#00695c', bg: 'rgba(0,105,92,.12)',   border: 'rgba(0,105,92,.4)'   },
+  military:     { label: 'Military',    color: MARK_HOT,  bg: MARK_TINT.hot.bg,  border: MARK_TINT.hot.border  },
+  nuclear:      { label: 'Nuclear',     color: MARK_HOT,  bg: MARK_TINT.hot.bg,  border: MARK_TINT.hot.border  },
+  diplomatic:   { label: 'Diplomatic',  color: MARK_COOL, bg: MARK_TINT.cool.bg, border: MARK_TINT.cool.border },
+  economic:     { label: 'Economic',    color: MARK_COOL, bg: MARK_TINT.cool.bg, border: MARK_TINT.cool.border },
+  energy:       { label: 'Energy',      color: MARK_COOL, bg: MARK_TINT.cool.bg, border: MARK_TINT.cool.border },
+  humanitarian: { label: 'Human.',      color: MARK_COOL, bg: MARK_TINT.cool.bg, border: MARK_TINT.cool.border },
 };
 
 // ── ISO-3166-1 Numeric → Country Code (for world-atlas GeoJSON border layer) ──
@@ -78,17 +95,19 @@ var COUNTRIES = {
 };
 
 
-// ── Strike Type SVG Icons ──
+// ── Event Type SVG Icons ──
+// label = what happened, never how well attested it is. color = MARK_HOT /
+// MARK_COOL only (see the mark palette above).
 
 var STRIKE_TYPES = {
   bomber: {
-    color: '#4caf50', bgFill: 'rgba(255,255,255,0.92)', label: 'Confirmed Airstrike',
+    color: MARK_HOT, bgFill: 'rgba(255,255,255,0.92)', label: 'Airstrike',
     getSVG: function (sz, c) {
       return '<polygon points="' + sz*.5 + ',' + sz*.25 + ' ' + sz*.85 + ',' + sz*.65 + ' ' + sz*.7 + ',' + sz*.6 + ' ' + sz*.55 + ',' + sz*.72 + ' ' + sz*.45 + ',' + sz*.72 + ' ' + sz*.3 + ',' + sz*.6 + ' ' + sz*.15 + ',' + sz*.65 + '" fill="' + c + '" opacity=".95"/>';
     }
   },
   fighter: {
-    color: '#4caf50', bgFill: 'rgba(255,255,255,0.92)', label: 'Confirmed Airstrike',
+    color: MARK_HOT, bgFill: 'rgba(255,255,255,0.92)', label: 'Airstrike',
     getSVG: function (sz, c) {
       var cx = sz / 2;
       return '<polygon points="' + cx + ',' + sz*.2 + ' ' + (cx+sz*.04) + ',' + sz*.45 + ' ' + sz*.82 + ',' + sz*.72 + ' ' + sz*.75 + ',' + sz*.78 + ' ' + cx + ',' + sz*.58 + ' ' + sz*.25 + ',' + sz*.78 + ' ' + sz*.18 + ',' + sz*.72 + ' ' + (cx-sz*.04) + ',' + sz*.45 + '" fill="' + c + '" opacity=".95"/>'
@@ -96,7 +115,7 @@ var STRIKE_TYPES = {
     }
   },
   missile: {
-    color: '#2196f3', bgFill: 'rgba(255,255,255,0.92)', label: 'Reported Strike',
+    color: MARK_HOT, bgFill: 'rgba(255,255,255,0.92)', label: 'Missile Strike',
     getSVG: function (sz, c) {
       var cx = sz / 2;
       return '<rect x="' + (cx-sz*.07) + '" y="' + sz*.22 + '" width="' + sz*.14 + '" height="' + sz*.45 + '" rx="' + sz*.06 + '" fill="' + c + '" opacity=".9"/>'
@@ -106,7 +125,7 @@ var STRIKE_TYPES = {
     }
   },
   naval: {
-    color: '#9c27b0', bgFill: 'rgba(255,255,255,0.92)', label: 'Naval Operation',
+    color: MARK_COOL, bgFill: 'rgba(255,255,255,0.92)', label: 'Naval Operation',
     getSVG: function (sz, c) {
       var cx = sz / 2;
       return '<circle cx="' + cx + '" cy="' + sz*.32 + '" r="' + sz*.08 + '" fill="none" stroke="' + c + '" stroke-width="' + sz*.07 + '"/>'
@@ -116,7 +135,7 @@ var STRIKE_TYPES = {
     }
   },
   sof: {
-    color: '#9c27b0', bgFill: 'rgba(255,255,255,0.92)', label: 'Special Operation',
+    color: MARK_HOT, bgFill: 'rgba(255,255,255,0.92)', label: 'Special Operation',
     getSVG: function (sz, c) {
       var cx = sz / 2, cy = sz / 2, r = sz * .28;
       return '<circle cx="' + cx + '" cy="' + cy + '" r="' + r + '" fill="none" stroke="' + c + '" stroke-width="' + sz*.06 + '"/>'
@@ -128,7 +147,7 @@ var STRIKE_TYPES = {
     }
   },
   drone: {
-    color: '#e6a800', bgFill: 'rgba(255,255,255,0.92)', label: 'Strike w/ Footage',
+    color: MARK_HOT, bgFill: 'rgba(255,255,255,0.92)', label: 'Drone Strike',
     getSVG: function (sz, c) {
       var cx = sz / 2, cy = sz / 2, r = sz * .3;
       var pts = [];
@@ -145,13 +164,13 @@ var STRIKE_TYPES = {
     }
   },
   retaliation: {
-    color: '#e07b00', bgFill: 'rgba(255,255,255,0.92)', label: 'Retaliation / Proxy',
+    color: MARK_HOT, bgFill: 'rgba(255,255,255,0.92)', label: 'Retaliation / Proxy',
     getSVG: function (sz, c) {
       return '<polygon points="' + sz*.55 + ',' + sz*.18 + ' ' + sz*.3 + ',' + sz*.52 + ' ' + sz*.47 + ',' + sz*.52 + ' ' + sz*.42 + ',' + sz*.82 + ' ' + sz*.68 + ',' + sz*.46 + ' ' + sz*.52 + ',' + sz*.46 + '" fill="' + c + '" opacity=".95"/>';
     }
   },
   intel: {
-    color: '#546e7a', bgFill: 'rgba(255,255,255,0.92)', label: 'Intel / Buildup',
+    color: MARK_COOL, bgFill: 'rgba(255,255,255,0.92)', label: 'Intel / Buildup',
     getSVG: function (sz, c) {
       var cx = sz / 2;
       return '<rect x="' + sz*.22 + '" y="' + sz*.28 + '" width="' + sz*.56 + '" height="' + sz*.38 + '" rx="2" fill="none" stroke="' + c + '" stroke-width="' + sz*.06 + '"/>'
@@ -161,7 +180,7 @@ var STRIKE_TYPES = {
     }
   },
   maritime: {
-    color: '#007b8a', bgFill: 'rgba(255,255,255,0.92)', label: 'Maritime Coercion',
+    color: MARK_COOL, bgFill: 'rgba(255,255,255,0.92)', label: 'Maritime Coercion',
     getSVG: function (sz, c) {
       var cx = sz / 2;
       return '<rect x="' + sz*.18 + '" y="' + sz*.5 + '" width="' + sz*.64 + '" height="' + sz*.2 + '" rx="2" fill="' + c + '" opacity=".85"/>'
@@ -172,7 +191,7 @@ var STRIKE_TYPES = {
     }
   },
   island: {
-    color: '#007b8a', bgFill: 'rgba(255,255,255,0.92)', label: 'Island Construction',
+    color: MARK_COOL, bgFill: 'rgba(255,255,255,0.92)', label: 'Island Construction',
     getSVG: function (sz, c) {
       var cx = sz / 2, cy = sz / 2;
       return '<ellipse cx="' + cx + '" cy="' + (cy+sz*.05) + '" rx="' + sz*.32 + '" ry="' + sz*.18 + '" fill="' + c + '" opacity=".5"/>'
@@ -182,7 +201,7 @@ var STRIKE_TYPES = {
     }
   },
   nuke: {
-    color: '#c62828', bgFill: 'rgba(255,255,255,0.92)', label: 'Unverified Report',
+    color: MARK_HOT, bgFill: 'rgba(255,255,255,0.92)', label: 'Nuclear-Related',
     getSVG: function (sz, c) {
       var cx = sz / 2, cy = sz / 2;
       return '<circle cx="' + cx + '" cy="' + cy + '" r="' + sz*.28 + '" fill="none" stroke="' + c + '" stroke-width="' + sz*.06 + '"/>'
@@ -192,6 +211,39 @@ var STRIKE_TYPES = {
            + '<circle cx="' + cx + '" cy="' + cy + '" r="' + sz*.1 + '" fill="' + c + '"/>';
     }
   },
+};
+
+// Raw `strike_type` values the enrichment pipeline emits that have no glyph of
+// their own. Without these the great majority of rows fell through to the
+// `missile` entry and inherited its label — which used to read "Reported
+// Strike", i.e. a sourcing claim the data never supported. Each alias reuses an
+// existing glyph and states only what kind of event it was.
+(function aliasStrikeTypes() {
+  function alias(key, base, label, color) {
+    STRIKE_TYPES[key] = {
+      color: color || STRIKE_TYPES[base].color,
+      bgFill: STRIKE_TYPES[base].bgFill,
+      label: label,
+      getSVG: STRIKE_TYPES[base].getSVG,
+    };
+  }
+  alias('strike',             'missile', 'Strike');
+  alias('cruise missile',     'missile', 'Missile Strike');
+  alias('artillery',          'missile', 'Artillery');
+  alias('airstrike',          'fighter', 'Airstrike');
+  alias('special_ops',        'sof',     'Special Operation');
+  alias('nuclear',            'nuke',    'Nuclear-Related');
+  alias('naval strike',       'naval',   'Naval Strike',   MARK_HOT);
+  alias('submarine torpedo',  'naval',   'Torpedo Attack', MARK_HOT);
+})();
+
+// Unknown / missing type — a plain "Event", not a strike claim.
+var STRIKE_TYPE_FALLBACK = {
+  color: MARK_COOL, bgFill: 'rgba(255,255,255,0.92)', label: 'Event',
+  getSVG: function (sz, c) {
+    var cx = sz / 2;
+    return '<circle cx="' + cx + '" cy="' + cx + '" r="' + sz*.16 + '" fill="' + c + '" opacity=".9"/>';
+  }
 };
 
 // ── City Map Labels ──

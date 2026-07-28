@@ -4,7 +4,7 @@
    covers the scrolling news chrome — map.html never loads it.
    ========================================================= */
 
-@import url('tokens.css?v=26');
+@import url('tokens.css?v=27');
 
 html, body {
   min-height: 100%;
@@ -119,14 +119,12 @@ body {
   background: linear-gradient(180deg, rgba(10,14,22,.15) 0%, rgba(10,14,22,.25) 45%, rgba(10,14,22,.88) 100%);
 }
 
-/* No-image fallback: category-tinted gradient */
+/* No-image fallback: two gradients, matching the two-hue pill rule — a warm
+   one for the conflict categories, a neutral one for everything else. */
 .story-tile.no-img { background: linear-gradient(150deg, #232c3d 0%, #141a26 100%); }
-.story-tile.no-img.tile-cat-military     { background: linear-gradient(150deg, #3a1f24 0%, #17121a 100%); }
-.story-tile.no-img.tile-cat-diplomatic   { background: linear-gradient(150deg, #1d2a44 0%, #101624 100%); }
-.story-tile.no-img.tile-cat-economic,
-.story-tile.no-img.tile-cat-energy       { background: linear-gradient(150deg, #3a2b18 0%, #191410 100%); }
-.story-tile.no-img.tile-cat-nuclear      { background: linear-gradient(150deg, #33224a 0%, #151020 100%); }
-.story-tile.no-img.tile-cat-humanitarian { background: linear-gradient(150deg, #1a3329 0%, #101a15 100%); }
+.story-tile.no-img.tile-cat-military,
+.story-tile.no-img.tile-cat-nuclear,
+.story-tile.no-img.tile-cat-terrorism    { background: linear-gradient(150deg, #3a1f24 0%, #17121a 100%); }
 .story-tile.no-img .story-tile-scrim { background: linear-gradient(180deg, transparent 40%, rgba(10,14,22,.5) 100%); }
 
 .story-tile-body {
@@ -145,7 +143,13 @@ body {
   margin-bottom: 8px;
 }
 
-.story-tile-meta .pill { backdrop-filter: blur(4px); background: rgba(255,255,255,.9); }
+/* Tile chips sit on a white plate in BOTH themes, so they take the light-theme
+   ink values — the dark-theme --text / --accent2 would wash out on white. Same
+   two-hue rule as everywhere else: conflict categories red, the rest neutral. */
+.story-tile-meta .pill { backdrop-filter: blur(4px); background: rgba(255,255,255,.9); color: #33342e; }
+.story-tile-meta .pill-military,
+.story-tile-meta .pill-nuclear,
+.story-tile-meta .pill-terrorism { color: #dc2626; }
 
 .story-tile-time {
   font-family: var(--font-mono);
@@ -192,8 +196,6 @@ body {
   letter-spacing: .3px;
   text-shadow: 0 1px 4px rgba(0,0,0,.6);
 }
-
-.pill-tracked { color: #b45309; border-color: rgba(245,158,11,.4); background: rgba(245,158,11,.08); }
 
 /* ===== Main page: rest of the news ===== */
 
@@ -255,12 +257,14 @@ body {
 .rest-more a:hover { text-decoration: underline; }
 
 @media (max-width: 860px) {
-  .story-hero { grid-template-columns: 1fr 1fr; grid-auto-rows: 180px; }
+  .story-hero { grid-template-columns: 1fr 1fr; grid-auto-rows: 200px; }
   .story-tile.lead { grid-column: span 2; }
 }
 
 @media (max-width: 560px) {
-  .story-hero { grid-template-columns: 1fr; grid-auto-rows: 190px; }
+  /* Single column on phones — give each image tile more vertical room so the
+     photo has space to read and the title isn't cramped against the bottom. */
+  .story-hero { grid-template-columns: 1fr; grid-auto-rows: 240px; }
   .story-tile.lead { grid-column: span 1; grid-row: span 1; }
   .rest-time { width: auto; }
 }
@@ -311,6 +315,11 @@ body {
 
 /* ===== Pills / badges (shared look across pages) ===== */
 
+/* One hue does one job. --accent2 marks conflict/kinetic categories and
+   severity; --accent marks the reader's own state (tracked / active);
+   everything else is neutral. Nothing here encodes how well sourced an item
+   is — we have no reliable way to establish that, so no colour claims it. */
+
 .pill {
   font-family: var(--font-mono);
   font-size: 8px;
@@ -319,25 +328,16 @@ body {
   text-transform: uppercase;
   padding: 3px 8px;
   border-radius: var(--radius-sm);
-  border: 1px solid;
+  border: 1px solid var(--border2);
+  background: var(--bg1);
+  color: var(--text);
   display: inline-block;
 }
 
-.pill-military  { color: var(--accent2); border-color: rgba(220,38,38,.3);  background: rgba(220,38,38,.06); }
-.pill-diplomatic{ color: var(--blue);    border-color: rgba(37,99,235,.3);  background: rgba(37,99,235,.06); }
-.pill-economic  { color: var(--gold);    border-color: rgba(180,83,9,.3);  background: rgba(180,83,9,.06); }
-.pill-nuclear   { color: var(--purple);  border-color: rgba(124,58,237,.3);background: rgba(124,58,237,.06); }
-.pill-energy    { color: var(--orange);  border-color: rgba(194,65,12,.3); background: rgba(194,65,12,.06); }
-.pill-humanitarian,
-.pill-humanitarian.other { color: var(--green); border-color: rgba(4,120,87,.3); background: rgba(4,120,87,.06); }
-.pill-terrorism { color: var(--accent2); border-color: rgba(220,38,38,.3);  background: rgba(220,38,38,.06); }
-.pill-intelligence,
-.pill-intel     { color: #546e7a; border-color: rgba(84,110,122,.3); background: rgba(84,110,122,.06); }
-.pill-political,
-.pill-cyber,
-.pill-trade,
-.pill-legal,
-.pill-social    { color: var(--text); border-color: var(--border2); background: var(--bg1); }
+/* Conflict categories — the only pills that take the alarm colour. */
+.pill-military,
+.pill-nuclear,
+.pill-terrorism { color: var(--accent2); border-color: rgba(192,57,43,.3); background: rgba(192,57,43,.06); }
 
 .sev-dots { display: inline-flex; gap: 2px; align-items: center; vertical-align: middle; }
 .sev-dot  { width: 4px; height: 4px; border-radius: 50%; background: var(--border); }
@@ -660,8 +660,9 @@ body {
   line-height: 1.55;
 }
 
-/* Source / perspective badge for wire items. Neutral by default; the
-   perspective tint (persp-*) makes contrasting viewpoints visually distinct. */
+/* Source / perspective badge for wire items. The chip is neutral: the
+   perspective is spelled out in words ("Gulf", "Russia", "UK"), which is both
+   clearer than a hue and less editorial than assigning viewpoints colours. */
 .source-badge {
   display: inline-flex;
   align-items: center;
@@ -687,20 +688,10 @@ a.source-badge:hover { border-color: var(--accent); }
 
 .source-badge-persp {
   padding: 3px 6px;
-  color: #fff;
-  background: var(--border2);
+  color: var(--text);
+  background: var(--bg2);
+  border-left: 1px solid var(--border2);
 }
-
-/* Perspective tints — Western vs non-Western read at a glance. */
-.persp-western-uk   .source-badge-persp { background: #2e6fd6; }
-.persp-german       .source-badge-persp { background: #444; }
-.persp-gulf         .source-badge-persp { background: #0a8f6e; }
-.persp-institutional .source-badge-persp { background: #4a7bb5; }
-.persp-humanitarian .source-badge-persp { background: #c77d2e; }
-.persp-wire-fast    .source-badge-persp { background: #8a6d3b; }
-.persp-russia       .source-badge-persp { background: #b23a3a; }
-.persp-chinese      .source-badge-persp { background: #c0392b; }
-.persp-iranian      .source-badge-persp { background: #7a5c9e; }
 
 .feed-expand {
   margin-top: 10px;
@@ -814,8 +805,8 @@ a.source-badge:hover { border-color: var(--accent); }
   display: inline-block;
 }
 
-.tracker-status.active   { color: var(--green);  background: rgba(4,120,87,.08); }
-.tracker-status.stale    { color: var(--gold);    background: rgba(180,83,9,.08); }
+.tracker-status.active   { color: var(--accent); background: var(--accent-soft); }
+.tracker-status.stale    { color: var(--text);   background: var(--bg1); }
 .tracker-status.resolved { color: var(--text);    background: var(--bg1); }
 .tracker-status.archived { color: var(--text);    background: var(--bg1); }
 
@@ -1246,7 +1237,7 @@ a.source-badge:hover { border-color: var(--accent); }
   box-shadow: 0 0 0 1px var(--accent);
 }
 
-.timeline-node.seed::before { background: var(--gold); box-shadow: 0 0 0 1px var(--gold); }
+.timeline-node.seed::before { background: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
 
 /* Timeline cells now reuse the shared .feed-card markup (identical to the Feed
    page). The thread spine + node dot come from .timeline-thread / .timeline-node
@@ -1528,4 +1519,201 @@ a.source-badge:hover { border-color: var(--accent); }
 }
 @media (prefers-reduced-motion: reduce) {
   .timeline-loading-dot { animation: none; opacity: 0.6; }
+}
+
+/* ── Source picker ───────────────────────────────────────────
+   The per-story source multi-select: on the timeline header, in the
+   Add-story form, and in the inline editor. Everything is selected by
+   default, so the control's real job is showing what's OFF and flagging a
+   typed-in source we couldn't place — hence the muted chips and the one
+   alarm colour on `not-found`. No new hues: --accent for selected,
+   --accent2 for the one thing that needs attention. */
+.source-picker {
+  margin-top: 12px;
+  border-top: 1px solid var(--border2);
+  padding-top: 10px;
+}
+.manage-edit .source-picker,
+.manage-form .source-picker { margin-top: 4px; }
+
+.source-picker-head {
+  font-family: var(--font-display);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text2);
+  opacity: .75;
+  margin-bottom: 6px;
+}
+
+.source-picker-summary {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.source-picker-count {
+  font-size: 12px;
+  color: var(--text2);
+}
+.source-picker-count strong { color: var(--text); }
+
+/* The only loud thing in the control: a user-typed source that needs a look. */
+.source-flag {
+  font-family: var(--font-display);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .8px;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: var(--radius-sm);
+  color: var(--accent2);
+  border: 1px solid var(--accent2);
+}
+
+.source-picker-body { margin-top: 10px; }
+
+.source-picker-tools {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.source-filter,
+.source-add-input {
+  flex: 1;
+  min-width: 0;
+  padding: 7px 10px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--text);
+  background: var(--bg1);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-sm);
+}
+.source-filter:focus,
+.source-add-input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.source-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  max-height: 210px;
+  overflow-y: auto;
+  padding: 2px;
+}
+
+/* Off is the state worth reading at a glance, so selected chips stay quiet
+   and deselected ones go flat + struck through. */
+.source-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-body);
+  font-size: 12px;
+  padding: 4px 9px;
+  border-radius: 999px;
+  border: 1px solid var(--border2);
+  background: var(--bg1);
+  color: var(--text2);
+  cursor: pointer;
+  transition: background .12s, border-color .12s, color .12s, opacity .12s;
+}
+.source-chip:hover { border-color: var(--accent); }
+.source-chip.on {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  color: var(--text);
+}
+.source-chip:not(.on) {
+  opacity: .5;
+  text-decoration: line-through;
+}
+.source-chip-tick {
+  width: 11px;
+  height: 11px;
+  border-radius: 3px;
+  border: 1px solid var(--border2);
+  flex: none;
+  position: relative;
+}
+.source-chip.on .source-chip-tick {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+.source-chip.on .source-chip-tick::after {
+  content: '';
+  position: absolute;
+  left: 3px;
+  top: 0;
+  width: 3px;
+  height: 7px;
+  border: solid var(--on-accent);
+  border-width: 0 1.5px 1.5px 0;
+  transform: rotate(45deg);
+}
+.source-chip.flash { animation: source-chip-flash .6s ease 2; }
+@keyframes source-chip-flash {
+  0%, 100% { box-shadow: 0 0 0 0 var(--accent-soft); }
+  50%      { box-shadow: 0 0 0 4px var(--accent-soft); }
+}
+
+.source-add {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.source-added-list:not(:empty) { margin-top: 8px; display: grid; gap: 5px; }
+.source-added {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  padding: 6px 9px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border2);
+  background: var(--bg1);
+}
+.source-added-name { color: var(--text); font-weight: 600; }
+.source-added-note { color: var(--text2); opacity: .8; }
+.source-added-x {
+  margin-left: auto;
+  background: none;
+  border: none;
+  color: var(--text2);
+  cursor: pointer;
+  font-size: 15px;
+  line-height: 1;
+  padding: 0 2px;
+}
+.source-added-x:hover { color: var(--accent2); }
+.source-added.corrected { border-color: var(--accent); }
+.source-added.corrected .source-added-note { color: var(--accent); opacity: 1; }
+/* Couldn't be found at all — the one case the user has to act on. Distinct
+   from a real source that simply had no news, which is never flagged. */
+.source-added.not-found {
+  border-color: var(--accent2);
+  background: color-mix(in srgb, var(--accent2) 7%, transparent);
+}
+.source-added.not-found .source-added-note { color: var(--accent2); opacity: 1; }
+.source-added.not-found .source-added-name { text-decoration: line-through; }
+
+.source-picker-note {
+  margin-top: 8px;
+  font-size: 11px;
+  color: var(--text2);
+  opacity: .65;
+}
+
+@media (max-width: 620px) {
+  .source-picker-tools,
+  .source-add { flex-wrap: wrap; }
+  .source-chips { max-height: 160px; }
 }

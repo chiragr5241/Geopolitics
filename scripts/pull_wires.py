@@ -57,6 +57,13 @@ MRSS = '{http://search.yahoo.com/mrss/}'
 
 # ── RSS sources ───────────────────────────────────────────────────────────── #
 # (source_label, feed_url, perspective, source_country, is_fast_lead)
+#
+# These are the SEED definitions and the offline fallback. The live list comes
+# from data/sources.csv via the registry (see load_registry_sources below), so a
+# source a user adds on the Tracker page — or deselects — is picked up here
+# without editing this file. Keep them in sync when adding a permanent source:
+# add the row to data/sources.csv, and mirror it here only if it should survive
+# the registry file going missing.
 RSS_SOURCES = [
     ('BBC World',   'https://feeds.bbci.co.uk/news/world/rss.xml',        'western-uk',    'GB', False),
     ('DW English',  'https://rss.dw.com/rdf/rss-en-world',                'german',        'DE', False),
@@ -68,6 +75,10 @@ RSS_SOURCES = [
     # in .env alongside SPECTATOR_BEARER_TOKEN and add an api adapter).
     # Guardian: needs a free dev key — same pattern, add when the key exists.
 ]
+
+# A source is "fast lead" (breaking-first, low-context) by perspective rather
+# than by a column of its own — the registry stays generic that way.
+FAST_LEAD_PERSPECTIVES = {'wire-fast'}
 
 # ── GDELT DOC 2.0 queries ─────────────────────────────────────────────────── #
 # (label, query, perspective, source_country). The sourcecountry: filter is what
@@ -86,6 +97,46 @@ GDELT_QUERIES = [
     ('GDELT/CN Taiwan',  'taiwan sourcecountry:CH sourcelang:english',  'chinese', 'CN'),
     ('GDELT/IR MidEast', 'israel sourcecountry:IR sourcelang:english',  'iranian', 'IR'),
 ]
+
+
+# ── Registry-driven source list ───────────────────────────────────────────── #
+
+def load_registry_sources():
+    """Read the pullable sources out of data/sources.csv.
+
+    Returns (rss, gdelt, ids) where rss/gdelt match the shapes of the hardcoded
+    lists above and `ids` maps a source LABEL back to its registry source_id so
+    the fetch result can be stamped onto the registry row (last_ok_at /
+    last_items — the record that distinguishes "the source is broken" from "the
+    source is fine and simply had nothing").
+
+    Falls back to the hardcoded seeds when the registry is missing or has no
+    pullable rows, so this script still works standalone.
+    """
+    try:
+        from source_registry import load_sources, USABLE_STATUS
+    except ImportError:
+        return RSS_SOURCES, GDELT_QUERIES, {}
+
+    rows = load_sources()
+    rss, gdelt, ids = [], [], {}
+    for r in rows:
+        if r.get('status') not in USABLE_STATUS:
+            continue          # retired, or a user-typed name we couldn't verify
+        label = r.get('name') or r.get('source_id')
+        if r.get('kind') == 'rss' and r.get('feed_url'):
+            rss.append((label, r['feed_url'], r.get('perspective', ''),
+                        r.get('source_country', ''),
+                        r.get('perspective') in FAST_LEAD_PERSPECTIVES))
+            ids[label] = r['source_id']
+        elif r.get('kind') == 'gdelt' and r.get('query'):
+            gdelt.append((label, r['query'], r.get('perspective', ''),
+                          r.get('source_country', '')))
+            ids[label] = r['source_id']
+
+    if not rss and not gdelt:
+        return RSS_SOURCES, GDELT_QUERIES, {}
+    return (rss or RSS_SOURCES), (gdelt or GDELT_QUERIES), ids
 
 
 def _now():
@@ -284,20 +335,24 @@ def main():
     existing = load_existing()
     existing_ids = {r['id'] for r in existing}
 
+    rss_sources, gdelt_queries, registry_ids = load_registry_sources()
+
     fetched = []
     per_source = {}
+    failed = {}          # label → why we couldn't reach it (a real problem)
 
-    for label, url, perspective, country, fast in RSS_SOURCES:
+    for label, url, perspective, country, fast in rss_sources:
         try:
             rows = parse_rss(label, fetch(url), perspective, country, fast, cutoff)
         except (HTTPError, URLError, ET.ParseError) as e:
             print(f'  ! {label}: {e} — skipped')
+            failed[label] = str(e)
             continue
         per_source[label] = len(rows)
         fetched.extend(rows)
 
     if not skip_gdelt:
-        for i, (label, query, perspective, country) in enumerate(GDELT_QUERIES):
+        for i, (label, query, perspective, country) in enumerate(gdelt_queries):
             if i:
                 time.sleep(GDELT_DELAY)
             rows = fetch_gdelt(label, query, perspective, country, cutoff)
@@ -314,9 +369,15 @@ def main():
         new_rows.append(r)
 
     print('Wire pull:')
-    for label in [s[0] for s in RSS_SOURCES] + [q[0] for q in GDELT_QUERIES]:
+    for label in [s[0] for s in rss_sources] + [q[0] for q in gdelt_queries]:
         if label in per_source:
-            print(f'  {label:20s} {per_source[label]:3d} in window')
+            # 0 in window is NOT a failure — a real outlet with nothing new in
+            # the last 60h is the common case, and must read differently from
+            # an outlet we couldn't reach at all.
+            note = '' if per_source[label] else '   (reached, nothing in window)'
+            print(f'  {label:20s} {per_source[label]:3d} in window{note}')
+    for label, why in failed.items():
+        print(f'  {label:20s}  UNREACHABLE — {why}')
     with_img = sum(1 for r in new_rows if r['image'])
     print(f'New rows: {len(new_rows)} ({with_img} with native image), '
           f'{len(fetched) - len(new_rows)} dupes skipped')
@@ -326,6 +387,24 @@ def main():
             print(f"    [{r['perspective']:13s}] {r['pub_date'][:16]}  {r['title'][:64]}")
         print('Dry run — nothing written.')
         return
+
+    # Stamp every source we actually reached (including the ones that answered
+    # with nothing) back onto the registry, so the story-tracker routine can
+    # tell "no news from this source" apart from "this source is broken".
+    if registry_ids:
+        try:
+            from source_registry import load_sources, record_fetch, save_sources
+            reg = load_sources()
+            touched = False
+            for label, count in per_source.items():
+                if label in registry_ids:
+                    record_fetch(registry_ids[label], count, reg, persist=False)
+                    touched = True
+            if touched:
+                save_sources(reg)
+        except ImportError:
+            pass
+
     if not new_rows:
         print('Nothing new to write.')
         return

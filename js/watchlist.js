@@ -86,6 +86,10 @@ var WatchlistStore = (function () {
     if (ov.notes != null) out.notes = ov.notes;
     if (ov.parent_id !== undefined) out.parent_id = ov.parent_id;
     if (ov.edited_at) out.edited_at = ov.edited_at;
+    // Which sources this story is researched with is per-person, like the
+    // title: one user muting Al Jazeera on a story must not mute it for
+    // everyone else following the same story.
+    if (ov.sources) out.sources = ov.sources;
     if (ov.text != null || ov.countries) {
       var seed = {};
       var bs = base.seed || {};
@@ -284,6 +288,45 @@ var WatchlistStore = (function () {
 
   /* ── Writes ───────────────────────────────────────────────────────────── */
 
+  // Sources for a brand-new story: all of them. An empty block (registry not
+  // loaded yet) is equivalent — effectiveFor() treats "no exclusions" as
+  // "everything", so nothing is lost either way.
+  function defaultSources() {
+    if (typeof SourceRegistry === 'undefined') return { selected: [], excluded: [], added: [] };
+    return SourceRegistry.defaultSelection();
+  }
+
+  // Normalise whatever a form hands us into the stored shape.
+  function cleanSources(sel) {
+    if (!sel || typeof sel !== 'object') return null;
+    return {
+      selected: (sel.selected || []).filter(Boolean),
+      excluded: (sel.excluded || []).filter(Boolean),
+      added: (sel.added || []).filter(function (a) { return a && a.input; })
+        .map(function (a) {
+          return {
+            input: String(a.input),
+            source_id: a.source_id || '',
+            status: a.status || 'unverified',
+            resolved_name: a.resolved_name || '',
+          };
+        }),
+    };
+  }
+
+  // Set a story's source selection. Like every other edit, on a catalog story
+  // this is a personal override; on the user's own draft it writes through.
+  function setSources(id, sel) {
+    if (!isFollowing(id)) return null;
+    var clean = cleanSources(sel);
+    if (!clean) return null;
+    var own = ownById[id];
+    if (own) own.sources = clean;
+    else setOverride(id, { sources: clean });
+    save();
+    return resolve(id);
+  }
+
   // Build a full story record from a feed/enriched item.
   function buildStory(item) {
     var countries = (item.countries || '').split(';').map(function (c) { return c.trim(); }).filter(Boolean);
@@ -316,6 +359,8 @@ var WatchlistStore = (function () {
       notes: '',
       image: '',
       parent_id: null,
+      // Every source, selected — the same default the Add-story form shows.
+      sources: defaultSources(),
     };
   }
 
@@ -390,6 +435,7 @@ var WatchlistStore = (function () {
       custom: true,
       image: (fields.image || '').trim(),
       parent_id: null,
+      sources: cleanSources(fields.sources) || defaultSources(),
     };
     doc.own.push(story);
     reindexOwn();
@@ -448,6 +494,7 @@ var WatchlistStore = (function () {
     }
     // A URL or a data: base64 string. Empty string clears the custom image.
     if (fields.image != null) patch.image = String(fields.image).trim();
+    if (fields.sources != null) patch.sources = cleanSources(fields.sources);
     patch.edited_at = nowIso();
 
     if (own) {
@@ -456,6 +503,7 @@ var WatchlistStore = (function () {
       if (patch.title != null) own.title = patch.title;
       if (patch.image != null) own.image = patch.image;
       if (patch.keywords) own.keywords = patch.keywords;
+      if (patch.sources) own.sources = patch.sources;
       if (patch.text != null || patch.countries) {
         own.seed = own.seed || {};
         if (patch.text != null) own.seed.text = patch.text;
@@ -533,6 +581,7 @@ var WatchlistStore = (function () {
     moveBy: moveBy,
     moveTo: moveTo,
     updateStory: updateStory,
+    setSources: setSources,
     addCustom: addCustom,
     storyIdFor: storyIdFor,
     hasId: hasId,

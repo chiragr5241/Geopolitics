@@ -1,0 +1,68 @@
+source_id,name,aliases,kind,domain,feed_url,query,perspective,source_country,scope,status,added_by,added_at,corrected_from,last_ok_at,last_items,notes
+bbc-world,BBC World,BBC;BBC News;BBC World News;BBC World Service,rss,bbc.co.uk,https://feeds.bbci.co.uk/news/world/rss.xml,,western-uk,GB,wire,active,seed,2026-07-28,,,,Pulled by pull_wires.py
+dw-english,DW English,DW;Deutsche Welle;DW News,rss,dw.com,https://rss.dw.com/rdf/rss-en-world,,german,DE,wire,active,seed,2026-07-28,,,,Pulled by pull_wires.py
+al-jazeera,Al Jazeera,AlJazeera;Al Jazeera English;AJE;Al-Jazeera,rss,aljazeera.com,https://www.aljazeera.com/xml/rss/all.xml,,gulf,QA,wire,active,seed,2026-07-28,,,,Pulled by pull_wires.py
+un-news,UN News,United Nations News;UN;UN News Centre,rss,news.un.org,https://news.un.org/feed/subscribe/en/news/all/rss.xml,,institutional,UN,wire,active,seed,2026-07-28,,,,Pulled by pull_wires.py
+bno-news,BNO News,BNO;BNONews,rss,bnonews.com,https://bnonews.com/index.php/feed/,,wire-fast,,wire,active,seed,2026-07-28,,,,Fast-lead breaking wire
+gdelt-ru-ukraine,GDELT/RU Ukraine,GDELT RU;GDELT Russia,gdelt,gdeltproject.org,,ukraine sourcecountry:RS sourcelang:english,russia,RU,wire,active,seed,2026-07-28,,,,Russian-reported Ukraine coverage
+gdelt-cn-taiwan,GDELT/CN Taiwan,GDELT CN;GDELT China,gdelt,gdeltproject.org,,taiwan sourcecountry:CH sourcelang:english,chinese,CN,wire,active,seed,2026-07-28,,,,Chinese-reported Taiwan coverage
+gdelt-ir-mideast,GDELT/IR MidEast,GDELT IR;GDELT Iran,gdelt,gdeltproject.org,,israel sourcecountry:IR sourcelang:english,iranian,IR,wire,active,seed,2026-07-28,,,,Iranian-reported Israel coverage
+spectator-index,Spectator Index,spectator;The Spectator Index;@spectatorindex,social,twitter.com,,,aggregator,,wire,active,seed,2026-07-28,,,,Curated tweet stream (pull_spectator.py)
+reuters,Reuters,Reuter;Thomson Reuters;Reuters News,web,reuters.com,,,western-wire,GB,research,active,seed,2026-07-28,,,,
+associated-press,Associated Press,AP;AP News;The Associated Press,web,apnews.com,,,western-wire,US,research,active,seed,2026-07-28,,,,
+agence-france-presse,Agence France-Presse,AFP;France Presse,web,afp.com,,,french,FR,research,active,seed,2026-07-28,,,,
+the-guardian,The Guardian,Guardian;Guardian UK,web,theguardian.com,,,western-uk,GB,research,active,seed,2026-07-28,,,,
+new-york-times,The New York Times,NYT;New York Times;NY Times,web,nytimes.com,,,western-us,US,research,active,seed,2026-07-28,,,,
+washington-post,The Washington Post,WaPo;Washington Post,web,washingtonpost.com,,,western-us,US,research,active,seed,2026-07-28,,,,
+financial-times,Financial Times,FT;Financial Times London,web,ft.com,,,western-uk,GB,research,active,seed,2026-07-28,,,,
+bloomberg,Bloomberg,Bloomberg News,web,bloomberg.com,,,western-us,US,research,active,seed,2026-07-28,,,,
+cnbc,CNBC,,web,cnbc.com,,,western-us,US,research,active,seed,2026-07-28,,,,
+cnn,CNN,CNN International,web,cnn.com,,,western-us,US,research,active,seed,2026-07-28,,,,
+nbc-news,NBC News,NBC,web,nbcnews.com,,,western-us,US,research,active,seed,2026-07-28,,,,
+npr,NPR,National Public Radio,web,npr.org,,,western-us,US,research,active,seed,2026-07-28,,,,
+politico,Politico,Politico EU;Politico Europe,web,politico.com,,,western-us,US,research,active,seed,2026-07-28,,,,
+the-hill,The Hill,Hill,web,thehill.com,,,western-us,US,research,active,seed,2026-07-28,,,,
+france-24,France 24,France24;F24,web,france24.com,,,french,FR,research,active,seed,2026-07-28,,,,
+kyiv-independent,Kyiv Independent,The Kyiv Independent;Kiev Independent,web,kyivindependent.com,,,ukrainian,UA,research,active,seed,2026-07-28,,,,
+kyiv-post,Kyiv Post,Kiev Post,web,kyivpost.com,,,ukrainian,UA,research,active,seed,2026-07-28,,,,
+ukrainska-pravda,Ukrainska Pravda,Ukrayinska Pravda;Ukrainian Pravda,web,pravda.com.ua,,,ukrainian,UA,research,active,seed,2026-07-28,,,,
+euromaidan-press,Euromaidan Press,Euromaidan,web,euromaidanpress.com,,,ukrainian,UA,research,active,seed,2026-07-28,,,,
+hromadske,Hromadske,Hromadske International;Gromadske,web,hromadske.ua,,,ukrainian,UA,research,active,seed,2026-07-28,,,,
+interfax-ukraine,Interfax-Ukraine,Interfax Ukraine;Interfax,web,interfax.com.ua,,,ukrainian,UA,research,active,seed,2026-07-28,,,,
+rferl,RFE/RL,Radio Free Europe;Radio Free Europe/Radio Liberty;Radio Liberty,web,rferl.org,,,western-us,US,research,active,seed,2026-07-28,,,,
+moscow-times,The Moscow Times,Moscow Times,web,themoscowtimes.com,,,russia,RU,research,active,seed,2026-07-28,,,,
+tass,TASS,ITAR-TASS;Tass Russian News Agency,web,tass.com,,,russia,RU,research,active,seed,2026-07-28,,,,
+scmp,South China Morning Post,SCMP;South China Morning,web,scmp.com,,,chinese,HK,research,active,seed,2026-07-28,,,,
+global-times,Global Times,GlobalTimes,web,globaltimes.cn,,,chinese,CN,research,active,seed,2026-07-28,,,,
+xinhua,Xinhua,Xinhua News Agency;Xinhuanet,web,xinhuanet.com,,,chinese,CN,research,active,seed,2026-07-28,,,,
+nikkei,Nikkei Asia,Nikkei;Nikkei Asian Review,web,asia.nikkei.com,,,japanese,JP,research,active,seed,2026-07-28,,,,
+yonhap,Yonhap,Yonhap News Agency,web,en.yna.co.kr,,,korean,KR,research,active,seed,2026-07-28,,,,
+the-diplomat,The Diplomat,Diplomat Magazine,web,thediplomat.com,,,asia-analysis,US,research,active,seed,2026-07-28,,,,
+times-of-india,The Times of India,Times of India;TOI,web,timesofindia.indiatimes.com,,,indian,IN,research,active,seed,2026-07-28,,,,
+ani,ANI,Asian News International,web,aninews.in,,,indian,IN,research,active,seed,2026-07-28,,,,
+anadolu,Anadolu Agency,Anadolu;AA,web,aa.com.tr,,,turkish,TR,research,active,seed,2026-07-28,,,,
+jerusalem-post,The Jerusalem Post,Jerusalem Post;JPost,web,jpost.com,,,israeli,IL,research,active,seed,2026-07-28,,,,
+times-of-israel,The Times of Israel,Times of Israel;ToI Israel,web,timesofisrael.com,,,israeli,IL,research,active,seed,2026-07-28,,,,
+haaretz,Haaretz,Ha'aretz,web,haaretz.com,,,israeli,IL,research,active,seed,2026-07-28,,,,
+tehran-times,Tehran Times,,web,tehrantimes.com,,,iranian,IR,research,active,seed,2026-07-28,,,,
+defense-news,Defense News,DefenseNews,web,defensenews.com,,,defense-trade,US,research,active,seed,2026-07-28,,,,
+military-times,Military Times,MilitaryTimes,web,militarytimes.com,,,defense-trade,US,research,active,seed,2026-07-28,,,,
+defensescoop,DefenseScoop,Defense Scoop,web,defensescoop.com,,,defense-trade,US,research,active,seed,2026-07-28,,,,
+army-recognition,Army Recognition,ArmyRecognition,web,armyrecognition.com,,,defense-trade,FR,research,active,seed,2026-07-28,,,,
+space-news,SpaceNews,Space News,web,spacenews.com,,,space-trade,US,research,active,seed,2026-07-28,,,,
+space-com,Space.com,Space com;Spacecom,web,space.com,,,space-trade,US,research,active,seed,2026-07-28,,,,
+nasaspaceflight,NASASpaceflight,NASA Spaceflight;NSF,web,nasaspaceflight.com,,,space-trade,US,research,active,seed,2026-07-28,,,,
+ars-technica,Ars Technica,ArsTechnica,web,arstechnica.com,,,tech,US,research,active,seed,2026-07-28,,,,
+reliefweb,ReliefWeb,Relief Web,web,reliefweb.int,,,institutional,UN,research,active,seed,2026-07-28,,,,ReliefWeb API needs a registered appname before it can be an rss/wire source
+eu-reporter,EU Reporter,,web,eureporter.co,,,european,BE,research,active,backfill,2026-07-28,,,,Verified by an existing story update URL
+inkorr,Inkorr,,web,inkorr.com,,,ukrainian,UA,research,active,backfill,2026-07-28,,,,Verified by an existing story update URL
+u-s-news-world-report,U.S. News & World Report,U.S. News;US News,web,usnews.com,,,western-us,US,research,active,backfill,2026-07-28,,,,
+federal-news-network,Federal News Network,,web,federalnewsnetwork.com,,,western-us,US,research,active,backfill,2026-07-28,,,,
+olympics-com,Olympics.com,,web,olympics.com,,,institutional,,research,active,backfill,2026-07-28,,,,
+the-baltimore-sun,The Baltimore Sun,Baltimore Sun,web,baltimoresun.com,,,western-us,US,research,active,backfill,2026-07-28,,,,
+the-motley-fool,The Motley Fool,Motley Fool,web,fool.com,,,markets,US,research,active,backfill,2026-07-28,,,,
+benzinga,Benzinga,,web,benzinga.com,,,markets,US,research,active,backfill,2026-07-28,,,,
+forbes,Forbes,,web,forbes.com,,,western-us,US,research,active,backfill,2026-07-28,,,,
+gulf-news,Gulf News,,web,gulfnews.com,,,gulf,AE,research,active,backfill,2026-07-28,,,,
+medianama,MediaNama,,web,medianama.com,,,indian,IN,research,active,backfill,2026-07-28,,,,
+the-barents-observer,The Barents Observer,Barents Observer,web,thebarentsobserver.com,,,nordic,NO,research,active,user,2026-07-28,Barents Observer,,,Independent Norwegian outlet covering the Arctic/Barents region

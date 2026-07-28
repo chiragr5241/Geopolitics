@@ -226,6 +226,9 @@
   }
 
   DataLayer.loadFeed().then(function (data) {
+    // Sources before the store: tracking a story from here seeds its source
+    // selection from the registry (see WatchlistStore.buildStory).
+    SourceRegistry.init(data.sources);
     WatchlistStore.init(data.watchlist);
     var items = (data.tweetEnriched || []).slice().sort(function (a, b) {
       return (b.created_at || '').localeCompare(a.created_at || '');

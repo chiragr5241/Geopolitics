@@ -24,6 +24,7 @@
                        when database.json is the source)
        watchlist     : Array of watchlist story objects (data/watchlist.json)
        storyUpdates  : Array of story_updates rows (data/story_updates.csv)
+       sources       : Array of source registry rows (data/sources.csv)
        meta          : database.json._meta (timeline marks, counts, generated ts) or {}
    ========================================================= */
 
@@ -135,6 +136,7 @@ var DataLayer = (function () {
       tweetEnriched: enrichedTweets,
       watchlist:     db.watchlist     || [],
       storyUpdates:  (db.story_updates || []).map(normaliseRow),
+      sources:       (db.sources || []).map(normaliseRow),
       meta:          meta,
     };
   }
@@ -180,6 +182,7 @@ var DataLayer = (function () {
       fetchCSV(DATA_SOURCES.imagery),
       fetchCSVOptional(DATA_SOURCES.intelFeed),
       fetchCSVOptional(DATA_SOURCES.storyImages),
+      fetchCSVOptional(DATA_SOURCES.sources),
     ]).then(function (results) {
       var intelFeed = results[3];
       // Synthesise raw tweet rows for app.js merge compatibility
@@ -195,6 +198,7 @@ var DataLayer = (function () {
         tweetEnriched: intelFeed,
         watchlist:     [],
         storyUpdates:  [],
+        sources:       results[5],
         meta:          {},
       };
     });
