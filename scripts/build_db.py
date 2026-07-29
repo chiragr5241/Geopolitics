@@ -339,7 +339,8 @@ def build():
         origin      TEXT,
         found_at    TEXT,
         image       TEXT,
-        source_id   TEXT
+        source_id   TEXT,
+        cross_linked_from TEXT
     )''')
     conn.commit()
 
@@ -450,7 +451,7 @@ def build():
     story_update_cols = [
         'update_id', 'story_id', 'date', 'headline', 'summary',
         'source_name', 'url', 'status', 'severity', 'origin', 'found_at', 'image',
-        'source_id',
+        'source_id', 'cross_linked_from',
     ]
     for r in story_updates:
         vals = [r.get(col, '') for col in story_update_cols]

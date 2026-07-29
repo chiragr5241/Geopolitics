@@ -69,7 +69,7 @@ STORY_UPDATES_CSV = os.path.join(ROOT, 'data', 'story_updates.csv')
 STORY_UPDATE_COLUMNS = [
     'story_id', 'update_id', 'date', 'headline', 'summary',
     'source_name', 'url', 'status', 'severity', 'origin', 'found_at', 'image',
-    'source_id',
+    'source_id', 'cross_linked_from',
 ]
 VALID_STATUS = {'new', 'developing', 'confirmed', 'disputed', 'resolution'}
 REQUIRED_FIELDS = ('story_id', 'date', 'headline', 'summary', 'source_name')
@@ -307,7 +307,7 @@ def backfill_sources(dry_run=False):
         w.writeheader()
         for r in rows:
             w.writerow({k: r.get(k, '') for k in STORY_UPDATE_COLUMNS})
-    print('Rewrote story_updates.csv with the source_id column.')
+    print('Rewrote story_updates.csv with the current columns.')
 
 
 def header_matches():

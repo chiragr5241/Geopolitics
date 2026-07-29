@@ -36,6 +36,7 @@ from datetime import datetime, timezone
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from pull_youtube import load_videos                                    # noqa: E402
+from add_story_update import STORY_UPDATE_COLUMNS                       # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 WATCHLIST_JSON = os.path.join(ROOT, 'data', 'watchlist.json')
@@ -43,12 +44,6 @@ STORY_UPDATES_CSV = os.path.join(ROOT, 'data', 'story_updates.csv')
 REVIEW_CSV = os.path.join(ROOT, 'data', 'youtube_review.csv')
 
 REVIEW_COLUMNS = ['story_id', 'url', 'verdict', 'reason', 'headline', 'reviewed_at']
-
-STORY_UPDATE_COLUMNS = [
-    'story_id', 'update_id', 'date', 'headline', 'summary',
-    'source_name', 'url', 'status', 'severity', 'origin', 'found_at', 'image',
-    'source_id',
-]
 
 DEFAULT_BATCH = 25
 DESC_CHARS = 700     # enough to judge aboutness, short enough to batch 25 of them
@@ -90,8 +85,15 @@ def load_stories():
 
 
 def pending(rows, reviews):
+    """Video beats awaiting a verdict.
+
+    A row carrying `cross_linked_from` is excluded: cross_link_updates.py placed
+    it on this story only after its own review, so it has already been judged —
+    against the right question, too ("does it ALSO belong here?").
+    """
     return [r for r in rows
             if r.get('origin') == 'youtube'
+            and not (r.get('cross_linked_from') or '').strip()
             and (r.get('story_id'), r.get('url')) not in reviews]
 
 

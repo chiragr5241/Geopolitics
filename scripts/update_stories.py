@@ -24,18 +24,13 @@ from datetime import datetime, timezone
 
 from story_dedup import build_index, is_fuzzy_dup, note_accepted
 from source_registry import load_sources, resolve_feed_source, story_sources
-from add_story_update import header_matches, backfill_sources
+from add_story_update import (STORY_UPDATE_COLUMNS, header_matches,
+                              backfill_sources)
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 INTEL_CSV = os.path.join(ROOT, 'data', 'intel_feed.csv')
 WATCHLIST_JSON = os.path.join(ROOT, 'data', 'watchlist.json')
 STORY_UPDATES_CSV = os.path.join(ROOT, 'data', 'story_updates.csv')
-
-STORY_UPDATE_COLUMNS = [
-    'story_id', 'update_id', 'date', 'headline', 'summary',
-    'source_name', 'url', 'status', 'severity', 'origin', 'found_at', 'image',
-    'source_id',
-]
 
 
 def parse_dt(value):

@@ -52,19 +52,14 @@ from datetime import datetime, timezone
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from source_registry import load_sources, story_sources, categories_of  # noqa: E402
 from story_dedup import build_index, is_fuzzy_dup, note_accepted        # noqa: E402
-from add_story_update import header_matches, backfill_sources           # noqa: E402
+from add_story_update import (STORY_UPDATE_COLUMNS, header_matches,    # noqa: E402
+                              backfill_sources)
 from pull_youtube import load_videos                                    # noqa: E402
 from review_youtube_links import rejected_pairs                         # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 WATCHLIST_JSON = os.path.join(ROOT, 'data', 'watchlist.json')
 STORY_UPDATES_CSV = os.path.join(ROOT, 'data', 'story_updates.csv')
-
-STORY_UPDATE_COLUMNS = [
-    'story_id', 'update_id', 'date', 'headline', 'summary',
-    'source_name', 'url', 'status', 'severity', 'origin', 'found_at', 'image',
-    'source_id',
-]
 
 MIN_SCORE = 6            # below this it's a coincidence, not a match
 MAX_PER_STORY = 12       # total video beats a story may accumulate
@@ -180,10 +175,15 @@ _PROMO_RE = re.compile(
     r'[^.\n]*', re.IGNORECASE)
 
 
+def strip_promo(text):
+    """A description with its sponsor blocks and link dumps removed."""
+    return ' '.join(_PROMO_RE.sub(' ', text or '').split())
+
+
 def match_text(video):
     """The part of a video that actually describes its subject."""
-    desc = _PROMO_RE.sub(' ', video.get('description') or '')
-    return (desc + ' ' + (video.get('keywords') or '')).lower()
+    return (strip_promo(video.get('description')) + ' ' +
+            (video.get('keywords') or '')).lower()
 
 
 _KW_RE_CACHE = {}
@@ -290,6 +290,12 @@ def prune(dry_run=False):
     keep, dropped = [], []
     for r in rows:
         if r.get('origin') != 'youtube':
+            keep.append(r)
+            continue
+        if (r.get('cross_linked_from') or '').strip():
+            # Placed by cross_link_updates.py, on judgement rather than score —
+            # and by definition it did NOT clear the bar below for this story,
+            # which is the whole reason that step exists. Not ours to re-score.
             keep.append(r)
             continue
         video = videos.get(r.get('url', ''))

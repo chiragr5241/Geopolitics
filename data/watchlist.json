@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-07-28T20:56:44Z",
+  "updated_at": "2026-07-29T10:31:49Z",
   "stories": [
     {
       "story_id": "st-20260511-ukraine-corruption",
@@ -113,8 +113,8 @@
         "zaporizhzhia",
         "kherson"
       ],
-      "last_update_at": "2026-07-28",
-      "update_count": 68,
+      "last_update_at": "2026-07-29",
+      "update_count": 71,
       "resolved_at": null,
       "notes": "Backfilled 2026-07-21 from intel_feed via scripts/backfill_story_updates.py."
     },
@@ -569,8 +569,8 @@
         "blockade",
         "missile"
       ],
-      "last_update_at": "2026-07-28",
-      "update_count": 70,
+      "last_update_at": "2026-07-29",
+      "update_count": 71,
       "resolved_at": null,
       "notes": "Backfilled 2026-07-17 from intel_feed, past-4-months major beats."
     },

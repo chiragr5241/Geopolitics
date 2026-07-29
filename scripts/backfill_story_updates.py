@@ -38,7 +38,7 @@ OUT_PATH = os.path.join(DATA_DIR, 'story_updates.csv')
 OUT_COLS = [
     'story_id', 'update_id', 'date', 'headline', 'summary',
     'source_name', 'url', 'status', 'severity', 'origin', 'found_at',
-    'image', 'source_id',
+    'image', 'source_id', 'cross_linked_from',
 ]
 
 CAP_PER_STORY = 32
