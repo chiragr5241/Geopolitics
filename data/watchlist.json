@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-07-29T10:31:49Z",
+  "updated_at": "2026-07-29T14:31:59Z",
   "stories": [
     {
       "story_id": "st-20260511-ukraine-corruption",
@@ -74,8 +74,8 @@
         "starship",
         "spaceport"
       ],
-      "last_update_at": "2026-07-28",
-      "update_count": 16,
+      "last_update_at": "2026-07-29",
+      "update_count": 19,
       "resolved_at": null,
       "notes": "",
       "custom": true,
@@ -114,7 +114,7 @@
         "kherson"
       ],
       "last_update_at": "2026-07-29",
-      "update_count": 71,
+      "update_count": 77,
       "resolved_at": null,
       "notes": "Backfilled 2026-07-21 from intel_feed via scripts/backfill_story_updates.py."
     },
@@ -157,8 +157,8 @@
         "reunification",
         "taipei"
       ],
-      "last_update_at": "2026-07-28",
-      "update_count": 17,
+      "last_update_at": "2026-07-29",
+      "update_count": 30,
       "resolved_at": null,
       "notes": "",
       "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/2020-04-23_Seaman_Xi_Chan_stands_lookout_on_the_flight_deck_as_USS_Barry_%28DDG_52%29_transits_the_Taiwan_Strait.jpg/1920px-2020-04-23_Seaman_Xi_Chan_stands_lookout_on_the_flight_deck_as_USS_Barry_%28DDG_52%29_transits_the_Taiwan_Strait.jpg",
@@ -201,8 +201,8 @@
         "nypd",
         "city hall"
       ],
-      "last_update_at": "2026-07-28",
-      "update_count": 9,
+      "last_update_at": "2026-07-29",
+      "update_count": 10,
       "resolved_at": null,
       "notes": "",
       "custom": true,
@@ -532,8 +532,8 @@
         "uav",
         "swarm"
       ],
-      "last_update_at": "2026-07-28",
-      "update_count": 16,
+      "last_update_at": "2026-07-29",
+      "update_count": 17,
       "resolved_at": null,
       "notes": "",
       "custom": true,
@@ -570,7 +570,7 @@
         "missile"
       ],
       "last_update_at": "2026-07-29",
-      "update_count": 71,
+      "update_count": 82,
       "resolved_at": null,
       "notes": "Backfilled 2026-07-17 from intel_feed, past-4-months major beats."
     },
@@ -603,8 +603,8 @@
         "redistricting",
         "kalshi"
       ],
-      "last_update_at": "2026-07-28",
-      "update_count": 48,
+      "last_update_at": "2026-07-29",
+      "update_count": 49,
       "resolved_at": null,
       "notes": "Backfilled 2026-07-21 from intel_feed via scripts/backfill_story_updates.py."
     },
@@ -671,8 +671,8 @@
         "lok sabha",
         "rahul gandhi"
       ],
-      "last_update_at": "2026-07-28",
-      "update_count": 20,
+      "last_update_at": "2026-07-29",
+      "update_count": 23,
       "resolved_at": null,
       "notes": "",
       "custom": true,
