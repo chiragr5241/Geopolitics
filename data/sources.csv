@@ -1,7 +1,7 @@
 source_id,name,aliases,category,kind,domain,handle,feed_url,query,perspective,source_country,scope,status,added_by,added_at,corrected_from,last_ok_at,last_items,notes
 bbc-world,BBC World,BBC;BBC News;BBC World News;BBC World Service,Official news channels,rss,bbc.co.uk,,https://feeds.bbci.co.uk/news/world/rss.xml,,western-uk,GB,wire,active,seed,2026-07-28,,2026-07-30T13:39:33Z,25,Pulled by pull_wires.py
 dw-english,DW English,DW;Deutsche Welle;DW News,Official news channels,rss,dw.com,,https://rss.dw.com/rdf/rss-en-world,,german,DE,wire,active,seed,2026-07-28,,2026-07-30T13:39:33Z,12,Pulled by pull_wires.py
-al-jazeera,Al Jazeera,AlJazeera;Al Jazeera English;AJE;Al-Jazeera,Official news channels,rss,aljazeera.com,,https://www.aljazeera.com/xml/rss/all.xml,,gulf,QA,wire,active,seed,2026-07-28,,2026-07-30T13:39:33Z,25,Pulled by pull_wires.py
+al-jazeera,Al Jazeera,AlJazeera;Al Jazeera English;AJE;Al-Jazeera,Official news channels,rss,aljazeera.com,,https://www.aljazeera.com/xml/rss/all.xml,,gulf,QA,wire,active,seed,2026-07-28,,2026-07-30T14:33:05Z,2,Pulled by pull_wires.py
 un-news,UN News,United Nations News;UN;UN News Centre,Official news channels,rss,news.un.org,,https://news.un.org/feed/subscribe/en/news/all/rss.xml,,institutional,UN,wire,active,seed,2026-07-28,,2026-07-29T13:40:34Z,13,Pulled by pull_wires.py
 bno-news,BNO News,BNO;BNONews,Official news channels,rss,bnonews.com,,https://bnonews.com/index.php/feed/,,wire-fast,,wire,active,seed,2026-07-28,,2026-07-30T13:39:33Z,10,Fast-lead breaking wire
 gdelt-ru-ukraine,GDELT/RU Ukraine,GDELT RU;GDELT Russia,Official news channels,gdelt,gdeltproject.org,,,ukraine sourcecountry:RS sourcelang:english,russia,RU,wire,active,seed,2026-07-28,,2026-07-30T13:39:33Z,60,Russian-reported Ukraine coverage
@@ -56,7 +56,7 @@ ars-technica,Ars Technica,ArsTechnica,Official news channels,web,arstechnica.com
 reliefweb,ReliefWeb,Relief Web,Official news channels,web,reliefweb.int,,,,institutional,UN,research,active,seed,2026-07-28,,,,ReliefWeb API needs a registered appname before it can be an rss/wire source
 eu-reporter,EU Reporter,,Official news channels,web,eureporter.co,,,,european,BE,research,active,backfill,2026-07-28,,,,Verified by an existing story update URL
 inkorr,Inkorr,,Official news channels,web,inkorr.com,,,,ukrainian,UA,research,active,backfill,2026-07-28,,,,Verified by an existing story update URL
-u-s-news-world-report,U.S. News & World Report,U.S. News;US News,Official news channels,web,usnews.com,,,,western-us,US,research,active,backfill,2026-07-28,,,,
+u-s-news-world-report,U.S. News & World Report,U.S. News;US News,Official news channels,web,usnews.com,,,,western-us,US,research,active,backfill,2026-07-28,,2026-07-30T14:33:05Z,1,
 federal-news-network,Federal News Network,,Official news channels,web,federalnewsnetwork.com,,,,western-us,US,research,active,backfill,2026-07-28,,,,
 olympics-com,Olympics.com,,Official news channels,web,olympics.com,,,,institutional,,research,active,backfill,2026-07-28,,,,
 the-baltimore-sun,The Baltimore Sun,Baltimore Sun,Official news channels,web,baltimoresun.com,,,,western-us,US,research,active,backfill,2026-07-28,,,,
@@ -253,6 +253,6 @@ yt-the-school-of-life,The School of Life,The School of Life (YouTube),YouTube: E
 yt-smart-nonsense,Smart Nonsense,Smart Nonsense (YouTube),YouTube: Explainers & Philosophy,youtube,youtube.com,SmartNonsense,https://www.youtube.com/feeds/videos.xml?channel_id=UCFN6lQpfY8XIRdhv9G-f4bg,,video,,video,active,seed-youtube,2026-07-28,,2026-07-29T14:59:03Z,0,confirmed as 'Smart Nonsense' (channel_id=UCFN6lQpfY8XIRdhv9G-f4bg)
 fox-news,Fox News,FOX news,Official news channels,web,foxnews.com,,,,western-us,US,research,active,user,2026-07-28,FOX news,2026-07-29T14:30:39Z,1,
 the-new-yorker,The New Yorker,The new yorker,Official news channels,web,newyorker.com,,,,western-us,US,research,active,user,2026-07-28,The new yorker,,,
-nyc-mayor-s-office,NYC Mayor's Office,NYC Mayors Youtube: https://www.youtube.com/@NYCMayorsOffice,Official news channels,youtube,youtube.com,,https://www.youtube.com/feeds/videos.xml?channel_id=UClnI1zhyzv_BPb-VSHEtniw,,video,US,video,active,user,2026-07-28,NYC Mayors Youtube: https://www.youtube.com/@NYCMayorsOffice,2026-07-29T14:59:03Z,0,
+nyc-mayor-s-office,NYC Mayor's Office,NYC Mayors Youtube: https://www.youtube.com/@NYCMayorsOffice,Official news channels,youtube,youtube.com,,https://www.youtube.com/feeds/videos.xml?channel_id=UClnI1zhyzv_BPb-VSHEtniw,,video,US,video,active,user,2026-07-28,NYC Mayors Youtube: https://www.youtube.com/@NYCMayorsOffice,2026-07-30T14:33:05Z,1,
 air-space-forces-magazine,Air & Space Forces Magazine,Air Force Magazine;AFA Magazine;airandspaceforces.com,Official news channels,web,airandspaceforces.com,,,,western-us,US,research,active,agent,2026-07-28,,2026-07-28T20:56:44Z,1,Air & Space Forces Association magazine (formerly Air Force Magazine)
 arms-control-association,Arms Control Association,,Official news channels,web,armscontrol.org,,,,,US,research,active,agent,2026-07-29,,,,

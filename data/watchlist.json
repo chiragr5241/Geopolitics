@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-07-29T14:31:59Z",
+  "updated_at": "2026-07-30T14:33:15Z",
   "stories": [
     {
       "story_id": "st-20260511-ukraine-corruption",
@@ -74,8 +74,8 @@
         "starship",
         "spaceport"
       ],
-      "last_update_at": "2026-07-29",
-      "update_count": 19,
+      "last_update_at": "2026-07-30",
+      "update_count": 20,
       "resolved_at": null,
       "notes": "",
       "custom": true,
@@ -113,8 +113,8 @@
         "zaporizhzhia",
         "kherson"
       ],
-      "last_update_at": "2026-07-29",
-      "update_count": 77,
+      "last_update_at": "2026-07-30",
+      "update_count": 88,
       "resolved_at": null,
       "notes": "Backfilled 2026-07-21 from intel_feed via scripts/backfill_story_updates.py."
     },
@@ -201,8 +201,8 @@
         "nypd",
         "city hall"
       ],
-      "last_update_at": "2026-07-29",
-      "update_count": 10,
+      "last_update_at": "2026-07-30",
+      "update_count": 11,
       "resolved_at": null,
       "notes": "",
       "custom": true,
@@ -569,8 +569,8 @@
         "blockade",
         "missile"
       ],
-      "last_update_at": "2026-07-29",
-      "update_count": 82,
+      "last_update_at": "2026-07-30",
+      "update_count": 93,
       "resolved_at": null,
       "notes": "Backfilled 2026-07-17 from intel_feed, past-4-months major beats."
     },
@@ -604,7 +604,7 @@
         "kalshi"
       ],
       "last_update_at": "2026-07-29",
-      "update_count": 49,
+      "update_count": 51,
       "resolved_at": null,
       "notes": "Backfilled 2026-07-21 from intel_feed via scripts/backfill_story_updates.py."
     },
@@ -637,8 +637,8 @@
         "tren de aragua",
         "essequibo"
       ],
-      "last_update_at": "2026-07-28",
-      "update_count": 39,
+      "last_update_at": "2026-07-30",
+      "update_count": 40,
       "resolved_at": null,
       "notes": "Backfilled 2026-07-21 from intel_feed via scripts/backfill_story_updates.py."
     },
@@ -672,7 +672,7 @@
         "rahul gandhi"
       ],
       "last_update_at": "2026-07-29",
-      "update_count": 23,
+      "update_count": 24,
       "resolved_at": null,
       "notes": "",
       "custom": true,
