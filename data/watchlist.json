@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-07-31T15:24:02Z",
+  "updated_at": "2026-07-31T15:28:04Z",
   "stories": [
     {
       "story_id": "st-20260511-ukraine-corruption",
@@ -114,7 +114,7 @@
         "kherson"
       ],
       "last_update_at": "2026-07-31",
-      "update_count": 90,
+      "update_count": 91,
       "resolved_at": null,
       "notes": "Backfilled 2026-07-21 from intel_feed via scripts/backfill_story_updates.py."
     },
