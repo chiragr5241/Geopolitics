@@ -1,4 +1,1447 @@
 "video_id","source_id","channel","title","raw_title","description","published_at","url","thumbnail","categories","countries","keywords","detail_status","summary","fetched_at"
+"hBDrezy04q0","yt-bbc-news","BBC News","Mike Flanagan joins Henry Cavill's Amazon Warhammer 40k project #Warhammer40K #HenryCavill #BBCNews","","","2026-08-01T14:30:04Z","https://www.youtube.com/watch?v=hBDrezy04q0","https://i1.ytimg.com/vi/hBDrezy04q0/hqdefault.jpg","political","","mike;flanagan;henry;cavill;amazon;warhammer;henrycavill;bbcnews","base","","2026-08-01T14:56:46Z"
+"qFBV8Fl9wt8","yt-far-ai","FAR․AI","Stella Biderman (EleutherAI) on filtering dangerous knowledge out of AI pretraining data","Making Open-Weight AI Safer by Filtering Training Data | Stella Biderman (EleutherAI)","Stella Biderman (EleutherAI) on a safety method built for open-weight models: filtering dangerous knowledge out of the pretraining data.
+
+Biderman argues that the standard safety toolkit, input and output filtering, alignment fine-tuning, and know-your-customer checks, was designed for API models and does not hold for open-weight models that anyone can fine-tune. The alternative, from her team with Oxford and the UK AISI: because narrowly useful dangerous knowledge is intellectually isolated, it can be removed from the pretraining data. Training from scratch with this filtering sharply lowers biorisk capability, measured on WMDP-Bio, and stays robust under adversarial fine-tuning, roughly an order of magnitude more robust than other methods. She gives three conditions for when filtering works and expects it to help most for CBRN information.
+
+Chapters
+0:00 Making open models safer through data filtering
+0:17 Why standard safety methods fail for open-weight models
+1:12 Designing safety around open-model developers' needs
+1:39 The idea: filter dangerous knowledge from training data
+1:53 Results: a big drop in biorisk capability (WMDP-Bio)
+2:23 Robustness to adversarial fine-tuning
+3:03 The cost vs. robustness trade-off
+3:38 When does data filtering actually work? Three conditions
+4:44 Which domains fit, and CBRN
+5:18 Scaling and low-hanging fruit
+
+More AI safety research: https://far.ai
+Alignment Workshop playlist: https://youtube.com/playlist?list=PLBY5kyt_LfFg&si=B9I56daxBmDA…","2026-08-01T14:00:20Z","https://www.youtube.com/watch?v=qFBV8Fl9wt8","https://i2.ytimg.com/vi/qFBV8Fl9wt8/hqdefault.jpg","political","","ai safety;open-weight models;data filtering;biorisk;eleutherai;wmdp","detailed","EleutherAI's Stella Biderman argues standard AI safety methods (API filtering, alignment fine-tuning, KYC) don't work for open-weight models anyone can fine-tune. Her team (with Oxford and UK AISI) instead filters dangerous knowledge from pretraining data, sharply cutting biorisk capability (WMDP-Bio) and staying robust under adversarial fine-tuning.","2026-08-01T14:58:16Z"
+"f2cmeAJyNQA","yt-casual-navigation","Casual Navigation","How aircraft carriers and their escort strike groups project naval power","The Floating Airfields That Rule the Oceans","Aircraft carriers serve as the central centerpiece of modern naval force projection, allowing armed forces to launch and recover fighter jets, helicopters, and surveillance aircraft far from domestic land bases. Operating from massive armored flight decks, these capital ships rely on steam or electromagnetic catapults to accelerate heavy jets to takeoff speeds and high-tensile arresting wires to catch landing aircraft in seconds.
+
+Because of their immense strategic value and specialized role, aircraft carriers are never deployed in isolation. Instead, they operate surrounded by a heavily fortified strike group of destroyers, frigates, and attack submarines that form an impenetrable defensive bubble against air, surface, and subsea threats.
+
+#AircraftCarrier #NavalArchitecture #MilitaryTechnology #NavalWarfare #CasualNavigation","2026-08-01T14:00:18Z","https://www.youtube.com/watch?v=f2cmeAJyNQA","https://i3.ytimg.com/vi/f2cmeAJyNQA/hqdefault.jpg","military;strike","","aircraft carrier;carrier strike group;naval power projection","detailed","Explainer on aircraft carriers as the centerpiece of naval force projection, covering catapult launch/arresting-wire recovery systems and the destroyer/frigate/submarine strike group that defends them against air, surface and subsea threats.","2026-08-01T14:58:49Z"
+"Hdnn8whxfvM","yt-cnbc","CNBC","Best Buy shrinks store format as incoming CEO Jason Bonfig resets strategy","Best Buy Is Shrinking Some Stores. Here’s Why That’s A Good Thing","Consumer electronics retailer Best Buy is testing out a new format as it tries to steady the business and boost sales growth. It’s opening new, smaller-scale stores this summer in markets about half the scale of its traditional locations. CNBC’s Laya Neelakandan spoke exclusively with incoming CEO Jason Bonfig about his plans for the concept.
+
+Produced, Shot and Edited by: Natalie Rice
+Reporting by: Laya Neelakandan
+Animation: Jason Reginato, Emily Park
+Senior Director of Video: Lindsey Jacobson
+Additional Footage: Best Buy, Getty Images
+
+» Subscribe to CNBC: https://cnb.cx/SubscribeCNBC 
+» Subscribe to CNBC TV: https://cnb.cx/SubscribeCNBCtelevision  
+
+About CNBC: From 'Wall Street' to 'Main Street' to award winning original documentaries and Reality TV series, CNBC has you covered. Experience special sneak peeks of your favorite shows, exclusive video and more. 
+
+Want to get ahead at work? Then you need to learn how to make effective small talk. In CNBC’s new online course, How To Talk To People At Work, expert instructors teach you how to use everyday conversation to gain visibility, build meaningful relationships and advance your career. Sign up now: https://cnb.cx/4sGlSkh
+
+Connect with CNBC News Online 
+Get the latest news: https://www.cnbc.com/ 
+Follow CNBC on LinkedIn: https://cnb.cx/LinkedInCNBC 
+Follow CNBC News on Instagram: https://cnb.cx/InstagramCNBC 
+Follow CNBC News on Facebook: https://cnb.cx/LikeCNBC 
+Follow CNBC on Threads: https://cnb.cx/threads 
+Follow CNB…","2026-08-01T14:00:08Z","https://www.youtube.com/watch?v=Hdnn8whxfvM","https://i1.ytimg.com/vi/Hdnn8whxfvM/hqdefault.jpg","political","US","best buy;jason bonfig;retail","detailed","Best Buy is piloting smaller-scale stores, about half its usual size, in several markets this summer as it tries to steady sales growth; incoming CEO Jason Bonfig discusses the plan with CNBC.","2026-08-01T14:56:49Z"
+"EQT8ZZ-CAtI","yt-bbc-earth","BBC Earth","The Fascinating World Of Whales | BBC Earth","","Witness the remarkable world of ocean giants, from their clever hunting strategies to their unique behaviours and extraordinary connections.
+
+#BBCEarth #Animals #Nature
+
+Subscribe: http://bit.ly/BBCEarthSub 
+Sign up to our newsletter for the latest news, updates and exclusives from BBC Earth https://www.bbcearth.com/newsletter
+
+Watch more: 
+Best of BBC Earth 🌍 https://bit.ly/BestOfBBCEarth
+Best Animal Fights 🥊 https://bit.ly/BestAnimalFights
+Videos over 10 minutes ⏰ https://bit.ly/3SHJCEJ
+Planet Earth III 🌍 https://bit.ly/PlanetEarthIIIPlaylist
+Frozen Planet II ❄️ https:/bit.ly/FrozenPlanetIIPlaylist
+Blue Planet II in 4K 🌊 https://bit.ly/BluePlanetII4kPlaylist
+
+Welcome to BBC EARTH! The world is an amazing place full of stories, beauty and natural wonder. Here you'll find 50 years worth of entertaining and thought-provoking natural history content. Dramatic, rare, and exclusive, nature doesn't get more exciting than this.
+
+This is a commercial page from BBC Studios. Service information and feedback: http://bbcworldwide.com/vod-feedback--contact-details.aspx","2026-08-01T14:00:07Z","https://www.youtube.com/watch?v=EQT8ZZ-CAtI","https://i2.ytimg.com/vi/EQT8ZZ-CAtI/hqdefault.jpg","political","","fascinating;world;whales;bbc;earth","base","","2026-08-01T14:58:07Z"
+"Tbygx4hHOck","yt-forbes","Forbes","Zuckerberg's net worth falls $18 billion as investors question Meta's AI spending","Zuckerberg’s Fortune Drops $18 Billion As Wall Street Sours On Meta’s AI Spending","Read the full story on Forbes: https://www.forbes.com/sites/tylerroush/2026/07/30/zuckerbergs-fortune-drops-18-billion-as-wall-street-sours-on-metas-ai-spending/
+
+Subscribe to FORBES: https://www.youtube.com/user/Forbes?sub_confirmation=1
+
+Fuel your success with Forbes. Gain unlimited access to premium journalism, including breaking news, groundbreaking in-depth reported stories, daily digests and more. Plus, members get a front-row seat at members-only events with leading thinkers and doers, access to premium video that can help you get ahead, an ad-light experience, early access to select products including NFT drops and more:
+
+https://account.forbes.com/membership/?utm_source=youtube&utm_medium=display&utm_campaign=growth_non-sub_paid_subscribe_ytdescript
+
+Stay Connected
+Forbes newsletters: https://newsletters.editorial.forbes.com
+Forbes on Facebook: http://fb.com/forbes
+Forbes Video on Twitter: http://www.twitter.com/forbes
+Forbes Video on Instagram: http://instagram.com/forbes
+More From Forbes:  http://forbes.com
+
+Forbes covers the intersection of entrepreneurship, wealth, technology, business and lifestyle with a focus on people and success.","2026-08-01T13:55:20Z","https://www.youtube.com/watch?v=Tbygx4hHOck","https://i1.ytimg.com/vi/Tbygx4hHOck/hqdefault.jpg","political","US","meta;zuckerberg;ai spending","detailed","Mark Zuckerberg's personal fortune dropped $18 billion as Wall Street grew skeptical of Meta's heavy AI infrastructure spending.","2026-08-01T14:56:51Z"
+"myi7HrB5giM","yt-cnn","CNN","Should your haters be your motivators? | Engagement Party","","Should your haters be your motivators? Chef Eddie Huang has thoughts. 
+
+Watch the full conversation of Engagement Party on the CNN app.
+
+Watch 24/7 live news with CNN Headlines: https://bit.ly/4eIvlTr
+
+#News","2026-08-01T13:45:29Z","https://www.youtube.com/watch?v=myi7HrB5giM","https://i2.ytimg.com/vi/myi7HrB5giM/hqdefault.jpg","political","","should;engagement;party","base","","2026-08-01T14:56:50Z"
+"-_ZOxbOJy3Y","yt-ms-now","MS NOW","DOJ drops felony vandalism charges over Lincoln Memorial Reflecting Pool damage","DOJ drops reflecting pool charges despite Trump's repeated claims of vandalism","The Department of Justice has moved to drop felony charges against ex-Olympian David Hearn, whom the administration accused of vandalizing the Lincoln Memorial Reflecting Pool. Prosecutors say that the pool was actually damaged as a result of flawed installation by the contractor, even though President Trump repeatedly tried to blame ""vandals"" and ""saboteurs.""
+
+MS NOW: My Source for News, Opinion, and the World.
+
+» Subscribe to MS NOW: https://www.youtube.com/@msnow
+
+» Subscribe to MS NOW’s We the People Newsletter for exclusive content from your favorite MS NOW anchors. Sign up now for free at https://ms.now/joinus
+
+MS NOW is the go-to destination for domestic and international breaking news, and best-in-class opinion journalism. For more context and news coverage of the most important stories of our day click here: https://www.ms.now/","2026-08-01T13:35:52Z","https://www.youtube.com/watch?v=-_ZOxbOJy3Y","https://i2.ytimg.com/vi/-_ZOxbOJy3Y/hqdefault.jpg","political","US","doj;lincoln memorial;david hearn;trump","detailed","The Justice Department moved to drop felony charges against former Olympian David Hearn, accused of vandalizing the Lincoln Memorial Reflecting Pool; prosecutors say a contractor's flawed installation caused the damage, despite Trump repeatedly blaming vandals/saboteurs.","2026-08-01T14:56:52Z"
+"8zQ1vtZ2eq4","yt-cnn","CNN","What CNN's crew ate for breakfast after the NATO summit","","For a few days in July all eyes were on Ankara, Turkey’s capital city, as prime ministers, presidents and the world’s press descended for the 36th NATO summit, including CNN’s Nic Robertson, James Frater, Gül Tüysüz and Brice Lainé. After four days filled with countless live shots and interviews, the team headed out to get a real taste of Ankara. 
+
+Watch the full video on CNN's YouTube channel.","2026-08-01T13:30:36Z","https://www.youtube.com/watch?v=8zQ1vtZ2eq4","https://i1.ytimg.com/vi/8zQ1vtZ2eq4/hqdefault.jpg","diplomatic","TR;NATO","cnn;nato","base","","2026-08-01T14:56:50Z"
+"OVWfjOgcrrA","yt-ms-now","MS NOW","WSJ reports Trump pressed corporations to fund his legacy projects","‘Spectacle of corruption’: former senator slams Trump’s massive fundraising operation","The Wall Street Journal released blockbuster new reporting revealing President Trump’s unprecedented effort to get corporations to donate tens of millions of dollars to his legacy projects. MS NOW Capitol Hill reporter Kevin Frey and former Senator Claire McCaskill of Missouri join “The Weekend” to discuss.","2026-08-01T13:29:13Z","https://www.youtube.com/watch?v=OVWfjOgcrrA","https://i4.ytimg.com/vi/OVWfjOgcrrA/hqdefault.jpg","legal;corruption","US","trump;fundraising;wall street journal;corruption","detailed","The Wall Street Journal reported on Trump's unprecedented effort to get corporations to donate tens of millions of dollars to his legacy projects; former Senator Claire McCaskill calls it a 'spectacle of corruption.'","2026-08-01T14:56:52Z"
+"6CDt4Rp5rVQ","yt-ms-now","MS NOW","GOP struggles with midterm messaging as Trump's approval hits record lows","GOP struggles with midterm messaging: ‘What they actually believe has ended up hurting Americans’","With the midterms just 94 days away, the Republican Party has a Donald Trump problem after the president’s popularity dropped to record lows. Former Senator Claire McCaskill of Missouri and Neera Tanden, President and CEO of the Center for American Progress and former Domestic Policy Advisor to President Biden, join “The Weekend” to discuss.","2026-08-01T13:28:45Z","https://www.youtube.com/watch?v=6CDt4Rp5rVQ","https://i3.ytimg.com/vi/6CDt4Rp5rVQ/hqdefault.jpg","political","US","midterms;gop;trump approval","detailed","With the midterms 94 days away, Republicans face a messaging problem tied to Trump's record-low popularity; Claire McCaskill and Neera Tanden discuss on MS NOW.","2026-08-01T14:56:52Z"
+"DvWivYHeavM","yt-nbc-news","NBC News","Migrants who crossed into Ceuta have since left the Spanish enclave","Thousands of migrants who rushed in Ceuta have now left","Thousands of migrants who rushed in Ceuta have now left","2026-08-01T13:28:24Z","https://www.youtube.com/watch?v=DvWivYHeavM","https://i1.ytimg.com/vi/DvWivYHeavM/hqdefault.jpg","political","ES;MA","ceuta;migrants","detailed","Thousands of migrants who rushed into the Spanish enclave of Ceuta have now departed, per NBC News.","2026-08-01T14:56:53Z"
+"Li7OfkOHDSI","yt-cnn","CNN","'Recess Therapy' guy hosts late night","","""Recess Therapy"" creator Julian Shapiro-Barnum is launching ""Outside Tonight,"" a new late-night show bringing his signature street-style interviews to a grown-up audience.","2026-08-01T13:25:21Z","https://www.youtube.com/watch?v=Li7OfkOHDSI","https://i1.ytimg.com/vi/Li7OfkOHDSI/hqdefault.jpg","political","","recess;therapy","base","","2026-08-01T14:56:50Z"
+"e2ThIdeRfm4","yt-ms-now","MS NOW","‘Deterioration of the legitimacy of the [DOJ]: Jonathan Capehart on Trump’s reflecting pool chaos","","President Trump’s DOJ admits that “flawed installation” damaged the Lincoln Memorial reflecting pool, while dropping charges against former Olympian David Hearn for vandalism. Jeff Mason, White House Correspondent for Bloomberg, and Elise Labott, Host of Cosmopolitics on Substack, join The Weekend to discuss.
+
+#ReflectingPool #DOJ #Trump 
+
+MS NOW: My Source for News, Opinion, and the World.
+
+» Subscribe to MS NOW: https://www.youtube.com/@msnow
+
+» Subscribe to MS NOW’s We the People Newsletter for exclusive content from your favorite MS NOW anchors. Sign up now for free at https://ms.now/joinus
+
+MS NOW is the go-to destination for domestic and international breaking news, and best-in-class opinion journalism. For more context and news coverage of the most important stories of our day click here: https://www.ms.now/","2026-08-01T13:10:02Z","https://www.youtube.com/watch?v=e2ThIdeRfm4","https://i2.ytimg.com/vi/e2ThIdeRfm4/hqdefault.jpg","political","","deterioration;doj;jonathan;capehart;trump","base","","2026-08-01T14:56:52Z"
+"1B9r6_L0t3o","yt-ms-now","MS NOW","MS NOW Highlights - July 31","","Watch highlights and must-see interviews from your favorite MS NOW shows.
+
+MS NOW: My Source for News, Opinion, and the World.
+
+» Subscribe to MS NOW: https://www.youtube.com/@msnow
+
+» Subscribe to MS NOW’s We the People Newsletter for exclusive content from your favorite MS NOW anchors. Sign up now for free at https://ms.now/joinus
+
+MS NOW is the go-to destination for domestic and international breaking news, and best-in-class opinion journalism. For more context and news coverage of the most important stories of our day click here: https://www.ms.now/
+
+#Trump #ToddBlanche #DOJ","2026-08-01T13:09:41Z","https://www.youtube.com/watch?v=1B9r6_L0t3o","https://i2.ytimg.com/vi/1B9r6_L0t3o/hqdefault.jpg","political","","now;highlights;july","base","","2026-08-01T14:56:52Z"
+"8W4uohbWeJI","yt-simons-foundation","Simons Foundation","2026 Fields Medal: Yu Deng on billiards and the Boltzmann equation","","2026 Fields medalist Yu Deng derived one of the most central equations in kinetic theory and fluid dynamics — the Boltzmann equation — from the mathematics of colliding hard spheres.
+
+Deng explains how billiards can help illustrate his groundbreaking work. Watch the full video on our channel.","2026-08-01T13:03:00Z","https://www.youtube.com/watch?v=8W4uohbWeJI","https://i1.ytimg.com/vi/8W4uohbWeJI/hqdefault.jpg","political","","fields;medal;deng;boltzmann","base","","2026-08-01T14:58:02Z"
+"5RMmEBxIMUs","yt-forbes","Forbes","We Seized The Oligarchs’ Yachts. Now We’re Stuck Paying The Bill.","","After Putin invaded Ukraine, Western governments grabbed almost two dozen luxury vessels to punish him and his cronies. Great PR move but terrible economics, as four years later many of them are rotting in their berths, costing taxpayers millions.
+
+Read the full story on Forbes: https://www.forbes.com/sites/giacomotognini/2026/07/26/inside-the-seized-superyacht-fiasco-thats-costing-taxpayers-millions/
+
+Subscribe to FORBES: https://www.youtube.com/user/Forbes?sub_confirmation=1
+
+Fuel your success with Forbes. Gain unlimited access to premium journalism, including breaking news, groundbreaking in-depth reported stories, daily digests and more. Plus, members get a front-row seat at members-only events with leading thinkers and doers, access to premium video that can help you get ahead, an ad-light experience, early access to select products including NFT drops and more:
+
+https://account.forbes.com/membership/?utm_source=youtube&utm_medium=display&utm_campaign=growth_non-sub_paid_subscribe_ytdescript
+
+Stay Connected
+Forbes newsletters: https://newsletters.editorial.forbes.com
+Forbes on Facebook: http://fb.com/forbes
+Forbes Video on Twitter: http://www.twitter.com/forbes
+Forbes Video on Instagram: http://instagram.com/forbes
+More From Forbes:  http://forbes.com
+
+Forbes covers the intersection of entrepreneurship, wealth, technology, business and lifestyle with a focus on people and success.","2026-08-01T13:00:23Z","https://www.youtube.com/watch?v=5RMmEBxIMUs","https://i2.ytimg.com/vi/5RMmEBxIMUs/hqdefault.jpg","political","UA","seized;oligarchs;yachts;now;stuck;paying;bill","base","","2026-08-01T14:56:51Z"
+"wjkeJ6sEYfc","yt-business-insider","Business Insider","9 Ways Everyday Life Is Becoming More Expensive","","Business Insider has spent years covering the stories behind why certain items, services, and experiences are getting more expensive, and the reasons behind higher price tags aren't always what you think. Airports have rules to keep prices in check, but our investigation uncovered that mandatory price audits aren't always accurate. US sports stadiums typically don't have rules capping concession prices, though some lawmakers are attempting to change that. And subscriptions are everywhere, transforming the economy from one where we own products to one where we can rent just about anything. We dug deep to understand nine aspects of everyday life that are more expensive than ever.
+
+00:00:00 - Intro
+00:00:33 - Airports
+00:17:08 - Subscriptions
+00:42:00 - Matcha
+01:02:05 - Disney Parks
+01:19:09 - Concert Tickets
+01:46:51 - Nintendo
+02:09:33 - Beef
+02:24:01 - Organic Food
+02:42:10 - Stadium Food
+02:58:28 - Credits
+
+------------------------------------------------------
+#costofliving #groceries #inflation #affordability #soexpensive 
+
+WATCH MORE:
+13 Dangerous Jobs Around the World
+https://youtu.be/kezIRydD7p4
+What 'Made In America' Jeans Actually Look Like
+https://youtu.be/s2S0CGyKmcY
+Why Americans Are Building Towers And Bunkers To Survive WWIII
+https://youtu.be/lRUS-7P0a4k
+
+Business Insider is a global newsroom covering business, technology, innovation, and the economy.
+
+Visit our homepage for the top stories of the day: https://www.businessinsider.com/?utm_source=youtube
+Sign up…","2026-08-01T13:00:13Z","https://www.youtube.com/watch?v=wjkeJ6sEYfc","https://i4.ytimg.com/vi/wjkeJ6sEYfc/hqdefault.jpg","economic","US","ways;everyday;life;becoming;more;expensive","base","","2026-08-01T14:56:48Z"
+"tzyXkVNE_8k","yt-econ","Econ","Why Nepal Will Never Get Rich | Economy of Nepal | Econ","","Nepal is home to Mount Everest, vast rivers, and enormous hydropower potential. It sits between India and China—two of the world's fastest-growing economies. Yet, it remains one of South Asia's poorest nations.
+So, why Nepal's economy has struggled for decades, how remittances created an economic trap, and whether hydropower, technology, and political change can finally put the country on a new path. 
+
+#Nepal #NepalEconomy #Economy #Documentary  
+
+Chapters ===========================================================================
+00:00 Why Is Nepal Still Poor?
+01:53 Why Nepal Fell Behind South Asia
+03:37 The Remittance Trap
+05:44 Why Nothing Ever Changes
+06:57 Why Nepal Can't Build
+09:11 Can Hydropower Save Nepal?
+10:47 Nepal's Political Reset & A New Era 
+   
+Support my research and projects: https://ko-fi.com/econyt
+
+Enjoyed the video?
+ Comment below! 💬 
+⭑ Subscribe to Econ 👉 https://bit.ly/3qcMwTA
+⭑ Enjoyed? Hit the like button! 👍 
+
+Citation: https://docs.google.com/document/d/1ZNmuJCW7X4cN2aFSiOmk0tWya66DGboU5duxYmpktDs/edit?usp=sharing
+
+Image:
+https://commons.wikimedia.org/
+
+Free Vectors/Photos
+https://www.vecteezy.com/
+https://www.freepik.com/
+
+Stock Footages:
+https://www.gettyimages.in
+https://www.storyblocks.com/
+https://www.istockphoto.com/
+
+Music by:
+https://share.epidemicsound.com/7rfn7h","2026-08-01T12:49:37Z","https://www.youtube.com/watch?v=tzyXkVNE_8k","https://i1.ytimg.com/vi/tzyXkVNE_8k/hqdefault.jpg","political","CN;IN","nepal;will;never;get;rich;economy;econ","base","","2026-08-01T14:56:59Z"
+"xOR8QO9qjAk","yt-ms-now","MS NOW","Major disconnect between Trump's cabinet of enablers & the American public","","While President Trump was yet again lavished with praise by his administration officials during his latest cabinet meeting, the American public were sending a very different message with all time low approval ratings for Trump. Will Trump heed their pleas to address the pressing issues facing our country or simply bask in his cabinet’s glowing reviews? Jeff Mason, White House Correspondent for Bloomberg, and Elise Labott, Host of Cosmopolitics on Substack, join The Weekend to discuss.
+
+#Trump #CampDavid #TheWeekend 
+
+
+MS NOW: My Source for News, Opinion, and the World.
+
+» Subscribe to MS NOW: https://www.youtube.com/@msnow
+
+» Subscribe to MS NOW’s We the People Newsletter for exclusive content from your favorite MS NOW anchors. Sign up now for free at https://ms.now/joinus
+
+MS NOW is the go-to destination for domestic and international breaking news, and best-in-class opinion journalism. For more context and news coverage of the most important stories of our day click here: https://www.ms.now/","2026-08-01T12:31:01Z","https://www.youtube.com/watch?v=xOR8QO9qjAk","https://i1.ytimg.com/vi/xOR8QO9qjAk/hqdefault.jpg","political","US","major;trump;american","base","","2026-08-01T14:56:52Z"
+"d3ZlwZSmmxo","yt-casual-navigation","Casual Navigation","Why Sleek Ships Save Millions in Fuel","","To maximize propulsive efficiency during long-distance ocean transits, naval architects design hulls with finer lines, resulting in lower length-to-beam ratios and lower block coefficients. These streamlined underwater profiles minimize wave-making resistance and allow the rudder to remain aligned with the center line, significantly reducing continuous hydrodynamic drag.
+
+While finer hull shapes sacrifice total cargo volume, the dramatic reduction in fluid friction enables higher service speeds and lower overall fuel consumption. Balancing these competing demands allows shipbuilders to customize hull forms specifically for high-speed transit or maximum payload capacity.
+
+#ShipEngineering #FluidDynamics #NavalArchitecture #MaritimeTechnology #CasualNavigation","2026-08-01T12:30:37Z","https://www.youtube.com/watch?v=d3ZlwZSmmxo","https://i1.ytimg.com/vi/d3ZlwZSmmxo/hqdefault.jpg","political","","sleek;ships;save;millions;fuel","base","","2026-08-01T14:58:49Z"
+"nedcL9vLgyM","yt-bbc-news","BBC News","Is Tom Holland going to be in Avengers: Doomsday? #TomHolland #Avengers #BBCNews","","","2026-08-01T12:30:35Z","https://www.youtube.com/watch?v=nedcL9vLgyM","https://i3.ytimg.com/vi/nedcL9vLgyM/hqdefault.jpg","political","","tom;holland;avengers;doomsday;tomholland;bbcnews","base","","2026-08-01T14:56:46Z"
+"BOMfXhnYkMs","yt-cnn","CNN","MOLIY says being a baddie is a state of mind on new mixtape","","Ghanaian-American singer-songwriter MOLIY says being a “baddie” is more than just a look — it’s a mindset. The artist says her new mixtape, ""Baddies ❤️  MOLIY,"" encourages women to embrace confidence and define their own version of “baddie” energy.","2026-08-01T12:01:01Z","https://www.youtube.com/watch?v=BOMfXhnYkMs","https://i3.ytimg.com/vi/BOMfXhnYkMs/hqdefault.jpg","energy","US","moliy","base","","2026-08-01T14:56:50Z"
+"dVa-omkNPXU","yt-vox","Vox","We made a fantasy draft of the 2028 presidential race | America, Actually","","Who has a good shot at becoming president in 2028? Vox Media podcaster and journalist Kara Swisher and independent journalist and political commentator Don Lemon join Vox’s Astead Herndon for a fantasy draft of the Democratic and Republican fields, making the case for who could emerge as each party’s nominee. 
+
+They debate everyone from JD Vance and Kamala Harris to Tucker Carlson and Lemon himself, while discussing the issues that are shaping the next presidential election, including electability, Donald Trump’s influence and who can actually win in an ever-evolving digital media landscape.
+
+00:00 Why the 2028 race could be the messiest yet
+02:24 The Republican fantasy draft 
+04:13 Is Marco Rubio the GOP's safest bet?
+05:35 The surprising case for Tucker Carlson
+07:12 JD Vance divides the panel
+09:09 RFK Jr., Donald Trump (again), and the outsider candidates
+12:55 Could Ivanka Trump inherit the MAGA movement?
+14:37 The Republican long shots
+18:05 The Democratic fantasy draft 
+19:00 Gavin Newsom or Alexandria Ocasio-Cortez: Who’s the No. 1 pick?
+21:35 Can Kamala Harris make a comeback?
+24:15 Mark Cuban, Wes Moore & other outsiders
+28:30 Don Lemon’s wildest 2028 pick? Himself.
+30:36 Josh Shapiro and the moderate lane
+32:55 George Clooney enters the draft
+34:35 Raphael Warnock and the final picks
+37:15 What we learned about the 2028 race
+
+America, Actually publishes video episodes every Saturday tackling key issues in politics, culture, and the economy. Subscribe to Vox’s YouTu…","2026-08-01T12:00:27Z","https://www.youtube.com/watch?v=dVa-omkNPXU","https://i1.ytimg.com/vi/dVa-omkNPXU/hqdefault.jpg","political;election","US","america;actually","base","","2026-08-01T14:56:57Z"
+"Y4X7GQZIWUs","yt-bbc-news","BBC News","I spent a week with India's 'cockroach' protesters | BBC News","","It began with a fear familiar to millions of young Indians: if the examinations that determine their future cannot be trusted, what can?
+ 
+Weeks later, tens of thousands of young men and women tried to march on India's parliament. Police responded with tear gas and baton charges. Thousands more have returned to the streets in the days since.
+ 
+The Cockroach Janta Party (CJP), a youth-led movement, which started out as a meme on social media, born out of anger over repeated examination paper leaks, quickly became India's biggest student mobilisation in years.
+
+Subscribe to our channel here: https://bbc.in/bbcnews
+
+For the latest news download the BBC News app or visit BBC.com/news
+
+#India #CockroachParty #BBCNews","2026-08-01T12:00:25Z","https://www.youtube.com/watch?v=Y4X7GQZIWUs","https://i2.ytimg.com/vi/Y4X7GQZIWUs/hqdefault.jpg","political;protest","IN","india;bbc;news","base","","2026-08-01T14:56:46Z"
+"hQbmdQmbw8s","yt-vox","Vox","Is JD Vance already out of the running for president?","","President Donald Trump may not be the biggest fan of JD Vance, but will he be the Republican presidential nominee anyway? Journalists Don Lemon and Kara Swisher weigh in during this week’s episode of America, Actually. 
+
+Watch America, Actually here on YouTube or listen wherever you get your podcasts.
+
+Subscribe to our channel and turn on notifications (🔔) so you don't miss any videos: http://goo.gl/0bsAjO
+
+Vox.com is a news website that helps you cut through the noise and understand what's really driving the events in the headlines. Check out http://www.vox.com.
+
+Watch our full video catalog: http://goo.gl/IZONyE
+Follow Vox on TikTok: http://tiktok.com/@voxdotcom
+Check out our articles: https://www.vox.com/
+Listen to our podcasts: https://www.vox.com/podcasts","2026-08-01T12:00:17Z","https://www.youtube.com/watch?v=hQbmdQmbw8s","https://i1.ytimg.com/vi/hQbmdQmbw8s/hqdefault.jpg","political","US","vance","base","","2026-08-01T14:56:57Z"
+"l4QKAB2Nq_k","yt-ms-now","MS NOW","The Last Word with Lawrence O'Donnell - July 31 | Audio Only","","Listen to the audio version of The Last Word With Lawrence O’Donnell from the July 31th broadcast.
+
+MS NOW: My Source for News, Opinion, and the World.
+
+» Subscribe to MS NOW: https://www.youtube.com/@msnow
+
+» Subscribe to MS NOW’s We the People Newsletter for exclusive content from your favorite MS NOW anchors. Sign up now for free at https://ms.now/joinus
+
+MS NOW is the go-to destination for domestic and international breaking news, and best-in-class opinion journalism. For more context and news coverage of the most important stories of our day click here: https://www.ms.now/
+
+#Trump #DOJ #Politics","2026-08-01T11:56:09Z","https://www.youtube.com/watch?v=l4QKAB2Nq_k","https://i1.ytimg.com/vi/l4QKAB2Nq_k/hqdefault.jpg","political","","last;word;lawrence;donnell;july;audio;only","base","","2026-08-01T14:56:52Z"
+"FR6N_uX0jvg","yt-caspianreport","CaspianReport","How the Houthis trapped Saudi Arabia","","Stay better informed https://ground.news/caspian and access worldwide perspectives on global developments. Subscribe for 40% off unlimited access through my link.
+
+Saudi Arabia and the Houthis are drifting back toward war. Attacks at sea and across the border threaten Saudi oil exports and are pulling other countries into the fight.
+
+See what others miss. Start your free DeltaSweep trial: https://www.deltasweep.com
+
+If you want to support CaspianReport, the best way is simple: watch, like, and share the videos. For direct support, you can join as a member or contribute; every bit helps keep the channel independent and improves the quality of the work.
+
+✔ YouTube membership ► https://www.youtube.com/channel/UCwnKziETDbHJtx78nIkfYug/join
+✔ Patreon ► https://www.patreon.com/CaspianReport
+✔ PayPal ► https://www.paypal.me/caspianreport
+✔ Merchandise ►https://teespring.com/stores/caspianreport
+
+✔ My bookshelf ► https://www.amazon.com/shop/caspianreport?ccs_id=e65acfa2-5ddf-4ace-8d86-26532abf4175
+
+Crypto endorsement
+✔ Bitcoin ► 1MwRNXWWqzbmsHova7FMW11zPftVZVUfbU
+✔ Ether ► 0xfE4c310ccb6f52f9D220F25Ce76Dec0493dF9aA0
+✔ Bitcoin Cash ► 1BKLti4Wq4EK9fsBnYWC91caK7NZfUhNw9
+
+#ad #sponsored","2026-08-01T11:47:24Z","https://www.youtube.com/watch?v=FR6N_uX0jvg","https://i3.ytimg.com/vi/FR6N_uX0jvg/hqdefault.jpg","social;noise","YE;SA","houthis;saudi;arabia","base","","2026-08-01T14:56:34Z"
+"iPCrEQL700c","yt-ms-now","MS NOW","Trump's bad decision on defense secretary comes back to bite him","","Maybe if you had a really extraordinarily capable commander in chief you might be ok with somebody at the Pentagon who had no idea what he was doing. But in this case you've got Donald Trump and Pete Hegseth, playing with the U.S. military like it's a cross between G.I. Joe and beer pong. Donald Trump made a bad decision in the important matter of selecting a secretary of defense. Now the bill is coming due.
+
+MS NOW: My Source for News, Opinion, and the World.
+
+» Subscribe to MS NOW: https://www.youtube.com/@msnow
+
+» Subscribe to MS NOW’s We the People Newsletter for exclusive content from your favorite MS NOW anchors. Sign up now for free at https://ms.now/joinus
+
+MS NOW is the go-to destination for domestic and international breaking news, and best-in-class opinion journalism. For more context and news coverage of the most important stories of our day click here: https://www.ms.now/","2026-08-01T11:41:02Z","https://www.youtube.com/watch?v=iPCrEQL700c","https://i2.ytimg.com/vi/iPCrEQL700c/hqdefault.jpg","political","US","trump","base","","2026-08-01T14:56:52Z"
+"kL1dwDt9fXc","yt-ms-now","MS NOW","Velshi: The rule of law has been compromised","","DOJ drops felony charges against former Olympian saying the damage to the Reflecting Pool was ""the result of a botched installation and not vandalism.""
+
+MS NOW: My Source for News, Opinion, and the World.
+
+» Subscribe to MS NOW: https://www.youtube.com/@msnow
+
+» Subscribe to MS NOW’s We the People Newsletter for exclusive content from your favorite MS NOW anchors. Sign up now for free at https://ms.now/joinus
+
+MS NOW is the go-to destination for domestic and international breaking news, and best-in-class opinion journalism. For more context and news coverage of the most important stories of our day click here: https://www.ms.now/","2026-08-01T11:40:59Z","https://www.youtube.com/watch?v=kL1dwDt9fXc","https://i4.ytimg.com/vi/kL1dwDt9fXc/hqdefault.jpg","political","","velshi","base","","2026-08-01T14:56:52Z"
+"TFKQ3JArYbs","yt-ms-now","MS NOW","DOJ veteran TORCHES Trump team admitting Reflecting Pool likely wasn't damaged by 'Deranged Vandals'","","MS NOW’s Vaughn Hillyard talks to MS NOW Legal Analyst Barbara McQuade about U.S. Attorney for the District of Columbia Jeanine Pirro’s move to dismiss an indictment charging U.S. Olympic canoeist David Hearn with vandalizing the Reflecting Pool of the Lincoln Memorial.
+
+MS NOW: My Source for News, Opinion, and the World.
+
+» Subscribe to MS NOW: https://www.youtube.com/@msnow
+
+» Subscribe to MS NOW’s We the People Newsletter for exclusive content from your favorite MS NOW anchors. Sign up now for free at https://ms.now/joinus
+
+MS NOW is the go-to destination for domestic and international breaking news, and best-in-class opinion journalism. For more context and news coverage of the most important stories of our day click here: https://www.ms.now/","2026-08-01T11:40:52Z","https://www.youtube.com/watch?v=TFKQ3JArYbs","https://i1.ytimg.com/vi/TFKQ3JArYbs/hqdefault.jpg","social;noise","US","doj;torches;trump;reflecting;pool;deranged;vandals","base","","2026-08-01T14:56:52Z"
+"PLHI3zxm5pQ","yt-ms-now","MS NOW","Trump HUMILIATED by stunning admission as pool case collapses","","Despite Donald Trump's endless talking about the vandalism he said was done to the Lincoln Memorial Reflecting Poll, U.S. attorney and former Fox News host Jeanine Pirro was forced to drop the Justice Department's case against former Olympian David Hearn and admit that the problem with the pool's liner was the fault of the contactor Donald Trump selected.
+
+MS NOW: My Source for News, Opinion, and the World.
+
+» Subscribe to MS NOW: https://www.youtube.com/@msnow
+
+» Subscribe to MS NOW’s We the People Newsletter for exclusive content from your favorite MS NOW anchors. Sign up now for free at https://ms.now/joinus
+
+MS NOW is the go-to destination for domestic and international breaking news, and best-in-class opinion journalism. For more context and news coverage of the most important stories of our day click here: https://www.ms.now/","2026-08-01T11:40:48Z","https://www.youtube.com/watch?v=PLHI3zxm5pQ","https://i1.ytimg.com/vi/PLHI3zxm5pQ/hqdefault.jpg","political","US","trump;humiliated","base","","2026-08-01T14:56:52Z"
+"KqYoc71c7Xc","yt-ms-now","MS NOW","Sen. Booker: Trump admin claim that ""slush fund"" is dead “not substantive enough”","","Sen. Cory Booker reacts to new MS NOW reporting that Donald Trump’s Justice Department is claiming the so-called ""anti-weaponization"" fund is dead.
+
+MS NOW: My Source for News, Opinion, and the World.
+
+» Subscribe to MS NOW: https://www.youtube.com/@msnow
+
+» Subscribe to MS NOW’s We the People Newsletter for exclusive content from your favorite MS NOW anchors. Sign up now for free at https://ms.now/joinus
+
+MS NOW is the go-to destination for domestic and international breaking news, and best-in-class opinion journalism. For more context and news coverage of the most important stories of our day click here: https://www.ms.now/","2026-08-01T11:34:04Z","https://www.youtube.com/watch?v=KqYoc71c7Xc","https://i4.ytimg.com/vi/KqYoc71c7Xc/hqdefault.jpg","political","","sen;booker;trump","base","","2026-08-01T14:56:52Z"
+"g6ZtVY769ng","yt-bbc-news","BBC News","Spain attacks response of some EU countries to Ceuta migrant crossings. #Spain #Morocco #BBCNews","","","2026-08-01T11:30:05Z","https://www.youtube.com/watch?v=g6ZtVY769ng","https://i4.ytimg.com/vi/g6ZtVY769ng/hqdefault.jpg","military;strike","","spain;ceuta;morocco;bbcnews","base","","2026-08-01T14:56:46Z"
+"mxJ9987tf2Q","yt-ms-now","MS NOW","Velshi Banned Book Club: Homer's 'The Odyssey' with Emily Wilson","","Classicist Emily Wilson is the first woman to translate Homer's epic ""The Odyssey"" into English. She says there is value in revisiting ancient texts to let ""antiquity to challenge modernity."" She gave Christopher Nolan's new film adaptation a scathing review and is ""baffled"" by the reaction to it.
+
+MS NOW: My Source for News, Opinion, and the World.
+
+» Subscribe to MS NOW: https://www.youtube.com/@msnow
+
+» Subscribe to MS NOW’s We the People Newsletter for exclusive content from your favorite MS NOW anchors. Sign up now for free at https://ms.now/joinus
+
+MS NOW is the go-to destination for domestic and international breaking news, and best-in-class opinion journalism. For more context and news coverage of the most important stories of our day click here: https://www.ms.now/
+
+#Books #TheOdyssey #Homer","2026-08-01T11:18:03Z","https://www.youtube.com/watch?v=mxJ9987tf2Q","https://i2.ytimg.com/vi/mxJ9987tf2Q/hqdefault.jpg","political","","velshi;banned;book;club;homer;odyssey;emily;wilson","base","","2026-08-01T14:56:52Z"
+"zyZprLgbHCo","yt-ms-now","MS NOW","'It's a pretext': American faces a felony charge for wiping his phone data during an airport check","","An American citizen faces federal charges that could put him behind bars for up to five years, because he deleted his phone data during an airport search by U.S. customs agents.
+
+MS NOW: My Source for News, Opinion, and the World.
+
+» Subscribe to MS NOW: https://www.youtube.com/@msnow
+
+» Subscribe to MS NOW’s We the People Newsletter for exclusive content from your favorite MS NOW anchors. Sign up now for free at https://ms.now/joinus
+
+MS NOW is the go-to destination for domestic and international breaking news, and best-in-class opinion journalism. For more context and news coverage of the most important stories of our day click here: https://www.ms.now/
+
+#ICE #Immigration #Politics","2026-08-01T11:17:08Z","https://www.youtube.com/watch?v=zyZprLgbHCo","https://i3.ytimg.com/vi/zyZprLgbHCo/hqdefault.jpg","political","US","american","base","","2026-08-01T14:56:52Z"
+"2FajNuCcDiY","yt-cnn","CNN","I don't want to retire in America & activists are full of crap | Confessions & Obsessions","","Abby and the group have an unfiltered talk about retiring in the US and activism.
+
+0:00 I don't want to retire in America
+2:24 Abby predicts what retiring Americans may be doing with their wealth
+5:26 Activists are full of crap
+7:49 Abby's take on activism
+
+Watch more 'Confessions & Obsessions' here: https://cnn.it/4vrqZXG
+
+#Entertainment #AbbyPhillip #ConfessionsandObsessions","2026-08-01T11:00:29Z","https://www.youtube.com/watch?v=2FajNuCcDiY","https://i3.ytimg.com/vi/2FajNuCcDiY/hqdefault.jpg","political","US","america;confessions;obsessions","base","","2026-08-01T14:56:50Z"
+"3Bq-Hr3k6Sg","yt-forbes","Forbes","Inside Mark Tatum’s Playbook For Steering the NBA’s $180 Billion Empire","","On this episode of The Enterprise Zone, NBA COO and Deputy Commissioner Mark Tatum sat down with Forbes to discuss the global expansion and commercial growth of the NBA. Tatum also discussed franchise valuations, new media rights agreements, potential expansion into Las Vegas and Seattle, and the launch of a new European league set for 2027.
+
+00:00 Introduction And Career Guidance
+02:42 Personal Investments And Music Influences
+05:05 Explaining The Role Of Chief Operating Officer
+08:40 Financial Valuation And Global Expansion Opportunities
+11:15 Building NBA Infrastructure In Europe And Africa
+19:27 Addressing Franchise Infrastructure And Expansion Markets
+25:34 Leadership Style, Background, And Personal Career Journey
+
+Read the full story on Forbes: 
+
+Subscribe to FORBES: https://www.youtube.com/user/Forbes?sub_confirmation=1
+
+Fuel your success with Forbes. Gain unlimited access to premium journalism, including breaking news, groundbreaking in-depth reported stories, daily digests and more. Plus, members get a front-row seat at members-only events with leading thinkers and doers, access to premium video that can help you get ahead, an ad-light experience, early access to select products including NFT drops and more:
+
+https://account.forbes.com/membership/?utm_source=youtube&utm_medium=display&utm_campaign=growth_non-sub_paid_subscribe_ytdescript
+
+Stay Connected
+Forbes newsletters: https://newsletters.editorial.forbes.com
+Forbes on Facebook: http://fb.com/forbes
+Forbes Video…","2026-08-01T11:00:00Z","https://www.youtube.com/watch?v=3Bq-Hr3k6Sg","https://i4.ytimg.com/vi/3Bq-Hr3k6Sg/hqdefault.jpg","social;noise","","inside;mark;tatum;playbook;steering;nba;billion;empire","base","","2026-08-01T14:56:51Z"
+"dp7QBXUTMVg","yt-bbc-news","BBC News","Search for missing climbers caught in Pakistan avalanche enters second day. #BBCNews","","","2026-08-01T10:19:39Z","https://www.youtube.com/watch?v=dp7QBXUTMVg","https://i1.ytimg.com/vi/dp7QBXUTMVg/hqdefault.jpg","political","PK","search;pakistan;bbcnews","base","","2026-08-01T14:56:46Z"
+"gf_YGTQQbso","yt-channel-4-news","Channel 4 News","US Senator explains Trump's Ukraine u-turn | FourSight interview","","US Senator Chris Coons says Donald Trump's warmer tone on Ukraine isn't a change of heart on Russia. He says that Trump siding with whoever looks like they're winning on the battlefield – and that could change at any moment.
+
+Coons, a Democrat from Delaware who sits on the Senate Foreign Relations Committee, was at the NATO summit in Ankara where Trump met President Zelenskyy.
+
+He tells FourSight's Kiran Moodley how likely he thinks it is that Ukraine actually gets the Patriot missiles it's asking for, explains the bipartisan Russia sanctions bill working its way through Congress, and – using a bipartisan housing bill Trump abruptly refused to sign as his example – speaks candidly about how hard it is to predict Trump on anything, Ukraine included.
+
+This interview is part of a longer episode we made looking at whether Ukraine is actually winning the war. Watch it here: https://www.youtube.com/watch?v=v1NJuLVSqq0 
+
+-------
+
+Reporter: Kiran Moodley
+Producer: Harriet Tatham
+Editor: Matthew Lucas
+Motion Graphics: Ian Watkins
+Series Producer: Kieron Bryan
+
+-------
+
+Get more news at our site - https://www.channel4.com/news/ 
+
+Subscribe to our Substack newsletter: https://channel4news.substack.com/subscribe
+
+Follow us:
+TikTok - https://www.tiktok.com/@c4news
+Instagram - https://www.instagram.com/channel4news/
+Twitter - https://twitter.com/Channel4News
+Facebook - https://www.facebook.com/Channel4News/","2026-08-01T10:03:20Z","https://www.youtube.com/watch?v=gf_YGTQQbso","https://i4.ytimg.com/vi/gf_YGTQQbso/hqdefault.jpg","economic;missile_strike","RU;UA;IR;NATO","senator;trump;ukraine;foursight","base","","2026-08-01T14:56:49Z"
+"IfSs4BlSrCM","yt-forbes","Forbes","Jeff Bezos Overtakes Sergey Brin As World's 3rd Richest","","Read the full story on Forbes: https://www.forbes.com/sites/tylerroush/2026/07/31/amazon-shares-surge-14-toward-best-day-in-a-decade-jeff-bezos-overtakes-brin-as-3rd-richest/
+
+Subscribe to FORBES: https://www.youtube.com/user/Forbes?sub_confirmation=1
+
+Fuel your success with Forbes. Gain unlimited access to premium journalism, including breaking news, groundbreaking in-depth reported stories, daily digests and more. Plus, members get a front-row seat at members-only events with leading thinkers and doers, access to premium video that can help you get ahead, an ad-light experience, early access to select products including NFT drops and more:
+
+https://account.forbes.com/membership/?utm_source=youtube&utm_medium=display&utm_campaign=growth_non-sub_paid_subscribe_ytdescript
+
+Stay Connected
+Forbes newsletters: https://newsletters.editorial.forbes.com
+Forbes on Facebook: http://fb.com/forbes
+Forbes Video on Twitter: http://www.twitter.com/forbes
+Forbes Video on Instagram: http://instagram.com/forbes
+More From Forbes:  http://forbes.com
+
+Forbes covers the intersection of entrepreneurship, wealth, technology, business and lifestyle with a focus on people and success.","2026-08-01T10:00:20Z","https://www.youtube.com/watch?v=IfSs4BlSrCM","https://i2.ytimg.com/vi/IfSs4BlSrCM/hqdefault.jpg","political","","jeff;bezos;overtakes;sergey;brin;world;richest","base","","2026-08-01T14:56:51Z"
+"1EUdHS8TFHY","yt-tldr-news-global","TLDR News Global","Why Takaichi’s Approval Ratings Are Sinking","","Want to restore the planet’s ecosystems and see your impact in monthly videos? The first 100 people to join Planet Wild with my code NEWSGLOBAL7 will get the first month paid for by me: https://planetwild.com/r/tldrnewsglobal/join/7
+If you want to get to know them better first, check out their mission transforming a fish farm into beaver habitat: https://planetwild.com/r/tldrnewsglobal/m41/7
+
+Vote for the World’s Best Flag: 
+https://pollunit.com/polls/c5keHjadFmPBEXUe29G5hQ
+
+Up until recently, Japanese PM Sanae Takaichi enjoyed immense popularity. But, her popularity appears to be eroding with concerns over the economy, her leadership style and parliamentary business.
+
+Observing Japan - https://observingjapan.substack.com/p/tracking-the-japanese-governments-423
+
+Has Japan's Debt Crisis Finally Arrived? - https://www.youtube.com/watch?v=rS5uRLKjD28
+Why Japan Is Running Out of Emperors - https://www.youtube.com/watch?v=-rfZe267Agg
+
+📰 Too Long: https://toolong.news/
+🎉 TLDR Party:  https://toolong.news/pages/tldr-party
+📖 Read our Manifesto: https://tldrnews.co.uk/manifesto
+
+Our mission is to explain news and politics in an impartial, efficient, and accessible way, balancing import and interest while fostering independent thought.
+
+TLDR is a completely independent & privately owned media company that's not afraid to tackle the issues we think are most important. The channel is run by a small group of young people, with us hoping to pass on our enthusiasm for politics to other youn…","2026-08-01T10:00:11Z","https://www.youtube.com/watch?v=1EUdHS8TFHY","https://i2.ytimg.com/vi/1EUdHS8TFHY/hqdefault.jpg","economic;election","JP","takaichi;approval;ratings;sinking","base","","2026-08-01T14:56:56Z"
+"wEekcBxwLiM","yt-bbc-news","BBC News","Wildfires in Europe compared to disaster of World War Two | BBC News","","In France, the wildfires have been described as the worst disaster since World War Two. 
+
+In Spain, a national emergency was declared as fires burned out of control near Madrid. 
+
+We follow the wildfires as they spread in Europe and watch as fire crews crews race against time.
+
+You can keep up to date with the latest news on BBC iPlayer.
+
+Subscribe to our channel here: https://bbc.in/bbcnews
+
+For the latest news download the BBC News app or visit BBC.com/news
+
+#Europe #Wildfires #BBCNews","2026-08-01T10:00:02Z","https://www.youtube.com/watch?v=wEekcBxwLiM","https://i4.ytimg.com/vi/wEekcBxwLiM/hqdefault.jpg","political","FR","wildfires;europe;world;war;two;bbc;news","base","","2026-08-01T14:56:46Z"
+"-AnBjdc52p4","yt-cnn","CNN","Migrants escorted to border in Spanish exclave","","A large group of migrants can be seen escorted by police and military personnel toward the border in the Spanish exclave of Ceuta on Saturday. Spanish authorities said most of the estimated 50,000 people who had attempted the crossing this week had returned to Morocco by Friday evening. #CNN #News #Spain #Ceuta","2026-08-01T09:09:46Z","https://www.youtube.com/watch?v=-AnBjdc52p4","https://i2.ytimg.com/vi/-AnBjdc52p4/hqdefault.jpg","political","","migrants;spanish","base","","2026-08-01T14:56:50Z"
+"duuDl9SI3jg","yt-bbc-news","BBC News","Russian strikes on Kyiv kill at least nine, Ukraine officials say. #Ukraine #Russia #BBCNews","","","2026-08-01T09:00:38Z","https://www.youtube.com/watch?v=duuDl9SI3jg","https://i1.ytimg.com/vi/duuDl9SI3jg/hqdefault.jpg","military;strike","RU;UA","russian;kyiv;ukraine;russia;bbcnews","base","","2026-08-01T14:56:46Z"
+"oaoMAEpfrrw","yt-bbc-news","BBC News","Fifa scraps controversial World Cup investment plan | BBC News","","Fifa president Gianni Infantino says he has scrapped the controversial plan to sell off stakes in the governing body's competitions to private investors following widespread opposition.
+
+Infantino said it had become clear the project had ""created divisions"" that are ""no longer in the interest"" of its original objective.
+
+Infantino had offered Fifa's 211 member associations $40m (£30m) if they backed a proposal for private investment in its tournaments, including the men's and women's World Cups.
+
+However, Uefa - which governs European football - responded by voting to boycott World Cups if the plans went ahead, and other governing bodies also voiced their opposition.
+
+Subscribe to our channel here: https://bbc.in/bbcnews
+
+For the latest news download the BBC News app or visit BBC.com/news
+
+#Fifa #Football #BBCNews","2026-08-01T08:16:16Z","https://www.youtube.com/watch?v=oaoMAEpfrrw","https://i4.ytimg.com/vi/oaoMAEpfrrw/hqdefault.jpg","social;noise","","fifa;world;cup;bbc;news","base","","2026-08-01T14:56:46Z"
+"ORkyAS6R_7s","yt-bbc-news","BBC News","Inside an Israeli settlement in the West Bank. #BBCNews","","","2026-08-01T08:06:48Z","https://www.youtube.com/watch?v=ORkyAS6R_7s","https://i4.ytimg.com/vi/ORkyAS6R_7s/hqdefault.jpg","political","IL","inside;israeli;west;bank;bbcnews","base","","2026-08-01T14:56:46Z"
+"OTrg3jPs5vg","yt-bbc-news","BBC News","A 40-year mystery solved: Meet the UK’s newest species | BBC News","","For 40 years, the identity of a tiny seaweed living in a secret underwater world has been a mystery. But a team of scientific divers exploring the waters off south Cornwall have made a breakthrough. 
+ 
+They discovered a seaweed that is now known to be an entirely new species to science. The discovery is so new, it doesn't have a common name yet, so you are being invited to make suggestions. 
+ 
+Now scientifically documented for the first time globally, and shared exclusively with the BBC, and has joined the Natural History Museum's official collection. We’ve been to under-explored and well-known marine habitats in Cornwall to find out more. 
+ 
+Additional footage and stills courtesy of Francis Bunker, Natural England and Prof. Curt Pueschel.
+ 
+Subscribe to our channel here: https://bbc.in/bbcnews 
+ 
+For the latest news download the BBC News app or visit BBC.com/news 
+ 
+#NaturalHistoryMuseum #Cornwall #BBCNews","2026-08-01T07:00:10Z","https://www.youtube.com/watch?v=OTrg3jPs5vg","https://i4.ytimg.com/vi/OTrg3jPs5vg/hqdefault.jpg","political","GB","meet;bbc;news","base","","2026-08-01T14:56:46Z"
+"xJN7_Dc_PEA","yt-bbc-news","BBC News","How did David Cameron beat the odds to win the 2005 leadership election? | BBC Newscast","","Today, we look at David Cameron’s rapid rise to Conservative leader in 2005. 
+
+This is the second of six Old Newscasts looking at the story of 30 years of British politics through six votes.
+
+In this two part episode we tell the story of how after another damaging election defeat the Conservatives were once again looking for a new leader. After years in the political wilderness could the Tories elect someone who could end New Labour?
+
+Adam is joined by James Landale who was chief political correspondent of BBC News and George Eustice who was head of press for David Cameron.
+
+Subscribe to our channel here: https://bbc.in/bbcnews
+
+For the latest news download the BBC News app or visit BBC.com/news
+
+#BBCNews","2026-08-01T06:00:04Z","https://www.youtube.com/watch?v=xJN7_Dc_PEA","https://i1.ytimg.com/vi/xJN7_Dc_PEA/hqdefault.jpg","social;noise","","david;cameron;bbc;newscast","base","","2026-08-01T14:56:46Z"
+"14VjVadNvQo","yt-ms-now","MS NOW","Petty grievance blinds Trump to Iran threat as he accuses Minnesota of hacking itself","","Donald Trump is so bitter about Minnesota Governor Tim Walz that he rejects the suggestion that his inexplicable war with Iran has led to a hacking attack on the water systems of several U.S. states and instead bizarrely insists that Minnesota somehow hacked its own water system. Rep. Seth Moulton joins to discuss Trump's apparent inability to take U.S. national security seriously.
+
+MS NOW: My Source for News, Opinion, and the World.
+
+» Subscribe to MS NOW: https://www.youtube.com/@msnow
+
+» Subscribe to MS NOW’s We the People Newsletter for exclusive content from your favorite MS NOW anchors. Sign up now for free at https://ms.now/joinus
+
+MS NOW is the go-to destination for domestic and international breaking news, and best-in-class opinion journalism. For more context and news coverage of the most important stories of our day click here: https://www.ms.now/
+
+#trump #hack #minnesota","2026-08-01T05:22:32Z","https://www.youtube.com/watch?v=14VjVadNvQo","https://i2.ytimg.com/vi/14VjVadNvQo/hqdefault.jpg","military;strike","US;IR","petty;trump;iran;minnesota","base","","2026-08-01T14:56:52Z"
+"E6XqMO7n1qY","yt-nbc-news","NBC News","Cop dresses as a shrub to catch distracted drivers","","Cop dresses as a shrub to catch distracted drivers","2026-08-01T04:40:41Z","https://www.youtube.com/watch?v=E6XqMO7n1qY","https://i2.ytimg.com/vi/E6XqMO7n1qY/hqdefault.jpg","political","","cop","base","","2026-08-01T14:56:53Z"
+"BCQ-PZt0qgk","yt-nbc-news","NBC News","TSA finds five stolen cannonballs in passenger’s luggage","","TSA finds five stolen cannonballs in passenger’s luggage","2026-08-01T04:38:12Z","https://www.youtube.com/watch?v=BCQ-PZt0qgk","https://i3.ytimg.com/vi/BCQ-PZt0qgk/hqdefault.jpg","political","","tsa","base","","2026-08-01T14:56:53Z"
+"2acvJe71DAM","yt-ryan-mcbeth","Ryan McBeth","How Millions Live Under China's Blackout","","They can't harm you, if they can't find you! Use code ryan at the link below and get 60% off an annual plan: https://incogni.com/ryan 
+
+China doesn’t always censor an event by pretending it never happened. Sometimes it floods the information space with fragments—deleted posts, missing footage, contradictory reports, and official silence—until proving what happened becomes almost impossible.
+
+In this video, I examine a mysterious aircraft incident near Beijing and explain how China’s censorship system creates a modern “memory hole.” This isn’t simply about hiding bad news. It’s about controlling what people can document, verify, and remember.
+
+For uncensored video, check out my substack at:
+https://ryanmcbeth.substack.com
+
+Find the Global Warning Podcast on:
+Spotify : https://open.spotify.com/show/23JULpVI2lVBEl4PVh07t0
+Apple Podcasts: https://podcasts.apple.com/us/podcast/global-warning-with-ryan-mcbeth/id1882061844
+
+Like my shirts? Get your own at:
+https://www.bunkerbranding.com/pages/ryan-mcbeth
+
+Want a personalized greeting:
+https://www.cameo.com/ryanmcbeth
+
+Watch all of my long form videos:
+https://youtube.com/playlist?list=PLt670_P7pOGmLWZG78JlM-rG2ZrpPziOy
+
+Twitter:
+@ryanmcbeth
+Instagram:
+@therealryanmcbeth
+BlueSky
+@ryanmcbeth
+Reddit:
+/r/ryanmcbeth
+
+Join the conversation:
+https://discord.gg/pKuGDHZHrz
+
+Want to send me something?
+Ryan McBeth Productions LLC
+8705 Colesville Rd.
+Suite 249
+Silver Spring, MD 20910
+USA","2026-08-01T04:00:26Z","https://www.youtube.com/watch?v=2acvJe71DAM","https://i3.ytimg.com/vi/2acvJe71DAM/hqdefault.jpg","political","CN","millions;live;under;china;blackout","base","","2026-08-01T14:57:10Z"
+"eV0PvMKgp8c","yt-cnn","CNN","CNN aboard Philippine ship in the South China Sea | Meanwhile in Asia","","A China Coast Guard vessel shot a water cannon at Philippine vessels, including one with CNN’s Ivan Watson and crew on board. For more frontline reporting from the South China Sea and behind-the-scenes stories, watch Meanwhile in Asia.
+
+You can stream “Meanwhile in Asia” exclusively on the CNN app. 
+
+Watch 24/7 live news with CNN Headlines: https://bit.ly/4eIvlTr
+
+#News","2026-08-01T03:30:22Z","https://www.youtube.com/watch?v=eV0PvMKgp8c","https://i2.ytimg.com/vi/eV0PvMKgp8c/hqdefault.jpg","military;strike","CN","cnn;philippine;south;china;sea;meanwhile;asia","base","","2026-08-01T14:56:50Z"
+"U2D73vmXIAM","yt-cnn","CNN","DOJ admits reflecting pool reno was 'botched'","","The Justice Department is admitting that President Donald Trump's $14 million renovation on the Lincoln Memorial Reflecting Pool was flawed, and it is dropping the criminal case against former Olympian David Hearn that accused him of vandalizing the pool, according to a new court filing from DC US Attorney Jeanine Pirro. CNN's Katelyn Polantz reports.","2026-08-01T03:19:42Z","https://www.youtube.com/watch?v=U2D73vmXIAM","https://i2.ytimg.com/vi/U2D73vmXIAM/hqdefault.jpg","legal;charge","","doj","base","","2026-08-01T14:56:50Z"
+"C4F2oEarpZo","yt-nbc-news","NBC News","New York building collapse caught on camera","","New York building collapse caught on camera","2026-08-01T03:16:07Z","https://www.youtube.com/watch?v=C4F2oEarpZo","https://i4.ytimg.com/vi/C4F2oEarpZo/hqdefault.jpg","political","","york","base","","2026-08-01T14:56:53Z"
+"WRXwaZY1OxM","yt-cnn","CNN","Inside the grey market peptide industry","","Bijan Hosseini went looking for peptides online and found a seller in under an hour, no prescription or doctor required. It's part of a booming, largely unregulated grey market, where independent testing shows a majority of samples fail basic safety checks, even as US regulators weigh letting pharmacies legally compound some of these same compounds. #peptides","2026-08-01T03:05:52Z","https://www.youtube.com/watch?v=WRXwaZY1OxM","https://i4.ytimg.com/vi/WRXwaZY1OxM/hqdefault.jpg","political","","inside","base","","2026-08-01T14:56:50Z"
+"AbZQcyl8RIA","yt-cnn","CNN","AI IPOs are big on Wall Street. What investors need to know | CNN Breaks it Down","","SpaceX was the biggest IPO in history. Anthropic and OpenAI could follow with trillion-dollar valuations of their own. CNN’s Phil Mattingly talks to Hadas Gold and Clare Duffy about AI IPO mania.
+
+0:00 AI IPO mania hits Wall Street
+8:13 Is this the best time to invest in SpaceX?
+23:00 Are we in an AI bubble?
+
+Stream the rest of CNN Breaks It Down on the CNN app: https://bit.ly/4pfgaWr
+
+#News #ai #spacex","2026-08-01T03:00:30Z","https://www.youtube.com/watch?v=AbZQcyl8RIA","https://i2.ytimg.com/vi/AbZQcyl8RIA/hqdefault.jpg","political","","ipos;wall;street;cnn;breaks;down","base","","2026-08-01T14:56:50Z"
+"TjEexFPtj0I","yt-nbc-news","NBC News","FIFA cancels plan to sell World Cup stakes to private equity investors","","FIFA cancels plan to sell World Cup stakes to private equity investors","2026-08-01T02:45:49Z","https://www.youtube.com/watch?v=TjEexFPtj0I","https://i1.ytimg.com/vi/TjEexFPtj0I/hqdefault.jpg","social;noise","","fifa;world;cup","base","","2026-08-01T14:56:53Z"
+"V5X9CAOaL30","yt-cnn","CNN","Jurors taken to home where Clancy children were killed","","The first week of testimony in Lindsay Clancy's murder trial concluded with jurors being taken by bus to the Massachusetts home where Clancy fatally strangled her three young children.","2026-08-01T02:26:40Z","https://www.youtube.com/watch?v=V5X9CAOaL30","https://i3.ytimg.com/vi/V5X9CAOaL30/hqdefault.jpg","legal;charge","","jurors;clancy","base","","2026-08-01T14:56:50Z"
+"OX1yHmeLPy8","yt-real-engineering","Real Engineering","The Kurzgesagt Situation is Insane","","https://www.patreon.com/realengineering","2026-08-01T02:02:04Z","https://www.youtube.com/watch?v=OX1yHmeLPy8","https://i4.ytimg.com/vi/OX1yHmeLPy8/hqdefault.jpg","political","","kurzgesagt;situation;insane","base","","2026-08-01T14:58:44Z"
+"8fQqLw1Zj68","yt-nbc-news","NBC News","NBC Nightly News with Tom Llamas Full Episode - July 31","","Tonight: The Pima County Sheriff’s office has released the two ransom notes they believe may be from the person or people who kidnapped Nancy Guthrie earlier this year. One of them describes her as ‘safe but scared’...but days later they say she “perished shortly after she was taken.” And a fighter jet crashed in San Diego today after suffering a “class A mishap,” according to officials. The crash sparked a fire in a field on the base. We'll have details of the pilot's injuries. Plus, the FBI issued a warning about cyberattacks on municipal water systems in seven states. In Minnesota alone, more than 30 water systems have been attacked and a senior law enforcement official told NBC News that the attack bears all the hallmarks of Iranian-backed hackers. And in our 'Great America's segment, he was a fixture in Americans’ homes in the 90’s. Culinary icon Emeril Lagasse is still “kicking it up a notch.” At 66, the James Beard Award-winning chef and two-Michelin star restaurateur continues to showcase the distinctive Creole and Cajun cuisines of New Orleans across the country, while raising millions for children’s charities.
+
+00:00 Intro
+02:55 Nancy Guthrie ransom notes released
+06:12 F-35 fighter jet crashes in San Diego
+07:44 FBI warns of cyberattacks on water systems in 7 states
+09:34 Dozens dead in migrant crisis rush into Spanish enclave
+11:17 Tony Romo “on leave” from on-air role
+13:17 Charges dropped against former Olympian over reflecting pool damage
+16:00 Great Americans:…","2026-08-01T01:55:30Z","https://www.youtube.com/watch?v=8fQqLw1Zj68","https://i1.ytimg.com/vi/8fQqLw1Zj68/hqdefault.jpg","military;airstrike","US;IR","nbc;nightly;news;tom;llamas;full;episode;july","base","","2026-08-01T14:56:53Z"
+"Go-BI7NbA7o","yt-cnn","CNN","‘No Influencers’ sign in Nantucket store sparks debate","","A shop in Nantucket put up a ""no influencers"" sign and the internet has gone crazy. While it may be dividing opinions, the shop owner told CNN the sign was just a ""lighthearted way to set boundaries.""","2026-08-01T01:51:33Z","https://www.youtube.com/watch?v=Go-BI7NbA7o","https://i4.ytimg.com/vi/Go-BI7NbA7o/hqdefault.jpg","political","","influencers;nantucket","base","","2026-08-01T14:56:50Z"
+"3yiSb7gJYmU","yt-techlinked","TechLinked","“Seems Like AI Slop”","","Sign up with the following links and enjoy the first 6 months of OpManager Nexus free.
+
+On-Site: https://lmg.gg/site24x7
+Cloud: https://lmg.gg/manageengine
+
+NEWS SOURCES: https://lmg.gg/J3HFX
+
+► SHOP OUR PRODUCTS: https://lttstore.com
+► GET EXCLUSIVE CONTENT ON FLOATPLANE: https://lmg.gg/lttfloatplane
+► GET A VPN: https://www.piavpn.com/TechLinked
+► LISTEN TO THE TECH NEWS: https://lmg.gg/TLPodcast
+► DIVE DEEPER ON THE LTT LABS WEBSITE: https://lmg.gg/labs
+► SPONSORS, AFFILIATES, AND PARTNERS: https://lmg.gg/partners
+► OUR PODCAST GEAR: https://lmg.gg/podcastgear
+
+---------------------------------------------------
+Timestamps:
+0:00 LinkedIn cracks down on AI slop
+2:01 AI music charts and the Suno ruling
+3:33 AMD raising GPU prices
+6:07 QUICK BITS INTRO
+6:16 Claude broke into real companies
+7:03 Steam Frame FCC certification
+7:41 Sony sticking with disc plan
+8:11 New York sues Kalshi
+8:51 Airlines ban humanoid robots
+9:39 Credits","2026-08-01T01:50:28Z","https://www.youtube.com/watch?v=3yiSb7gJYmU","https://i4.ytimg.com/vi/3yiSb7gJYmU/hqdefault.jpg","political","","seems;like;slop","base","","2026-08-01T14:58:31Z"
+"_PvRGGknCKQ","yt-nbc-news","NBC News","DOJ drops Reflecting Pool vandalism case","","DOJ drops Reflecting Pool vandalism case","2026-08-01T01:36:39Z","https://www.youtube.com/watch?v=_PvRGGknCKQ","https://i4.ytimg.com/vi/_PvRGGknCKQ/hqdefault.jpg","political","","doj;reflecting;pool","base","","2026-08-01T14:56:53Z"
+"m7utwocH4Co","yt-cnn","CNN","Where's the bottom? Can Trump's approval rating go any lower?","","Less than 100 days before the midterms, voters are agitating for wholesale change in Congress and looking to the Democratic Party in hopes of making that happen. Democrats lead Republicans on the generic ballot by 8 points among registered voters, according to a new CNN poll conducted by SSRS. Perhaps the most powerful unifying force on the Democratic side remains anger at President Donald Trump, which currently outpaces the loyalty he’s inspiring within the GOP.
+
+CNN chief data analyst Harry Enten wonders if Trump's ""heading towards an electoral black hole,"" and CNN's ""NewsNight"" panel breaks down the polling numbers for Democrats.
+
+0:00 Trump hits historic polling lows for the second time
+ 3:16 Is the GOP making the same mistake Democrats made in 2024?
+ 9:19 How many Democrats identify as democratic socialists?
+
+Watch 24/7 live news with CNN Headlines: https://bit.ly/4eIvlTr
+
+#Trump #polling #News","2026-08-01T01:30:17Z","https://www.youtube.com/watch?v=m7utwocH4Co","https://i2.ytimg.com/vi/m7utwocH4Co/hqdefault.jpg","political;election","","where;trump","base","","2026-08-01T14:56:50Z"
+"nYa1zK1Dq08","yt-geography-now","Geography Now","Geography Now!","","Check out http://www.GeographyNow.com ! You asked for merch so we made it for you! 
+
+Become a patron! Donate to help pay for production of GN. You also get exclusive BTS footage, pics/ and access to other perks! Go to: 
+
+http://patreon.com/GeographyNow
+
+SUBSCRIBE: http://bit.ly/1Os7W46
+
+GN en FRANÇAIS, ESPAÑOL, and PORTUGÊS! : https://direct.me/geographynowlanguages
+
+Follow GN social medias! 
+
+Instagram: https://bit.ly/2YBniQN
+Facebook: https://bit.ly/2qGdSqx
+Twitter: https://bit.ly/2PwZaL3
+TikTok: https://www.tiktok.com/@geographynow_official
+
+GN in other language: https://direct.me/geographynowlanguages
+
+-------------------------------------------------------------------------------------------------
+
+Welcome to Geography Now! This is the first and only Youtube Channel that actively attempts to cover profiles on every single country of the world.
+
+For Business inquiries please contact GeographyBusinessnow@gmail.com
+
+Or GeographyLater@gmail.com
+
+#Travel #Education #FYP #Youtube","2026-08-01T01:15:01Z","https://www.youtube.com/watch?v=nYa1zK1Dq08","https://i3.ytimg.com/vi/nYa1zK1Dq08/hqdefault.jpg","political","","geography;now","base","","2026-08-01T14:57:31Z"
+"fZENpWsDxOQ","yt-cnn","CNN","FIFA scraps $20B investment plan after major backlash","","FIFA’s proposed plan to sell private stakes in upcoming World Cup tournaments that sparked backlash from fans and soccer associations around the world has been scrapped, FIFA president Gianni Infantino said in a statement.","2026-08-01T01:12:18Z","https://www.youtube.com/watch?v=fZENpWsDxOQ","https://i3.ytimg.com/vi/fZENpWsDxOQ/hqdefault.jpg","social;noise","","fifa","base","","2026-08-01T14:56:50Z"
+"S4gjML4jHDM","yt-nbc-news","NBC News","Nancy Guthrie ransom notes released","","The Pima County Sheriff’s office has released the two ransom notes they believe may be from the person or people who kidnapped Nancy Guthrie earlier this year. One of them describes her as ‘safe but scared’...but days later they say she “perished shortly after she was taken.” NBC News’ Liz Kreutz has the contents of the notes and why they were just made public.
+
+For more context and news coverage of the most important stories of our day, click here: https://www.nbcnews.com
+
+» Subscribe to NBC News: http://nbcnews.to/SubscribeToNBC
+» Subscribe to Here's the Scoop podcast: https://www.nbcnews.com/heres-the-scoop-daily-podcast
+» NBC News App: https://apps.nbcnews.com/mobile
+» Breaking News Alerts: https://link.nbcnews.com/join/5cj/breaking-news-signup?cid=sm_npd_nn_yt_bn-clip_190621
+» Visit NBCNews.Com: http://nbcnews.to/ReadNBC
+» Find NBC News on Facebook: http://nbcnews.to/LikeNBC
+» Follow NBC News on Twitter: http://nbcnews.to/FollowNBC
+» Follow NBC News on Instagram: http://nbcnews.to/InstaNBC
+
+#nancyguthrie #missing #investigation","2026-08-01T01:10:52Z","https://www.youtube.com/watch?v=S4gjML4jHDM","https://i4.ytimg.com/vi/S4gjML4jHDM/hqdefault.jpg","political","","nancy;guthrie","base","","2026-08-01T14:56:53Z"
+"5re8ou-zUag","yt-nbc-news","NBC News","What led the FBI to suspect Iran in water system hacks across 7 states","","NBC News' Dan Deluce joins ""Here's the Scoop"" to talk about how the FBI is determining Iran to be one responsible for the cyberattacks targeting municipal water systems that have been reported in at least seven states this week.
+
+For more context and news coverage of the most important stories of our day, click here: https://www.nbcnews.com
+
+» Subscribe to NBC News: http://nbcnews.to/SubscribeToNBC
+» Subscribe to Here's the Scoop podcast: https://www.nbcnews.com/heres-the-scoop-daily-podcast
+» NBC News App: https://apps.nbcnews.com/mobile
+» Breaking News Alerts: https://link.nbcnews.com/join/5cj/breaking-news-signup?cid=sm_npd_nn_yt_bn-clip_190621
+» Visit NBCNews.Com: http://nbcnews.to/ReadNBC
+» Find NBC News on Facebook: http://nbcnews.to/LikeNBC
+» Follow NBC News on Twitter: http://nbcnews.to/FollowNBC
+» Follow NBC News on Instagram: http://nbcnews.to/InstaNBC","2026-08-01T01:09:35Z","https://www.youtube.com/watch?v=5re8ou-zUag","https://i2.ytimg.com/vi/5re8ou-zUag/hqdefault.jpg","political","IR","fbi;iran","base","","2026-08-01T14:56:53Z"
+"ZK-1VYty5Xk","yt-nbc-news","NBC News","Pima County sheriff explains release of ransom notes in Nancy Guthrie case","","Pima County Sheriff Chris Nanos speaks with NBC News’ Liz Kreutz about the release of the ransom notes in Nancy Guthrie’s disappearance, the language used in the writing, and the latest developments in the case.
+
+For more context and news coverage of the most important stories of our day, click here: https://www.nbcnews.com
+
+» Subscribe to NBC News: http://nbcnews.to/SubscribeToNBC
+» Subscribe to Here's the Scoop podcast: https://www.nbcnews.com/heres-the-scoop-daily-podcast
+» NBC News App: https://apps.nbcnews.com/mobile
+» Breaking News Alerts: https://link.nbcnews.com/join/5cj/breaking-news-signup?cid=sm_npd_nn_yt_bn-clip_190621
+» Visit NBCNews.Com: http://nbcnews.to/ReadNBC
+» Find NBC News on Facebook: http://nbcnews.to/LikeNBC
+» Follow NBC News on Twitter: http://nbcnews.to/FollowNBC
+» Follow NBC News on Instagram: http://nbcnews.to/InstaNBC
+
+#BreakingNews #nancyguthriecase #savannahguthrie","2026-08-01T01:05:34Z","https://www.youtube.com/watch?v=ZK-1VYty5Xk","https://i3.ytimg.com/vi/ZK-1VYty5Xk/hqdefault.jpg","political","","pima;county;nancy;guthrie","base","","2026-08-01T14:56:53Z"
+"86MEl113ZRs","yt-nbc-news","NBC News","Hallie Jackson NOW - July 31 | NBC News NOW","","Investigators release two ransom notes purportedly linked to the disappearance of Nancy Guthrie, the Department of Justice announces it is dropping the Reflecting Pool vandalism case and an F-35 fighter jet crashes in San Diego. 
+
+For more context and news coverage of the most important stories of our day, click here: https://www.nbcnews.com
+
+» Subscribe to NBC News: http://nbcnews.to/SubscribeToNBC
+» Subscribe to Here's the Scoop podcast: https://www.nbcnews.com/heres-the-scoop-daily-podcast
+» NBC News App: https://apps.nbcnews.com/mobile
+» Breaking News Alerts: https://link.nbcnews.com/join/5cj/breaking-news-signup?cid=sm_npd_nn_yt_bn-clip_190621
+» Visit NBCNews.Com: http://nbcnews.to/ReadNBC
+» Find NBC News on Facebook: http://nbcnews.to/LikeNBC
+» Follow NBC News on Twitter: http://nbcnews.to/FollowNBC
+» Follow NBC News on Instagram: http://nbcnews.to/InstaNBC
+
+#BreakingNews #News #Politics","2026-08-01T01:02:54Z","https://www.youtube.com/watch?v=86MEl113ZRs","https://i1.ytimg.com/vi/86MEl113ZRs/hqdefault.jpg","military;airstrike","","hallie;jackson;now;july;nbc;news","base","","2026-08-01T14:56:53Z"
+"cULDmr3Cq6o","yt-nbc-news","NBC News","Top Story with Tom Llamas - July 31 | NBC News NOW","","A new warning from the FBI says the U.S. water supply may be under attack, dozens of people were killed as tens of thousands rushed into Spanish territory in North Africa, and a “smokenado” caught on camera as wildfires rage in the western U.S.
+
+For more context and news coverage of the most important stories of our day, click here: https://www.nbcnews.com
+
+» Subscribe to NBC News: http://nbcnews.to/SubscribeToNBC
+» Subscribe to Here's the Scoop podcast: https://www.nbcnews.com/heres-the-scoop-daily-podcast
+» NBC News App: https://apps.nbcnews.com/mobile
+» Breaking News Alerts: https://link.nbcnews.com/join/5cj/breaking-news-signup?cid=sm_npd_nn_yt_bn-clip_190621
+» Visit NBCNews.Com: http://nbcnews.to/ReadNBC
+» Find NBC News on Facebook: http://nbcnews.to/LikeNBC
+» Follow NBC News on Twitter: http://nbcnews.to/FollowNBC
+» Follow NBC News on Instagram: http://nbcnews.to/InstaNBC
+
+#BreakingNews #News #Politics","2026-08-01T01:00:13Z","https://www.youtube.com/watch?v=cULDmr3Cq6o","https://i4.ytimg.com/vi/cULDmr3Cq6o/hqdefault.jpg","military;strike","US","top;story;tom;llamas;july;nbc;news;now","base","","2026-08-01T14:56:53Z"
+"tD-2GgtIfnA","yt-nbc-news","NBC News","Flesh-eating bacteria kills one person in Florida","","The U.S. has seen its first deadly case of flesh-eating bacteria in Florida. The bacteria is more common in the summer and can be transmitted by raw or undercooked sea food or through wound exposure. NBC News’ Erika Edwards explains symptoms to watch for and how to protect yourself. 
+
+For more context and news coverage of the most important stories of our day, click here: https://www.nbcnews.com
+
+» Subscribe to NBC News: http://nbcnews.to/SubscribeToNBC
+» Subscribe to Here's the Scoop podcast: https://www.nbcnews.com/heres-the-scoop-daily-podcast
+» NBC News App: https://apps.nbcnews.com/mobile
+» Breaking News Alerts: https://link.nbcnews.com/join/5cj/breaking-news-signup?cid=sm_npd_nn_yt_bn-clip_190621
+» Visit NBCNews.Com: http://nbcnews.to/ReadNBC
+» Find NBC News on Facebook: http://nbcnews.to/LikeNBC
+» Follow NBC News on Twitter: http://nbcnews.to/FollowNBC
+» Follow NBC News on Instagram: http://nbcnews.to/InstaNBC
+
+#Florida #Health #Bacteria","2026-08-01T00:56:33Z","https://www.youtube.com/watch?v=tD-2GgtIfnA","https://i1.ytimg.com/vi/tD-2GgtIfnA/hqdefault.jpg","political","US","flesh-eating;florida","base","","2026-08-01T14:56:53Z"
+"2LNfXhaazgQ","yt-nbc-news","NBC News","FIFA cancels plan to sell World Cup stakes to private equity investors","","FIFA President Gianni Infantino said he’s scrapping a plan to sell stakes in the World Cup to private equity investors after strong backlash and statements of non-participation in FIFA events from organizations in Europe, Asia, and North America.
+
+For more context and news coverage of the most important stories of our day, click here: https://www.nbcnews.com
+
+» Subscribe to NBC News: http://nbcnews.to/SubscribeToNBC
+» Subscribe to Here's the Scoop podcast: https://www.nbcnews.com/heres-the-scoop-daily-podcast
+» NBC News App: https://apps.nbcnews.com/mobile
+» Breaking News Alerts: https://link.nbcnews.com/join/5cj/breaking-news-signup?cid=sm_npd_nn_yt_bn-clip_190621
+» Visit NBCNews.Com: http://nbcnews.to/ReadNBC
+» Find NBC News on Facebook: http://nbcnews.to/LikeNBC
+» Follow NBC News on Twitter: http://nbcnews.to/FollowNBC
+» Follow NBC News on Instagram: http://nbcnews.to/InstaNBC
+
+#FIFA #Soccer #WorldCup","2026-08-01T00:53:23Z","https://www.youtube.com/watch?v=2LNfXhaazgQ","https://i3.ytimg.com/vi/2LNfXhaazgQ/hqdefault.jpg","social;noise","US","fifa;world;cup","base","","2026-08-01T14:56:53Z"
+"mhw4Xbe_7iI","yt-bbc-news","BBC News","Fifa scraps controversial plan after global outrage | BBC News","","Fifa president Gianni Infantino says he has scrapped the controversial plan to sell off stakes in the governing body's major competitions, following widespread opposition. 
+ 
+Infantino said it had become clear the project had ""created divisions"" that are ""no longer in the interest"" of its original objective. 
+ 
+The Swiss official added: ""As a result, this proposal will not proceed."" 
+ 
+Infantino had offered all 211 member associations $40m (£30m) if they backed a proposal for private investment in its tournaments, including the men's and women's World Cups.
+
+Subscribe to our channel here: https://bbc.in/bbcnews
+
+For the latest news download the BBC News app or visit BBC.com/news
+
+#BBCNews","2026-08-01T00:43:37Z","https://www.youtube.com/watch?v=mhw4Xbe_7iI","https://i2.ytimg.com/vi/mhw4Xbe_7iI/hqdefault.jpg","political","","fifa;bbc;news","base","","2026-08-01T14:56:46Z"
+"eXxICVM2JSk","yt-johnny-harris","Johnny Harris","Not ~the headlines~ again","","","2026-08-01T00:30:05Z","https://www.youtube.com/watch?v=eXxICVM2JSk","https://i2.ytimg.com/vi/eXxICVM2JSk/hqdefault.jpg","political","","","base","","2026-08-01T14:56:39Z"
+"SMCLgu48gaY","yt-cnn","CNN","Boy spent 100 hours reading to shelter animals","","For the last two years, 11-year-old Nehemiah Turner has spent a couple days a week reading to cats and dogs at an animal shelter where he recently surpassed 100 hours of reading.","2026-08-01T00:29:43Z","https://www.youtube.com/watch?v=SMCLgu48gaY","https://i4.ytimg.com/vi/SMCLgu48gaY/hqdefault.jpg","political","","boy","base","","2026-08-01T14:56:50Z"
+"hT-UXjrKCQY","yt-nbc-news","NBC News","Turkey, Egypt block LGBTQ+ cruise from docking during Mediterranean voyage","","Turkey and Egypt blocked a gay-themed cruise from docking at its ports on a recent Mediterranean trip. It's raising questions about how these policies could hurt their economies as the LGBTQ+ tourism industry booms. NBC News' Steven Romo reports.
+
+For more context and news coverage of the most important stories of our day, click here: https://www.nbcnews.com
+
+» Subscribe to NBC News: http://nbcnews.to/SubscribeToNBC
+» Subscribe to Here's the Scoop podcast: https://www.nbcnews.com/heres-the-scoop-daily-podcast
+» NBC News App: https://apps.nbcnews.com/mobile
+» Breaking News Alerts: https://link.nbcnews.com/join/5cj/breaking-news-signup?cid=sm_npd_nn_yt_bn-clip_190621
+» Visit NBCNews.Com: http://nbcnews.to/ReadNBC
+» Find NBC News on Facebook: http://nbcnews.to/LikeNBC
+» Follow NBC News on Twitter: http://nbcnews.to/FollowNBC
+» Follow NBC News on Instagram: http://nbcnews.to/InstaNBC
+
+#lgbt #egypt #news","2026-07-31T23:55:27Z","https://www.youtube.com/watch?v=hT-UXjrKCQY","https://i1.ytimg.com/vi/hT-UXjrKCQY/hqdefault.jpg","political","TR;EG","turkey;egypt;lgbtq;mediterranean","base","","2026-08-01T14:56:53Z"
+"p_tqzzWYdKc","yt-the-wall-street-journal","The Wall Street Journal","Iran's Workhorse Missile Is Becoming More Dangerous for U.S. Troops | WSJ Equipped","","Iran’s Kheibar Shekan is a medium-range ballistic missile that can fly 900 miles, meaning it can threaten the entire Middle East—and beyond.
+
+The Kheibar Shekan has become the workhorse of Iran’s missile arsenal during the war with the United States. Now, U.S. officials say Iran’s attacks are growing more and more complex, and that’s making the missile even more dangerous for American troops.
+
+WSJ explains why it’s creating problems for Iran’s adversaries.
+
+Chapters:
+0:00 Iran’s main ballistic missile
+0:27 What is the Kheibar Shekan?
+1:26 How Iran is using the missile 
+2:10 Iran's weapons
+3:29 Trump’s attempt to eliminate the missile program 
+
+Equipped
+Equipped examines military innovation and tactics emerging around the world, breaking down the tech behind the weaponry and its potential impact.
+
+#Trump #Iran #WSJ","2026-07-31T22:50:54Z","https://www.youtube.com/watch?v=p_tqzzWYdKc","https://i1.ytimg.com/vi/p_tqzzWYdKc/hqdefault.jpg","military;missile_strike","US;IR","iran;workhorse;missile;becoming;more;dangerous;troops;wsj;equipped","base","","2026-08-01T14:56:55Z"
+"bSuQjINco34","yt-bbc-news","BBC News","The UK prime minister’s quest to become a TikTok star | Top Comment Podcast","","As national media fangirls over Andy Burnham's TikTok persona, we ask what the new prime minister is doing right online.
+
+Is social media now the ultimate test of a politician's authenticity, and could cosying up to influencers set a dangerous precedent in terms of transparency and accountability for those in positions of power?
+
+Top Comment is hosted by Marianna Spring and Matt Shea. Hear the full episode on BBC Sounds or wherever you get your podcasts.
+
+Subscribe to our channel here: https://bbc.in/bbcnews
+
+For the latest news download the BBC News app or visit BBC.com/news
+
+#BBCNews","2026-07-31T22:15:39Z","https://www.youtube.com/watch?v=bSuQjINco34","https://i3.ytimg.com/vi/bSuQjINco34/hqdefault.jpg","political","","tiktok;top;comment;podcast","base","","2026-08-01T14:56:46Z"
+"Zc6z5intJok","yt-geography-now","Geography Now","Zombie apocalypse...AMERICAS CREW!","","","2026-07-31T21:38:53Z","https://www.youtube.com/watch?v=Zc6z5intJok","https://i3.ytimg.com/vi/Zc6z5intJok/hqdefault.jpg","political","US","zombie;americas;crew","base","","2026-08-01T14:57:31Z"
+"MgJfvuXdpLI","yt-forbes","Forbes","Amazon Shares Surge Toward Best Day In A Decade","","Jeff Bezos on Friday became the world’s third-richest person once again, reclaiming the ranking from Google co-founder Sergey Brin as Amazon’s stock accelerated at its fastest pace in four years, following a hotter-than-expected earnings report.
+
+Read the full story on Forbes: https://www.forbes.com/sites/tylerroush/2026/07/31/amazon-shares-surge-14-toward-best-day-in-a-decade-jeff-bezos-overtakes-brin-as-3rd-richest/
+
+Subscribe to FORBES: https://www.youtube.com/user/Forbes?sub_confirmation=1
+
+Fuel your success with Forbes. Gain unlimited access to premium journalism, including breaking news, groundbreaking in-depth reported stories, daily digests and more. Plus, members get a front-row seat at members-only events with leading thinkers and doers, access to premium video that can help you get ahead, an ad-light experience, early access to select products including NFT drops and more:
+
+https://account.forbes.com/membership/?utm_source=youtube&utm_medium=display&utm_campaign=growth_non-sub_paid_subscribe_ytdescript
+
+Stay Connected
+Forbes newsletters: https://newsletters.editorial.forbes.com
+Forbes on Facebook: http://fb.com/forbes
+Forbes Video on Twitter: http://www.twitter.com/forbes
+Forbes Video on Instagram: http://instagram.com/forbes
+More From Forbes:  http://forbes.com
+
+Forbes covers the intersection of entrepreneurship, wealth, technology, business and lifestyle with a focus on people and success.","2026-07-31T21:32:26Z","https://www.youtube.com/watch?v=MgJfvuXdpLI","https://i2.ytimg.com/vi/MgJfvuXdpLI/hqdefault.jpg","political","","amazon;shares;surge;toward;best;day;decade","base","","2026-08-01T14:56:51Z"
+"YxC3qhF8JR4","yt-bbc-news","BBC News","Why football's biggest stars might not be at the next world cup | BBC Newscast","","Today, an almighty bust up is happening in the world of football between Fifa and Uefa.
+
+FIFA, who run the World cup, whose President Gianni Infantino recently announced a proposal to sell stakes in its competitions to private investors.
+
+UEFA, the governing body of European football, responded by calling an emergency meeting and the confederation unanimously voted in favour of a boycott should these plans go ahead.
+
+Jane Dougall, BBC Sports News Presenter and Simon Jack, Business Editor join Adam to discuss Infantino’s proposal and what might happen next.
+
+Plus, Hamas have agreed to President Donald Trump’s plans to disarm in Gaza. However the deal is contingent on Israel ending ""all forms of aggression"" and withdrawing its forces from Gaza.
+
+International Editor Jeremy Bowen joins Adam to discuss the latest developments on this story and what this might mean for the ongoing conflict.
+
+Subscribe to our channel here: https://bbc.in/bbcnews
+
+For the latest news download the BBC News app or visit BBC.com/news
+
+#BBCNews","2026-07-31T21:30:39Z","https://www.youtube.com/watch?v=YxC3qhF8JR4","https://i2.ytimg.com/vi/YxC3qhF8JR4/hqdefault.jpg","social;noise","IL;PS","bbc;newscast","base","","2026-08-01T14:56:46Z"
+"ExUyszmXT8Q","yt-kyla-scanlon","Kyla Scanlon","Leverage!!?!!","","","2026-07-31T21:10:45Z","https://www.youtube.com/watch?v=ExUyszmXT8Q","https://i2.ytimg.com/vi/ExUyszmXT8Q/hqdefault.jpg","political","","leverage","base","","2026-08-01T14:57:01Z"
+"y_AwXkJYvwM","yt-business-insider","Business Insider","The #stockmarket isn't always reacting to the day's headlines. #investing #finance #market #economy","","------------------------------------------------------
+
+Business Insider is a global newsroom covering business, technology, innovation, and the economy.
+
+Visit our homepage for the top stories of the day: https://www.businessinsider.com/?utm_source=youtube
+Sign up for our newsletters: https://www.businessinsider.com/subscription/newsletter?utm_source=youtube
+
+Find Business Insider on Facebook: https://www.facebook.com/businessinsider
+... on Instagram: https://www.instagram.com/businessinsider
+... on X:  https://x.com/BusinessInsider
+... on TikTok: https://www.tiktok.com/@businessinsider","2026-07-31T21:00:25Z","https://www.youtube.com/watch?v=y_AwXkJYvwM","https://i2.ytimg.com/vi/y_AwXkJYvwM/hqdefault.jpg","political","","","base","","2026-08-01T14:56:48Z"
+"7BDLS6iCsFE","yt-forbes","Forbes","Anthropic Says Its AI Models Hacked Into Three Organizations During Testing","","Anthropic on Thursday said its advanced AI models successfully hacked the systems of three organizations while undergoing internal evaluation, a security disclosure that comes a week after rival OpenAI revealed one of its advanced models hacked a company after escaping a contained test environment.
+
+Read the full story on Forbes: https://www.forbes.com/sites/siladityaray/2026/07/31/anthropic-says-its-ai-models-hacked-into-three-organizations-during-testing/
+
+Subscribe to FORBES: https://www.youtube.com/user/Forbes?sub_confirmation=1
+
+Fuel your success with Forbes. Gain unlimited access to premium journalism, including breaking news, groundbreaking in-depth reported stories, daily digests and more. Plus, members get a front-row seat at members-only events with leading thinkers and doers, access to premium video that can help you get ahead, an ad-light experience, early access to select products including NFT drops and more:
+
+https://account.forbes.com/membership/?utm_source=youtube&utm_medium=display&utm_campaign=growth_non-sub_paid_subscribe_ytdescript
+
+Stay Connected
+Forbes newsletters: https://newsletters.editorial.forbes.com
+Forbes on Facebook: http://fb.com/forbes
+Forbes Video on Twitter: http://www.twitter.com/forbes
+Forbes Video on Instagram: http://instagram.com/forbes
+More From Forbes:  http://forbes.com
+
+Forbes covers the intersection of entrepreneurship, wealth, technology, business and lifestyle with a focus on people and success.","2026-07-31T21:00:22Z","https://www.youtube.com/watch?v=7BDLS6iCsFE","https://i4.ytimg.com/vi/7BDLS6iCsFE/hqdefault.jpg","cyber;cyberattack","","anthropic;says;models;hacked;three;organizations;during;testing","base","","2026-08-01T14:56:51Z"
+"pXsfBS1AZR4","yt-bbc-news","BBC News","Inside the funeral home where police found half a tonne of ashes | The Big Cases","","The chilling story of Hull’s funeral home horror. How an undertaker drowning in debt betrayed hundreds of grieving families. 
+
+Robert Bush hoarded bodies, sold fake funeral plans and presented families with the ashes of strangers. His shocking crimes went undetected for years.
+
+The discovery led to one of the most complex investigations in Humberside Police’s history, with help from the National Crime Agency. 
+
+At the heart of this are grieving families. In their darkest days, they fought for laws to regulate the funeral industry so that others never suffer their pain - or guilt - again.
+
+You can watch more episodes of The Big Cases on BBC iPlayer. 
+
+Subscribe to our channel here: https://bbc.in/bbcnews
+
+For the latest news download the BBC News app or visit BBC.com/news
+
+#BBCNews","2026-07-31T20:45:10Z","https://www.youtube.com/watch?v=pXsfBS1AZR4","https://i1.ytimg.com/vi/pXsfBS1AZR4/hqdefault.jpg","political","","inside;big;cases","base","","2026-08-01T14:56:46Z"
+"y7ypUilTLtw","yt-growling-sidewinder","Growling Sidewinder","F-16C Viper Doing The A-10 Warthog's Job | Marines In Contact | Digital Combat Simulator | DCS |","","PIMAX: https://pimax.com/products/pimax-crystal-super/?ref=Growling
+
+Check out the Store: https://crowdmade.com/collections/growling-sidewinder
+
+CHECK OUT THE MINI DOCS CHANNEL:  @Mini_Docs  
+
+Join the channel if you wish to support
+https://www.youtube.com/channel/UCh2rDh7vXGeoh1LlzL3QEwg/join
+
+If You'd like to Support the Channel on Patreon:
+https://www.patreon.com/GrowlingSidewinder
+ 
+Join my Discord:
+https://discord.gg/kA6x5R4
+
+Social Media
+________________________________________________________
+Instagram: https://www.instagram.com/growling_sidewinder/
+Twitter: https://twitter.com/GrowlingAim9
+Facebook: https://www.facebook.com/GrowlingAim9/
+
+Amazon Links for the products I use if you're interested:
+_________________________________________________________
+
+Link for Thrustmaster 16000M: https://amzn.to/2PQGYf2
+Link for Trackir 5: https://amzn.to/2VSN4kt
+Link for Warthog throttle/stick: https://amzn.to/2Vbfhyp
+
+Contact me:
+GrowlingSidewinder@hotmail.com
+
+Disclaimer: Please Note that I use sound effects to enhance my videos for dramatic effect and hopefully give the viewer more immersion and also I use reshade for some better colors. (you can download reshade yourself and use it to make your DCS look like mine).
+
+MY PC SPECS:
+Processors : AMD Ryzen 9 9950X3D 16-Core (up to 5.7GHz Max Boost)
+Motherboard : ASUS ROG CROSSHAIR X870E HERO
+Memory : Crucial Pro 64GB (2x32GB) DDR5 6000MT/s
+System Cooling : CORSAIR iCUE LINK TITAN 360 RX RGB AIO
+System Fans : Corsair iCUE LINK RX120…","2026-07-31T20:30:08Z","https://www.youtube.com/watch?v=y7ypUilTLtw","https://i2.ytimg.com/vi/y7ypUilTLtw/hqdefault.jpg","political","","viper;doing;warthog;job;marines;contact;digital;combat;simulator;dcs","base","","2026-08-01T14:57:06Z"
+"gwUo126FQuw","yt-hoover-institution","Hoover Institution","America's Continuing Military Exceptionalism  #HooverInstitution #USMilitary #Military","","How has the United States military managed to evolve since the end of World War II yet retain its position as the world’s greatest military?
+
+Learn more about American military exceptionalism: https://www.hoover.org/research/american-military-exceptionalism
+
+#AmericanMilitary #MilitaryHistory #USMilitary #MilitaryExceptionalism #NationalDefense #NationalSecurity #DefensePolicy #MilitaryStrategy #ArmedForces #USArmy #USNavy #USAirForce #USMarineCorps #USSpaceForce #JointForce #WorldWarII #ColdWar #ModernWarfare #MilitaryInnovation #DefenseInnovation #MilitaryTechnology #CivilMilitaryRelations #MilitaryLeadership #WarStudies #StrategicStudies #AmericanHistory #GlobalSecurity #GreatPowerCompetition #HooverInstitution #MilitaryHistoryInTheNews","2026-07-31T20:28:48Z","https://www.youtube.com/watch?v=gwUo126FQuw","https://i4.ytimg.com/vi/gwUo126FQuw/hqdefault.jpg","political","US","america;continuing;military;exceptionalism;hooverinstitution;usmilitary","base","","2026-08-01T14:56:38Z"
+"A5c5TH-Rxdo","yt-world-war-two","World War Two","There Are Still Nazi U-Boats Buried Under a Parking Lot #shorts #OOTF","","What happened to Germany’s U-boats after World War II? After Nazi Germany surrendered in 1945, the Allies captured more than 150 submarines. Most were destroyed during Operation Deadlight, when the Royal Navy towed them into the Atlantic and deliberately sank them.
+
+But three of Germany’s most advanced Type XXI “Elektroboote” never made it that far. Trapped inside Hamburg’s massive Elbe II submarine bunker, they were buried beneath thousands of tons of concrete when the British demolished the structure.
+Today, a parking lot sits above them, and the submarines are still there.
+Follow for more incredible WWII history.
+#WW2 #History #MilitaryHistory #Shorts
+
+Join us on Patreon: https://www.patreon.com/TimeGhostHistory
+Or join the TimeGhost Army directly at: https://timeghost.tv/signup/
+
+Check out our TimeGhost History YouTube channel: https://www.youtube.com/c/timeghost
+Between 2 Wars: https://www.youtube.com/playlist?list=PLrG5J-K5AYAU1R-HeWSfY2D1jy_sEssNG
+
+Follow WW2 Day by Day on Instagram: @ww2_day_by_day
+Follow TimeGhost History on Instagram: @timeghosthistory 
+Like us on Facebook: https://www.facebook.com/TimeGhostHistory/
+
+Source literature list: https://bit.ly/SourcesWW2
+
+Archive footage: Screenocean/Reuters - https://www.screenocean.com
+
+A TimeGhost chronological documentary produced by OnLion Entertainment GmbH.
+
+#timeghost #timeghost #history #historical #history #worldwartwohistory  #worldwartwo #ww2 #ww2history #historymatters #maps #cartography #camo","2026-07-31T20:09:46Z","https://www.youtube.com/watch?v=A5c5TH-Rxdo","https://i2.ytimg.com/vi/A5c5TH-Rxdo/hqdefault.jpg","political","DE","there;still;nazi;u-boats;buried;under;parking;lot;ootf","base","","2026-08-01T14:57:17Z"
+"JRyC6ZFajTA","yt-flightdeck2sim","flightdeck2sim","I almost crash landed Concorde in X-Plane 12","","The Colimata Concorde is a reasonably well detailed recreation of the legendary Concorde for X-Plane 12. It allows users to recreate supersonic flight to a certain degree of accuracy. I enjoy flying it along with the unique challenges of operating at Mach 2 in a x3 crewed aircraft in one of aviation's most iconic airliners.
+
+Sometimes though you can be a little bit too focussed...
+
+Back in 2023 we replicated Air France's first inaugural Dakar-Rio service in X-Plane 12, I somehow forgot one very important item on the approach... the landing gear!
+
+The result? An unexpected low pass and a go-around that I'll totally claim was a planned demonstration!","2026-07-31T20:01:14Z","https://www.youtube.com/watch?v=JRyC6ZFajTA","https://i3.ytimg.com/vi/JRyC6ZFajTA/hqdefault.jpg","political;protest","FR","concorde;x-plane","base","","2026-08-01T14:58:50Z"
+"sa4LYUyKeYM","yt-vox","Vox","Don Lemon for president in 2028?","","“People are tired of the tried and true. They're tired of corporate Democrats, established Democrats. They want something new and different.”
+
+On this week’s episode of America, Actually, journalist Don Lemon explains why he would make a good candidate for the 2028 presidential election. Watch the full episode on Saturday here on YouTube or listen wherever you get your podcasts. 
+
+Subscribe to our channel and turn on notifications (🔔) so you don't miss any videos: http://goo.gl/0bsAjO
+
+Vox.com is a news website that helps you cut through the noise and understand what's really driving the events in the headlines. Check out http://www.vox.com.
+
+Watch our full video catalog: http://goo.gl/IZONyE
+Follow Vox on TikTok: http://tiktok.com/@voxdotcom
+Check out our articles: https://www.vox.com/
+Listen to our podcasts: https://www.vox.com/podcasts","2026-07-31T20:00:20Z","https://www.youtube.com/watch?v=sa4LYUyKeYM","https://i4.ytimg.com/vi/sa4LYUyKeYM/hqdefault.jpg","political;election","US","don;lemon","base","","2026-08-01T14:56:57Z"
+"0LROB5sMlAs","yt-forbes","Forbes","Why These Viral Twins Chose Content Over Med School","","In this episode of the Top Creators Show, host Steven Bertoni sits down with The Stokes Twins to talk about their content creation journey and upcoming projects.
+
+Watch the full video here: https://youtu.be/K-9mUWcx7B0?si=AMIIh5XgQvFp4Zuf
+
+Subscribe to FORBES: https://www.youtube.com/user/Forbes?sub_confirmation=1
+
+Fuel your success with Forbes. Gain unlimited access to premium journalism, including breaking news, groundbreaking in-depth reported stories, daily digests and more. Plus, members get a front-row seat at members-only events with leading thinkers and doers, access to premium video that can help you get ahead, an ad-light experience, early access to select products including NFT drops and more:
+
+https://account.forbes.com/membership/?utm_source=youtube&utm_medium=display&utm_campaign=growth_non-sub_paid_subscribe_ytdescript
+
+Stay Connected
+Forbes newsletters: https://newsletters.editorial.forbes.com
+Forbes on Facebook: http://fb.com/forbes
+Forbes Video on Twitter: http://www.twitter.com/forbes
+Forbes Video on Instagram: http://instagram.com/forbes
+More From Forbes:  http://forbes.com
+
+Forbes covers the intersection of entrepreneurship, wealth, technology, business and lifestyle with a focus on people and success.","2026-07-31T20:00:13Z","https://www.youtube.com/watch?v=0LROB5sMlAs","https://i1.ytimg.com/vi/0LROB5sMlAs/hqdefault.jpg","political","","these;viral;twins;chose;content;med;school","base","","2026-08-01T14:56:51Z"
+"2fHDYh6gYw0","yt-channel-4-news","Channel 4 News","How Trump is transforming the capital of America","","From Donald Trump's ballroom to the gilded statues to the giant ‘Arc de Trump’ - Washington DC is getting a make-over, Mar-a-Lago style. 
+
+[Subscribe to our Substack newsletter: https://channel4news.substack.com/subscribe]
+
+The President says it's about making the city beautiful again, but with lawsuit after lawsuit being filed by conservation groups, critics are asking whether Trump's motive is less about preserving the nation's capital - and more about preserving his own legacy.
+
+-------
+Get more news at our site - https://www.channel4.com/news/   
+Subscribe to our Substack newsletter: https://channel4news.substack.com/subscribe 
+Follow us:
+TikTok - https://www.tiktok.com/@c4news 
+Instagram - https://www.instagram.com/channel4news/ 
+Twitter - https://twitter.com/Channel4News 
+Facebook - https://www.facebook.com/Channel4News/","2026-07-31T19:08:56Z","https://www.youtube.com/watch?v=2fHDYh6gYw0","https://i3.ytimg.com/vi/2fHDYh6gYw0/hqdefault.jpg","political","US","trump;america","base","","2026-08-01T14:56:49Z"
+"8rWDW3sC5NM","yt-max-klymenko","Max Klymenko","He LOVES his job at 82yo 💪  Ep. 632 🪜","","","2026-07-31T19:00:37Z","https://www.youtube.com/watch?v=8rWDW3sC5NM","https://i1.ytimg.com/vi/8rWDW3sC5NM/hqdefault.jpg","political","","loves","base","","2026-08-01T14:56:41Z"
+"C--LQ2GGD-E","yt-npr","NPR","Scientists studying environmental fallout of Israeli strikes on southern Lebanon","","The consequences of attacks in south Lebanon are being measured not only in lives lost and buildings destroyed, but also in potential environmental damage. 
+⁠
+Scientists are investigating contamination in farmland after Israeli strikes they say may have introduced toxic chemicals and heavy metals into the soil.⁠
+⁠
+Correspondent: Ruth Sherlock/NPR⁠
+Videographer: Fadel Itani for NPR⁠
+Producer: Pablo Valdivia/NPR
+
+------------------------------------------------------
+
+Follow NPR elsewhere, too:
+• Instagram: https://www.instagram.com/npr/
+• TikTok: https://www.tiktok.com/@npr
+• Facebook: https://www.facebook.com/NPR","2026-07-31T19:00:07Z","https://www.youtube.com/watch?v=C--LQ2GGD-E","https://i4.ytimg.com/vi/C--LQ2GGD-E/hqdefault.jpg","military;strike","IL;LB","scientists;israeli;lebanon","base","","2026-08-01T14:56:54Z"
+"iMXt1RY_KjQ","yt-the-operations-room","The Operations Room","US Navy New Georgia Campaign (1/2) - Knife Fighting Japanese Destroyers","","Relax, unwind, and reduce stress with Feelsy – download it here: https://feelsy-app.onelink.me/LNkc/5yhy25ay
+
+In the summer of 1943, Allied forces launch the New Georgia Campaign to capture the strategically vital Munda Airfield and continue their advance through the Solomon Islands. A young commander, Lt. John F. Kennedy and his tiny patrol torpedo boat, PT-109, fight Japanese Destroyers in the darkness.
+
+The War Office Podcast Links
+
+Spotify: https://open.spotify.com/show/06pwh72NidKiydbJ4Cfmpr
+
+Apple: https://podcasts.apple.com/podcast/id1896339023
+
+Amazon Music: https://music.amazon.co.uk/podcasts/44caf91c-ba2f-4c6e-9b1e-39a0f4f78323/the-war-office
+
+YouTube: https://www.youtube.com/@TheWarOfficePodcast
+
+Please support us on Patreon at https://www.patreon.com/TheOperationsRoom
+
+Music: https://www.purple-planet.com","2026-07-31T18:48:07Z","https://www.youtube.com/watch?v=iMXt1RY_KjQ","https://i2.ytimg.com/vi/iMXt1RY_KjQ/hqdefault.jpg","political","JP","navy;georgia;campaign;knife;fighting;japanese;destroyers","base","","2026-08-01T14:57:16Z"
+"5DHPaW5Wk_8","yt-channel-4-news","Channel 4 News","Andy Burnham unveils devolution plan","","Prime Minister Andy Burnham has set out his devolution plans for England that would give metro mayors the powers to spend a share of income tax and business rate revenue.
+
+[Subscribe to our Substack newsletter: https://channel4news.substack.com/subscribe]
+ 
+Critics say it still doesn’t solve the £7bn funding gap projected for local councils over the next three years - and that a lack of specifics leaves unanswered questions. 
+
+The government says more detail will be provided alongside John Healey’s first budget, which has been announced for 28 October. 
+
+-------
+Get more news at our site - https://www.channel4.com/news/   
+Subscribe to our Substack newsletter: https://channel4news.substack.com/subscribe 
+Follow us:
+TikTok - https://www.tiktok.com/@c4news 
+Instagram - https://www.instagram.com/channel4news/ 
+Twitter - https://twitter.com/Channel4News 
+Facebook - https://www.facebook.com/Channel4News/","2026-07-31T18:37:56Z","https://www.youtube.com/watch?v=5DHPaW5Wk_8","https://i2.ytimg.com/vi/5DHPaW5Wk_8/hqdefault.jpg","political","GB","andy;burnham","base","","2026-08-01T14:56:49Z"
+"CePgzgUzFmM","yt-johnny-harris","Johnny Harris","Can’t wait to show you this journey with @drewbinsky","","","2026-07-31T18:30:01Z","https://www.youtube.com/watch?v=CePgzgUzFmM","https://i4.ytimg.com/vi/CePgzgUzFmM/hqdefault.jpg","political","","","base","","2026-08-01T14:56:39Z"
+"47EBP1i1XLc","yt-channel-4-news","Channel 4 News","The tiny Spanish territory overrun by migrants","","The images are searing. Thousands of mainly men and boys scrambling onto the beaches of the tiny Spanish exclave of Ceuta after having braved the waters of the Strait of Gibraltar, dozens of them drowning. 
+
+[Subscribe to our Substack newsletter: https://channel4news.substack.com/subscribe]
+
+The Spanish army and navy were unable to control the situation. Spain’s Prime Minister Pedro Sanchez called it an attack. France put up border controls with Spain. Italy threatens to suspend the Schengen Agreement. 
+
+At least half the migrants have now been returned to Morocco. But for those in government, the images from Ceuta are the stuff of nightmares. For those trying to get into government by claiming Europe is overrun, the images are a gift. 
+
+-------
+Get more news at our site - https://www.channel4.com/news/   
+Subscribe to our Substack newsletter: https://channel4news.substack.com/subscribe 
+Follow us:
+TikTok - https://www.tiktok.com/@c4news 
+Instagram - https://www.instagram.com/channel4news/ 
+Twitter - https://twitter.com/Channel4News 
+Facebook - https://www.facebook.com/Channel4News/","2026-07-31T18:14:54Z","https://www.youtube.com/watch?v=47EBP1i1XLc","https://i1.ytimg.com/vi/47EBP1i1XLc/hqdefault.jpg","military;strike","FR","spanish","base","","2026-08-01T14:56:49Z"
+"2X_Jcw2Pl98","yt-channel-4-news","Channel 4 News","Aftermath of deadly Algeria bus crash","","","2026-07-31T17:48:46Z","https://www.youtube.com/watch?v=2X_Jcw2Pl98","https://i3.ytimg.com/vi/2X_Jcw2Pl98/hqdefault.jpg","political","","aftermath;algeria","base","","2026-08-01T14:56:49Z"
+"RuYyufNevkc","yt-the-wall-street-journal","The Wall Street Journal","Why Gasoline Prices Haven’t Dropped as Much as Oil","","Oil refiners are the best-performing energy stocks this year. WSJ’s Jinjoo Lee explains why.
+
+#Oil #Iran #WSJ","2026-07-31T17:47:01Z","https://www.youtube.com/watch?v=RuYyufNevkc","https://i3.ytimg.com/vi/RuYyufNevkc/hqdefault.jpg","energy","IR","gasoline;prices;haven;dropped;much;oil","base","","2026-08-01T14:56:55Z"
+"bVgR5HGtBuA","yt-channel-4-news","Channel 4 News","How Trump is redesigning architecture in Washington DC","","From Donald Trump's ballroom to the gilded statues to the arc de Trump, Washington DC is being remade, Mar-a-Lago-style.
+
+[Subscribe to our Substack newsletter: https://channel4news.substack.com/subscribe]
+
+The President says it's about making the city beautiful again, but with lawsuit after lawsuit being filed by conservation groups, critics are asking whether Trump's motive is less about preserving the nation's capital and more about preserving his own legacy.
+
+-------
+
+Get more news at our site - https://www.channel4.com/news/ 
+
+Subscribe to our Substack newsletter: https://channel4news.substack.com/subscribe
+
+Follow us:
+TikTok - https://www.tiktok.com/@c4news
+Instagram - https://www.instagram.com/channel4news/
+Twitter - https://twitter.com/Channel4News
+Facebook - https://www.facebook.com/Channel4News/","2026-07-31T17:31:47Z","https://www.youtube.com/watch?v=bVgR5HGtBuA","https://i3.ytimg.com/vi/bVgR5HGtBuA/hqdefault.jpg","political","US","trump;washington","base","","2026-08-01T14:56:49Z"
+"q8e379LeVWA","yt-npr","NPR","Historic cottonwood trees torn down for border wall","","In Southern Arizona this week, Contractors demolished a grove of historic cottonwood trees as the Trump administration makes way for new border walls in the area.
+
+The move drew outcry from conservation groups and residents, who say the trees hold deep cultural and ecological significance. The Sierra Club estimates the trees are more than 200 years old. As of Thursday, one cottonwood remained standing, with conservationists organizing a sit-in to prevent its demolition.
+
+Find “NPR News Now” wherever you listen to podcasts.
+
+Read the full story at https://news.azpm.org/p/azpmnews/2026/7/28/230668-historic-cottonwood-trees-torn-down-for-border-wall-construction-in-santa-cruz-county
+
+Host: Jeanine Herbst/NPR
+Reporter: Angela Gervasi/Arizona Public Media
+Producer: Zayrha Rodriguez/NPR","2026-07-31T17:30:19Z","https://www.youtube.com/watch?v=q8e379LeVWA","https://i2.ytimg.com/vi/q8e379LeVWA/hqdefault.jpg","political","","historic","base","","2026-08-01T14:56:54Z"
+"f_QqArI7bAQ","yt-channel-4-news","Channel 4 News","The 'monster' behind the funeral home of horrors","","This is the story of a funeral director from Hull who is described as ""pure evil"".
+[Subscribe to our Substack newsletter: https://channel4news.substack.com/subscribe]
+
+Police found a scene of horror when they finally raided his premises. 
+
+Bodies were left decomposing for months, there was half a tonne of ashes that couldn't be identified.
+
+Behind Robert Bush’s charm was a man committing horrors on what prosecutors called ""almost an industrial scale""’.
+
+He's now been sentenced to 20 years in prison - and the government says it is taking action to crack down on rogue funeral operators.
+
+Reporter: Jane Deith
+Producer and editor: Suzannah Rogerson
+Producer: Harry Peet
+Camera: Joe Lajszczuk, Ken McCallum, Justin Oliver and Jack Parkes
+
+Music: Audio Network
+
+-------
+
+Get more news at our site - https://www.channel4.com/news/ 
+
+Subscribe to our Substack newsletter: https://channel4news.substack.com/subscribe
+
+Follow us:
+TikTok - https://www.tiktok.com/@c4news
+Instagram - https://www.instagram.com/channel4news/
+Twitter - https://twitter.com/Channel4News
+Facebook - https://www.facebook.com/Channel4News/","2026-07-31T17:06:59Z","https://www.youtube.com/watch?v=f_QqArI7bAQ","https://i3.ytimg.com/vi/f_QqArI7bAQ/hqdefault.jpg","political","","","base","","2026-08-01T14:56:49Z"
+"3tem8BVjGhw","yt-forbes","Forbes","Anthropic Says Its AI Models Hacked Into Three Organizations During Testing","","Anthropic on Thursday said its advanced AI models successfully hacked the systems of three organizations while undergoing internal evaluation, a security disclosure that comes a week after rival OpenAI revealed one of its advanced models hacked a company after escaping a contained test environment.
+
+Read the full story on Forbes: https://www.forbes.com/sites/siladityaray/2026/07/31/anthropic-says-its-ai-models-hacked-into-three-organizations-during-testing/
+
+Subscribe to FORBES: https://www.youtube.com/user/Forbes?sub_confirmation=1
+
+Fuel your success with Forbes. Gain unlimited access to premium journalism, including breaking news, groundbreaking in-depth reported stories, daily digests and more. Plus, members get a front-row seat at members-only events with leading thinkers and doers, access to premium video that can help you get ahead, an ad-light experience, early access to select products including NFT drops and more:
+
+https://account.forbes.com/membership/?utm_source=youtube&utm_medium=display&utm_campaign=growth_non-sub_paid_subscribe_ytdescript
+
+Stay Connected
+Forbes newsletters: https://newsletters.editorial.forbes.com
+Forbes on Facebook: http://fb.com/forbes
+Forbes Video on Twitter: http://www.twitter.com/forbes
+Forbes Video on Instagram: http://instagram.com/forbes
+More From Forbes:  http://forbes.com
+
+Forbes covers the intersection of entrepreneurship, wealth, technology, business and lifestyle with a focus on people and success.","2026-07-31T17:03:56Z","https://www.youtube.com/watch?v=3tem8BVjGhw","https://i4.ytimg.com/vi/3tem8BVjGhw/hqdefault.jpg","cyber;cyberattack","","anthropic;says;models;hacked;three;organizations;during;testing","base","","2026-08-01T14:56:51Z"
+"mWQqPcAqbi0","yt-forbes","Forbes","The Highest-Paid Podcasters Of 2026","","Read the full story on Forbes: 
+
+Subscribe to FORBES: https://www.youtube.com/user/Forbes?sub_confirmation=1
+
+Fuel your success with Forbes. Gain unlimited access to premium journalism, including breaking news, groundbreaking in-depth reported stories, daily digests and more. Plus, members get a front-row seat at members-only events with leading thinkers and doers, access to premium video that can help you get ahead, an ad-light experience, early access to select products including NFT drops and more:
+
+https://account.forbes.com/membership/?utm_source=youtube&utm_medium=display&utm_campaign=growth_non-sub_paid_subscribe_ytdescript
+
+Stay Connected
+Forbes newsletters: https://newsletters.editorial.forbes.com
+Forbes on Facebook: http://fb.com/forbes
+Forbes Video on Twitter: http://www.twitter.com/forbes
+Forbes Video on Instagram: http://instagram.com/forbes
+More From Forbes:  http://forbes.com
+
+Forbes covers the intersection of entrepreneurship, wealth, technology, business and lifestyle with a focus on people and success.","2026-07-31T17:03:26Z","https://www.youtube.com/watch?v=mWQqPcAqbi0","https://i2.ytimg.com/vi/mWQqPcAqbi0/hqdefault.jpg","political","","highest-paid;podcasters","base","","2026-08-01T14:56:51Z"
+"tvZimMnCwyE","yt-cnbc","CNBC","AI's Control Problem: Agents, Costs And Robots","","AI is moving from answering questions to taking action, and the bills are arriving faster than anyone budgeted for. An agent that spins up thousands of other agents can turn a $20 task into a $50,000 one, and companies are starting to scale into bankruptcy. The fight now isn't over how smart these systems are. It's over who controls what they do and what they cost.
+
+Deirdre Bosa talks with three executives at the center of that shift:
+» Jeetu Patel, President and Chief Product Officer at Cisco, on rogue agents, guardrails and why autonomous systems need a kill switch.
+» Lin Qiao, co-founder and CEO of Fireworks AI, on inference economics and whether efficiency can keep AI businesses solvent.
+» Evan Beard, co-founder and CEO of Standard Bots, on the U.S.-China robot gap — 300,000 deployed to our 30,000 — and what it costs to lose the next platform.
+
+Chapters:
+00:00 Introduction
+1:00 Is AI's easy-money era over?
+4:43 Cisco President Jeetu Patel
+21:20 Fireworks AI CEO Lin Qiao
+37:59 Standard Bots CEO Evan Beard
+
+Anchor and columnist: Deirdre Bosa
+Produced by: Jasmine Wu
+Editing by: Michael Hoyt
+Technical Associate: Sami Savona
+Senior Director of Video: Jeniece Pettitt
+Additional Footage: Getty Images
+
+» Subscribe to CNBC: https://cnb.cx/SubscribeCNBC 
+» Subscribe to CNBC TV: https://cnb.cx/SubscribeCNBCtelevision  
+
+About CNBC: From 'Wall Street' to 'Main Street' to award winning original documentaries and Reality TV series, CNBC has you covered. Experience special sneak peeks o…","2026-07-31T17:00:04Z","https://www.youtube.com/watch?v=tvZimMnCwyE","https://i1.ytimg.com/vi/tvZimMnCwyE/hqdefault.jpg","political","US;CN","control;problem;agents;costs;robots","base","","2026-08-01T14:56:49Z"
+"oqCp90-Iesg","nyc-mayor-s-office","NYC Mayor's Office","NYC Film Green Office Hours: Sustainability in the Digital World of Visual Effects & Post-Production","","Join the NYC Mayor’s Office of Media and Entertainment in exploring how technology and digital workflows in filmmaking contribute to GHG emissions. This discussion focuses on practical measures that can be adopted across VFX and post-production, with the goal of reducing our energy consumption and intentionally building more sustainable technology pipelines.
+NYC Film Green is an initiative of the NYC Mayor’s Office of Media and Entertainment. Moderated by Shira Gans, Sr. Executive Director, Policy + Programs at the Mayor’s Office of Media and Entertainment.
+ 
+Panelist:
+• Beck Dunn, Snr. VFX Producer, Operations & Strategy Consultant
+• Barbara H. Lange, Founder and CEO, Kibo121
+• Tom Balkwill, Founder and CEO, Dirty Looks
+• Jonathan Harris, CEO and VFX Supervisor, Dupe VFX
+ 
+Resources 
+•                     Powering public swimming pools: https://www.tvbeurope.com/sustainability/post-production-house-dirty-looks-renders-enough-heat-to-power-public-swimming-pool  
+• Op-ed: https://www.tvbeurope.com/sustainability/opinion-green-productions-alone-wont-solve-medias-sustainability-challenge
+• Carbon trust report: https://www.carbontrust.com/sites/default/files/documents/resource/public/Carbon-impact-of-video-streaming.pdf
+• Assessment tool: https://www.thedpp.com/sustainability
+• Heata: https://www.heata.co
+• Ecoprod green post production guide: https://ecoprod.com/wp-content/uploads/2025/04/Green-Post-Production-Guide-1.pdf","2026-07-31T16:39:47Z","https://www.youtube.com/watch?v=oqCp90-Iesg","https://i4.ytimg.com/vi/oqCp90-Iesg/hqdefault.jpg","social;noise","","nyc;film;green;office;hours;sustainability;digital;world;visual;effects","base","","2026-08-01T14:59:01Z"
+"SBopBjmTPqo","yt-ryan-mcbeth","Ryan McBeth","Your phone knows everything about you","","","2026-07-31T16:35:57Z","https://www.youtube.com/watch?v=SBopBjmTPqo","https://i4.ytimg.com/vi/SBopBjmTPqo/hqdefault.jpg","political","","","base","","2026-08-01T14:57:10Z"
+"UvFEvVaP-HI","yt-epic-history","Epic History","Peninsular War Atrocities: French Soldiers Crucified and Burned Alive","","Peninsular War atrocities reached horrifying new levels when Spanish guerrillas captured French soldiers and crucified them upside down on barn doors before setting them on fire. These shocking acts of brutality during the Peninsular War triggered savage French reprisals that devastated entire Spanish towns and left countless civilians dead. Primary accounts describe how the cycle of violence spiraled out of control as both sides committed increasingly cruel acts against one another. The Peninsular War atrocities were not isolated incidents but part of a wider pattern of guerrilla warfare and revenge that turned the conflict into one of the bloodiest chapters of the Napoleonic Wars. French troops responded to these gruesome killings by burning villages, executing suspected collaborators, and terrorizing local populations in an effort to crush resistance. Historians note that the Peninsular War atrocities on both sides made the fighting far more vicious than conventional battles of the era. This short reveals the brutal reality behind these events and the human suffering they caused across Spain.
+
+Watch the full short for more eyewitness details you won’t find in textbooks. Like and subscribe for more forgotten history from Epic History.
+
+#PeninsularWar #NapoleonicWars #napoleon #EpicHistory","2026-07-31T16:00:33Z","https://www.youtube.com/watch?v=UvFEvVaP-HI","https://i2.ytimg.com/vi/UvFEvVaP-HI/hqdefault.jpg","military;election","","peninsular;war;atrocities;french;soldiers;crucified;burned;alive","base","","2026-08-01T14:57:19Z"
+"D6MMaaSXHSo","yt-daily-mail-world","Daily Mail World","How the US Captured Maduro in 148 Minutes | Battle Board","","This is how the United States captured Venezuelan leader Nicolás Maduro through one of the most ambitious special operations raids ever conceived. Combining intelligence, cyber warfare and air power, the operation, which was the product of months of planning, unfolds over just two and a half hours. In this episode of Battle Board, we examine this unprecedented operation, minute by minute: How the raid unfolded, why it was designed this way, and what it reveals about the future of global politics.
+
+#nicolasmaduro #venezuela #battleboard 
+
+Daily Mail Website: https://www.dailymail.co.uk
+Daily Mail Facebook: https://facebook.com/dailymail
+Daily Mail IG: https://instagram.com/dailymail
+Daily Mail Snap: https://www.snapchat.com/discover/Daily-Mail/8392137033
+Daily Mail Twitter: https://x.com/dailymail
+
+Daily Mail Pinterest: https://pinterest.co.uk/dailymail","2026-07-31T16:00:31Z","https://www.youtube.com/watch?v=D6MMaaSXHSo","https://i1.ytimg.com/vi/D6MMaaSXHSo/hqdefault.jpg","political","US;VE","captured;maduro;minutes;battle;board","base","","2026-08-01T14:56:36Z"
+"5PVibT9CRWU","yt-reasontv","ReasonTV","NIMBY Caveman","","Early man's first housing crisis. #comedy #housingmarket  #caveman","2026-07-31T16:00:24Z","https://www.youtube.com/watch?v=5PVibT9CRWU","https://i2.ytimg.com/vi/5PVibT9CRWU/hqdefault.jpg","political","","nimby;caveman","base","","2026-08-01T14:56:54Z"
+"v2tF_BBNWds","yt-npr","NPR","Thousands breach border between Morocco, Spanish territory","","Spain’s prime minister is visiting the Spanish territory of Ceuta, in North Africa, today. His visit comes as at least 18 deaths have been reported after a drastic increase in border crossings from Morocco.
+
+What started as a moderate increase in crossings at one particular point of the border, where a breakwater separates Spain and Morocco, turned into a crisis on Thursday, as thousands were seen crossing into Spanish territory. Migrants started swimming around the breakwater, with no apparent border control enforcement on the Moroccan side of the border.
+
+A cause of the increase was not immediately clear.
+
+Find “NPR News Now” wherever you listen to podcasts.
+
+Read the full story at https://www.npr.org/2026/07/31/g-s1-136507/morocco-spain-migration
+
+Host: Linda Kenyon/NPR
+Reporter: Miguel Macias/NPR
+Producer: Zayrha Rodriguez/NPR
+
+------------------------------------------------------
+
+Follow NPR elsewhere, too:
+• Instagram: https://www.instagram.com/npr/
+• TikTok: https://www.tiktok.com/@npr
+• Facebook: https://www.facebook.com/NPR","2026-07-31T16:00:21Z","https://www.youtube.com/watch?v=v2tF_BBNWds","https://i3.ytimg.com/vi/v2tF_BBNWds/hqdefault.jpg","political","","thousands;morocco;spanish","base","","2026-08-01T14:56:54Z"
+"bb0YRJWlyg4","yt-hacksmith-industries","Hacksmith Industries","UV printing on a Smith Blade? @Morpho.Global #uvprinting #engineering","","Get the Morpho UV Printer at the lowest VIP price and unlock $653 exclusively: https://dada.link/OvEjSv
+
+Website: www.morpho.inc
+Follow Morpho on Instagram: @Morphprint
+Join Morpho's Facebook Group: https://www.facebook.com/share/g/1Bwy6ye3km
+
+GET MERCH ► https://www.Hacksmith.store
+Become a Hacksmith member get exclusive perks! ► https://www.youtube.com/channel/UCjgpFI5dU-D1-kh9H1muoxQ/join
+
+SOCIAL
+Instagram ► http://www.instagram.com/thehacksmith
+TikTok ► https://www.tiktok.com/@thehacksmith
+Facebook ► http://www.facebook.com/thehacksmith
+Twitter ► http://twitter.com/thehacksmith
+Discord ► https://discordapp.com/invite/thehacksmith 
+Merch ► https://www.hacksmith.store
+Website ► http://www.hacksmith.com
+
+SOFTWARE & Services:
+PCB Design ► https://www.altium.com/asp/hacksmith
+Get parts laser cut & shipped direct to you ► sendcutsend.com/hacksmith
+Video Review / Collaboration ► http://r.frame.io/pZq3N
+Video Editing ► Adobe Premiere 
+CAD ► https://www.solidworks.com/makers-sponsorship use code SWSPONSOR to save 20%. 
+Our Avid CNC works best with Vectric Aspire ► https://www.vectric.com/products/aspire
+3D printing filament and more @ Matterhackers ► https://www.matterhackers.com/?aff=7638
+The Best Office Chairs ► https://www.crandalloffice.com/
+
+TOOLS / MACHINES: 
+Metal 3D Printer ► https://meltio3d.com/
+Desktop Injection Molding in Plastic & Metal! ► https://actionbox.ca - Use code HACKSMITH
+Formlabs SLS Printer ► https://bit.ly/4i2Vj4Q
+Formlabs SLA Printer ► https://bit.ly/3ZkG…","2026-07-31T16:00:15Z","https://www.youtube.com/watch?v=bb0YRJWlyg4","https://i3.ytimg.com/vi/bb0YRJWlyg4/hqdefault.jpg","political","","smith;blade;morpho;global","base","","2026-08-01T14:58:39Z"
+"zM3b4ysmb6E","yt-forbes","Forbes","How The Stokes Twins Got Their First Big Break","","In this episode of the Top Creators Show, host Steven Bertoni sits down with The Stokes Twins to talk about their content creation journey and upcoming projects.
+
+Watch the full video here: https://youtu.be/K-9mUWcx7B0?si=AMIIh5XgQvFp4Zuf
+
+Subscribe to FORBES: https://www.youtube.com/user/Forbes?sub_confirmation=1
+
+Fuel your success with Forbes. Gain unlimited access to premium journalism, including breaking news, groundbreaking in-depth reported stories, daily digests and more. Plus, members get a front-row seat at members-only events with leading thinkers and doers, access to premium video that can help you get ahead, an ad-light experience, early access to select products including NFT drops and more:
+
+https://account.forbes.com/membership/?utm_source=youtube&utm_medium=display&utm_campaign=growth_non-sub_paid_subscribe_ytdescript
+
+Stay Connected
+Forbes newsletters: https://newsletters.editorial.forbes.com
+Forbes on Facebook: http://fb.com/forbes
+Forbes Video on Twitter: http://www.twitter.com/forbes
+Forbes Video on Instagram: http://instagram.com/forbes
+More From Forbes:  http://forbes.com
+
+Forbes covers the intersection of entrepreneurship, wealth, technology, business and lifestyle with a focus on people and success.","2026-07-31T16:00:08Z","https://www.youtube.com/watch?v=zM3b4ysmb6E","https://i3.ytimg.com/vi/zM3b4ysmb6E/hqdefault.jpg","political","","stokes;twins;got;first;big;break","base","","2026-08-01T14:56:51Z"
+"iHn63hPS9sw","yt-wired","WIRED","Egyptologist Fact Checks Egyptian History Slop","","AI slop is littering your feed and spreading misinformation, so WIRED’s here to set the record straight. Join Egyptologist Professor Laurel Bestock as we fact check the internet, egyptology edition.
+
+WIRED recommends:
+https://youtu.be/enMPLaB1oEo
+https://youtu.be/E7oEq6CE78g
+https://youtu.be/jXJI7i7W4Pc
+
+#Egypt #Pyramids #AISlop
+
+Still haven’t subscribed to WIRED on YouTube? ►► http://wrd.cm/15fP7B7 
+Listen to the Uncanny Valley podcast  ►► https://podcasts.apple.com/us/podcast/uncanny-valley-wired/id266391367
+Want more WIRED? Get the magazine ►► https://subscribe.wired.com/subscribe/splits/wired/WIR_YouTube?source=EDT_WIR_YouTube_0_Video_Description_ZZ
+
+Follow WIRED:
+Instagram ►►https://instagram.com/wired
+Twitter ►►http://www.twitter.com/wired
+Facebook ►►https://www.facebook.com/wired
+Tik Tok  ►►https://www.tiktok.com/@wired
+
+Get more incredible stories on science and tech with our daily newsletter: https://wrd.cm/DailyYT
+
+ABOUT WIRED
+WIRED is where tomorrow is realized. Through thought-provoking stories and videos, WIRED explores the future of business, innovation, and culture.","2026-07-31T16:00:06Z","https://www.youtube.com/watch?v=iHn63hPS9sw","https://i2.ytimg.com/vi/iHn63hPS9sw/hqdefault.jpg","political","EG","egyptologist;fact;checks;egyptian;history;slop","base","","2026-08-01T14:56:58Z"
+"PrAe5m4t-w4","yt-channel-4-news","Channel 4 News","Will Gianni Infantino RESIGN over his botched World Cup deal?","","Despite his job seemingly looking assured just a few weeks ago, Gianni Infantino’s position as President of FIFA is now in jeopardy.
+
+[Subscribe to our Substack newsletter: https://channel4news.substack.com/subscribe]
+
+With the footballing federations of Europe, North America and Asia all rejecting Infantino’s plans to sell off part of the World Cup to private investors, pressure is piling on Infantino. Even the new Prime Minister Andy Burnham says Infantino is the “wrong man” to lead FIFA.
+
+On this episode of The Fourcast, Matt Frei is joined by Channel 4’s Sports Reporter, Jordan Jarrett-Bryan, as well as Abiola Ijasanmi the former Chief Operating Officer from the Confederation of African Football and CEO of African Sports Investor.
+
+They discuss whether Infantino has badly mis-read the situation and - could he actually could be forced out of this job? 
+
+-------
+
+Get more news at our site - https://www.channel4.com/news/ 
+
+Subscribe to our Substack newsletter: https://channel4news.substack.com/subscribe
+
+Follow us:
+TikTok - https://www.tiktok.com/@c4news
+Instagram - https://www.instagram.com/channel4news/
+Twitter - https://twitter.com/Channel4News
+Facebook - https://www.facebook.com/Channel4News/","2026-07-31T15:56:36Z","https://www.youtube.com/watch?v=PrAe5m4t-w4","https://i1.ytimg.com/vi/PrAe5m4t-w4/hqdefault.jpg","social;noise","US","will;gianni;infantino;resign;world;cup","base","","2026-08-01T14:56:49Z"
+"Sx-lddna-qg","yt-how-money-works","How Money Works","WTF Is Happening To The Video Game Industry?","","Thanks to Monarch for partnering with me! Start your free trial and get 50% off your first year of total money clarity using my link https://monarchmoney.yt.link/DIRMRBV or code hmw50 for 50% Off Monarch Core tier.
+
+-----
+
+Smoothie King's Video: https://youtu.be/8f1o9-AMau8?si=_BWQiHzdCDH4D_11
+
+------
+
+Sign up for our FREE newsletter! - https://www.compoundeddaily.com/
+
+Books we recommend - https://www.howmoneyworkslibrary.com/
+
+Listen on Spotify - https://open.spotify.com/show/5gi1JobDJC3QqaF4aKfenR?si=f3IsgWIlSKObF8BT1Fitig
+
+-----
+
+My Other Channel: @howhistoryworks
+
+Edited By: Svibe Multimedia Studio
+
+Music Courtesy of: Epidemic Sound
+
+Select Footage Courtesy of: Getty Images
+
+📩 Business Inquiries ➡️ sponsors@worksmedia.group
+
+Sign up for our newsletter https://compoundeddaily.com 👈
+
+All materials in these videos are for educational purposes only and fall within the guidelines of fair use. No copyright infringement intended. This video does not provide investment or financial advice of any kind.
+
+#business #finance #money 
+
+------
+
+https://variety.com/2026/gaming/news/americans-play-video-games-hour-per-week-1236765544/
+
+https://www.visualcapitalist.com/wp-content/uploads/2023/08/Datastream-03-Leveling-Up-to-300-Billion-and-Beyond-Main-graphic-Aug-15-2.jpg
+
+https://news.xbox.com/en-us/2026/07/06/resetting-xbox/
+
+https://thatparkplace.com/ubisoft-bankruptcy/
+
+https://www.pcgamer.com/gaming-industry/ubisoft-closes-another-2-studios-lays-off-hundreds-more-employees/
+
+https://…","2026-07-31T15:41:28Z","https://www.youtube.com/watch?v=Sx-lddna-qg","https://i4.ytimg.com/vi/Sx-lddna-qg/hqdefault.jpg","legal;charge","US","wtf;happening;video;game;industry","base","","2026-08-01T14:57:00Z"
+"2BPKl1B2-8Y","yt-not-what-you-think","Not What You Think","Why Retired Ships Are Harder To Sink","","Join this channel to get access to perks: https://www.youtube.com/channel/UC4pNDofN0Xh-z2bhh62g8Ow/join
+
+Music:
+Cut the Mustard - Tigerblood Jewel
+
+Footage:
+US Department of Defense
+
+Note: ""The appearance of U.S. Department of Defense (DoD) visual information does not imply or constitute DoD endorsement.""
+
+#NotWhatYouThink #NWYT #shorts","2026-07-31T15:36:27Z","https://www.youtube.com/watch?v=2BPKl1B2-8Y","https://i3.ytimg.com/vi/2BPKl1B2-8Y/hqdefault.jpg","political","US","retired;ships;harder;sink","base","","2026-08-01T14:57:08Z"
+"XVe_wIQTN2A","yt-bbc-earth","BBC Earth","Stalking The World's Largest Tarantula | Expedition Guyana | BBC Earth","","Tarantula's hunt by sensing vibrations in the ground, waiting to pounce on passing prey...
+
+Subscribe: http://bit.ly/BBCEarthSub 
+Sign up to our newsletter for the latest news, updates and exclusives from BBC Earth https://www.bbcearth.com/newsletter
+
+#BBCEarth #Animals #Nature
+
+Watch more: 
+Best of BBC Earth 🌍 https://bit.ly/BestOfBBCEarth
+Best Animal Fights 🥊 https://bit.ly/BestAnimalFights
+Videos over 10 minutes ⏰ https://bit.ly/3SHJCEJ
+Planet Earth III 🌍 https://bit.ly/PlanetEarthIIIPlaylist
+Frozen Planet II ❄️ https:/bit.ly/FrozenPlanetIIPlaylist
+Blue Planet II in 4K 🌊 https://bit.ly/BluePlanetII4kPlaylist
+
+Welcome to BBC EARTH! The world is an amazing place full of stories, beauty and natural wonder. Here you'll find 50 years worth of entertaining and thought-provoking natural history content. Dramatic, rare, and exclusive, nature doesn't get more exciting than this.
+
+This is a commercial page from BBC Studios. Service information and feedback: http://bbcworldwide.com/vod-feedback--contact-details.aspx","2026-07-31T15:30:21Z","https://www.youtube.com/watch?v=XVe_wIQTN2A","https://i1.ytimg.com/vi/XVe_wIQTN2A/hqdefault.jpg","political","","stalking;world;largest;tarantula;expedition;guyana;bbc;earth","base","","2026-08-01T14:58:07Z"
 "Xh4x2lGT6_4","yt-nbc-news","NBC News","Rockefeller Center Archivist Christine Roussel Dies, Family Cites Legionnaires' Disease","Art historian and Rockefeller Center archivist Christine Roussel dies","Christine Roussel worked on major exhibitions at the Metropolitan Museum of Art, started her own art conservation and consulting firm, advised Vice President Nelson Rockefeller on his art collection and served as archivist at Rockefeller Center. Her family say she died in mid-July of complications related to Legionnaires' disease, part of a deadly outbreak this summer on New York's Upper East Side. NBC News' Joe Fryer reflects on Roussel's extraordinary life.
 
 For more context and news coverage of the most important stories of our day, click here: https://www.nbcnews.com
@@ -13,6 +1456,34 @@ For more context and news coverage of the most important stories of our day, cli
 » Follow NBC News on Instagram: http://nbcnews.to/InstaNBC
 
 #art #themet #historian","2026-07-31T15:07:15Z","https://www.youtube.com/watch?v=Xh4x2lGT6_4","https://i1.ytimg.com/vi/Xh4x2lGT6_4/hqdefault.jpg","political","US","legionnaires;rockefeller-center;christine-roussel","detailed","Art historian and longtime Rockefeller Center archivist Christine Roussel has died; her family says complications from Legionnaires' disease amid a summer outbreak on Manhattan's Upper East Side. NBC News profiles her career advising the Met and Nelson Rockefeller's art collection.","2026-07-31T15:18:50Z"
+"UKypOcYjjkI","yt-business-insider","Business Insider","Can Goodwill Still Make You Rich?","","Goodwill handles over 4.4 billion pounds of donations every year. Most of it gets cleaned, priced, and sold at a retail store. Now Goodwill is using AI listing tools to sell the best items online before they ever reach the floor. That's squeezing the flippers who built businesses on those finds.
+
+We got behind-the-scenes access to see how Goodwill sorts and sells millions of items a year, then followed the resellers fighting for what's left. Some are earning six figures sourcing vintage clothes by the pound. Others have moved to live selling on Whatnot, which hit $6 billion in sales in 2025, nearly as big as Goodwill itself.
+
+00:00 - Inside the world's biggest thrift machine
+01:08 - How Goodwill Bins Work
+02:50 - How Resellers Work
+04:45 - Behind The Scenes Of Goodwill Retail
+06:36 - Behind The Scenes Of A Goodwill Outlet
+08:28 - Why Resellers Started Live Selling
+10:01 - Gary Vaynerchuk @Garyvee
+11:25 - How China Dominates Live Shopping
+12:59 - What Happens After The Bins?
+15:26 - The $90,000 Lakers Jacket
+16:22 - Credits
+
+------------------------------------------------------
+#goodwill #resellers #aitools #liveselling #aiinaction #bigbusiness 
+
+WATCH MORE BIG BUSINESS EPISODES:
+Why Don't Robots Look Real Yet? 
+https://youtu.be/EBO6z839sug
+This Mad Science Lab Invented MREs
+https://youtu.be/s80mBDNJ5lo
+Meet The Young Founder Turned Biggest Glass Recycler In Louisiana
+https://youtu.be/pwFUrE2YWjo
+
+Business Insider is a global newsroom covering business, technology, innovation…","2026-07-31T15:07:11Z","https://www.youtube.com/watch?v=UKypOcYjjkI","https://i2.ytimg.com/vi/UKypOcYjjkI/hqdefault.jpg","political","CN","goodwill;still;make;rich","base","","2026-08-01T14:56:48Z"
 "9XrFoVDAnCg","yt-see-u-in-history-mythology","See U in History / Mythology","The Myth of Baucis and Philemon: Zeus Tests Mortal Hospitality","Zeus Put Mortals to the Test — And Only One Hospitable Couple Was Saved","Disguised as poor travelers, Zeus and Hermes come down to Earth to test the hospitality of mortals. Turned away by everyone, they find shelter only in the humble home of Baucis and Philemon. As a reward for their kindness, the couple receives a divine blessing — while an entire city pays the price for its arrogance.
 
 If you like our content, check out our original comics:
