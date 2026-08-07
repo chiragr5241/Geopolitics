@@ -17,7 +17,7 @@ washington-post,The Washington Post,WaPo;Washington Post,Official news channels,
 financial-times,Financial Times,FT;Financial Times London,Official news channels,web,ft.com,,,,western-uk,GB,research,active,seed,2026-07-28,,,,
 bloomberg,Bloomberg,Bloomberg News,Official news channels,web,bloomberg.com,,,,western-us,US,research,active,seed,2026-07-28,,2026-08-04T14:30:12Z,1,
 cnbc,CNBC,,Official news channels,web,cnbc.com,,,,western-us,US,research,active,seed,2026-07-28,,2026-08-05T14:42:05Z,1,
-cnn,CNN,CNN International,Official news channels,web,cnn.com,,,,western-us,US,research,active,seed,2026-07-28,,2026-08-06T14:51:10Z,1,
+cnn,CNN,CNN International,Official news channels,web,cnn.com,,,,western-us,US,research,active,seed,2026-07-28,,2026-08-07T14:28:32Z,1,
 nbc-news,NBC News,NBC,Official news channels,web,nbcnews.com,,,,western-us,US,research,active,seed,2026-07-28,,2026-08-05T14:42:05Z,1,
 npr,NPR,National Public Radio,Official news channels,web,npr.org,,,,western-us,US,research,active,seed,2026-07-28,,,,
 politico,Politico,Politico EU;Politico Europe,Official news channels,web,politico.com,,,,western-us,US,research,active,seed,2026-07-28,,,,
@@ -62,7 +62,7 @@ olympics-com,Olympics.com,,Official news channels,web,olympics.com,,,,institutio
 the-baltimore-sun,The Baltimore Sun,Baltimore Sun,Official news channels,web,baltimoresun.com,,,,western-us,US,research,active,backfill,2026-07-28,,,,
 the-motley-fool,The Motley Fool,Motley Fool,Official news channels,web,fool.com,,,,markets,US,research,active,backfill,2026-07-28,,,,
 benzinga,Benzinga,,Official news channels,web,benzinga.com,,,,markets,US,research,active,backfill,2026-07-28,,2026-08-01T14:29:29Z,1,
-forbes,Forbes,,Official news channels,web,forbes.com,,,,western-us,US,research,active,backfill,2026-07-28,,,,
+forbes,Forbes,,Official news channels,web,forbes.com,,,,western-us,US,research,active,backfill,2026-07-28,,2026-08-07T14:28:32Z,1,
 gulf-news,Gulf News,,Official news channels,web,gulfnews.com,,,,gulf,AE,research,active,backfill,2026-07-28,,,,
 medianama,MediaNama,,Official news channels,web,medianama.com,,,,indian,IN,research,active,backfill,2026-07-28,,,,
 the-barents-observer,The Barents Observer,Barents Observer,Official news channels,web,thebarentsobserver.com,,,,nordic,NO,research,active,user,2026-07-28,Barents Observer,,,Independent Norwegian outlet covering the Arctic/Barents region
@@ -251,7 +251,7 @@ yt-pursuit-of-wonder,Pursuit of Wonder,Pursuit of Wonder (YouTube),YouTube: Expl
 yt-the-paint-explainer,The Paint Explainer,The Paint Explainer (YouTube),YouTube: Explainers & Philosophy,youtube,youtube.com,ThePaintExplainer,https://www.youtube.com/feeds/videos.xml?channel_id=UCnwUjPK7dXety-AJ4fNw_RQ,,video,,video,active,seed-youtube,2026-07-28,,2026-08-06T15:02:48Z,0,confirmed as 'The Paint Explainer' (channel_id=UCnwUjPK7dXety-AJ4fNw_RQ)
 yt-the-school-of-life,The School of Life,The School of Life (YouTube),YouTube: Explainers & Philosophy,youtube,youtube.com,theschooloflifetv,https://www.youtube.com/feeds/videos.xml?channel_id=UC7IcJI8PUf5Z3zKxnZvTBog,,video,,video,active,seed-youtube,2026-07-28,,2026-08-06T15:02:48Z,0,confirmed as 'The School of Life' (channel_id=UC7IcJI8PUf5Z3zKxnZvTBog)
 yt-smart-nonsense,Smart Nonsense,Smart Nonsense (YouTube),YouTube: Explainers & Philosophy,youtube,youtube.com,SmartNonsense,https://www.youtube.com/feeds/videos.xml?channel_id=UCFN6lQpfY8XIRdhv9G-f4bg,,video,,video,active,seed-youtube,2026-07-28,,2026-08-06T15:02:48Z,1,confirmed as 'Smart Nonsense' (channel_id=UCFN6lQpfY8XIRdhv9G-f4bg)
-fox-news,Fox News,FOX news,Official news channels,web,foxnews.com,,,,western-us,US,research,active,user,2026-07-28,FOX news,2026-08-06T14:50:00Z,1,
+fox-news,Fox News,FOX news,Official news channels,web,foxnews.com,,,,western-us,US,research,active,user,2026-07-28,FOX news,2026-08-07T14:28:32Z,1,
 the-new-yorker,The New Yorker,The new yorker,Official news channels,web,newyorker.com,,,,western-us,US,research,active,user,2026-07-28,The new yorker,,,
 nyc-mayor-s-office,NYC Mayor's Office,NYC Mayors Youtube: https://www.youtube.com/@NYCMayorsOffice,Official news channels,youtube,youtube.com,,https://www.youtube.com/feeds/videos.xml?channel_id=UClnI1zhyzv_BPb-VSHEtniw,,video,US,video,active,user,2026-07-28,NYC Mayors Youtube: https://www.youtube.com/@NYCMayorsOffice,2026-08-06T15:02:48Z,1,
 air-space-forces-magazine,Air & Space Forces Magazine,Air Force Magazine;AFA Magazine;airandspaceforces.com,Official news channels,web,airandspaceforces.com,,,,western-us,US,research,active,agent,2026-07-28,,2026-07-28T20:56:44Z,1,Air & Space Forces Association magazine (formerly Air Force Magazine)
