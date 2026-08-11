@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-08-08T14:30:07Z",
+  "updated_at": "2026-08-09T15:22:14Z",
   "stories": [
     {
       "story_id": "st-20260511-ukraine-corruption",
@@ -113,8 +113,8 @@
         "zaporizhzhia",
         "kherson"
       ],
-      "last_update_at": "2026-08-08",
-      "update_count": 131,
+      "last_update_at": "2026-08-09",
+      "update_count": 132,
       "resolved_at": null,
       "notes": "Backfilled 2026-07-21 from intel_feed via scripts/backfill_story_updates.py."
     },
@@ -157,8 +157,8 @@
         "reunification",
         "taipei"
       ],
-      "last_update_at": "2026-08-08",
-      "update_count": 51,
+      "last_update_at": "2026-08-09",
+      "update_count": 52,
       "resolved_at": null,
       "notes": "",
       "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/2020-04-23_Seaman_Xi_Chan_stands_lookout_on_the_flight_deck_as_USS_Barry_%28DDG_52%29_transits_the_Taiwan_Strait.jpg/1920px-2020-04-23_Seaman_Xi_Chan_stands_lookout_on_the_flight_deck_as_USS_Barry_%28DDG_52%29_transits_the_Taiwan_Strait.jpg",
@@ -603,8 +603,8 @@
         "redistricting",
         "kalshi"
       ],
-      "last_update_at": "2026-08-07",
-      "update_count": 56,
+      "last_update_at": "2026-08-09",
+      "update_count": 57,
       "resolved_at": null,
       "notes": "Backfilled 2026-07-21 from intel_feed via scripts/backfill_story_updates.py."
     },
