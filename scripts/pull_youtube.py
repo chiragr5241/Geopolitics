@@ -342,7 +342,7 @@ def pull(limit=None, dry_run=False):
             time.sleep(CHANNEL_DELAY)
         try:
             vids = parse_channel_feed(fetch(ch['feed_url']), ch['source_id'], ch['name'])
-        except (HTTPError, URLError, ET.ParseError) as e:
+        except (HTTPError, URLError, ET.ParseError, OSError) as e:
             print(f"  ! {ch['name'][:34]:34s} {e} — skipped")
             failed[ch['name']] = str(e)
             continue
