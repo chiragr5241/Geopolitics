@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-08-14T19:01:03Z",
+  "updated_at": "2026-08-15T17:38:23Z",
   "stories": [
     {
       "story_id": "st-20260511-ukraine-corruption",
@@ -74,8 +74,8 @@
         "starship",
         "spaceport"
       ],
-      "last_update_at": "2026-08-12",
-      "update_count": 29,
+      "last_update_at": "2026-08-15",
+      "update_count": 30,
       "resolved_at": null,
       "notes": "",
       "custom": true,
