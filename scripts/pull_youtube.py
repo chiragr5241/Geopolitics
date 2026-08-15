@@ -220,7 +220,17 @@ def resolve_channels(limit=None, dry_run=False, reverify=False):
     if dry_run:
         print('Dry run — nothing written.')
         return
-    save_sources(rows)
+
+    # Re-load and merge rather than saving the `rows` snapshot from the top
+    # of this function: the resolution loop above makes a network call per
+    # channel and can run for minutes, and this file is shared with the
+    # wire-pull and story-tracker routines (see the matching note in pull()).
+    updates = {r['source_id']: (r['feed_url'], r['status'], r['notes']) for r in todo}
+    fresh_rows = load_sources()
+    for r in fresh_rows:
+        if r['source_id'] in updates:
+            r['feed_url'], r['status'], r['notes'] = updates[r['source_id']]
+    save_sources(fresh_rows)
     print('Updated data/sources.csv.')
 
 
@@ -370,10 +380,18 @@ def pull(limit=None, dry_run=False):
         print('Dry run — nothing written.')
         return
 
+    # Re-load sources.csv right before writing rather than reusing the `rows`
+    # snapshot from the top of this function: the fetch loop above runs for
+    # 186 channels and can take minutes, and this file is shared with the
+    # wire-pull and story-tracker routines. Holding a stale snapshot across
+    # that whole window and blindly overwriting the file with it clobbers
+    # whatever those other routines wrote to non-youtube rows in the
+    # meantime — confirmed happening in production on 2026-08-15.
+    fresh_rows = load_sources()
     for ch in channels:
         if ch['name'] in per_channel:
-            record_fetch(ch['source_id'], per_channel[ch['name']][1], rows, persist=False)
-    save_sources(rows)
+            record_fetch(ch['source_id'], per_channel[ch['name']][1], fresh_rows, persist=False)
+    save_sources(fresh_rows)
 
     if not fetched:
         print('Nothing new to write.')
