@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-08-15T17:38:23Z",
+  "updated_at": "2026-08-16T14:23:58Z",
   "stories": [
     {
       "story_id": "st-20260511-ukraine-corruption",
@@ -113,8 +113,8 @@
         "zaporizhzhia",
         "kherson"
       ],
-      "last_update_at": "2026-08-14",
-      "update_count": 152,
+      "last_update_at": "2026-08-16",
+      "update_count": 156,
       "resolved_at": null,
       "notes": "Backfilled 2026-07-21 from intel_feed via scripts/backfill_story_updates.py."
     },
@@ -157,8 +157,8 @@
         "reunification",
         "taipei"
       ],
-      "last_update_at": "2026-08-14",
-      "update_count": 63,
+      "last_update_at": "2026-08-16",
+      "update_count": 71,
       "resolved_at": null,
       "notes": "",
       "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/2020-04-23_Seaman_Xi_Chan_stands_lookout_on_the_flight_deck_as_USS_Barry_%28DDG_52%29_transits_the_Taiwan_Strait.jpg/1920px-2020-04-23_Seaman_Xi_Chan_stands_lookout_on_the_flight_deck_as_USS_Barry_%28DDG_52%29_transits_the_Taiwan_Strait.jpg",
@@ -201,8 +201,8 @@
         "nypd",
         "city hall"
       ],
-      "last_update_at": "2026-08-14",
-      "update_count": 26,
+      "last_update_at": "2026-08-16",
+      "update_count": 27,
       "resolved_at": null,
       "notes": "",
       "custom": true,
@@ -532,8 +532,8 @@
         "uav",
         "swarm"
       ],
-      "last_update_at": "2026-08-14",
-      "update_count": 22,
+      "last_update_at": "2026-08-16",
+      "update_count": 23,
       "resolved_at": null,
       "notes": "",
       "custom": true,
@@ -569,8 +569,8 @@
         "blockade",
         "missile"
       ],
-      "last_update_at": "2026-08-14",
-      "update_count": 142,
+      "last_update_at": "2026-08-16",
+      "update_count": 147,
       "resolved_at": null,
       "notes": "Backfilled 2026-07-17 from intel_feed, past-4-months major beats."
     },
@@ -671,8 +671,8 @@
         "lok sabha",
         "rahul gandhi"
       ],
-      "last_update_at": "2026-08-12",
-      "update_count": 37,
+      "last_update_at": "2026-08-16",
+      "update_count": 40,
       "resolved_at": null,
       "notes": "",
       "custom": true,
