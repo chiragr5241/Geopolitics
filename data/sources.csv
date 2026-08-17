@@ -50,7 +50,7 @@ military-times,Military Times,MilitaryTimes,Official news channels,web,militaryt
 defensescoop,DefenseScoop,Defense Scoop,Official news channels,web,defensescoop.com,,,,defense-trade,US,research,active,seed,2026-07-28,,,,
 army-recognition,Army Recognition,ArmyRecognition,Official news channels,web,armyrecognition.com,,,,defense-trade,FR,research,active,seed,2026-07-28,,,,
 space-news,SpaceNews,Space News,Official news channels,web,spacenews.com,,,,space-trade,US,research,active,seed,2026-07-28,,2026-07-28T20:56:44Z,1,
-space-com,Space.com,Space com;Spacecom,Official news channels,web,space.com,,,,space-trade,US,research,active,seed,2026-07-28,,,,
+space-com,Space.com,Space com;Spacecom,Official news channels,web,space.com,,,,space-trade,US,research,active,seed,2026-07-28,,2026-08-17T23:06:46Z,1,
 nasaspaceflight,NASASpaceflight,NASA Spaceflight;NSF,Official news channels,web,nasaspaceflight.com,,,,space-trade,US,research,active,seed,2026-07-28,,,,
 ars-technica,Ars Technica,ArsTechnica,Official news channels,web,arstechnica.com,,,,tech,US,research,active,seed,2026-07-28,,,,
 reliefweb,ReliefWeb,Relief Web,Official news channels,web,reliefweb.int,,,,institutional,UN,research,active,seed,2026-07-28,,,,ReliefWeb API needs a registered appname before it can be an rss/wire source
