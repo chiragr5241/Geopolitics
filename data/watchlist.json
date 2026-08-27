@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-08-25T17:53:54Z",
+  "updated_at": "2026-08-27T15:23:34Z",
   "stories": [
     {
       "story_id": "st-20260511-ukraine-corruption",
@@ -113,8 +113,8 @@
         "zaporizhzhia",
         "kherson"
       ],
-      "last_update_at": "2026-08-25",
-      "update_count": 178,
+      "last_update_at": "2026-08-27",
+      "update_count": 183,
       "resolved_at": null,
       "notes": "Backfilled 2026-07-21 from intel_feed via scripts/backfill_story_updates.py."
     },
@@ -157,8 +157,8 @@
         "reunification",
         "taipei"
       ],
-      "last_update_at": "2026-08-25",
-      "update_count": 80,
+      "last_update_at": "2026-08-27",
+      "update_count": 81,
       "resolved_at": null,
       "notes": "",
       "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/2020-04-23_Seaman_Xi_Chan_stands_lookout_on_the_flight_deck_as_USS_Barry_%28DDG_52%29_transits_the_Taiwan_Strait.jpg/1920px-2020-04-23_Seaman_Xi_Chan_stands_lookout_on_the_flight_deck_as_USS_Barry_%28DDG_52%29_transits_the_Taiwan_Strait.jpg",
@@ -532,8 +532,8 @@
         "uav",
         "swarm"
       ],
-      "last_update_at": "2026-08-21",
-      "update_count": 25,
+      "last_update_at": "2026-08-27",
+      "update_count": 26,
       "resolved_at": null,
       "notes": "",
       "custom": true,
@@ -569,8 +569,8 @@
         "blockade",
         "missile"
       ],
-      "last_update_at": "2026-08-25",
-      "update_count": 156,
+      "last_update_at": "2026-08-27",
+      "update_count": 161,
       "resolved_at": null,
       "notes": "Backfilled 2026-07-17 from intel_feed, past-4-months major beats."
     },
@@ -603,8 +603,8 @@
         "redistricting",
         "kalshi"
       ],
-      "last_update_at": "2026-08-25",
-      "update_count": 59,
+      "last_update_at": "2026-08-27",
+      "update_count": 60,
       "resolved_at": null,
       "notes": "Backfilled 2026-07-21 from intel_feed via scripts/backfill_story_updates.py."
     },
