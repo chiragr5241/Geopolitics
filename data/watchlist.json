@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-08-27T15:23:34Z",
+  "updated_at": "2026-08-28T14:27:36Z",
   "stories": [
     {
       "story_id": "st-20260511-ukraine-corruption",
@@ -74,8 +74,8 @@
         "starship",
         "spaceport"
       ],
-      "last_update_at": "2026-08-25",
-      "update_count": 35,
+      "last_update_at": "2026-08-27",
+      "update_count": 36,
       "resolved_at": null,
       "notes": "",
       "custom": true,
@@ -113,8 +113,8 @@
         "zaporizhzhia",
         "kherson"
       ],
-      "last_update_at": "2026-08-27",
-      "update_count": 183,
+      "last_update_at": "2026-08-28",
+      "update_count": 185,
       "resolved_at": null,
       "notes": "Backfilled 2026-07-21 from intel_feed via scripts/backfill_story_updates.py."
     },
@@ -201,8 +201,8 @@
         "nypd",
         "city hall"
       ],
-      "last_update_at": "2026-08-24",
-      "update_count": 30,
+      "last_update_at": "2026-08-28",
+      "update_count": 31,
       "resolved_at": null,
       "notes": "",
       "custom": true,
@@ -569,8 +569,8 @@
         "blockade",
         "missile"
       ],
-      "last_update_at": "2026-08-27",
-      "update_count": 161,
+      "last_update_at": "2026-08-28",
+      "update_count": 163,
       "resolved_at": null,
       "notes": "Backfilled 2026-07-17 from intel_feed, past-4-months major beats."
     },
