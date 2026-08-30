@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-08-29T14:41:25Z",
+  "updated_at": "2026-08-30T17:34:23Z",
   "stories": [
     {
       "story_id": "st-20260511-ukraine-corruption",
@@ -74,8 +74,8 @@
         "starship",
         "spaceport"
       ],
-      "last_update_at": "2026-08-27",
-      "update_count": 36,
+      "last_update_at": "2026-08-30",
+      "update_count": 37,
       "resolved_at": null,
       "notes": "",
       "custom": true,
@@ -113,8 +113,8 @@
         "zaporizhzhia",
         "kherson"
       ],
-      "last_update_at": "2026-08-29",
-      "update_count": 187,
+      "last_update_at": "2026-08-30",
+      "update_count": 192,
       "resolved_at": null,
       "notes": "Backfilled 2026-07-21 from intel_feed via scripts/backfill_story_updates.py."
     },
@@ -569,8 +569,8 @@
         "blockade",
         "missile"
       ],
-      "last_update_at": "2026-08-28",
-      "update_count": 163,
+      "last_update_at": "2026-08-30",
+      "update_count": 165,
       "resolved_at": null,
       "notes": "Backfilled 2026-07-17 from intel_feed, past-4-months major beats."
     },
