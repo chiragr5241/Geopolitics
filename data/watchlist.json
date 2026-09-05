@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-09-04T00:00:00Z",
+  "updated_at": "2026-09-04T20:06:39Z",
   "stories": [
     {
       "story_id": "st-20260511-ukraine-corruption",
@@ -797,7 +797,7 @@
         "golan"
       ],
       "last_update_at": "2026-09-04",
-      "update_count": 0,
+      "update_count": 7,
       "resolved_at": null,
       "notes": "Seeded 2026-09-04 from DW interview on SDF dissolution (youtube NdTqksVqy78). Syria-specific sources registered at the same time: enab-baladi, sana, syria-direct, north-press-agency, middle-east-eye, al-monitor, arab-news, gdelt-sy-syria, plus research-scope SOHR, The New Arab, Rudaw, World Bank, IMF, ICG.",
       "custom": true,
