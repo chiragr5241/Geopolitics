@@ -1,4 +1,1458 @@
 "video_id","source_id","channel","title","raw_title","description","published_at","url","thumbnail","categories","countries","keywords","detail_status","summary","fetched_at"
+"yDk-8BNIDLE","yt-see-u-in-history-mythology","See U in History / Mythology","Succubi and Incubi: The Demons of Dreams and Desire in Folklore","Succubi and Incubi: The Demons of Dreams","Succubi and incubi are demons tied to desire, dreams and seduction. Able to take on irresistible forms, they invade their victims' sleep to drain their life force. Associated with Lilith, with vampirism and even with the legends of Merlin, these beings pervaded medieval folklore and remain present in popular culture.
+
+If you like our content, check out our original comics:
+Medusa: The Cursed Priestess - https://amzn.to/4c9139y
+Eros and Psyche: The Quest for Love - https://amzn.to/3VAI7L8
+Japanese Mythology in Comics: The Essential - https://amzn.to/4bT15SY
+
+#Mythology #SeeUinHistory #History #MythologyExplained","2026-09-14T15:00:18Z","https://www.youtube.com/watch?v=yDk-8BNIDLE","https://i2.ytimg.com/vi/yDk-8BNIDLE/hqdefault.jpg","political","JP","succubi;incubi;lilith;merlin;folklore","detailed","An exploration of succubi and incubi, demons associated with dreams, seduction and vampirism in medieval folklore, tied to legends of Lilith and Merlin.","2026-09-14T15:03:19Z"
+"0kQ7AbA874c","yt-simons-foundation","Simons Foundation","ICM 2026 Lecture: Statistical and Computational Challenges in Ranking (Alexandra Carpentier)","ICM 2026 Invited Section Lecture - Alexandra Carpentier","Statistical and Computational Challenges in Ranking
+
+Ranking problems are prevalent in modern statistical, machine learning, and computer science literature. This includes a variety of practical situations ranging from ranking experts/workers in crowd-sourced data, ranking players in a tournament or equivalently sorting objects based on pairwise comparisons. A main challenge in this field is to construct an estimator of the rank of the experts, based on incomplete and noisy data. In this talk, we focus on understanding the problem of ranking both from an informational and a computational perspective. Namely, we want to characterize the fundamental statistical thresholds for optimal estimation over all possible estimators, but also to characterise the fundamental thresholds for computationally efficient estimation, restricted to polynomial-time estimators. A core question for these problems is on whether statistical optimality is compatible with computational efficiency.To do that, we first consider the simpler sub-problem of sub-matrix detection and estimation, which is useful to apprehend the more complex problem of ranking - and we will particularly focus on computational lower bounds. Based on results for this problem, we explain how they can be used to solve the more challenging problem of ranking.","2026-09-14T14:52:09Z","https://www.youtube.com/watch?v=0kQ7AbA874c","https://i1.ytimg.com/vi/0kQ7AbA874c/hqdefault.jpg","political","","icm2026;ranking;statistics;alexandra carpentier","detailed","A lecture on the statistical and computational thresholds for ranking problems, using sub-matrix detection and estimation as a stepping stone to understanding ranking.","2026-09-14T15:04:00Z"
+"aLv4xllkwjU","yt-simons-foundation","Simons Foundation","ICM 2026 Lecture: Volume Functions and Boundary Data of Hyperbolic Manifolds (Jean-Marc Schlenker)","ICM 2026 Invited Section Lecture - Jean Marc Schlenker","Volume Functions and Boundary Data of 3-Dimensional Hyperbolic Manifolds
+
+We review recent progress on two closely related sets of questions concerning convex co-compact hyperbolic manifolds, or convex domains in those manifolds, such as their convex core. The first set of questions is to what extent the hyperbolic metric on such a manifold is uniquely determined by either of two possible geometric data on their boundary. The second aspect is the ``volume'' associated to such a manifold, such as the renormalized volume of a convex co-compact hyperbolic manifolds. The relation between the two is provided by the first variation of the volume, which involves the two kinds of boundary data as ``conjugate'' variables.  While progress has recently been made on some questions, other remain open. New connections have recently emerged, with physics (and in particular the AdS/CFT correspondence) as well as with probability theory (the Loewner energy).","2026-09-14T14:50:29Z","https://www.youtube.com/watch?v=aLv4xllkwjU","https://i2.ytimg.com/vi/aLv4xllkwjU/hqdefault.jpg","energy","","icm2026;hyperbolic manifolds;jean-marc schlenker","detailed","A review of geometric and volume questions for convex co-compact hyperbolic 3-manifolds, including connections to AdS/CFT and Loewner energy.","2026-09-14T15:04:00Z"
+"TfinJkgKw4Y","yt-simons-foundation","Simons Foundation","ICM 2026 Lecture: Stability Theory for Minimal Surfaces in Higher Codimension (Ailana Fraser)","ICM 2026 Invited Section Lecture - Ailana Fraser","Stability Theory for Minimal Surfaces in Higher Codimension
+
+There is a well-established theory of stable minimal hypersurfaces---i.e. minimal submanifolds in codimension one. In contrast, the theory in higher codimension is much less understood. This talk will discuss recent progress toward a stability theory for minimal surfaces in higher codimension.","2026-09-14T14:48:51Z","https://www.youtube.com/watch?v=TfinJkgKw4Y","https://i1.ytimg.com/vi/TfinJkgKw4Y/hqdefault.jpg","political","","icm2026;minimal surfaces;ailana fraser","detailed","A discussion of recent progress toward a stability theory for minimal surfaces in higher codimension, building on established hypersurface theory.","2026-09-14T15:04:00Z"
+"i0KIBqw33RE","yt-today-i-learned-science","Today I Learned Science","A 66-Million-Year-Old Clay Mask Reveals Dinosaur Skin Texture","Here’s What A Dinosaur Actually Feels Like","What does a dinosaur actually feel like? 
+
+We don’t have frozen dinosaur mummies like we do woolly mammoths. There’s no ice that old. But we do have something maybe stranger? A paper thin clay mask that formed over a dinosaur’s skin within hours of its death and stayed for 66 million years.
+
+Now we know what at least this dinosaur felt like
+
+#dinosaur #jurassicworld #jurassicpark #paleontology #archaeology #didyouknow #science #sciencefacts #woollymammoth #permafrost","2026-09-14T14:45:23Z","https://www.youtube.com/watch?v=i0KIBqw33RE","https://i2.ytimg.com/vi/i0KIBqw33RE/hqdefault.jpg","political","","dinosaur;fossil;paleontology","detailed","A paper-thin clay mask that formed over a dinosaur's skin within hours of its death and survived 66 million years shows what the animal's skin actually felt like.","2026-09-14T15:03:28Z"
+"NkFfkqycBUE","yt-simons-foundation","Simons Foundation","ICM 2026 Lecture: Restricted Orthogonal Projections (Hong Wang)","ICM 2026 Invited Section Lecture - Hong Wang","Restricted Orthogonal Projections
+
+Projection theorems study how  Hausdorff dimension of fractal sets behaves under orthogonal projections from Euclidean space to its subspaces.  We will survey some of the recent results on orthogonal projections to restricted families of subspaces and their connections to restriction theory in harmonic analysis and incidence geometry in combinatorics.","2026-09-14T14:37:20Z","https://www.youtube.com/watch?v=NkFfkqycBUE","https://i3.ytimg.com/vi/NkFfkqycBUE/hqdefault.jpg","political","NATO","icm2026;orthogonal projections;hong wang","detailed","A survey of recent results on orthogonal projections of fractal sets to restricted families of subspaces and links to harmonic analysis and incidence geometry.","2026-09-14T15:04:00Z"
+"T1km6RncRAI","yt-simons-foundation","Simons Foundation","ICM 2026 Lecture: Measure Evolution Equations for Multi-Agent Systems (Benedetto Piccoli)","ICM 2026 Invited Section Lecture - Benedetto Piccoli","Measure Evolution Equations for Multi-Agent Systems
+
+Motivated by applications, several mathematical approaches have been proposed for the dynamics of large groups of intelligent agents. A typical example is vehicular traffic, where drivers make decisions and alter the energy of the system. A recent approach was developed by generalizing ordinary differential equations to measures, replacing vector fields with maps from probability measures on a manifold to probability measures on its tangent bundle. The new equations are called measure differential equations and allow for a multiscale representation of the physical system. A general theory, including existence and uniqueness results, generalization to multifunctions, and application to relaxed controls, is achieved using typical tools of optimal transport, such as the Wasserstein distance and its generalizations. While the existence of (weak) solutions is achieved under general assumptions, uniqueness is based on nonlinear functionals and on the concept of Dirac germ, which defines small-time evolution for finite sums of Dirac deltas. Circling back to applications, a general optimal control problem is formulated for the control of a large group via a small number of agents, also called Lagrangian controls. Mathematically, using the mean-field limit, one defines coupled systems of controlled ordinary differential equations and measure differential equations. The cost functionals include running costs defined in terms of (gene…","2026-09-14T14:33:10Z","https://www.youtube.com/watch?v=T1km6RncRAI","https://i1.ytimg.com/vi/T1km6RncRAI/hqdefault.jpg","energy","","icm2026;multi-agent systems;benedetto piccoli","detailed","A talk on measure differential equations that generalize ODEs to model large multi-agent systems such as vehicular traffic, with applications to optimal control.","2026-09-14T15:04:00Z"
+"Y6J1f7B3b8k","yt-casual-navigation","Casual Navigation","How a Garter Spring Keeps a Ship's Stern-Tube Seal Working","The Tiny Spring Protecting a Huge Ship","Stern-tube seals are stacked V-shaped elastomer rings designed for constant friction and heat. Seawater pressure pushes each seal lip more tightly against the rotating shaft, while a stainless-steel garter spring keeps it snug during vibration.
+
+For the seals to work correctly, the spaces between them must be filled with oil. That oil is not simply pumped in manually, it relies on basic physics.
+
+#GarterSpring #SternTubeSeals #OilPressure #ShipSafety #CasualNavigation","2026-09-14T14:30:35Z","https://www.youtube.com/watch?v=Y6J1f7B3b8k","https://i2.ytimg.com/vi/Y6J1f7B3b8k/hqdefault.jpg","political","","stern tube seal;garter spring;ship engineering","detailed","An explanation of stern-tube seals on large ships, showing how a stainless-steel garter spring and oil pressure keep the rotating shaft sealed against seawater.","2026-09-14T15:04:48Z"
+"Auo_VkF3rLA","yt-cnn","CNN","US Airman Shot Down Over Iran Describes Rescue Operation in '60 Minutes' Interview","‘Most terrifying thing’: Airman shot down in Iran shares story, experts react","The American airman rescued from Iran after his aircraft was shot down in April shared for the first time details about the risky recovery operation during a “60 Minutes” interview Sunday. “Bravo,” the airman’s mission call sign used during the broadcast to shield his identity, said his parachute was damaged after the plane was hit, and that during free fall, he did everything he could to “unfurl or pull pieces of the parachute loose.”
+
+CNN reported Saturday that Defense Secretary Pete Hegseth and political appointees in his department pushed for the two crew members to participate in the exclusively and highly publicized interview, according to multiple sources familiar with the matter.
+
+CNN talks to retired Air Force Colonel Cedric Leighton about the rescue & potential risks to “Bravo” in Iran after his TV appearance and CNN’s chief media analyst Brian Stelter reveals how Defense Secretary Pete Hegseth & the Pentagon made this interview happen.
+
+0:00 The new details behind the rescue operation
+3:10 Leighton on the unusual public interview
+6:05 How the Pentagon pushed for the interview
+
+Watch 24/7 live news with CNN Headlines: https://bit.ly/4eIvlTr
+
+#News #iran","2026-09-14T14:27:51Z","https://www.youtube.com/watch?v=Auo_VkF3rLA","https://i2.ytimg.com/vi/Auo_VkF3rLA/hqdefault.jpg","political","US;IR","iran;airman;shot down;pentagon;hegseth;rescue","detailed","The American airman rescued after his aircraft was shot down over Iran in April describes his parachute failure and free-fall in a 60 Minutes interview; CNN reports Pentagon officials pushed for the publicized appearance.","2026-09-14T15:02:45Z"
+"f0slwdlDTY4","yt-ryan-mcbeth","Ryan McBeth","Defeating the Houthis","","","2026-09-14T14:24:08Z","https://www.youtube.com/watch?v=f0slwdlDTY4","https://i3.ytimg.com/vi/f0slwdlDTY4/hqdefault.jpg","political","YE","defeating;houthis","base","","2026-09-14T15:03:04Z"
+"7PCDIyV-5V0","yt-ms-now","MS NOW","Axios CEO Jim VandeHei Warns Congress Must Act on AI Safety","Jim VandeHei: ‘Shame on us’ if we don’t do anything about AI","Axios co-founder and CEO Jim VandeHei, sounds the alarm over growing concerns about safety and the AI industry. He tells Morning Joe it’s an “all hands on deck moment,” saying Congress should come back to address the issue and that “there should be no topic being debated in politics other than this.”
+
+
+MS NOW: My Source for News, Opinion, and the World.
+
+» Subscribe to MS NOW: https://www.youtube.com/@msnow
+
+» Subscribe to MS NOW’s We the People Newsletter for exclusive content from your favorite MS NOW anchors. Sign up now for free at https://ms.now/joinus
+
+MS NOW is the go-to destination for domestic and international breaking news, and best-in-class opinion journalism. For more context and news coverage of the most important stories of our day click here: https://www.ms.now/","2026-09-14T14:21:30Z","https://www.youtube.com/watch?v=7PCDIyV-5V0","https://i4.ytimg.com/vi/7PCDIyV-5V0/hqdefault.jpg","political","US","ai safety;jim vandehei;congress;axios","detailed","Axios co-founder Jim VandeHei warns of growing AI safety concerns in the AI industry and calls for Congress to prioritize regulating it.","2026-09-14T15:02:46Z"
+"307ZxNDFIA4","yt-ms-now","MS NOW","House Oversight Democrat Says Investor Leon Black Should Be Held in Contempt Over Epstein Ties","'I believe they are criminal abuses': Top Oversight Dem says Leon Black 'must be held in contempt'","This week, the House Oversight Committee is focusing on investor Leon Black's ties to Jeffrey Epstein and trying to hold him in contempt of Congress after he refused to appear for a deposition. Rep. Robert Garcia (D-CA), Ranking Member of the committee, joins Stephanie Ruhle to discuss the investigation.
+
+MS NOW: My Source for News, Opinion, and the World.
+
+» Subscribe to MS NOW: https://www.youtube.com/@msnow
+
+» Subscribe to MS NOW’s We the People Newsletter for exclusive content from your favorite MS NOW anchors. Sign up now for free at https://ms.now/joinus
+
+MS NOW is the go-to destination for domestic and international breaking news, and best-in-class opinion journalism. For more context and news coverage of the most important stories of our day click here: https://www.ms.now/
+
+
+#news #politics #congress","2026-09-14T14:16:10Z","https://www.youtube.com/watch?v=307ZxNDFIA4","https://i4.ytimg.com/vi/307ZxNDFIA4/hqdefault.jpg","political","US","leon black;epstein;house oversight;robert garcia;contempt","detailed","Rep. Robert Garcia discusses the House Oversight Committee's push to hold investor Leon Black in contempt of Congress after he refused to appear for a deposition on his ties to Jeffrey Epstein.","2026-09-14T15:02:46Z"
+"RJAH81PuOuk","yt-smart-nonsense","Smart Nonsense","Spider silk is STRONGER than steel..","","smartnonsense.com","2026-09-14T14:15:06Z","https://www.youtube.com/watch?v=RJAH81PuOuk","https://i3.ytimg.com/vi/RJAH81PuOuk/hqdefault.jpg","political","","spider;stronger","base","","2026-09-14T15:05:00Z"
+"iXJkPWMMI8A","yt-ms-now","MS NOW","‘Profiles in Cowardice’: EXPOSING the billionaires and politicians who CAVED to Trump","","The New York Times is out with a comprehensive new analysis of President Trump’s attempts to stifle freedom of speech and of the press during his second term by deploying federal agencies, executive orders and personal lawsuits against journalists, media companies and critics. The analysis comes as a new book calls out powerful people and institutions that have enough power, money and reputation to push back and stand up to Trump but have decided not to. Jacob Weisberg, author of ‘Profiles in Cowardice: A Study of Collaboration in the Trump Era,’ joins Morning Joe to break it all down.
+
+MS NOW: My Source for News, Opinion, and the World.
+
+» Subscribe to MS NOW:    / @msnow  
+
+» Subscribe to MS NOW’s We the People Newsletter for exclusive content from your favorite MS NOW anchors. Sign up now for free at https://ms.now/joinus
+
+MS NOW is the go-to destination for domestic and international breaking news, and best-in-class opinion journalism. For more context and news coverage of the most important stories of our day click here: https://www.ms.now/
+#News #Politics #Trump #WhiteHouse #JeffBezos","2026-09-14T14:05:51Z","https://www.youtube.com/watch?v=iXJkPWMMI8A","https://i2.ytimg.com/vi/iXJkPWMMI8A/hqdefault.jpg","political","","profiles;cowardice;exposing;caved;trump","base","","2026-09-14T15:02:46Z"
+"MokPk27nPfI","yt-the-b1m","The B1M","Australia's $16.5BN Plan to Fix Melbourne Travel","","An infrastructure overhaul to save Melbourne Airport.
+Head to https://surfshark.com/theb1m and use code theb1m at checkout to get four extra months of Surfshark.
+
+Grab a copy of Fred's book MEGA BUILDS 👉 https://bit.ly/3Y63G6X
+
+You've seen what construction can do. Now show one more person. Make Construction Famous.
+
+Full story here - https://www.theb1m.com/video/australias-spending-billions-to-fix-its-melbourne-travel-nightmare
+
+For more by The B1M subscribe now 👉 https://bit.ly/the-b1m
+
+This video contains paid promotion for Surfshark.
+
+Additional footage and images: Melbourne Airport, Melbourne Airport Rail, Walking and Sightseeing Travel Channel, ABC, 9 News Melbourne, The Guardian, Bison United, TheGreenVan, PerPeriPlanespotting, Andrew Harvey, Oceania Vintage Films, Tony Hisgett, Ahmed Dawn and Emily Kulich.
+
+We're raising awareness of construction's mental health crisis through our Get Construction Talking initiative. There’s a video series on our channel and you can find support or donate at - https://www.getconstructiontalking.org/
+
+Follow Get Construction Talking 
+Instagram - https://www.instagram.com/getconstructiontalking/
+X - https://twitter.com/GetConstTalking
+LinkedIn - https://www.linkedin.com/company/get-construction-talking/about/
+
+Listen to The World's Best Construction Podcast by The B1M
+Apple - https://apple.co/3OssZsH
+Spotify - https://spoti.fi/3om1NkB
+Amazon Music - https://amzn.to/3znmBP4
+
+View this video and more at - https://www.TheB1M.com/ 
+Follow u…","2026-09-14T14:01:10Z","https://www.youtube.com/watch?v=MokPk27nPfI","https://i2.ytimg.com/vi/MokPk27nPfI/hqdefault.jpg","political","","australia;plan;fix;melbourne;travel","base","","2026-09-14T15:04:45Z"
+"PBJSSzOw_Tw","yt-cnbc","CNBC","Why Otis isn't focused on building new elevators","","Elevator giant Otis makes most of its profits from servicing elevators, not building new ones. The business hinges on long-term stability, but its stock has fallen over the past year due to setbacks in its service business and investors chasing the AI trade.
+
+CNBC's Ryan Baker has the details. Find the full report in related video.","2026-09-14T14:00:32Z","https://www.youtube.com/watch?v=PBJSSzOw_Tw","https://i1.ytimg.com/vi/PBJSSzOw_Tw/hqdefault.jpg","political","","otis","base","","2026-09-14T15:02:44Z"
+"TNIpAi4fg14","yt-forbes","Forbes","Inside Michelin’s Secret Test Track: Why Most Drivers Buy The Wrong Tires","","Inside Michelin’s 3,300-Acre Testing Facility: The Ultimate Tire-Buying Blueprint
+
+Tires represent one of the most critical—yet widely misunderstood—components of vehicle safety, performance, and efficiency. To unpack the science behind modern rubber engineering, host Scotty Reiss spent the day at Michelin’s premier Laurens Proving Grounds in Laurens, South Carolina. Spanning 3,300 acres and 12 specialized test tracks, this high-security facility serves as the primary research and development proving ground where Michelin collaborates directly with global automaker OEMs and motorsport teams to engineer vehicle-specific tire lines.
+
+Guided by Michelin Senior Subjective Test Driver Derek Secord, the visit subjects four distinct vehicle classes to extreme, real-world track experiments:  
+
+—The Cheap Tire Trap: Testing a Chrysler Pacifica on MICHELIN CrossClimate 2 all-weather rubber directly against a sport-tuned BMW 4 Series fitted with low-cost ""tier 4"" budget tires on a high-speed wet handling track.
+
+—The Two-Tire Replacement Myth: Inducing severe rear-axle hydroplaning on polished concrete using twin Toyota Camrys to demonstrate why fresh rubber must always be installed on the rear wheels.
+
+—Street vs. Track Rubber: Evaluating daily street-to-track versatility in a Toyota GR Supra on MICHELIN Pilot Sport 4 S tires, contrasted against a 108 MPH launch in a Chevrolet Corvette C8 fitted with extreme MICHELIN Pilot Sport Cup 2 R semi-slicks.
+
+—No-Compromise All-Terrain: Pushing…","2026-09-14T14:00:29Z","https://www.youtube.com/watch?v=TNIpAi4fg14","https://i1.ytimg.com/vi/TNIpAi4fg14/hqdefault.jpg","political;election","","inside;michelin;secret;test;track;most;drivers;buy;wrong;tires","base","","2026-09-14T15:02:46Z"
+"t8dDvNNzEJE","yt-professor-dave-explains","Professor Dave Explains","Fourth Declension Nouns in Latin Part 1: Masculine and Feminine Nouns","","As we already know, Latin has five declensions that nouns can fit into. We've already covered the first three, so let's move on to the fourth! This one isn't too bad, so let's dive into it, covering masculine and feminine nouns first.
+
+Script by Patrizia Farina, Professor of Italian at Western Connecticut State University and Purchase College.
+
+Watch the whole Latin playlist: http://bit.ly/ProfDaveLatin
+
+Italian Tutorials: http://bit.ly/ProfDaveItalian
+American History Tutorials: http://bit.ly/ProfDaveAmericanHistory
+Philosophy Tutorials: http://bit.ly/ProfDavePhilo
+Classical Physics Tutorials: http://bit.ly/ProfDavePhysics1
+Modern Physics Tutorials: http://bit.ly/ProfDavePhysics2
+General Chemistry Tutorials: http://bit.ly/ProfDaveGenChem
+Organic Chemistry Tutorials: http://bit.ly/ProfDaveOrgChem
+Biochemistry Tutorials: http://bit.ly/ProfDaveBiochem
+Biology Tutorials: http://bit.ly/ProfDaveBio
+
+EMAIL► ProfessorDaveExplains@gmail.com
+PATREON► http://patreon.com/ProfessorDaveExplains
+
+Check out ""Is This Wi-Fi Organic?"", my book on disarming pseudoscience!
+Amazon: https://amzn.to/2HtNpVH
+Bookshop: https://bit.ly/39cKADM
+Barnes and Noble: https://bit.ly/3pUjmrn","2026-09-14T14:00:29Z","https://www.youtube.com/watch?v=t8dDvNNzEJE","https://i1.ytimg.com/vi/t8dDvNNzEJE/hqdefault.jpg","political","US","fourth;declension;nouns;latin;part;masculine;feminine","base","","2026-09-14T15:03:39Z"
+"nMjvvac6hkU","yt-codeemporium","CodeEmporium","CNNs became Transformers...","","Can we transform a Convolution Neural Network into a Transformer? 
+
+ABOUT ME
+⭕ Subscribe: https://www.youtube.com/c/CodeEmporium?sub_confirmation=1
+📚 Medium Blog: https://medium.com/@dataemporium
+💻 Github: https://github.com/ajhalthor
+👔 LinkedIn: https://www.linkedin.com/in/ajay-halthor-477974bb/
+
+RESOURCES
+[1 📚] ResNet paper: https://arxiv.org/pdf/1512.03385
+[2 📚] Transformer Paper: https://arxiv.org/pdf/1706.03762
+[3 📚] Vision Transformer paper: https://arxiv.org/pdf/2010.11929
+[4 📚] Swin Transformer paper: https://arxiv.org/pdf/2103.14030
+[5 📚] ConvNeXt paper: https://arxiv.org/pdf/2201.03545
+[6 📚] Transformer Architecture diagram: https://raw.githubusercontent.com/ajhalthor/Transformer-Neural-Network/refs/heads/main/Transformer_Architecture_complete.png
+[7 📚] Depthwise Separable Convolution (from MobileNet paper): https://arxiv.org/pdf/1704.04861
+
+OTHERS (Material used in video)
+[1 📚] Explainable AI: Visualizing Attention in Transformers: https://www.comet.com/site/blog/explainable-ai-for-transformers/
+[2 📚] LightlyAI: Vision Transformers: https://www.lightly.ai/blog/vision-transformers-vit
+
+
+PLAYLISTS FROM MY CHANNEL
+⭕ Reinforcement Learning: https://youtube.com/playlist?list=PLTl9hO2Oobd9kS--NgVz0EPNyEmygV1Ha&si=AuThDZJwG19cgTA8
+Natural Language Processing: https://youtube.com/playlist?list=PLTl9hO2Oobd_bzXUpzKMKA3liq2kj6LfE&si=LsVy8RDPu8jeO-cc
+⭕ Transformers from Scratch: https://www.youtube.com/playlist?list=PLTl9hO2Oobd97qfWC40gOSU8C0iu0m2l4
+⭕ ChatGPT Playlist: https…","2026-09-14T14:00:04Z","https://www.youtube.com/watch?v=nMjvvac6hkU","https://i3.ytimg.com/vi/nMjvvac6hkU/hqdefault.jpg","political","","cnns;transformers","base","","2026-09-14T15:04:27Z"
+"qm1KtnuNMRw","yt-vox","Vox","Is the path to parenthood becoming a luxury?","","Anna Sussman, author of Inconceivable, sits down with The Gray Area guest host Christine Emba to discuss rising infertility rates and why access to reproductive care is still a lottery.
+
+#FertilityCare #ReproductiveHealth #Parenthood #InfertilityAwareness #HealthcareAccess #WomensHealth
+
+Subscribe to our channel and turn on notifications (🔔) so you don't miss any videos: http://goo.gl/0bsAjO
+
+Vox.com is a news website that helps you cut through the noise and understand what's really driving the events in the headlines. Check out http://www.vox.com.
+
+Watch our full video catalog: http://goo.gl/IZONyE
+Follow Vox on TikTok: http://tiktok.com/@voxdotcom
+Check out our articles: https://www.vox.com/
+Listen to our podcasts: https://www.vox.com/podcasts","2026-09-14T14:00:03Z","https://www.youtube.com/watch?v=qm1KtnuNMRw","https://i2.ytimg.com/vi/qm1KtnuNMRw/hqdefault.jpg","political","","","base","","2026-09-14T15:02:52Z"
+"OKveQTDrTPg","yt-center-for-strategic-international-studies","Center for Strategic & International Studies","What To Expect From the Xi-Trump Summit | China Pulse","","With a Trump-Xi summit expected on September 24th, Trustee Chair Scott Kennedy and Senior Fellow and Deputy Director Ilaria Mazzocco discuss potential outcomes of the meeting, including export controls on rare earths and why AI safeguards could take center stage in the talks.
+---------------------------------------------
+A nonpartisan institution, CSIS is the top national security think tank in the world. 
+Visit https://www.csis.org to find more of our work as we bring bipartisan solutions to the world's greatest challenges.
+
+Want to see more videos and virtual events? Subscribe to this channel and turn on notifications: https://cs.is/2dCfTve
+
+Follow CSIS on:
+• Twitter: https://twitter.com/csis
+• Facebook: https://facebook.com/CSIS.org
+• Instagram: https://instagram.com/csis/","2026-09-14T13:56:27Z","https://www.youtube.com/watch?v=OKveQTDrTPg","https://i4.ytimg.com/vi/OKveQTDrTPg/hqdefault.jpg","diplomatic","CN","expect;xi-trump;summit;china;pulse","base","","2026-09-14T14:59:06Z"
+"-iyzpGwxos8","yt-ms-now","MS NOW","'Makes no sense': Lt Gen. slams Kushner for blaming Ukraine for stalling peace","","Iran-backed Houthi rebels have fired into Saudi Arabia. The Houthi attacks have centered on the Saudi oil infrastructure and shipping, adding even more problems to an already-strained global oil market. Also, Jared Kushner appears to be blaming Ukraine for continuing the war, saying Kyiv's refusal to give up territory is stalling a peace deal with Russia. Retired U.S. Lt. Army Lt. General Mark Hertling and former White House Senior Director Nayyera Haq join Stephanie Ruhle to discuss the latest developments.
+
+MS NOW: My Source for News, Opinion, and the World.
+
+» Subscribe to MS NOW: https://www.youtube.com/@msnow
+
+» Subscribe to MS NOW’s We the People Newsletter for exclusive content from your favorite MS NOW anchors. Sign up now for free at https://ms.now/joinus
+
+MS NOW is the go-to destination for domestic and international breaking news, and best-in-class opinion journalism. For more context and news coverage of the most important stories of our day click here: https://www.ms.now/
+
+
+#news #ukraine #russia","2026-09-14T13:55:57Z","https://www.youtube.com/watch?v=-iyzpGwxos8","https://i2.ytimg.com/vi/-iyzpGwxos8/hqdefault.jpg","military;strike","US;RU;UA;IR;YE;SA","makes;gen;kushner;ukraine","base","","2026-09-14T15:02:46Z"
+"IVi467pzymU","yt-the-wall-street-journal","The Wall Street Journal","Trump Calls for Irish Reunification on Golf Trip to Ireland","","The trip marked President Trump’s first visit back to Ireland since 2023. Trump attended the Irish Open, showed off his family’s golf property and met with Ireland’s leaders. WSJ's Meridith McGraw reports from Doonbeg. 
+
+#Trump #Ireland #WSJ","2026-09-14T13:55:12Z","https://www.youtube.com/watch?v=IVi467pzymU","https://i2.ytimg.com/vi/IVi467pzymU/hqdefault.jpg","political","","trump;calls;irish;reunification;golf;trip;ireland","base","","2026-09-14T15:02:50Z"
+"K4Xb0gOQkWI","yt-the-b1m","The B1M","The $16.5BN Plan to TRANSFORM Travel in Melbourne","","","2026-09-14T13:50:55Z","https://www.youtube.com/watch?v=K4Xb0gOQkWI","https://i4.ytimg.com/vi/K4Xb0gOQkWI/hqdefault.jpg","political","","plan;transform;travel;melbourne","base","","2026-09-14T15:04:45Z"
+"LOaKyVwYjiE","nyc-mayor-s-office","NYC Mayor's Office","Mayor Mamdani Holds Press Conference on a Major Immigration Announcement with NY AG Letitia James","","Mayor Mamdani Holds Press Conference on a Major Immigration Announcement with New York Attorney General Letitia James
+
+City Hall Rotunda
+Lower Manhattan
+
+September 14, 2026","2026-09-14T13:48:32Z","https://www.youtube.com/watch?v=LOaKyVwYjiE","https://i1.ytimg.com/vi/LOaKyVwYjiE/hqdefault.jpg","political","","mayor;mamdani;holds;press;conference;major;immigration;announcement;letitia;james","base","","2026-09-14T15:21:17Z"
+"NpzVrWUsGXI","yt-ms-now","MS NOW","Joe: We ‘can’t really tell’ who’s telling the truth about AI","","AI leaders including Anthropic CEO Dario Amodei and OpenAI CEO Sam Altman are calling attention to the technology’s rapid growth and advocating for more safety measures. This comes as White House “AI and crypto czar” David Sacks said in a social media post that tech leaders should “go ahead” with regulating themselves without Washington's intervention. Joe responds to the tension by calling attention to a lack of transparency within the AI industry as safety concerns grow.
+
+
+MS NOW: My Source for News, Opinion, and the World.
+
+» Subscribe to MS NOW: https://www.youtube.com/@msnow
+
+» Subscribe to MS NOW’s We the People Newsletter for exclusive content from your favorite MS NOW anchors. Sign up now for free at https://ms.now/joinus
+
+MS NOW is the go-to destination for domestic and international breaking news, and best-in-class opinion journalism. For more context and news coverage of the most important stories of our day click here: https://www.ms.now/","2026-09-14T13:36:04Z","https://www.youtube.com/watch?v=NpzVrWUsGXI","https://i3.ytimg.com/vi/NpzVrWUsGXI/hqdefault.jpg","political","US","joe","base","","2026-09-14T15:02:46Z"
+"ikEgm3JAz64","yt-nbc-news","NBC News","Runners race through flash floods in New Jersey","","Runners race through flash floods in New Jersey.
+
+For more context and news coverage of the most important stories of our day, click here: https://www.nbcnews.com
+
+Every day, NBC News helps people understand what’s happening and why it matters — through fact-based reporting, meaningful conversations, and powerful stories. From its leading news broadcasts — TODAY, NBC Nightly News, Meet the Press, and Dateline — to NBC News NOW, the 24/7 streaming news channel, plus chart-topping podcasts, the NBC News app, and NBCNews.com, NBC News keeps audiences informed and connected to the stories shaping our world. 
+
+NBC News. Reporting for America.
+
+» Subscribe to NBC News: http://nbcnews.to/SubscribeToNBC
+» Subscribe to Here's the Scoop podcast: https://www.nbcnews.com/heres-the-scoop-daily-podcast
+» NBC News App: https://apps.nbcnews.com/mobile
+» Breaking News Alerts: https://link.nbcnews.com/join/5cj/breaking-news-signup?cid=sm_npd_nn_yt_bn-clip_190621
+» Visit NBCNews.Com: http://nbcnews.to/ReadNBC
+» Find NBC News on Facebook: http://nbcnews.to/LikeNBC
+» Follow NBC News on Twitter: http://nbcnews.to/FollowNBC
+» Follow NBC News on Instagram: http://nbcnews.to/InstaNBC","2026-09-14T13:30:27Z","https://www.youtube.com/watch?v=ikEgm3JAz64","https://i2.ytimg.com/vi/ikEgm3JAz64/hqdefault.jpg","political","US","runners;jersey","base","","2026-09-14T15:02:47Z"
+"gzjFH2FjkA4","yt-casual-navigation","Casual Navigation","Why a Propeller Shaft Needs a Chrome Sleeve","","A bare propeller shaft would quickly be damaged by saltwater, sand, and grit. Builders shrink-fit a polished chrome-steel liner over it, creating the surface that stern-tube seals run against.
+
+The aft seals face the open sea and form the ship’s primary barrier against seawater ingress.
+
+#ShaftLiner #SternTubeSeals #MarineEngineering #PropellerShaft #CasualNavigation","2026-09-14T13:30:00Z","https://www.youtube.com/watch?v=gzjFH2FjkA4","https://i4.ytimg.com/vi/gzjFH2FjkA4/hqdefault.jpg","political;election","","propeller;shaft;needs;chrome;sleeve","base","","2026-09-14T15:04:48Z"
+"laEE3atFGCM","yt-center-for-strategic-international-studies","Center for Strategic & International Studies","Beef, Russia Sanctions Bill, Canada-Europe Relations, and Italian Pasta","","Bill and Scott follow up on President Trump's executive orders on beef, take a look at the Russia Sanctions Bill stalled in Congress, and discuss the push for closer ties between Canada and Europe plus what Italian pasta can tell us about the administration's approach to trade enforcement.","2026-09-14T13:29:31Z","https://www.youtube.com/watch?v=laEE3atFGCM","https://i1.ytimg.com/vi/laEE3atFGCM/hqdefault.jpg","economic;sanctions","RU;CA","beef;russia;sanctions;bill;canada-europe;relations;italian;pasta","base","","2026-09-14T14:59:06Z"
+"8iSD8J0egQw","yt-scientific-american","Scientific American","What is Elon Musk doing in Tennessee and Mississippi? #ai #elonmusk","","Reporter Austyn Gaffney went there to find out. Just yesterday, Musk wrote on X, ""I've been sound sounding the alarm on AI for a long time,"" as he backed Anthropic CEO Dario Amodei's call to slow down the development of increasingly powerful AI. But the infratructure feeding Musk's own AI ambitions is speeding up, not slowing down. Austyn investigated SpaceXAI's massive build out near the Tennessee-Mississippi border—and what it means for people living next door. #AI #elonmusk #datacenters #SpaceX #AI
+🎥: Kevin Wurm, Austyn Gaffney
+🎞️: Jeffery DelViscio
+Additional 📷: Getty Images
+🎵: Triple Scoop Music, Adobe
+🎥: Kevin Wurm, Austyn Gaffney
+🎞️: Jeffery DelViscio
+Additional 📷: Getty Images
+🎵: Triple Scoop Music, Adobe","2026-09-14T13:22:32Z","https://www.youtube.com/watch?v=8iSD8J0egQw","https://i1.ytimg.com/vi/8iSD8J0egQw/hqdefault.jpg","political","","elon;musk;tennessee;mississippi","base","","2026-09-14T15:03:41Z"
+"dm6jGJNtois","yt-daily-mail-world","Daily Mail World","At least 130 missing after Indonesian ferry capsizes","","Indonesian rescuers, including coastguard and navy personnel, raced to reach a passenger ship that capsized over the weekend as they searched for 130 people still missing. Officials said six people have been confirmed dead. The Virgo Transport 8 was carrying 243 people when it went missing in bad weather, according to the rescue agency. Authorities have since rescued 108 people from the vessel, which was traveling from Surabaya in East Java to Banjarmasin in South Kalimantan. Survivors were taken to a local medical facility, where they received treatment for their injuries. #indonesia🇮🇩 #asia #ferry #mailtalks
+
+Daily Mail Website: https://www.dailymail.co.uk
+Daily Mail Facebook: https://facebook.com/dailymail
+Daily Mail IG: https://instagram.com/dailymail
+Daily Mail Snap: https://www.snapchat.com/discover/Daily-Mail/8392137033
+Daily Mail Twitter: https://x.com/dailymail
+
+Daily Mail Pinterest: https://pinterest.co.uk/dailymail","2026-09-14T13:15:25Z","https://www.youtube.com/watch?v=dm6jGJNtois","https://i1.ytimg.com/vi/dm6jGJNtois/hqdefault.jpg","political","ID","indonesian","base","","2026-09-14T14:59:08Z"
+"WH1wvTJg_oY","yt-nbc-news","NBC News","Diesel reaches record-high prices in the U.S.","","Diesel reaches record-high prices in the U.S.
+
+For more context and news coverage of the most important stories of our day, click here: https://www.nbcnews.com
+
+Every day, NBC News helps people understand what’s happening and why it matters — through fact-based reporting, meaningful conversations, and powerful stories. From its leading news broadcasts — TODAY, NBC Nightly News, Meet the Press, and Dateline — to NBC News NOW, the 24/7 streaming news channel, plus chart-topping podcasts, the NBC News app, and NBCNews.com, NBC News keeps audiences informed and connected to the stories shaping our world. 
+
+NBC News. Reporting for America.
+
+» Subscribe to NBC News: http://nbcnews.to/SubscribeToNBC
+» Subscribe to Here's the Scoop podcast: https://www.nbcnews.com/heres-the-scoop-daily-podcast
+» NBC News App: https://apps.nbcnews.com/mobile
+» Breaking News Alerts: https://link.nbcnews.com/join/5cj/breaking-news-signup?cid=sm_npd_nn_yt_bn-clip_190621
+» Visit NBCNews.Com: http://nbcnews.to/ReadNBC
+» Find NBC News on Facebook: http://nbcnews.to/LikeNBC
+» Follow NBC News on Twitter: http://nbcnews.to/FollowNBC
+» Follow NBC News on Instagram: http://nbcnews.to/InstaNBC","2026-09-14T13:09:09Z","https://www.youtube.com/watch?v=WH1wvTJg_oY","https://i4.ytimg.com/vi/WH1wvTJg_oY/hqdefault.jpg","political","US","diesel","base","","2026-09-14T15:02:47Z"
+"JZgp1mgcl1w","yt-cappy-army","Cappy Army","Trench Warfare: Brutal Close Combat Explained #shorts","","Experience the harrowing reality of close-quarters trench combat. From infiltration to exfiltration, witness the terrifying maze where every corner hides a blind spot and survival is a constant struggle. #TrenchWarfare #CloseCombat #MilitaryHistory #Warfare #Soldier","2026-09-14T13:03:45Z","https://www.youtube.com/watch?v=JZgp1mgcl1w","https://i3.ytimg.com/vi/JZgp1mgcl1w/hqdefault.jpg","political","","trench;warfare;brutal;close;combat;explained","base","","2026-09-14T15:03:00Z"
+"wirKMAMC2YA","yt-kings-and-generals","Kings and Generals","Why Rome’s Greatest Threat Was Its Own Settler Legions","","Early Rome intentionally deployed legions far from their homeland—Gallic troops in Egypt, Spaniards in Syria—to prevent local mutinies. But by the 3rd and 4th centuries, recruitment became intensely localized. Soldiers in Britain settled down, married local women, and built towns around forts like Vindolanda, York, and Chester. When veterans passed land to their soldier sons, the army stopped serving distant Rome—and started fighting for its own regional kingmakers! #AncientRome #RomanBritain #HistoryShorts #RomanLegions #Vindolanda #MilitaryHistory #Archaeology #EmpireFall","2026-09-14T13:00:37Z","https://www.youtube.com/watch?v=wirKMAMC2YA","https://i4.ytimg.com/vi/wirKMAMC2YA/hqdefault.jpg","military;strike","SY;EG;GB","rome;greatest;threat;own;settler;legions","base","","2026-09-14T15:03:09Z"
+"CJGGulZR0XQ","yt-bbc-news","BBC News","Should AI be regulated as calls grow for 'slowdown' of its development? | BBC News","","There has been no shortage of warnings from AI's top bosses about existential threats over the years.
+ 
+But should AI be regulated as calls grow for an AI 'slowdown' from across the tech industry?
+
+Subscribe to our channel here: https://bbc.in/bbcnews
+
+For the latest news download the BBC News app or visit BBC.com/news
+
+#AI #BBCNews","2026-09-14T13:00:24Z","https://www.youtube.com/watch?v=CJGGulZR0XQ","https://i4.ytimg.com/vi/CJGGulZR0XQ/hqdefault.jpg","political","","should;bbc;news","base","","2026-09-14T15:02:41Z"
+"gfdyQvZFrBw","yt-the-wall-street-journal","The Wall Street Journal","How North Korean Operatives Steal American Identities","","North Korean operatives are stealing unsuspecting American's identities to carry out their IT worker scheme. A WSJ investigation found they used Michael Brown's identity to work at several companies across the U.S.⁠
+
+#NorthKorea #Investigation #WSJ","2026-09-14T13:00:15Z","https://www.youtube.com/watch?v=gfdyQvZFrBw","https://i4.ytimg.com/vi/gfdyQvZFrBw/hqdefault.jpg","political","US;KP","north;korean;operatives;steal;american;identities","base","","2026-09-14T15:02:50Z"
+"iLPIu0ypefk","yt-ms-now","MS NOW","Trump stressing you out? Dan Harris on how ACTION absorbs anxiety to DEFEND DEMOCRACY","","After suffering a panic attack on live national television, Dan Harris has learned some lessons. He shares some advice amidst this anxious moment in our country: regulate and engage. Harris knows that the most important fight is the one happening within. Reflecting on his journey of self-regulation, the former ABC anchor recalls a news report on Good Morning America on a warm June morning in 2004 where he — very publicly — had a panic attack live on-air. It was a huge wake up call for him, he says. “I realized I needed to change my life.” More than two decades later, the “10% Happier” podcast host joins Nicolle days after the debut of his two new series: MS NOW’s “The Week in Sanity” and “Never Worry Alone.” They discuss the benefits of meditation, argue against the toxicity of modern wellness culture and assert that despair is one of the enemies of democracy. In an anxious and polarized political climate, Harris encourages people to lean on each other, noting that “trying to do it alone is a really reliable route to suffering.” In fact, if salvation exists from pessimism about the future, it’s in the form of love. “When you do good, it feels good.” 
+
+“The Week in Sanity” and “Never Worry Alone” are available to MS NOW Members. Become an MS NOW Member by visiting ms.now/membership
+
+MS NOW: My Source for News, Opinion, and the World.
+
+» Subscribe to MS NOW: https://www.youtube.com/@msnow
+
+» Subscribe to MS NOW’s We the People Newsletter for exclusive content from your favorite…","2026-09-14T13:00:10Z","https://www.youtube.com/watch?v=iLPIu0ypefk","https://i2.ytimg.com/vi/iLPIu0ypefk/hqdefault.jpg","military;strike","US","trump;dan;harris;action;defend;democracy","base","","2026-09-14T15:02:46Z"
+"oFS6qCaEZdY","yt-ms-now","MS NOW","Joe WARNS threats of AI danger are 'likely far, far WORSE' than we know","","President Trump is resisting calls for an AI slowdown as tech leaders are now expressing concern about the advancing technology. Trump acknowledged the need for some guardrails, but he argued the U.S. cannot lose its competitive edge over China. Those comments come days after a former Anthropic worker warned that AI could eventually pose a threat to humanity. MS NOW’s Britt Miller has a report on the warning from AI leaders, and the Morning Joe panel discusses what the government can do –if anything—to mitigate those concerns.
+
+MS NOW: My Source for News, Opinion, and the World.
+
+» Subscribe to MS NOW:    / @msnow  
+
+» Subscribe to MS NOW’s We the People Newsletter for exclusive content from your favorite MS NOW anchors. Sign up now for free at https://ms.now/joinus
+
+MS NOW is the go-to destination for domestic and international breaking news, and best-in-class opinion journalism. For more context and news coverage of the most important stories of our day click here: https://www.ms.now/
+#News #Politics #Trump #ArtificalIntelligence #China #Anthropic","2026-09-14T12:50:14Z","https://www.youtube.com/watch?v=oFS6qCaEZdY","https://i4.ytimg.com/vi/oFS6qCaEZdY/hqdefault.jpg","political","US;CN","joe;warns;worse","base","","2026-09-14T15:02:46Z"
+"BS8WFM-NUbQ","yt-cnn","CNN","Trump & GOP reject calls for urgent AI regulation","","A remarkable sequence of warnings by leaders of artificial intelligence firms that their creation may soon outpace humans’ capacity to control it has so far been met with a shrug by Republicans who run Washington.
+
+President Donald Trump said Sunday that “negative forces” were conjuring up “things that won’t happen.” House Speaker Mike Johnson rejected a call to pass emergency legislation, telling CNN’s Jake Tapper that AI executives “pushing the frontier” could slow down if they wanted, but Congress shouldn’t rush to act.
+While Democrats are trying to put this issue front and center for the upcoming midterms as GA Senator Jon Ossoff blames Trump as being “compromised” on AI policy.
+
+0:00 AI safety measures need to catch up
+3:15 Is President Trump compromised on AI policy?
+6:30 When is Congress calling AI leaders to discuss the future of AI?
+
+Watch 24/7 live news with CNN Headlines: https://bit.ly/4eIvlTr
+
+#trump #ai #News","2026-09-14T12:47:16Z","https://www.youtube.com/watch?v=BS8WFM-NUbQ","https://i3.ytimg.com/vi/BS8WFM-NUbQ/hqdefault.jpg","political","US;NATO","trump;gop","base","","2026-09-14T15:02:45Z"
+"aIwmTr8t5Ig","yt-bbc-news","BBC News","Nigel Farage says £72m Reform donations are 100% compliant with the law ""today"". #BBCNews","","Subscribe to our channel here: https://bbc.in/bbcnews
+
+For the latest news download the BBC News app or visit BBC.com/news
+
+#BBCNews","2026-09-14T12:39:58Z","https://www.youtube.com/watch?v=aIwmTr8t5Ig","https://i2.ytimg.com/vi/aIwmTr8t5Ig/hqdefault.jpg","political","","nigel;farage;reform;bbcnews","base","","2026-09-14T15:02:41Z"
+"-lxwqoznsW0","yt-channel-4-news","Channel 4 News","Rights of trees recognised in East Sussex town","","Lewes has become the first town in the UK to formally recognise the rights of trees.
+
+[Subscribe to our Substack newsletter: https://channel4news.substack.com/subscribe]
+
+Campaigners say trees across the whole town should be allowed to follow their natural life cycles.
+
+The move, which was passed by the East Sussex town's council, isn’t legally binding. But residents hope it will change attitudes and help with preservation.
+-------
+
+Get more news at our site - https://www.channel4.com/news/ 
+
+Subscribe to our Substack newsletter: https://channel4news.substack.com/subscribe
+
+Follow us:
+TikTok - https://www.tiktok.com/@c4news
+Instagram - https://www.instagram.com/channel4news/
+Twitter - https://twitter.com/Channel4News
+Facebook - https://www.facebook.com/Channel4News/","2026-09-14T12:35:55Z","https://www.youtube.com/watch?v=-lxwqoznsW0","https://i2.ytimg.com/vi/-lxwqoznsW0/hqdefault.jpg","political","","rights;east;sussex","base","","2026-09-14T15:02:44Z"
+"Yh2WlkM2yFY","yt-channel-4-news","Channel 4 News","Deep-fried food banned from school menus in new health regime across England #School #Food #Health","","New standards for school dinners will mean no more deep fried food and an increase in the amount of fruit and veg being offered to pupils. The new regime, which will come into force next year, will mean cake will only be on the menu once a week in primary schools and twice a week in secondary schools. And for the first time school breakfast clubs will have to follow nutrition rules too.
+
+[Subscribe to our Substack newsletter: https://channel4news.substack.com/subscribe]
+
+-------
+
+Get more news at our site - https://www.channel4.com/news/ 
+
+Subscribe to our Substack newsletter: https://channel4news.substack.com/subscribe
+
+Follow us:
+TikTok - https://www.tiktok.com/@c4news
+Instagram - https://www.instagram.com/channel4news/
+Twitter - https://twitter.com/Channel4News
+Facebook - https://www.facebook.com/Channel4News/","2026-09-14T12:32:09Z","https://www.youtube.com/watch?v=Yh2WlkM2yFY","https://i2.ytimg.com/vi/Yh2WlkM2yFY/hqdefault.jpg","political;election","GB","deep-fried;england;school;food;health","base","","2026-09-14T15:02:44Z"
+"lL9TaHzMKVI","yt-channel-4-news","Channel 4 News","Reform's Tice says government's bid to backdate political donations limit is 'hypocritical' #Reform","","A bid by the government to backdate new rules limiting political donations to March this year has been condemned as ""hypocritical"" by the deputy leader of Reform. Richard Tice has insisted that the two donations from crypto-billionaires Ben Delo and Christopher Harborne, who gave Reform £36m each last week, had come with no strings attached. A plan to cap donations from expats at £100,000 is to be debated later today by the House of Lords.
+
+[Subscribe to our Substack newsletter: https://channel4news.substack.com/subscribe]
+
+-------
+
+Get more news at our site - https://www.channel4.com/news/ 
+
+Subscribe to our Substack newsletter: https://channel4news.substack.com/subscribe
+
+Follow us:
+TikTok - https://www.tiktok.com/@c4news
+Instagram - https://www.instagram.com/channel4news/
+Twitter - https://twitter.com/Channel4News
+Facebook - https://www.facebook.com/Channel4News/","2026-09-14T12:13:12Z","https://www.youtube.com/watch?v=lL9TaHzMKVI","https://i1.ytimg.com/vi/lL9TaHzMKVI/hqdefault.jpg","political","","reform;tice","base","","2026-09-14T15:02:44Z"
+"JNjB_T-eBVg","yt-channel-4-news","Channel 4 News","Russian drone attack near Ukraine-Poland border 'meant to scare Western nations', says EU #Russia","","A Russian drone attack on a train near Ukraine's border with Poland on Sunday was 'clearly meant to scare Western nations', the EU's foreign policy chief said today. The attack happened shortly after another train carrying international delegates who'd been at a security conference in Kyiv had left the station. Among the passengers were senior security officials from across Europe and the former UK prime minister Boris Johnson.
+
+[Subscribe to our Substack newsletter: https://channel4news.substack.com/subscribe]
+
+-------
+
+Get more news at our site - https://www.channel4.com/news/ 
+
+Subscribe to our Substack newsletter: https://channel4news.substack.com/subscribe
+
+Follow us:
+TikTok - https://www.tiktok.com/@c4news
+Instagram - https://www.instagram.com/channel4news/
+Twitter - https://twitter.com/Channel4News
+Facebook - https://www.facebook.com/Channel4News/","2026-09-14T12:07:57Z","https://www.youtube.com/watch?v=JNjB_T-eBVg","https://i3.ytimg.com/vi/JNjB_T-eBVg/hqdefault.jpg","military;drone_strike","RU;UA;PL","russian;ukraine-poland;western;russia","base","","2026-09-14T15:02:44Z"
+"l6Jidmgwpa0","yt-vox","Vox","Will I ever want to have kids? | The Gray Area","","Why does it feel so hard to start a family today? How much of that is truly a personal choice?
+
+Subscribe to our channel! http://goo.gl/0bsAjO
+
+In this episode of The Gray Area, guest host Christine Emba sits down with journalist Anna Louise Sussman to discuss her new book, Inconceivable: The Impossibility of Family in an Age of Uncertainty. Together, they look past the surface-level ""cost of living"" arguments to explore how economic volatility, climate anxiety, and the commodification of reproduction are reshaping the way millennials and Gen Z think about parenthood.
+
+00:00 Intro
+01:43 Generational uncertainty 
+03:34 Empowerment of choosing to parent 
+08:54 “Project me” and parenting
+15:36 Structural infertility and climate anxieties
+30:18 Financialization of fertility care
+39:39 Is uncertainty pushing more people away from parenthood?
+
+Guest Host Christine Emba, columnist and author
+Guest: Anna Luise Sussman, author Inconceivable: The Impossibility of Family in an Age of Uncertainty
+
+We would love to hear from you. To tell us what you thought of this episode, email us at thegrayarea@vox.com or leave us a voicemail at 1-800-214-5749. Your comments and questions help us make a better show.
+
+And you can watch new episodes of The Gray Area on YouTube. New episodes drop every Monday and Friday.
+
+Listen to The Gray Area ad-free by becoming a Vox Member: vox.com/members
+
+Vox.com is a news website that helps you cut through the noise and understand what's really driving the events…","2026-09-14T12:00:06Z","https://www.youtube.com/watch?v=l6Jidmgwpa0","https://i1.ytimg.com/vi/l6Jidmgwpa0/hqdefault.jpg","political","","will;gray;area","base","","2026-09-14T15:02:52Z"
+"caa8FN7zVkg","yt-nbc-news","NBC News","This Morning’s Top Headlines – Sept. 14 | Morning News NOW","","Concerns rise over the growing power of artificial intelligence as AI executives call for a slowdown, President Donald Trump voices support for a united Ireland and a global diesel shortage prompts prices to increase. 
+
+For more context and news coverage of the most important stories of our day, click here: https://www.nbcnews.com
+
+Every day, NBC News helps people understand what’s happening and why it matters — through fact-based reporting, meaningful conversations, and powerful stories. From its leading news broadcasts — TODAY, NBC Nightly News, Meet the Press, and Dateline — to NBC News NOW, the 24/7 streaming news channel, plus chart-topping podcasts, the NBC News app, and NBCNews.com, NBC News keeps audiences informed and connected to the stories shaping our world. 
+
+NBC News. Reporting for America.
+
+» Subscribe to NBC News: http://nbcnews.to/SubscribeToNBC
+» Subscribe to Here's the Scoop podcast: https://www.nbcnews.com/heres-the-scoop-daily-podcast
+» NBC News App: https://apps.nbcnews.com/mobile
+» Breaking News Alerts: https://link.nbcnews.com/join/5cj/breaking-news-signup?cid=sm_npd_nn_yt_bn-clip_190621
+» Visit NBCNews.Com: http://nbcnews.to/ReadNBC
+» Find NBC News on Facebook: http://nbcnews.to/LikeNBC
+» Follow NBC News on Twitter: http://nbcnews.to/FollowNBC
+» Follow NBC News on Instagram: http://nbcnews.to/InstaNBC
+
+#ai #donaldtrump #ireland","2026-09-14T11:56:47Z","https://www.youtube.com/watch?v=caa8FN7zVkg","https://i4.ytimg.com/vi/caa8FN7zVkg/hqdefault.jpg","political","US","morning;top;headlines;sept;news;now","base","","2026-09-14T15:02:47Z"
+"tyJ5eApFzfs","yt-cnn","CNN","70-year-old hiker found alive after a week missing on island","","Craig Berg, 70, was found alive on Isle Royale after going missing September 5, according to the US Coast Guard. Michigan State Police troopers and K-9 units located Berg, who was reportedly injured and hypothermic, before a Coast Guard helicopter hoisted him to safety.","2026-09-14T11:48:34Z","https://www.youtube.com/watch?v=tyJ5eApFzfs","https://i1.ytimg.com/vi/tyJ5eApFzfs/hqdefault.jpg","political","","","base","","2026-09-14T15:02:45Z"
+"cPSkiBNGvvI","yt-ms-now","MS NOW","'IT'S GROTESQUE': Joe slams Trump from blaming Ukraine for rising diesel prices","","President Trump is blaming Ukraine for record-high diesel fuel prices. While speaking to reporters in Ireland over the weekend, the president said his administration has asked Ukrainian President Volodymyr Zelenskyy to stop targeting Russian oil refineries. Ukraine did strike more than 20 refinery targets in Russia over the summer, but the main driver of higher fuel prices has been the war in Iran, which has virtually closed the Strait of Hormuz, blocking about one-fifth of global oil exports. The Morning Joe panel discusses Trump’s efforts to shift blame to Ukraine and what that means.
+
+MS NOW: My Source for News, Opinion, and the World.
+
+» Subscribe to MS NOW:    / @msnow  
+
+» Subscribe to MS NOW’s We the People Newsletter for exclusive content from your favorite MS NOW anchors. Sign up now for free at https://ms.now/joinus
+
+MS NOW is the go-to destination for domestic and international breaking news, and best-in-class opinion journalism. For more context and news coverage of the most important stories of our day click here: https://www.ms.now/
+#News #Politics #Trump #Ukraine #Zelensky #Putin","2026-09-14T11:43:57Z","https://www.youtube.com/watch?v=cPSkiBNGvvI","https://i4.ytimg.com/vi/cPSkiBNGvvI/hqdefault.jpg","military;strike","RU;UA;IR","grotesque;joe;trump;ukraine","base","","2026-09-14T15:02:46Z"
+"G2j3fCgPqoQ","yt-cnn","CNN","Athletes hit back at sports betting ad featuring Sydney Sweeney","","A new sports betting ad, where Sydney Sweeney wears little to no clothing while posing with sports gear, has gone viral. Olympians and other athletes are now calling the ad out, saying it sexualizes and sets back women's sports.","2026-09-14T11:25:50Z","https://www.youtube.com/watch?v=G2j3fCgPqoQ","https://i4.ytimg.com/vi/G2j3fCgPqoQ/hqdefault.jpg","political","","athletes;sydney;sweeney","base","","2026-09-14T15:02:45Z"
+"Ts4JfYG5aPw","yt-fair-observer","Fair Observer","Yemen's Houthis make the world much more dangerous | Dr Abdul Galil Shaif","","Dr Abdul Galil Shaif is a British-Yemeni political figure and former chairman of the Aden Free Zone Public Authority. He is a prominent advocate for Southern Yemen and brings particular expertise on the politics and competing factions shaping the conflict.
+
+He speaks to @FairObserver ahead of a discussion in the British Parliament focusing on how Islamic Extremists are prolonging the conflict in Yemen and Sudan.
+
+Support our work: https://www.fairobserver.com/crowd-funding/
+
+Fair Observer is an independent nonprofit media organization that has published more than 3,000 voices from over 90 countries, including statesmen, retired military officers, former diplomats and leading professors, along with some of the brightest young public intellectuals from around the world.
+
+Check us out: https://www.fairobserver.com
+
+Follow Fair Observer on
+►WhatsApp: https://whatsapp.com/channel/0029Vb6JJmp7T8bYHRMmSs2D
+►LinkedIn: https://in.linkedin.com/company/fair-observer
+►Facebook: https://www.facebook.com/fairobserver​​
+►Instagram: https://www.instagram.com/fairobserver                                                                                                                                                                                                                                              ►Twitter: https://twitter.com/myfairobserver​​
+►Telegram: https://t.me/myfairobserver","2026-09-14T11:20:36Z","https://www.youtube.com/watch?v=Ts4JfYG5aPw","https://i1.ytimg.com/vi/Ts4JfYG5aPw/hqdefault.jpg","political","YE","yemen;houthis;abdul;galil;shaif","base","","2026-09-14T14:59:09Z"
+"SGs7e_IndAY","yt-fair-observer","Fair Observer","Sudan's Muslim Brotherhood is prolonging the conflict | Dr Gony Mustafa Abubakr Sharif","","Dr Gony Mustafa Abubakr Sharif is a Sudanese political and development expert and a representative of the Sudan Founding Alliance, known as TASIS. The Alliance was formed through a partnership led by the Rapid Support Forces (RSF), along with anti-government political factions and civil society groups. It has established a rival administration to challenge the legitimacy of the central wartime authorities based in Port Sudan.
+
+He speaks to @FairObserver ahead of a discussion held at the British Parliament focusing on how Islamic Extremists Prolong Conflict in Yemen and Sudan.
+
+Support our work: https://www.fairobserver.com/crowd-funding/
+
+Fair Observer is an independent nonprofit media organization that has published more than 3,000 voices from over 90 countries, including statesmen, retired military officers, former diplomats and leading professors, along with some of the brightest young public intellectuals from around the world.
+
+Check us out: https://www.fairobserver.com
+
+Follow Fair Observer on
+►WhatsApp: https://whatsapp.com/channel/0029Vb6JJmp7T8bYHRMmSs2D
+►LinkedIn: https://in.linkedin.com/company/fair-observer
+►Facebook: https://www.facebook.com/fairobserver​​
+►Instagram: https://www.instagram.com/fairobserver                                                                                                                                                                                                                                              ►Twitter: https://twitte…","2026-09-14T11:12:22Z","https://www.youtube.com/watch?v=SGs7e_IndAY","https://i4.ytimg.com/vi/SGs7e_IndAY/hqdefault.jpg","political","YE","sudan;muslim;brotherhood;gony;mustafa;abubakr;sharif","base","","2026-09-14T14:59:09Z"
+"QCewQ6J7Jjw","yt-nbc-news","NBC News","NBC Nightly News Full Episode - Sept. 13","","Heavy rains prompt flash floods and water rescues; Top AI chief executives publicly agree on slowing AI development; Fuel prices rise as fighting expands in the Middle East; and more on tonight’s broadcast.
+
+00:00 Intro
+01:27 Heavy rains trigger flash floods & water rescues
+04:13 A.I. executives issue urgent warning
+06:28 Mid-air scares leave passengers on edge
+08:11 Fuel prices rise as fighting expands in Middle East 
+10:24 Trump draws criticism for Ireland reunification comments 
+11:20 Candidate for governor survives plane crash 
+11:41 Third measles death in PA as outbreak grows
+12:01 Meghan Markle shares first look at family life after U.K. return
+12:26 Good News Tonight
+
+For more context and news coverage of the most important stories of our day, click here: https://www.nbcnews.com
+
+Every day, NBC News helps people understand what’s happening and why it matters — through fact-based reporting, meaningful conversations, and powerful stories. From its leading news broadcasts — TODAY, NBC Nightly News, Meet the Press, and Dateline — to NBC News NOW, the 24/7 streaming news channel, plus chart-topping podcasts, the NBC News app, and NBCNews.com, NBC News keeps audiences informed and connected to the stories shaping our world. 
+
+NBC News. Reporting for America.
+
+» Subscribe to NBC News: http://nbcnews.to/SubscribeToNBC
+» Subscribe to Here's the Scoop podcast: https://www.nbcnews.com/heres-the-scoop-daily-podcast
+» NBC News App: https://apps.nbcnews.com/mobile
+» Breaking News Al…","2026-09-14T11:05:08Z","https://www.youtube.com/watch?v=QCewQ6J7Jjw","https://i2.ytimg.com/vi/QCewQ6J7Jjw/hqdefault.jpg","political","US","nbc;nightly;news;full;episode;sept","base","","2026-09-14T15:02:47Z"
+"QiKN-GTgz4s","yt-nbc-news","NBC News","Trump urges Ukraine to halt striking Russian diesel facilities","","Trump urges Ukraine to halt striking Russian diesel facilities.
+
+For more context and news coverage of the most important stories of our day, click here: https://www.nbcnews.com
+
+Every day, NBC News helps people understand what’s happening and why it matters — through fact-based reporting, meaningful conversations, and powerful stories. From its leading news broadcasts — TODAY, NBC Nightly News, Meet the Press, and Dateline — to NBC News NOW, the 24/7 streaming news channel, plus chart-topping podcasts, the NBC News app, and NBCNews.com, NBC News keeps audiences informed and connected to the stories shaping our world. 
+
+NBC News. Reporting for America.
+
+» Subscribe to NBC News: http://nbcnews.to/SubscribeToNBC
+» Subscribe to Here's the Scoop podcast: https://www.nbcnews.com/heres-the-scoop-daily-podcast
+» NBC News App: https://apps.nbcnews.com/mobile
+» Breaking News Alerts: https://link.nbcnews.com/join/5cj/breaking-news-signup?cid=sm_npd_nn_yt_bn-clip_190621
+» Visit NBCNews.Com: http://nbcnews.to/ReadNBC
+» Find NBC News on Facebook: http://nbcnews.to/LikeNBC
+» Follow NBC News on Twitter: http://nbcnews.to/FollowNBC
+» Follow NBC News on Instagram: http://nbcnews.to/InstaNBC","2026-09-14T10:25:48Z","https://www.youtube.com/watch?v=QiKN-GTgz4s","https://i2.ytimg.com/vi/QiKN-GTgz4s/hqdefault.jpg","political","US;RU;UA","trump;ukraine;russian","base","","2026-09-14T15:02:47Z"
+"w1LtgxXdIas","yt-ms-now","MS NOW","U.S. links Chinese satellite images to DEADLY Iran strike, per WSJ","","The costly stalemate over the Strait of Hormuz continues as a planned meeting for today between Iran and top diplomats from Gulf Arab states was postponed indefinitely. Meanwhile, The Wall Street Journal has new reporting on China’s support for Iran during the ongoing war. U.S. officials tell the Journal that Tehran acquired high-resolution satellite images of a base in Jordan from Chinese entities before carrying out an attack that killed three U.S. troops in July. One of the authors of that story, Senior Video and National Security Correspondent for The Wall Street Journal, Shelby Holliday, joins Way Too early with the latest. 
+
+MS NOW: My Source for News, Opinion, and the World.
+
+» Subscribe to MS NOW:    / @msnow  
+
+» Subscribe to MS NOW’s We the People Newsletter for exclusive content from your favorite MS NOW anchors. Sign up now for free at https://ms.now/joinus
+
+MS NOW is the go-to destination for domestic and international breaking news, and best-in-class opinion journalism. For more context and news coverage of the most important stories of our day click here: https://www.ms.now/
+#News #Politics #Trump #China #Iran","2026-09-14T10:25:21Z","https://www.youtube.com/watch?v=w1LtgxXdIas","https://i4.ytimg.com/vi/w1LtgxXdIas/hqdefault.jpg","military;strike","US;IR;CN","chinese;deadly;iran;wsj","base","","2026-09-14T15:02:46Z"
+"iSVLZ9AQyvI","yt-scientific-american","Scientific American","From 9/11’s lasting legacy to AI’s disruptive future | Science Quickly Podcast","","In this episode of Science Quickly, we explore newly released 9/11 records and their revelations about the attacks’ lasting health impacts, unpack a controversial artificial intelligence breakthrough that solved one of mathematics’ biggest problems and examine the growing backlash to a massive AI data center as communities grapple with the costs of powering the AI boom.
+
+00:00 – Intro / 9-11 Health Program news
+3:13 – AI news: Navier-Stokes math problem
+7:11 – SpaceXAI's Colossus data center backlash
+10:26 – Outro / credits
+
+Recommended Reading:
+25 years after 9/11, survivors are still getting sick—here are the numbers
+https://www.scientificamerican.com/article/25-years-after-9-11-survivors-are-still-getting-sick-here-are-the-numbers/ 
+AI may have just solved a million-dollar math problem. The field will never be the same
+https://www.scientificamerican.com/article/ai-may-have-just-solved-a-million-dollar-math-problem-the-field-will-never-be-the-same/ 
+The data center backlash comes for SpaceXAI’s Colossus
+https://www.scientificamerican.com/article/spacexais-colossus-data-center-is-fueling-a-massive-backlash/ 
+
+E-mail us at sciencequickly@sciam.com if you have any questions, comments or ideas for stories we should cover!
+
+Discover something new every day. Subscribe to Scientific American: https://www.scientificamerican.com/getsciam/
+
+And sign up for Today in Science, our daily newsletter: https://www.scientificamerican.com/account/email-preferences/
+
+Science Quickly is produce…","2026-09-14T10:15:29Z","https://www.youtube.com/watch?v=iSVLZ9AQyvI","https://i2.ytimg.com/vi/iSVLZ9AQyvI/hqdefault.jpg","military;strike","US","science;quickly;podcast","base","","2026-09-14T15:03:41Z"
+"wH_dS_YdT-4","yt-ms-now","MS NOW","Trump DOUBLING DOWN on $5,000 'pledge' to voters for GOP win","","President Trump is doubling down on his promise to send $5,000 to every American adult if Republicans keep control of Congress in November. But on ‘Meet the Press’ yesterday, House Speaker Mike Johnson wouldn't guarantee that Americans would receive that $5,000 payment promised by the president. Meanwhile, Congress is back on Capitol Hill with a packed agenda. MS NOW political reporter Hunter Woodall joins Way Too Early to break it all down. 
+
+MS NOW: My Source for News, Opinion, and the World.
+
+» Subscribe to MS NOW:    / @msnow  
+
+» Subscribe to MS NOW’s We the People Newsletter for exclusive content from your favorite MS NOW anchors. Sign up now for free at https://ms.now/joinus
+
+MS NOW is the go-to destination for domestic and international breaking news, and best-in-class opinion journalism. For more context and news coverage of the most important stories of our day click here: https://www.ms.now/
+#News #Politics #Trump #2026Midterms #Election #Congress","2026-09-14T10:03:06Z","https://www.youtube.com/watch?v=wH_dS_YdT-4","https://i4.ytimg.com/vi/wH_dS_YdT-4/hqdefault.jpg","political;election","US","trump;doubling;down;gop","base","","2026-09-14T15:02:46Z"
+"RJjHROJh-FI","yt-nobel-prize","Nobel Prize","Announcement of the 2026 Sveriges Riksbank Prize in Economic Sciences in Memory of Alfred Nobel","","The Sveriges Riksbank Prize in Economic Sciences in Memory of Alfred Nobel will be announced at the Royal Swedish Academy of Sciences in Stockholm, Sweden.
+
+#NobelPrize 
+
+Live stream terms of use: https://www.nobelprize.org/prizes/about/live-streams-terms-of-use/","2026-09-14T09:58:14Z","https://www.youtube.com/watch?v=RJjHROJh-FI","https://i3.ytimg.com/vi/RJjHROJh-FI/hqdefault.jpg","political","","announcement;sveriges;riksbank;prize;economic;sciences;memory;alfred;nobel","base","","2026-09-14T15:03:38Z"
+"X006qYLS-xU","yt-nobel-prize","Nobel Prize","Announcement of the 2026 Nobel Peace Prize","","The Nobel Peace Prize will be announced at the Norwegian Nobel Institute in Oslo, Norway.
+
+© Norsk rikskringkasting AS (NRK).
+
+#NobelPrize 
+
+Live stream terms of use: https://www.nobelprize.org/prizes/about/live-streams-terms-of-use/","2026-09-14T09:56:19Z","https://www.youtube.com/watch?v=X006qYLS-xU","https://i1.ytimg.com/vi/X006qYLS-xU/hqdefault.jpg","political","","announcement;nobel;peace;prize","base","","2026-09-14T15:03:38Z"
+"J4BDVhgexxw","yt-neural-breakdown-with-avb","Neural Breakdown with AVB","ML STREAM! | Mechanistic Interpretability | Say hello","","Toy Models for Superposition: https://transformer-circuits.pub/2022/toy_model/index.html
+
+Article coverage starts at 3:00
+
+Follow me on Twitter: https://x.com/neural_avb
+
+To join our Patreon, visit: https://www.patreon.com/NeuralBreakdownwithAVB
+
+Members get access to everything behind-the-scenes that goes into producing my videos - including code. Plus, it supports the channel in a big way and helps to pay my bills.","2026-09-14T09:55:17Z","https://www.youtube.com/watch?v=J4BDVhgexxw","https://i3.ytimg.com/vi/J4BDVhgexxw/hqdefault.jpg","political","","stream;mechanistic;interpretability;say","base","","2026-09-14T15:04:21Z"
+"esq-TPxZHlk","yt-cityburg","Cityburg","You Get Better With Time — Cities: Skylines # #gaming #citiesskylines #game","","","2026-09-14T09:52:36Z","https://www.youtube.com/watch?v=esq-TPxZHlk","https://i2.ytimg.com/vi/esq-TPxZHlk/hqdefault.jpg","political","","get;better;time;cities;skylines","base","","2026-09-14T15:03:31Z"
+"PAY9Lr_R4aU","yt-nobel-prize","Nobel Prize","Announcement of the 2026 Nobel Prize in Literature","","The Nobel Prize in Literature will be announced at the Swedish Academy in Stockholm, Sweden.
+ 
+#NobelPrize 
+
+Live stream terms of use: https://www.nobelprize.org/prizes/about/live-streams-terms-of-use/","2026-09-14T09:52:33Z","https://www.youtube.com/watch?v=PAY9Lr_R4aU","https://i1.ytimg.com/vi/PAY9Lr_R4aU/hqdefault.jpg","political","","announcement;nobel;prize;literature","base","","2026-09-14T15:03:38Z"
+"a9Bhx9wEt8U","yt-nobel-prize","Nobel Prize","Announcement of the 2026 Nobel Prize in Chemistry","","The Nobel Prize in Chemistry will be announced at the Royal Swedish Academy of Sciences in Stockholm, Sweden.
+
+#NobelPrize 
+
+© Nobel Prize Outreach
+
+Live stream terms of use: https://www.nobelprize.org/prizes/about/live-streams-terms-of-use/","2026-09-14T09:43:10Z","https://www.youtube.com/watch?v=a9Bhx9wEt8U","https://i2.ytimg.com/vi/a9Bhx9wEt8U/hqdefault.jpg","political","","announcement;nobel;prize;chemistry","base","","2026-09-14T15:03:38Z"
+"jb-A6lXfcMI","yt-cnn","CNN","Trump dismisses China spying concerns: ‘We spy on them too’","","President Trump responded to a report from the Wall Street Journal that Chinese entities provided Iran with satellite imagery of US military bases, saying China spies on the US and “we spy on them too.” #CNN #news","2026-09-14T09:41:43Z","https://www.youtube.com/watch?v=jb-A6lXfcMI","https://i3.ytimg.com/vi/jb-A6lXfcMI/hqdefault.jpg","intelligence","US;IR;CN","trump;china","base","","2026-09-14T15:02:45Z"
+"a7AA20ckQuw","yt-bbc-news","BBC News","Houthis claim major advance on Red Sea coast | BBC News","","Tit-for-tat strikes have continued in Yemen between the Iranian-backed Houthi rebels and pro-government forces aligned to Saudi Arabia. 
+ 
+It comes after a series of military advances by the Houthis, which threaten Saudi oil production. 
+ 
+Those significant territorial gains along the western coast in recent days, including taking Perim Island, a key strategic point next to the Bab al-Mandab Strait, could give the Houthis a possible stronger hold over the strategic waterway. 
+
+Subscribe to our channel here: https://bbc.in/bbcnews
+
+For the latest news download the BBC News app or visit BBC.com/news
+
+#Yemen #BBCNews","2026-09-14T09:30:30Z","https://www.youtube.com/watch?v=a7AA20ckQuw","https://i2.ytimg.com/vi/a7AA20ckQuw/hqdefault.jpg","military;strike","IR;YE;SA","houthis;red;sea;bbc;news","base","","2026-09-14T15:02:41Z"
+"HTi0PU_yPvU","yt-nobel-prize","Nobel Prize","Announcement of the 2026 Nobel Prize in Physics","","The Nobel Prize in Physics will be announced at the Royal Swedish Academy of Sciences in Stockholm, Sweden.
+ 
+#NobelPrize 
+
+Live stream terms of use: https://www.nobelprize.org/prizes/about/live-streams-terms-of-use/","2026-09-14T09:20:53Z","https://www.youtube.com/watch?v=HTi0PU_yPvU","https://i1.ytimg.com/vi/HTi0PU_yPvU/hqdefault.jpg","political","","announcement;nobel;prize;physics","base","","2026-09-14T15:03:38Z"
+"2uVwY8vl7yY","yt-cnn","CNN","Trump says he uses AI, but won’t say how","","President Trump told reporters he personally uses artificial intelligence “for a lot of things,” but declined to reveal exactly how. He also said the US is leading China in the race to develop AI.","2026-09-14T09:18:15Z","https://www.youtube.com/watch?v=2uVwY8vl7yY","https://i3.ytimg.com/vi/2uVwY8vl7yY/hqdefault.jpg","political","CN","trump","base","","2026-09-14T15:02:45Z"
+"qGPpW0hAaaY","yt-nobel-prize","Nobel Prize","Announcement of the 2026 Nobel Prize in Physiology or Medicine","","The Nobel Prize in Physiology or Medicine will be announced at the Nobel Assembly at Karolinska Institutet in Stockholm, Sweden.
+ 
+#NobelPrize 
+
+Live stream terms of use: https://www.nobelprize.org/prizes/about/live-streams-terms-of-use/","2026-09-14T09:10:08Z","https://www.youtube.com/watch?v=qGPpW0hAaaY","https://i2.ytimg.com/vi/qGPpW0hAaaY/hqdefault.jpg","political","","announcement;nobel;prize;physiology;medicine","base","","2026-09-14T15:03:38Z"
+"Vj5pB_uhLJ4","yt-bbc-news","BBC News","How to keep your stuff safe at uni. #Students #University #BBCNews","","","2026-09-14T08:37:52Z","https://www.youtube.com/watch?v=Vj5pB_uhLJ4","https://i3.ytimg.com/vi/Vj5pB_uhLJ4/hqdefault.jpg","political","","students;university;bbcnews","base","","2026-09-14T15:02:41Z"
+"09JJWv-RwOs","yt-cnn","CNN","Will Iran-Saudi tensions complicate Trump's hope to end war?","","President Trump has said that he wants to end the war in Iran by the midterm elections, but that plan could be complicated as tensions escalate between Iran and Saudi Arabia. CNN's Larry Madowo reports.","2026-09-14T08:30:27Z","https://www.youtube.com/watch?v=09JJWv-RwOs","https://i1.ytimg.com/vi/09JJWv-RwOs/hqdefault.jpg","political;election","IR;SA","will;iran-saudi;trump","base","","2026-09-14T15:02:45Z"
+"q9kW5UoYhSU","yt-nbc-news","NBC News","Charlie Kirk statue vandalized in Phoenix","","Charlie Kirk statue vandalized in Phoenix.
+
+For more context and news coverage of the most important stories of our day, click here: https://www.nbcnews.com
+
+Every day, NBC News helps people understand what’s happening and why it matters — through fact-based reporting, meaningful conversations, and powerful stories. From its leading news broadcasts — TODAY, NBC Nightly News, Meet the Press, and Dateline — to NBC News NOW, the 24/7 streaming news channel, plus chart-topping podcasts, the NBC News app, and NBCNews.com, NBC News keeps audiences informed and connected to the stories shaping our world. 
+
+NBC News. Reporting for America.
+
+» Subscribe to NBC News: http://nbcnews.to/SubscribeToNBC
+» Subscribe to Here's the Scoop podcast: https://www.nbcnews.com/heres-the-scoop-daily-podcast
+» NBC News App: https://apps.nbcnews.com/mobile
+» Breaking News Alerts: https://link.nbcnews.com/join/5cj/breaking-news-signup?cid=sm_npd_nn_yt_bn-clip_190621
+» Visit NBCNews.Com: http://nbcnews.to/ReadNBC
+» Find NBC News on Facebook: http://nbcnews.to/LikeNBC
+» Follow NBC News on Twitter: http://nbcnews.to/FollowNBC
+» Follow NBC News on Instagram: http://nbcnews.to/InstaNBC","2026-09-14T08:17:07Z","https://www.youtube.com/watch?v=q9kW5UoYhSU","https://i2.ytimg.com/vi/q9kW5UoYhSU/hqdefault.jpg","political","US","charlie;kirk;phoenix","base","","2026-09-14T15:02:47Z"
+"gosn1vf3Eic","yt-bbc-news","BBC News","MPs and Lords call for new law to address AI threat to human rights | BBC News","","A cross-party group of MPs and peers has identified human rights risks posed by artificial intelligence (AI) which existing laws, they argue, are ill-equipped to cover.
+ 
+The Joint Committee on Human Rights published a report calling for a new bill on AI to ""address the scale and seriousness"" of such threats.
+ 
+""Nowhere in the world, including the UK, has a current legislative and regulatory approach to AI that is fit for purpose,"" said Labour MP and committee chair Alex Sobel. 
+
+Subscribe to our channel here: https://bbc.in/bbcnews
+
+For the latest news download the BBC News app or visit BBC.com/news
+
+#AI #Technology #BBCNews","2026-09-14T08:10:52Z","https://www.youtube.com/watch?v=gosn1vf3Eic","https://i4.ytimg.com/vi/gosn1vf3Eic/hqdefault.jpg","political","","mps;lords;bbc;news","base","","2026-09-14T15:02:41Z"
+"spUfVwbCLVY","yt-cnn","CNN","Search intensifies for 129 people missing in Java Sea","","Over 100 people are still missing at sea after a ferry capsized as rescuers battle rough waves to find them. CNN’s Mike Valerio reports.","2026-09-14T07:33:47Z","https://www.youtube.com/watch?v=spUfVwbCLVY","https://i4.ytimg.com/vi/spUfVwbCLVY/hqdefault.jpg","political","","search;java;sea","base","","2026-09-14T15:02:45Z"
+"Zqv6jbD2fhE","yt-cnn","CNN","New Charlie Kirk statue vandalized","","Turning Point USA said a newly installed statue of its founder, the late Charlie Kirk, was vandalized overnight in Phoenix, Arizona, and vowed to restore it.","2026-09-14T07:02:26Z","https://www.youtube.com/watch?v=Zqv6jbD2fhE","https://i3.ytimg.com/vi/Zqv6jbD2fhE/hqdefault.jpg","political","","charlie;kirk","base","","2026-09-14T15:02:45Z"
+"dNZtG1af44I","yt-bbc-news","BBC News","Linkin Park’s Joe Hahn: Why acknowledging the criticism was essential | BBC News","","After Chester Bennington's death in 2017, Linkin Park went on an indefinite hiatus. In 2024, the band returned with new music and a new co-vocalist, Emily Armstrong.
+ 
+But what happened behind closed doors during the years in between? In their new documentary film Unshatter, Linkin Park share the process of deciding to make music together again.
+ 
+BBC News' Mel Ramsay speaks with band member and Unshatter director Joe Hahn about navigating grief as well as dealing with criticism - and why the band felt ready to return.
+
+Subscribe to our channel here: https://bbc.in/bbcnews
+
+For the latest news download the BBC News app or visit BBC.com/news
+
+#LinkinPark #JoeHahn #Unshatter #EmilyArmstrong #BBCNews","2026-09-14T07:00:12Z","https://www.youtube.com/watch?v=dNZtG1af44I","https://i1.ytimg.com/vi/dNZtG1af44I/hqdefault.jpg","political","","linkin;park;joe;hahn;bbc;news","base","","2026-09-14T15:02:41Z"
+"CS0iatBXZ6c","yt-bbc-news","BBC News","Linkin Park's Joe Hahn on criticism of band's return. #LinkinPark #Unshatter #BBCNews","","Subscribe to our channel here: https://bbc.in/bbcnews
+
+For the latest news download the BBC News app or visit BBC.com/news
+
+#BBCNews","2026-09-14T06:43:20Z","https://www.youtube.com/watch?v=CS0iatBXZ6c","https://i4.ytimg.com/vi/CS0iatBXZ6c/hqdefault.jpg","political","","linkin;park;joe;hahn;linkinpark;unshatter;bbcnews","base","","2026-09-14T15:02:41Z"
+"iHESKXyF5Aw","yt-cnn","CNN","Alexander Zverev wins 2026 US Open","","Men’s top seed Alexander Zverev won a thrilling four-set, three-hour and 33 minute showdown with No. 8 seed Ben Shelton 6-3, 7-6 (2), 5-7, 6-2 to win his first career US Open title on Sunday.","2026-09-14T05:19:43Z","https://www.youtube.com/watch?v=iHESKXyF5Aw","https://i2.ytimg.com/vi/iHESKXyF5Aw/hqdefault.jpg","political","","alexander;zverev;open","base","","2026-09-14T15:02:45Z"
+"kjPVgIRZ6NQ","yt-bbc-news","BBC News","The billionaires who bankrolled Epstein | BBC News","","It’s a sex abuse scandal that has gripped the world. But despite all the headlines and stories, important questions remain unanswered about Jeffrey Epstein. 
+ 
+How did he become so powerful? How did he befriend so many important people? And where did the money come from that allowed him to abuse hundreds of girls and young women?
+ 
+Panorama follows the crooked money trail to show how Epstein conned and ingratiated his way into the lives of the super-rich and then used their money to fund his global sex trafficking operation.
+
+Subscribe to our channel here: https://bbc.in/bbcnews
+
+For the latest news download the BBC News app or visit BBC.com/news
+
+#BBCNews","2026-09-14T05:00:08Z","https://www.youtube.com/watch?v=kjPVgIRZ6NQ","https://i4.ytimg.com/vi/kjPVgIRZ6NQ/hqdefault.jpg","political","","epstein;bbc;news","base","","2026-09-14T15:02:41Z"
+"duYGWAjZtZU","yt-cnn","CNN","Early glimpse of Prince Harry and Meghan back in the UK","","Six years after moving out of the UK and stepping away from royal life, Prince Harry and Meghan, Duchess of Sussex are sharing glimpses of their personal life on social media after their return to the country.","2026-09-14T04:49:55Z","https://www.youtube.com/watch?v=duYGWAjZtZU","https://i1.ytimg.com/vi/duYGWAjZtZU/hqdefault.jpg","political","","early;prince;harry;meghan","base","","2026-09-14T15:02:45Z"
+"oOBZoUyZa5k","yt-nbc-news","NBC News","Third person dies in Pennsylvania measles outbreak","","Third person dies in Pennsylvania measles outbreak.
+
+For more context and news coverage of the most important stories of our day, click here: https://www.nbcnews.com
+
+Every day, NBC News helps people understand what’s happening and why it matters — through fact-based reporting, meaningful conversations, and powerful stories. From its leading news broadcasts — TODAY, NBC Nightly News, Meet the Press, and Dateline — to NBC News NOW, the 24/7 streaming news channel, plus chart-topping podcasts, the NBC News app, and NBCNews.com, NBC News keeps audiences informed and connected to the stories shaping our world. 
+
+NBC News. Reporting for America.
+
+» Subscribe to NBC News: http://nbcnews.to/SubscribeToNBC
+» Subscribe to Here's the Scoop podcast: https://www.nbcnews.com/heres-the-scoop-daily-podcast
+» NBC News App: https://apps.nbcnews.com/mobile
+» Breaking News Alerts: https://link.nbcnews.com/join/5cj/breaking-news-signup?cid=sm_npd_nn_yt_bn-clip_190621
+» Visit NBCNews.Com: http://nbcnews.to/ReadNBC
+» Find NBC News on Facebook: http://nbcnews.to/LikeNBC
+» Follow NBC News on Twitter: http://nbcnews.to/FollowNBC
+» Follow NBC News on Instagram: http://nbcnews.to/InstaNBC","2026-09-14T04:27:40Z","https://www.youtube.com/watch?v=oOBZoUyZa5k","https://i4.ytimg.com/vi/oOBZoUyZa5k/hqdefault.jpg","political","US","third;pennsylvania","base","","2026-09-14T15:02:47Z"
+"grxFeW3BjYA","yt-cnn","CNN","Tech CEOs agree it's time to act on AI. Now what?","","Anthropic CEO Dario Amodei’s ""Pacing the Frontier"" proposal is garnering the support of other tech giants like Sam Altman and Elon Musk. Where do we go from here? CNN’s Hadas Gold reports.","2026-09-14T04:14:50Z","https://www.youtube.com/watch?v=grxFeW3BjYA","https://i4.ytimg.com/vi/grxFeW3BjYA/hqdefault.jpg","political","","tech;ceos;now","base","","2026-09-14T15:02:45Z"
+"qmCaLOAoTX8","yt-cnn","CNN","Washington leaders are far from being on the same page over AI","","Although AI CEOs Sam Altman and Elon Musk, among others, agreed with Dario Amodei's proposal to work together to slow down development of the technology, CNN's Jake Tapper notes that political leaders seem to be far from being in any sort of agreement.
+
+Editor's note: This video has been updated with the city in Ireland where President Trump made his remarks on Sunday.","2026-09-14T03:48:22Z","https://www.youtube.com/watch?v=qmCaLOAoTX8","https://i2.ytimg.com/vi/qmCaLOAoTX8/hqdefault.jpg","political","US","washington","base","","2026-09-14T15:02:45Z"
+"BKQcJPHgQOQ","yt-nbc-news","NBC News","Trump draws criticism for comments on Irish reunification","","Trump draws criticism for comments on Irish reunification.
+
+For more context and news coverage of the most important stories of our day, click here: https://www.nbcnews.com
+
+Every day, NBC News helps people understand what’s happening and why it matters — through fact-based reporting, meaningful conversations, and powerful stories. From its leading news broadcasts — TODAY, NBC Nightly News, Meet the Press, and Dateline — to NBC News NOW, the 24/7 streaming news channel, plus chart-topping podcasts, the NBC News app, and NBCNews.com, NBC News keeps audiences informed and connected to the stories shaping our world. 
+
+NBC News. Reporting for America.
+
+» Subscribe to NBC News: http://nbcnews.to/SubscribeToNBC
+» Subscribe to Here's the Scoop podcast: https://www.nbcnews.com/heres-the-scoop-daily-podcast
+» NBC News App: https://apps.nbcnews.com/mobile
+» Breaking News Alerts: https://link.nbcnews.com/join/5cj/breaking-news-signup?cid=sm_npd_nn_yt_bn-clip_190621
+» Visit NBCNews.Com: http://nbcnews.to/ReadNBC
+» Find NBC News on Facebook: http://nbcnews.to/LikeNBC
+» Follow NBC News on Twitter: http://nbcnews.to/FollowNBC
+» Follow NBC News on Instagram: http://nbcnews.to/InstaNBC","2026-09-14T03:25:44Z","https://www.youtube.com/watch?v=BKQcJPHgQOQ","https://i3.ytimg.com/vi/BKQcJPHgQOQ/hqdefault.jpg","political","US","trump;irish","base","","2026-09-14T15:02:47Z"
+"u5aMLqxCQ8U","yt-cnn","CNN","Could the US and China go to war over Taiwan?","","As military drills surrounding Taiwan have become a routine reality, global observers are trying to predict whether Beijing could one day invade the self-governing island of Taiwan. CNN’s Will Ripley explains the factors that could lead to conflict. Stream the rest of ""Meanwhile in Asia"" on the CNN app.
+
+Watch 24/7 live news with CNN Headlines: https://bit.ly/4eIvlTr
+
+#News","2026-09-14T02:00:13Z","https://www.youtube.com/watch?v=u5aMLqxCQ8U","https://i2.ytimg.com/vi/u5aMLqxCQ8U/hqdefault.jpg","political","CN;TW","could;china;taiwan","base","","2026-09-14T15:02:45Z"
+"8jTlKOiy4io","yt-nbc-news","NBC News","U.S. fuel prices climb as Middle East fighting escalates","","U.S. fuel prices climb as Middle East fighting escalates.
+
+For more context and news coverage of the most important stories of our day, click here: https://www.nbcnews.com
+
+Every day, NBC News helps people understand what’s happening and why it matters — through fact-based reporting, meaningful conversations, and powerful stories. From its leading news broadcasts — TODAY, NBC Nightly News, Meet the Press, and Dateline — to NBC News NOW, the 24/7 streaming news channel, plus chart-topping podcasts, the NBC News app, and NBCNews.com, NBC News keeps audiences informed and connected to the stories shaping our world. 
+
+NBC News. Reporting for America.
+
+» Subscribe to NBC News: http://nbcnews.to/SubscribeToNBC
+» Subscribe to Here's the Scoop podcast: https://www.nbcnews.com/heres-the-scoop-daily-podcast
+» NBC News App: https://apps.nbcnews.com/mobile
+» Breaking News Alerts: https://link.nbcnews.com/join/5cj/breaking-news-signup?cid=sm_npd_nn_yt_bn-clip_190621
+» Visit NBCNews.Com: http://nbcnews.to/ReadNBC
+» Find NBC News on Facebook: http://nbcnews.to/LikeNBC
+» Follow NBC News on Twitter: http://nbcnews.to/FollowNBC
+» Follow NBC News on Instagram: http://nbcnews.to/InstaNBC","2026-09-14T01:05:20Z","https://www.youtube.com/watch?v=8jTlKOiy4io","https://i1.ytimg.com/vi/8jTlKOiy4io/hqdefault.jpg","political","US","middle;east","base","","2026-09-14T15:02:47Z"
+"2Brel6EKxmM","yt-nbc-news","NBC News","Turkish Airlines flight diverts after severe turbulence","","Turkish Airlines flight diverts after severe turbulence.
+
+For more context and news coverage of the most important stories of our day, click here: https://www.nbcnews.com
+
+Every day, NBC News helps people understand what’s happening and why it matters — through fact-based reporting, meaningful conversations, and powerful stories. From its leading news broadcasts — TODAY, NBC Nightly News, Meet the Press, and Dateline — to NBC News NOW, the 24/7 streaming news channel, plus chart-topping podcasts, the NBC News app, and NBCNews.com, NBC News keeps audiences informed and connected to the stories shaping our world. 
+
+NBC News. Reporting for America.
+
+» Subscribe to NBC News: http://nbcnews.to/SubscribeToNBC
+» Subscribe to Here's the Scoop podcast: https://www.nbcnews.com/heres-the-scoop-daily-podcast
+» NBC News App: https://apps.nbcnews.com/mobile
+» Breaking News Alerts: https://link.nbcnews.com/join/5cj/breaking-news-signup?cid=sm_npd_nn_yt_bn-clip_190621
+» Visit NBCNews.Com: http://nbcnews.to/ReadNBC
+» Find NBC News on Facebook: http://nbcnews.to/LikeNBC
+» Follow NBC News on Twitter: http://nbcnews.to/FollowNBC
+» Follow NBC News on Instagram: http://nbcnews.to/InstaNBC","2026-09-14T00:52:21Z","https://www.youtube.com/watch?v=2Brel6EKxmM","https://i3.ytimg.com/vi/2Brel6EKxmM/hqdefault.jpg","political","US","turkish;airlines","base","","2026-09-14T15:02:47Z"
+"MwL4GLCel-I","yt-cnn","CNN","‘God was looking after us’: Rep. Tom Tiffany describes emergency landing","","Wisconsin congressman Tom Tiffany gives an emotional recounting of how the Beechcraft K35 aircraft he was on lost power then made an emergency landing on Saturday night, describing how his plane plunged into the pitch-black dark Lake Wausau.","2026-09-14T00:38:28Z","https://www.youtube.com/watch?v=MwL4GLCel-I","https://i2.ytimg.com/vi/MwL4GLCel-I/hqdefault.jpg","political","","god;rep;tom;tiffany","base","","2026-09-14T15:02:45Z"
+"iGxVXlKEqhg","yt-bbc-news","BBC News","Russia hits train in Ukraine after Boris Johnson, top European officials leave station | BBC News","","A Russian drone has hit a train near the Ukraine-Poland border shortly after former UK Prime Minister Boris Johnson and top European security officials had passed through.
+ 
+No casualties were reported after the strike at Yahodyn, which hit the train's engine. All the passengers had been evacuated, Ukrainian authorities said.
+ 
+Johnson and other European national security advisers, including the UK's Jonathan Powell, had passed along the same line on a different train on their way back from a conference in Kyiv.
+ 
+Russia said it had struck ""railway infrastructure"" in western Ukraine, but Ukraine's state railway company Ukrzaliznytsia said that ""quite possibly, the target of this drone could have been the diplomatic train"".
+
+Subscribe to our channel here: https://bbc.in/bbcnews
+
+For the latest news download the BBC News app or visit BBC.com/news
+
+#BBCNews","2026-09-14T00:00:06Z","https://www.youtube.com/watch?v=iGxVXlKEqhg","https://i2.ytimg.com/vi/iGxVXlKEqhg/hqdefault.jpg","military;drone_strike","RU;UA;PL","russia;ukraine;boris;johnson;european;bbc;news","base","","2026-09-14T15:02:41Z"
+"jvPXkbT-9Hw","yt-nbc-news","NBC News","Fuel prices rise as fighting expands in the Middle East","","As the conflict in the Middle East escalates, fuel prices are rising in the United States. NBC News’ Keir Simmons has the latest.
+
+For more context and news coverage of the most important stories of our day, click here: https://www.nbcnews.com
+
+Every day, NBC News helps people understand what’s happening and why it matters — through fact-based reporting, meaningful conversations, and powerful stories. From its leading news broadcasts — TODAY, NBC Nightly News, Meet the Press, and Dateline — to NBC News NOW, the 24/7 streaming news channel, plus chart-topping podcasts, the NBC News app, and NBCNews.com, NBC News keeps audiences informed and connected to the stories shaping our world. 
+
+NBC News. Reporting for America.
+
+» Subscribe to NBC News: http://nbcnews.to/SubscribeToNBC
+» Subscribe to Here's the Scoop podcast: https://www.nbcnews.com/heres-the-scoop-daily-podcast
+» NBC News App: https://apps.nbcnews.com/mobile
+» Breaking News Alerts: https://link.nbcnews.com/join/5cj/breaking-news-signup?cid=sm_npd_nn_yt_bn-clip_190621
+» Visit NBCNews.Com: http://nbcnews.to/ReadNBC
+» Find NBC News on Facebook: http://nbcnews.to/LikeNBC
+» Follow NBC News on Twitter: http://nbcnews.to/FollowNBC
+» Follow NBC News on Instagram: http://nbcnews.to/InstaNBC","2026-09-13T23:23:50Z","https://www.youtube.com/watch?v=jvPXkbT-9Hw","https://i3.ytimg.com/vi/jvPXkbT-9Hw/hqdefault.jpg","political","US","fuel;middle;east","base","","2026-09-14T15:02:47Z"
+"1A6zkpXgaW8","yt-nbc-news","NBC News","Good News: Football fan picked to be offensive coordinator for college game","","At the University of Akron’s home opener over the weekend, school alumnus and longtime season ticketholder Marty Whims was chosen to serve as the team’s “Offensive Coordinator of the Game,” and helped to lead the Zips to victory. NBC News’ Hallie Jackson has the story.
+
+For more context and news coverage of the most important stories of our day, click here: https://www.nbcnews.com
+
+Every day, NBC News helps people understand what’s happening and why it matters — through fact-based reporting, meaningful conversations, and powerful stories. From its leading news broadcasts — TODAY, NBC Nightly News, Meet the Press, and Dateline — to NBC News NOW, the 24/7 streaming news channel, plus chart-topping podcasts, the NBC News app, and NBCNews.com, NBC News keeps audiences informed and connected to the stories shaping our world. 
+
+NBC News. Reporting for America.
+
+» Subscribe to NBC News: http://nbcnews.to/SubscribeToNBC
+» Subscribe to Here's the Scoop podcast: https://www.nbcnews.com/heres-the-scoop-daily-podcast
+» NBC News App: https://apps.nbcnews.com/mobile
+» Breaking News Alerts: https://link.nbcnews.com/join/5cj/breaking-news-signup?cid=sm_npd_nn_yt_bn-clip_190621
+» Visit NBCNews.Com: http://nbcnews.to/ReadNBC
+» Find NBC News on Facebook: http://nbcnews.to/LikeNBC
+» Follow NBC News on Twitter: http://nbcnews.to/FollowNBC
+» Follow NBC News on Instagram: http://nbcnews.to/InstaNBC","2026-09-13T23:23:26Z","https://www.youtube.com/watch?v=1A6zkpXgaW8","https://i2.ytimg.com/vi/1A6zkpXgaW8/hqdefault.jpg","military;strike","US;NATO","good;news;football","base","","2026-09-14T15:02:47Z"
+"50MsIybpwoE","yt-nbc-news","NBC News","Top AI chief executives publicly agree on slowing AI development","","The CEOs of two of the world’s leading AI companies are publicly agreeing that the race to build increasingly powerful AI systems needs to be slowed, continuing the cascade of warnings from researchers working on the technology. NBC News’ Allie Canal reports.
+
+For more context and news coverage of the most important stories of our day, click here: https://www.nbcnews.com
+
+Every day, NBC News helps people understand what’s happening and why it matters — through fact-based reporting, meaningful conversations, and powerful stories. From its leading news broadcasts — TODAY, NBC Nightly News, Meet the Press, and Dateline — to NBC News NOW, the 24/7 streaming news channel, plus chart-topping podcasts, the NBC News app, and NBCNews.com, NBC News keeps audiences informed and connected to the stories shaping our world. 
+
+NBC News. Reporting for America.
+
+» Subscribe to NBC News: http://nbcnews.to/SubscribeToNBC
+» Subscribe to Here's the Scoop podcast: https://www.nbcnews.com/heres-the-scoop-daily-podcast
+» NBC News App: https://apps.nbcnews.com/mobile
+» Breaking News Alerts: https://link.nbcnews.com/join/5cj/breaking-news-signup?cid=sm_npd_nn_yt_bn-clip_190621
+» Visit NBCNews.Com: http://nbcnews.to/ReadNBC
+» Find NBC News on Facebook: http://nbcnews.to/LikeNBC
+» Follow NBC News on Twitter: http://nbcnews.to/FollowNBC
+» Follow NBC News on Instagram: http://nbcnews.to/InstaNBC","2026-09-13T23:23:18Z","https://www.youtube.com/watch?v=50MsIybpwoE","https://i2.ytimg.com/vi/50MsIybpwoE/hqdefault.jpg","political","US","top","base","","2026-09-14T15:02:47Z"
+"MXWwd98s3_4","yt-nbc-news","NBC News","Could this NFL season be the biggest yet for prediction markets?","","The 2026 NFL season is officially underway and while sports betting is nothing new, analysts say this could be the biggest season yet for football prediction markets. Trading on sites like Kalshi and Polymarket could top $36 billion. NBC News’ Jesse Kirsch has a closer look.
+
+For more context and news coverage of the most important stories of our day, click here: https://www.nbcnews.com
+
+Every day, NBC News helps people understand what’s happening and why it matters — through fact-based reporting, meaningful conversations, and powerful stories. From its leading news broadcasts — TODAY, NBC Nightly News, Meet the Press, and Dateline — to NBC News NOW, the 24/7 streaming news channel, plus chart-topping podcasts, the NBC News app, and NBCNews.com, NBC News keeps audiences informed and connected to the stories shaping our world. 
+
+NBC News. Reporting for America.
+
+» Subscribe to NBC News: http://nbcnews.to/SubscribeToNBC
+» Subscribe to Here's the Scoop podcast: https://www.nbcnews.com/heres-the-scoop-daily-podcast
+» NBC News App: https://apps.nbcnews.com/mobile
+» Breaking News Alerts: https://link.nbcnews.com/join/5cj/breaking-news-signup?cid=sm_npd_nn_yt_bn-clip_190621
+» Visit NBCNews.Com: http://nbcnews.to/ReadNBC
+» Find NBC News on Facebook: http://nbcnews.to/LikeNBC
+» Follow NBC News on Twitter: http://nbcnews.to/FollowNBC
+» Follow NBC News on Instagram: http://nbcnews.to/InstaNBC","2026-09-13T23:23:11Z","https://www.youtube.com/watch?v=MXWwd98s3_4","https://i2.ytimg.com/vi/MXWwd98s3_4/hqdefault.jpg","social;noise","US","could;nfl","base","","2026-09-14T15:02:47Z"
+"K9-h8e2uxPQ","yt-bbc-news","BBC News","Donald Trump dismisses AI warnings saying his goal is beating China","","Donald Trump has brushed aside  the risks posed by artificial intelligence following days of dire warnings by experts.
+
+""You have a lot of very negative forces that are bringing it up that shouldn't be bringing it up and they're bringing up things that won't happen,"" Trump said during a visit to Ireland.
+
+One of the warnings came from a former Anthropic researcher who said ""there is a strong chance that we could all die in the immediate future"" if the current pace of development continued.
+
+Some of the AI industry's biggest companies agreed, with their bosses supporting a slow-down. Trump did not directly address the idea, but said: ""We're leading China on AI... and, frankly, I want to keep it that way because whoever wins AI, wins.""
+
+Trump spoke on the same day AI researcher Jacob Coxon - who quit Anthropic a few days ago - told the BBC that staff who were developing the systems were ""genuinely frightened"" for the future of humanity.
+
+Coxon – who has also worked at OpenAI – welcomed the idea of a slowdown but said it would need to be co-ordinated with China.
+
+On Saturday, Elon Musk, owner of xAI, and Sam Altman of OpenAI, backed a warning from the head of Anthropic, Dario Amodei, that the pace of development must be slowed ""to reduce the risk that something goes seriously wrong"".
+
+Jane Hill presents BBC News at Ten reporting by Ben King and Simon Jack.
+
+Subscribe to our channel here: https://bbc.in/bbcnews
+
+For the latest news download the BBC News app or visit BBC.com/news…","2026-09-13T23:13:45Z","https://www.youtube.com/watch?v=K9-h8e2uxPQ","https://i4.ytimg.com/vi/K9-h8e2uxPQ/hqdefault.jpg","social;noise","CN","donald;trump;china","base","","2026-09-14T15:02:41Z"
+"SXoRiLT1TXg","yt-kyla-scanlon","Kyla Scanlon","The Supposed AI Slowdown","","","2026-09-13T21:56:23Z","https://www.youtube.com/watch?v=SXoRiLT1TXg","https://i4.ytimg.com/vi/SXoRiLT1TXg/hqdefault.jpg","political","","supposed;slowdown","base","","2026-09-14T15:02:56Z"
+"vlnOihQ5qxE","yt-geography-now","Geography Now","EVEREST❌- GORNO BADAKHSHAN✅","","","2026-09-13T21:47:58Z","https://www.youtube.com/watch?v=vlnOihQ5qxE","https://i3.ytimg.com/vi/vlnOihQ5qxE/hqdefault.jpg","political","","everest;gorno;badakhshan","base","","2026-09-14T15:03:30Z"
+"PKPIkB4lgIc","yt-ms-now","MS NOW","‘They don’t give a DAMN’: Congressman SLAMS Trump admin ‘rich and famous’","","With the midterms around the corner, the affordability crisis could have major consequences for Republicans at the ballot box. Gas prices are surging and inflation is rising, but Trump says the economy is ""the greatest"" America has ever seen. But just in case, he's now promising to send every adult citizen in the country a check for $5,000 if Republicans hold the House and Senate. “It's meant to be a distraction,” says Rep. Jim McGovern. ""It's going to cost like $1.3 trillion. I don't know where they're going to get the money from…they have screwed up this economy royally.”
+
+MS NOW: My Source for News, Opinion, and the World.
+» Subscribe to MS NOW: https://www.youtube.com/@msnow
+MS NOW is the go-to destination for domestic and international breaking news, and best-in-class opinion
+journalism. For more context and news coverage of the most important stories of our day click here:
+https://www.ms.now/
+
+#trump #economy #affordability","2026-09-13T21:06:49Z","https://www.youtube.com/watch?v=PKPIkB4lgIc","https://i1.ytimg.com/vi/PKPIkB4lgIc/hqdefault.jpg","economic","US","they;damn;congressman;slams;trump","base","","2026-09-14T15:02:46Z"
+"LfhgOYFMUxk","yt-ms-now","MS NOW","‘ZERO’ percent chance gas prices drop, Iran war ends after midterms: Ret. Lt. General","","President Trump insists today gas pieces will come down and the Iran war will end after the midterms, even though diesel hit another new record high today. Retired Lieutenant General Mark Hertling and geopolitics analyst Bobby Ghosh join Antonia Hylton to share their thoughts on the state of the Iran war and political developments in the Middle East.
+
+MS NOW: My Source for News, Opinion, and the World.
+
+» Subscribe to MS NOW: https://www.youtube.com/@msnow
+
+» Subscribe to MS NOW’s We the People Newsletter for exclusive content from your favorite MS NOW anchors. Sign up now for free at https://ms.now/joinus
+
+MS NOW is the go-to destination for domestic and international breaking news, and best-in-class opinion journalism. For more context and news coverage of the most important stories of our day click here: https://www.ms.now/
+
+#politics #trump #iran","2026-09-13T21:04:03Z","https://www.youtube.com/watch?v=LfhgOYFMUxk","https://i1.ytimg.com/vi/LfhgOYFMUxk/hqdefault.jpg","political","IR","zero;iran;ret;general","base","","2026-09-14T15:02:46Z"
+"qt6ozob5ZTg","yt-ms-now","MS NOW","‘DARK money’: New nightmare scenario around AI brings politics of regulation into focus","","Some of the most prominent leaders in the AI industry are calling for a slowdown in the pace of development as fears over uncontrollable AI advancement grows. MS NOW Senior Reporter Brandy Zadrozny, MS NOW Analyst, Journalist and Anchor Ayman Mohyeldin and Vox Editorial Director Astead Herndon join Antonia Hylton to weigh in on what Congress can do to rein in AI and more.
+
+MS NOW: My Source for News, Opinion, and the World.
+
+» Subscribe to MS NOW: https://www.youtube.com/@msnow
+
+» Subscribe to MS NOW’s We the People Newsletter for exclusive content from your favorite MS NOW anchors. Sign up now for free at https://ms.now/joinus
+
+MS NOW is the go-to destination for domestic and international breaking news, and best-in-class opinion journalism. For more context and news coverage of the most important stories of our day click here: https://www.ms.now/
+
+#politics #ai #congress","2026-09-13T21:03:04Z","https://www.youtube.com/watch?v=qt6ozob5ZTg","https://i2.ytimg.com/vi/qt6ozob5ZTg/hqdefault.jpg","political","","dark","base","","2026-09-14T15:02:46Z"
+"gd2Z7nBQkh8","yt-ms-now","MS NOW","GOP will use ‘silly, EMPTY promises’ in midterms desperation gamble: Strategist","","Republican House Speaker Mike Johnson (R-LA) calls President Trump’s promise to pay Americans $5,000 if the GOP keeps Congress “creative” as other Republicans express skepticism. MS NOW Business Analyst Ron Insana, Democratic strategist Joel Payne, and Lincoln Project Senior Advisor Stuart Stevens join Antonia Hylton to share their thoughts.
+
+MS NOW: My Source for News, Opinion, and the World.
+
+» Subscribe to MS NOW: https://www.youtube.com/@msnow
+
+» Subscribe to MS NOW’s We the People Newsletter for exclusive content from your favorite MS NOW anchors. Sign up now for free at https://ms.now/joinus
+
+MS NOW is the go-to destination for domestic and international breaking news, and best-in-class opinion journalism. For more context and news coverage of the most important stories of our day click here: https://www.ms.now/
+
+#politics #congress  #trump","2026-09-13T21:02:16Z","https://www.youtube.com/watch?v=gd2Z7nBQkh8","https://i4.ytimg.com/vi/gd2Z7nBQkh8/hqdefault.jpg","political","US","gop;empty;strategist","base","","2026-09-14T15:02:46Z"
+"PAom6LhCSYk","yt-ms-now","MS NOW","‘Transactional’ offer of Trump’s $5,000 promise reveals his TRUE desires: Ayman","","MS NOW Senior Reporter Brandy Zadrozny, MS NOW Analyst, Journalist and Anchor Ayman Mohyeldin and Vox Editorial Director Astead Herndon join Antonia Hylton to discuss President Trump’s $5,000 promise to voters and a controversial AI attack ad created by a super PAC affiliated with Sen. Ted Cruz (R-TX) targeted at Michigan Senate Democratic nominee Abdul El-Sayed.
+
+MS NOW: My Source for News, Opinion, and the World.
+
+» Subscribe to MS NOW: https://www.youtube.com/@msnow
+
+» Subscribe to MS NOW’s We the People Newsletter for exclusive content from your favorite MS NOW anchors. Sign up now for free at https://ms.now/joinus
+
+MS NOW is the go-to destination for domestic and international breaking news, and best-in-class opinion journalism. For more context and news coverage of the most important stories of our day click here: https://www.ms.now/
+
+#politics #trump #election","2026-09-13T21:01:05Z","https://www.youtube.com/watch?v=PAom6LhCSYk","https://i1.ytimg.com/vi/PAom6LhCSYk/hqdefault.jpg","military;election","","transactional;trump;true;ayman","base","","2026-09-14T15:02:46Z"
+"p-AonBdD_Y8","yt-cityburg","Cityburg","Cities: Skylines 1 Doesn’t Need DLSS 5 If You Have Mods #citiesskylines #gaming #dlss5","","","2026-09-13T20:33:32Z","https://www.youtube.com/watch?v=p-AonBdD_Y8","https://i1.ytimg.com/vi/p-AonBdD_Y8/hqdefault.jpg","political","","cities;skylines;doesn;need;dlss;have;mods","base","","2026-09-14T15:03:31Z"
+"O8JPyIklDu8","yt-growling-sidewinder","Growling Sidewinder","A-10 Warthog Close Air Support - Troops In Contact | NAPALM | Digital Combat Simulator | DCS |","","PIMAX: https://pimax.com/products/pimax-crystal-super/?ref=Growling
+
+Check out the Store: https://crowdmade.com/collections/growling-sidewinder
+
+CHECK OUT THE MINI DOCS CHANNEL: @Mini_Docs 
+
+Join the channel if you wish to support
+https://www.youtube.com/channel/UCh2rDh7vXGeoh1LlzL3QEwg/join
+
+If You'd like to Support the Channel on Patreon:
+https://www.patreon.com/GrowlingSidewinder
+ 
+Join my Discord:
+https://discord.gg/kA6x5R4
+
+Social Media
+________________________________________________________
+Instagram: https://www.instagram.com/growling_sidewinder/
+Twitter: https://twitter.com/GrowlingAim9
+Facebook: https://www.facebook.com/GrowlingAim9/
+
+Amazon Links for the products I use if you're interested:
+_________________________________________________________
+
+Link for Thrustmaster 16000M: https://amzn.to/2PQGYf2
+Link for Trackir 5: https://amzn.to/2VSN4kt
+Link for Warthog throttle/stick: https://amzn.to/2Vbfhyp
+
+Contact me:
+GrowlingSidewinder@hotmail.com
+
+Disclaimer: Please Note that I use sound effects to enhance my videos for dramatic effect and hopefully give the viewer more immersion and also I use reshade for some better colors. (you can download reshade yourself and use it to make your DCS look like mine).
+
+MY PC SPECS:
+Processors : AMD Ryzen 9 9950X3D 16-Core (up to 5.7GHz Max Boost)
+Motherboard : ASUS ROG CROSSHAIR X870E HERO
+Memory : Crucial Pro 64GB (2x32GB) DDR5 6000MT/s
+System Cooling : CORSAIR iCUE LINK TITAN 360 RX RGB AIO
+System Fans : Corsair iCUE LINK RX120 R…","2026-09-13T20:30:01Z","https://www.youtube.com/watch?v=O8JPyIklDu8","https://i4.ytimg.com/vi/O8JPyIklDu8/hqdefault.jpg","military;strike","","warthog;close;air;support;troops;contact;napalm;digital;combat;simulator","base","","2026-09-14T15:03:01Z"
+"_5FYS_DzfCk","yt-forbes","Forbes","How These Founders Built Billion-Dollar Industry Disruptors Despite Investor Skepticism","","Kate Ryder, Founder & CEO of Maven Clinic and Caryn Seidman Becker, Chairman & CEO of CLEAR, sat down with Maggie McGrath to reflect on early struggles and share how they turned investor skepticism into massive healthcare and security empires.
+
+Subscribe to FORBES: https://www.youtube.com/user/Forbes?sub_confirmation=1
+
+Fuel your success with Forbes. Gain unlimited access to premium journalism, including breaking news, groundbreaking in-depth reported stories, daily digests and more. Plus, members get a front-row seat at members-only events with leading thinkers and doers, access to premium video that can help you get ahead, an ad-light experience, early access to select products including NFT drops and more:
+
+https://account.forbes.com/membership/?utm_source=youtube&utm_medium=display&utm_campaign=growth_non-sub_paid_subscribe_ytdescript
+
+Stay Connected
+Forbes newsletters: https://newsletters.editorial.forbes.com
+Forbes on Facebook: http://fb.com/forbes
+Forbes Video on Twitter: http://www.twitter.com/forbes
+Forbes Video on Instagram: http://instagram.com/forbes
+More From Forbes:  http://forbes.com
+
+Forbes covers the intersection of entrepreneurship, wealth, technology, business and lifestyle with a focus on people and success.","2026-09-13T20:00:05Z","https://www.youtube.com/watch?v=_5FYS_DzfCk","https://i4.ytimg.com/vi/_5FYS_DzfCk/hqdefault.jpg","political","","these;founders;built;billion-dollar;industry;disruptors;despite;investor;skepticism","base","","2026-09-14T15:02:46Z"
+"HJQlttsPY1c","yt-hoover-institution","Hoover Institution","Thomas Sowell, Victimhood, and Individual Responsibility #TheSowellLegacy #SowellSunday","","Ayaan Hirsi Ali explains how discovering Hoover Senior Fellow Thomas Sowell transformed her thinking about victimhood and individual responsibility. Reflecting on debates over Muslim immigrant communities in the Netherlands and elsewhere in Europe, she saw parallels with Sowell's challenge to narratives that, in her view, diminished individual agency and responsibility. For Hirsi Ali, Sowell offered a way to examine society as it is rather than as intellectuals believed it should be.
+
+Watch the full video at the ""related video"" above.
+
+#AyaanHirsiAli #ThomasSowell #HooverInstitution #Sowell #TheSowellLegacy #IndividualResponsibility #PersonalResponsibility #IndividualAgency #HumanAgency #Victimhood #Culture #Society #Ideas #IntellectualHistory #PoliticalThought #SocialThought #SocialTheory #Philosophy #Economics #PoliticalEconomy #PublicPolicy #Immigration #Migration #MuslimImmigrants #Europe #Netherlands #EuropeanPolitics #Integration #Assimilation #Intellectuals #SocialPolicy #Freedom #Individualism #HooverFellows #HooverPlus","2026-09-13T19:00:10Z","https://www.youtube.com/watch?v=HJQlttsPY1c","https://i1.ytimg.com/vi/HJQlttsPY1c/hqdefault.jpg","political","","thomas;sowell;victimhood;individual;responsibility;thesowelllegacy;sowellsunday","base","","2026-09-14T15:02:34Z"
+"Vyj2QOkZ4MA","yt-cityburg","Cityburg","I Tried DLSS 5 in Cities: Skylines 1 #gaming #citiesskylines #dlss5 #games","","","2026-09-13T18:44:11Z","https://www.youtube.com/watch?v=Vyj2QOkZ4MA","https://i3.ytimg.com/vi/Vyj2QOkZ4MA/hqdefault.jpg","political","","tried;dlss;cities;skylines","base","","2026-09-14T15:03:31Z"
+"-EAWxR--RVw","yt-neural-breakdown-with-avb","Neural Breakdown with AVB","Neural Breakdown with AVB Live Stream","","Follow me on Twitter: https://x.com/neural_avb
+To join our Patreon, visit: https://www.patreon.com/NeuralBreakdownwithAVB
+
+Members get access to everything behind-the-scenes that goes into producing my videos - including code. Plus, it supports the channel in a big way and helps to pay my bills.","2026-09-13T18:25:14Z","https://www.youtube.com/watch?v=-EAWxR--RVw","https://i2.ytimg.com/vi/-EAWxR--RVw/hqdefault.jpg","political","","neural;breakdown;avb;live;stream","base","","2026-09-14T15:04:21Z"
+"wfRbi3pHSXw","yt-max-klymenko","Max Klymenko","A TEENAGER with a very OLD FASHIONED job 🤔 Ep. 658 🪜","","","2026-09-13T17:50:40Z","https://www.youtube.com/watch?v=wfRbi3pHSXw","https://i4.ytimg.com/vi/wfRbi3pHSXw/hqdefault.jpg","political","","teenager;old;fashioned","base","","2026-09-14T15:02:36Z"
+"9pFCrqza3GY","yt-channel-4-news","Channel 4 News","How proposed legislation could impact Reform’s £72m donations","","Reform UK says its record donations announced this weekend come without any promise of reward for the donors and the £72m bump is within the law. 
+
+[Subscribe to our Substack newsletter: https://channel4news.substack.com/subscribe]
+
+But the party may want to wait before spending any of it. 
+
+The government says that new legislation, going to the House of Lords next week, would see donations to political parties from Britons living abroad, or who have returned to the UK in the last 12 months, capped at 100,000-a-year. 
+
+And, crucially, the rules could be backdated to March.
+
+-------
+Get more news at our site - https://www.channel4.com/news/   
+Subscribe to our Substack newsletter: https://channel4news.substack.com/subscribe 
+Follow us:
+TikTok - https://www.tiktok.com/@c4news 
+Instagram - https://www.instagram.com/channel4news/ 
+Twitter - https://twitter.com/Channel4News 
+Facebook - https://www.facebook.com/Channel4News/","2026-09-13T17:36:48Z","https://www.youtube.com/watch?v=9pFCrqza3GY","https://i2.ytimg.com/vi/9pFCrqza3GY/hqdefault.jpg","political","","reform","base","","2026-09-14T15:02:44Z"
+"iu-r6qu6gJA","yt-channel-4-news","Channel 4 News","Musk and Altman back Anthropic boss’ call for AI ‘slowdown’","","Elon Musk and OpenAI's Sam Altman have rallied behind a call from the head of Anthropic to slow down the pace of AI development. 
+
+[Subscribe to our Substack newsletter: https://channel4news.substack.com/subscribe]
+
+Dario Amodei warned in an essay that AI has advanced ""drastically faster"" since the summer and could command a swarm capable of taking over the internet within six to 12 months. 
+
+He has proposed a three-part plan to slow things down. 
+
+But he doesn't have the backing of US President Donald Trump, who said the US was leading China and that he wanted to keep it that way. Ria Chatterjee looks at how worried we should be.
+
+-------
+Get more news at our site - https://www.channel4.com/news/   
+Subscribe to our Substack newsletter: https://channel4news.substack.com/subscribe 
+Follow us:
+TikTok - https://www.tiktok.com/@c4news 
+Instagram - https://www.instagram.com/channel4news/ 
+Twitter - https://twitter.com/Channel4News 
+Facebook - https://www.facebook.com/Channel4News/","2026-09-13T17:32:01Z","https://www.youtube.com/watch?v=iu-r6qu6gJA","https://i2.ytimg.com/vi/iu-r6qu6gJA/hqdefault.jpg","political","CN","musk;altman;anthropic","base","","2026-09-14T15:02:44Z"
+"BlgQgPrYJzQ","yt-legaleagle","LegalEagle","Law of Love Trapped: Laura Owens v. Clayton Echard","","Laura Owens faked a pregnancy with Bachelor star Clayton Echard, setting off the craziest legal drama we've ever examined. 
+💰👑 https://monarch.com/eagle Monarch is private, ad-free, and smart! Start your free trial and get 50% your first year of total money clarity. Use code eagle50 for 50% off Core tier. 
+🍻 https://legaleagle.link/zbiotics Always take a shot of Zbiotics Pre-Alcohol before drinking!  and use LEGALEAGLE at checkout for 15% off any first time orders of ZBiotics probiotics.
+⚖️⚖️⚖️ Do you need a great lawyer?  I can help!  https://legaleagle.link/eagleteam 
+
+Listen to the whole Love Trapped saga for yourself here: https://open.spotify.com/show/4ntrC8uhK61ucy3ebxZT2b
+
+Welcome back to LegalEagle.  The most avian legal analysis on the internets. 
+🚀 Watch my next video early & ad-free on Nebula! https://legaleagle.link/watchnebula
+👔 Suits by Indochino! https://legaleagle.link/indochino
+
+GOT A VIDEO IDEA? TELL ME!
+▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+Send me an email: devin@legaleagle.show
+
+MY COURSES
+▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+Interested in LAW SCHOOL?  Get my guide to law school! https://legaleagle.link/lawguide
+Need help with COPYRIGHT? I built a course just for you! https://legaleagle.link/copyrightcourse
+
+SOCIAL MEDIA & DISCUSSIONS
+▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+Twitter:           https://legaleagle.link/twitter
+Facebook:      https://legaleagle.link/facebook
+Tik Tok:          https://legaleagle.link/tiktok
+Instagram:     https://legaleagle.link/instagram
+Reddit:            ht…","2026-09-13T17:13:39Z","https://www.youtube.com/watch?v=BlgQgPrYJzQ","https://i3.ytimg.com/vi/BlgQgPrYJzQ/hqdefault.jpg","legal;charge","","law;love;trapped;laura;owens;clayton;echard","base","","2026-09-14T15:04:56Z"
+"3U3Tj-j_FwQ","yt-dwarkesh-patel","Dwarkesh Patel","Why China's Compute Is Worth Less Than America's - Dylan Patel","","","2026-09-13T17:00:28Z","https://www.youtube.com/watch?v=3U3Tj-j_FwQ","https://i4.ytimg.com/vi/3U3Tj-j_FwQ/hqdefault.jpg","political","US;CN","china;compute;worth;less;than;america;dylan;patel","base","","2026-09-14T15:04:24Z"
+"IrxMRPaj9x8","yt-bbc-news","BBC News","Will Reform have to give their mega donations back? | BBC Newscast","","After Reform’s £72 million record donations, we’re looking at whether they’ll be allowed to keep the money.
+
+Legislation is going through Parliament that could limit the amount of money foreign donors can give, and be applied restrospectively, but Robert Jenrick has said the recent donations were ""entirely in line with the law"".
+
+And there’s been a shift in tone from tech bosses since the concerns about AI raised by researchers this week. We look at what a more controlled future for AI might look like.
+
+Subscribe to our channel here: https://bbc.in/bbcnews
+
+For the latest news download the BBC News app or visit BBC.com/news
+
+#BBCNews","2026-09-13T17:00:07Z","https://www.youtube.com/watch?v=IrxMRPaj9x8","https://i2.ytimg.com/vi/IrxMRPaj9x8/hqdefault.jpg","political","","will;reform;bbc;newscast","base","","2026-09-14T15:02:41Z"
+"PudWJV35cIg","yt-fair-observer","Fair Observer","How Social Media Desensitized The World to Black Death | Fair Observer","","@FairObserver
+
+Support our work: https://www.fairobserver.com/crowd-funding/
+
+
+Fair Observer is an independent nonprofit media organization that has published more than 3,000 voices from over 90 countries, including statesmen, retired military officers, former diplomats and leading professors, along with some of the brightest young public intellectuals from around the world.
+
+Check us out: https://www.fairobserver.com
+
+Follow Fair Observer on
+►WhatsApp: https://whatsapp.com/channel/0029Vb6JJmp7T8bYHRMmSs2D
+►LinkedIn: https://in.linkedin.com/company/fair-observer
+►Facebook: https://www.facebook.com/fairobserver​​
+►Instagram: https://www.instagram.com/fairobserver                                                                                                                                                                                                                                              ►Twitter: https://twitter.com/myfairobserver​​
+►Telegram: https://t.me/myfairobserver","2026-09-13T17:00:03Z","https://www.youtube.com/watch?v=PudWJV35cIg","https://i1.ytimg.com/vi/PudWJV35cIg/hqdefault.jpg","political","","social;media;desensitized;world;black;death;fair;observer","base","","2026-09-14T14:59:09Z"
+"vbAZLRBZC5I","yt-cityburg","Cityburg","I Tried DLSS 5 in Cities: Skylines 1","","I tested DLSS 5 in Cities: Skylines 1 to see how much it can change the look of a heavily modded city — better shadows, reflections, depth, but also some softness and performance loss.
+
+DLSS 5 Autopilot v1.8.2
+https://github.com/Kizzuwatnaa/DLSS5-Autopilot/releases/tag/v1.8.2
+
+Visual Mods
+https://steamcommunity.com/sharedfiles/filedetails/?id=2904989699
+
+Mods 
+https://steamcommunity.com/sharedfiles/filedetails/?id=3364126935
+
+#citiesskylines #gaming #dlss5","2026-09-13T16:40:39Z","https://www.youtube.com/watch?v=vbAZLRBZC5I","https://i3.ytimg.com/vi/vbAZLRBZC5I/hqdefault.jpg","political","","tried;dlss;cities;skylines","base","","2026-09-14T15:03:31Z"
+"5IZCwpKAjp8","yt-ryan-mcbeth","Ryan McBeth","Trump 🇺🇸 asks Zelenski 🇺🇦 to stop attacking Russian oil","","","2026-09-13T16:18:53Z","https://www.youtube.com/watch?v=5IZCwpKAjp8","https://i2.ytimg.com/vi/5IZCwpKAjp8/hqdefault.jpg","political","US;UA;RU","trump;zelenski;russian","base","","2026-09-14T15:03:04Z"
+"M1Qy9SU1IhE","yt-npr","NPR","Study: Very hot drinks could triple risk of esophageal cancer","","According to a large new study, drinking beverages at very hot temperatures on a regular basis could raise the risk of developing cancer of the esophagus.⁠
+⁠
+The study followed nearly a million tea and coffee drinkers across the U.K. over 14 years. Researchers found that those who regularly drank very hot beverages had three times the risk of developing esophageal cancer compared to those who sipped their drinks warm. The findings are in line with prior studies in Asia, South America and the Middle East.⁠
+⁠
+The International Agency for Research on Cancer classifies drinks hotter than149 degrees Fahrenheit as probably carcinogenic to humans. Drinking very hot liquids can damage the cells lining the esophagus, and repeated injuries can raise the risk of cancer over time. Experts say it’s best to let hot drinks cool for a few minutes before taking a sip.⁠
+⁠
+Find “NPR News Now” wherever you listen to podcasts.⁠
+⁠
+Host: Korva Coleman/NPR⁠
+Reporter: Maria Godoy/NPR⁠
+Producer: Zayrha Rodriguez/NPR","2026-09-13T16:15:34Z","https://www.youtube.com/watch?v=M1Qy9SU1IhE","https://i2.ytimg.com/vi/M1Qy9SU1IhE/hqdefault.jpg","political","US","study;very","base","","2026-09-14T15:02:48Z"
+"25v3B2TUXFo","yt-the-operations-room","The Operations Room","Pearl Harbor (2/3) - The Attack on Battleship Row - Animated","","⭐ Join Battle of Britain in Wings of Heroes on your iOS/Android device for free https://woh.onelink.me/WXir/3uifjvw5, and use my gift code TOR to get a unique skin for your first plane! 
+
+Part 2
+
+On the morning of 7 December 1941, the Japanese Empire launches a devastating surprise attack on the United States Pacific Fleet at Pearl Harbor, Hawaii.
+
+In just under two hours, hundreds of Japanese aircraft strike American battleships, airfields and military installations across Oahu. Battleships are sunk or crippled, aircraft destroyed on the ground, and thousands of Americans are killed or wounded. But despite the destruction, the attack fails to eliminate several crucial targets.
+
+The War Office Podcast Links
+
+Spotify: https://open.spotify.com/show/06pwh72NidKiydbJ4Cfmpr
+
+Apple: https://podcasts.apple.com/podcast/id1896339023
+
+Amazon Music: https://music.amazon.co.uk/podcasts/44caf91c-ba2f-4c6e-9b1e-39a0f4f78323/the-war-office
+
+YouTube: https://www.youtube.com/@TheWarOfficePodcast
+
+Please support us on Patreon at https://www.patreon.com/TheOperationsRoom
+
+Music: https://www.purple-planet.com","2026-09-13T16:03:08Z","https://www.youtube.com/watch?v=25v3B2TUXFo","https://i3.ytimg.com/vi/25v3B2TUXFo/hqdefault.jpg","military;strike","US;JP;GB","pearl;harbor;attack;battleship;row;animated","base","","2026-09-14T15:03:10Z"
+"D-fBVsSc9gw","yt-forbes","Forbes","U.S. Bancorp's First Female CEO On Why You Should Hang Out with People You 'Violently Disagree With'","","Gunjan Kedia, Chairman of the Board & CEO of U.S. Bancorp, sat down with Maneet Ahuja at the 2026 Power Women's Summit to share how she broke standard CEO playbooks by cutting major deals with Amazon and the NFL, bridging past traditions with future ambition.
+
+Subscribe to FORBES: https://www.youtube.com/user/Forbes?sub_confirmation=1
+
+Fuel your success with Forbes. Gain unlimited access to premium journalism, including breaking news, groundbreaking in-depth reported stories, daily digests and more. Plus, members get a front-row seat at members-only events with leading thinkers and doers, access to premium video that can help you get ahead, an ad-light experience, early access to select products including NFT drops and more:
+
+https://account.forbes.com/membership/?utm_source=youtube&utm_medium=display&utm_campaign=growth_non-sub_paid_subscribe_ytdescript
+
+Stay Connected
+Forbes newsletters: https://newsletters.editorial.forbes.com
+Forbes on Facebook: http://fb.com/forbes
+Forbes Video on Twitter: http://www.twitter.com/forbes
+Forbes Video on Instagram: http://instagram.com/forbes
+More From Forbes:  http://forbes.com
+
+Forbes covers the intersection of entrepreneurship, wealth, technology, business and lifestyle with a focus on people and success.","2026-09-13T16:00:35Z","https://www.youtube.com/watch?v=D-fBVsSc9gw","https://i1.ytimg.com/vi/D-fBVsSc9gw/hqdefault.jpg","social;noise","US","bancorp;first;female;ceo;should;hang;out;people;violently;disagree","base","","2026-09-14T15:02:46Z"
+"SAEYBXGTcTA","yt-fair-observer","Fair Observer","Emmett Till and the Power of the Media | Fair Observer","","@FairObserver
+
+Support our work: https://www.fairobserver.com/crowd-funding/
+
+
+Fair Observer is an independent nonprofit media organization that has published more than 3,000 voices from over 90 countries, including statesmen, retired military officers, former diplomats and leading professors, along with some of the brightest young public intellectuals from around the world.
+
+Check us out: https://www.fairobserver.com
+
+Follow Fair Observer on
+►WhatsApp: https://whatsapp.com/channel/0029Vb6JJmp7T8bYHRMmSs2D
+►LinkedIn: https://in.linkedin.com/company/fair-observer
+►Facebook: https://www.facebook.com/fairobserver​​
+►Instagram: https://www.instagram.com/fairobserver                                                                                                                                                                                                                                              ►Twitter: https://twitter.com/myfairobserver​​
+►Telegram: https://t.me/myfairobserver","2026-09-13T16:00:05Z","https://www.youtube.com/watch?v=SAEYBXGTcTA","https://i4.ytimg.com/vi/SAEYBXGTcTA/hqdefault.jpg","political","","emmett;till;power;media;fair;observer","base","","2026-09-14T14:59:09Z"
+"7qjfvVgnUP8","yt-bbc-news","BBC News","Reform UK's £72m donations 'lawful', says spokesman #BBCNews","","","2026-09-13T15:45:38Z","https://www.youtube.com/watch?v=7qjfvVgnUP8","https://i4.ytimg.com/vi/7qjfvVgnUP8/hqdefault.jpg","political","","reform;bbcnews","base","","2026-09-14T15:02:41Z"
+"iXZcfY3xmdM","yt-4ocean","4ocean","What Does It Mean to Be Plastic Negative?","","","2026-09-13T15:45:02Z","https://www.youtube.com/watch?v=iXZcfY3xmdM","https://i2.ytimg.com/vi/iXZcfY3xmdM/hqdefault.jpg","political","","does;mean;plastic;negative","base","","2026-09-14T15:04:07Z"
+"TL4pam6cFLE","yt-bbc-news","BBC News","Donald Trump says Northern Ireland joining Ireland only natural | BBC News","","US President Donald Trump has doubled down on his support for a united Ireland.
+ 
+He's on day two of a visit, which he is spending at Trump International Golf Links in Doonbeg, County Clare, for the Irish Open.
+ 
+On Saturday, Trump told reporters he would love to see a united Ireland while at a meeting with the Taoiseach (Irish PM) Micheál Martin in Dublin.
+ 
+Speaking on Sunday at his Doonbeg golf resort, he said it would be natural to put Ireland and Northern Ireland ""together"".
+ 
+He spoke to reporters after watching the tournament leader Irish golfer Shane Lowry tee off.
+
+Subscribe to our channel here: https://bbc.in/bbcnews
+
+For the latest news download the BBC News app or visit BBC.com/news
+
+#Ireland #NorthernIreland #Trump #BBCNews","2026-09-13T15:30:35Z","https://www.youtube.com/watch?v=TL4pam6cFLE","https://i1.ytimg.com/vi/TL4pam6cFLE/hqdefault.jpg","political","","donald;trump;northern;ireland;bbc;news","base","","2026-09-14T15:02:41Z"
+"pY864zkuYJo","yt-ryan-mcbeth","Ryan McBeth","Why can't we Stop the Houthis?","","Support the channel for only $2.50: https://ryanmcbeth.substack.com
+
+The Houthis have seized new territory along Yemen’s Red Sea coast, including strategically important positions near the Bab el-Mandeb Strait—one of the most important shipping chokepoints in the world.
+
+But the real danger isn’t necessarily that the Houthis physically close the strait.
+
+They just have to make shipping companies and insurance providers believe that using it is too dangerous.
+
+In this video, I break down how the Houthis were able to advance, why Saudi Arabia has struggled to stop them, and why American airstrikes and targeting support can only accomplish so much without effective forces on the ground.
+
+I also look at why Turkey and Pakistan haven’t jumped into the fight despite their new defense agreement with Saudi Arabia, why Egypt has enormous economic incentives to keep the Red Sea open but still appears reluctant to intervene militarily, and what all of this might tell us about how the United States approaches a future conflict over Taiwan.
+
+Because airpower can destroy target, but it can't hold a port, defend an island, or keep an army from collapsing.
+
+Support the channel and see my research and sources at RyanMcBeth.Substack.com.
+
+#Houthis #Yemen #RedSea #SaudiArabia #Military #Geopolitics #Taiwan #Egypt #Turkey
+
+
+For uncensored video, check out my substack at:
+https://ryanmcbeth.substack.com
+
+Find the Global Warning Podcast on:
+Spotify : https://open.spotify.com/show/23JULpVI2lVBEl4PV…","2026-09-13T15:25:49Z","https://www.youtube.com/watch?v=pY864zkuYJo","https://i1.ytimg.com/vi/pY864zkuYJo/hqdefault.jpg","political;airstrike","US;TW;PK;YE;SA;TR;EG","stop;houthis","base","","2026-09-14T15:03:04Z"
+"OSfVlFPlQKI","yt-fair-observer","Fair Observer","Why Black Families Never Get Answers | Fair Observer","","@FairObserver
+
+Support our work: https://www.fairobserver.com/crowd-funding/
+
+
+Fair Observer is an independent nonprofit media organization that has published more than 3,000 voices from over 90 countries, including statesmen, retired military officers, former diplomats and leading professors, along with some of the brightest young public intellectuals from around the world.
+
+Check us out: https://www.fairobserver.com
+
+Follow Fair Observer on
+►WhatsApp: https://whatsapp.com/channel/0029Vb6JJmp7T8bYHRMmSs2D
+►LinkedIn: https://in.linkedin.com/company/fair-observer
+►Facebook: https://www.facebook.com/fairobserver​​
+►Instagram: https://www.instagram.com/fairobserver                                                                                                                                                                                                                                              ►Twitter: https://twitter.com/myfairobserver​​
+►Telegram: https://t.me/myfairobserver","2026-09-13T15:00:37Z","https://www.youtube.com/watch?v=OSfVlFPlQKI","https://i4.ytimg.com/vi/OSfVlFPlQKI/hqdefault.jpg","political","","black;families;never;get;answers;fair;observer","base","","2026-09-14T14:59:09Z"
+"XikHvPnRcSE","yt-bbc-news","BBC News","Inside new Moscow metro station which references Russia's war on Ukraine. #Russia #Ukraine #BBCNews","","","2026-09-13T15:00:25Z","https://www.youtube.com/watch?v=XikHvPnRcSE","https://i1.ytimg.com/vi/XikHvPnRcSE/hqdefault.jpg","political","RU;UA","inside;moscow;russia;ukraine;bbcnews","base","","2026-09-14T15:02:41Z"
+"SuAajKPn0Aw","yt-see-u-in-history-mythology","See U in History / Mythology","Adonis: The Mortal Loved by Two Goddesses","","Adonis was so beautiful that he won the love of Aphrodite and, after his death, the desire of Persephone as well. Torn between the goddess of love and the queen of the underworld, he sees his fate decided by the gods themselves. So begins a struggle marked by passion, jealousy, death and the cycle of the seasons.
+
+If you like our content, check out our original comics:
+Medusa: The Cursed Priestess - https://amzn.to/4c9139y
+Eros and Psyche: The Quest for Love - https://amzn.to/3VAI7L8
+Japanese Mythology in Comics: The Essential - https://amzn.to/4bT15SY
+
+#GreekMythology #Mythology #SeeUinHistory #History #MythologyExplained","2026-09-13T15:00:20Z","https://www.youtube.com/watch?v=SuAajKPn0Aw","https://i4.ytimg.com/vi/SuAajKPn0Aw/hqdefault.jpg","political","JP","adonis;mortal;loved;two;goddesses","base","","2026-09-14T15:03:19Z"
+"OHGIFngtVzI","yt-dr-ben-miles","Dr Ben Miles","Scientists Create 100% Effective HIV Treatment","","Scientists create treatment that removes 100% of HIV from newborn primates when administered within three days of birth. 
+
+Source Article: 
+https://www.nature.com/articles/s41564-026-02444-x
+
+My Patreon:🚀   http://patreon.com/DrBenMiles
+My Instagram: https://www.instagram.com/drbenmiles
+My TikTok: https://www.tiktok.com/@drbenmiles
+My Newsletter:  https://drbenmiles.substack.com/
+My Merch: https://www.rockstarscientist.org/  
+🔗 Linktree: https://linktr.ee/drbenmiles 
+
+
+MY GEAR
+📷 Sony A7III https://amzn.to/3OWrmGd
+🔎 Sigma 402965 16 mm F1.4 https://amzn.to/49BNJdq
+🎤 Shure SM7B https://amzn.to/4sF3ngx
+🎤 Zoom H4n Pro https://amzn.to/3OXsklB
+🎤 Sennheiser AVX  https://amzn.to/4geWnBi","2026-09-13T15:00:07Z","https://www.youtube.com/watch?v=OHGIFngtVzI","https://i4.ytimg.com/vi/OHGIFngtVzI/hqdefault.jpg","political","","scientists;create;effective;hiv;treatment","base","","2026-09-14T15:03:46Z"
+"BXxGdhdcjIQ","yt-casual-navigation","Casual Navigation","The Greasy Rope Inside Old Ships","","Early marine engineers used coils of flax rope soaked in animal fat or tallow, packed tightly around the spinning shaft. This gland packing was deliberately allowed to leak a little, because seawater helped keep the rope from overheating.
+
+As ships and engines grew larger, greasy rope could no longer provide reliable protection. Modern ships moved to dedicated stern-tube seals and bearings.
+
+#MaritimeHistory #GlandPacking #ShipEngineering #SternTube #CasualNavigation","2026-09-13T14:30:26Z","https://www.youtube.com/watch?v=BXxGdhdcjIQ","https://i3.ytimg.com/vi/BXxGdhdcjIQ/hqdefault.jpg","political","","greasy;rope;inside;old;ships","base","","2026-09-14T15:04:48Z"
+"JHKcHoWUb_0","yt-cityburg","Cityburg","A City Through the Ages # #gaming #citiesskylines #game","","","2026-09-13T14:22:40Z","https://www.youtube.com/watch?v=JHKcHoWUb_0","https://i3.ytimg.com/vi/JHKcHoWUb_0/hqdefault.jpg","political","","city;through;ages","base","","2026-09-14T15:03:31Z"
+"cq2ZF8nv-ik","yt-cnbc","CNBC","Inside Bracket22, A Trading Firm Powered By Al Agents","","Brian Kelly previously ran a cryptocurrency hedge fund, but closed that shop in early 2025. Later that year, he began testing out uses of artificial intelligence. Bracket22 invests only Kelly's own capital and trades cryptocurrencies, stocks and commodities. It's powered entirely by AI agents — a stark example of a growing reality on Wall Street as firms test the benefits and limits of AI in finance.
+
+Chapters:
+00:00 - 00:31 Introduction  
+0:32 - 3:11 AI Agents
+3:12 - 4:05 Future for Wall Street
+
+Senior Producer: Jake Callahan
+Edited by: Darren Geeter
+Camera and Sound by: Joel Coblenz
+Senior Managing Producer: Tala Hadavi
+Additional Footage: Getty Images
+
+» Subscribe to CNBC: https://cnb.cx/SubscribeCNBC 
+» Subscribe to CNBC TV: https://cnb.cx/SubscribeCNBCtelevision  
+
+About CNBC: From 'Wall Street' to 'Main Street' to award winning original documentaries and Reality TV series, CNBC has you covered. Experience special sneak peeks of your favorite shows, exclusive video and more. 
+
+Want to get ahead at work? Then you need to learn how to make effective small talk. In CNBC’s new online course, How To Talk To People At Work, expert instructors teach you how to use everyday conversation to gain visibility, build meaningful relationships and advance your career. Sign up now: https://cnb.cx/4sGlSkh
+
+Connect with CNBC News Online 
+Get the latest news: https://www.cnbc.com/ 
+Follow CNBC on LinkedIn: https://cnb.cx/LinkedInCNBC 
+Follow CNBC News on Instagram: https://cnb.cx/Instagram…","2026-09-13T14:00:31Z","https://www.youtube.com/watch?v=cq2ZF8nv-ik","https://i4.ytimg.com/vi/cq2ZF8nv-ik/hqdefault.jpg","political","","inside;trading;firm;powered;agents","base","","2026-09-14T15:02:44Z"
+"-lcEsbwebno","yt-professor-dave-explains","Professor Dave Explains","Everything Is Crumbling For Destiny (And Pangburn)","","Last month I put out a video demonstrating conclusively that Israel has been committing genocide against Palestinians for nearly three years. At the same time I exposed the streamer Destiny (Steven Bonnell II) as a genocide-denying sexual predator and total loser, since he called me a neo-Nazi, and I used that as my excuse to do the Israel video. He and his cult of loser orbiters had a complete meltdown about it, which was expected, so now that the damage control is over, it's time to clap back and even further expose Destiny. His lies about genocide, as well as all of his super creepy sex stuff involving minors and violation of consent. Let's also spend some time on Travis Pangburn, who unexpectedly transformed himself into a Zionist propaganda mill shouting ""antisemitism"" every ten seconds to come to Destiny's defense, which was equal parts surprising and hilarious. This one slaps, so buckle up.
+
+Destiny Loves Genocide: https://youtu.be/DvDvhLkb9ms
+
+For those with the courage to witness genocide: https://archivegenocide.com/
+Benjamin Boyce on Pangburn: https://www.youtube.com/watch?v=c5HrkJ9QWxM
+Brad Parscale and LLM poisoning: https://www.dropsitenews.com/p/israel-brad-parscale-ai-chatbots-gaza
+Israel wiping evidence of genocide: https://www.euromedmonitor.org/en/article/7088/Israel-wipes-genocide-evidence-in-Gaza,-carting-off-rubble-and-remains-in-100-trucks-daily
+
+EMAIL► ProfessorDaveExplains@gmail.com
+PATREON► http://patreon.com/ProfessorDaveExplains
+
+Check out ""Is This…","2026-09-13T14:00:22Z","https://www.youtube.com/watch?v=-lcEsbwebno","https://i2.ytimg.com/vi/-lcEsbwebno/hqdefault.jpg","political","IL;PS","everything;crumbling;destiny;pangburn","base","","2026-09-14T15:03:39Z"
+"2PjosQxTv1A","yt-bbc-earth","BBC Earth","China's Hidden Wilderness | Double Episode - Wild China | BBC Earth","","Explore China, where vibrant rice-growing communities coexist with remarkable wildlife amongst dense jungles and remote forested valleys inhabited by jewel-coloured birds and wild elephants.
+
+#BBCEarth #Animals #Nature
+
+Subscribe: http://bit.ly/BBCEarthSub 
+Sign up to our newsletter for the latest news, updates and exclusives from BBC Earth https://www.bbcearth.com/newsletter
+
+Watch more: 
+Best of BBC Earth 🌍 https://bit.ly/BestOfBBCEarth
+Best Animal Fights 🥊 https://bit.ly/BestAnimalFights
+Videos over 10 minutes ⏰ https://bit.ly/3SHJCEJ
+Planet Earth III 🌍 https://bit.ly/PlanetEarthIIIPlaylist
+Frozen Planet II ❄️ https:/bit.ly/FrozenPlanetIIPlaylist
+Blue Planet II in 4K 🌊 https://bit.ly/BluePlanetII4kPlaylist
+
+Welcome to BBC EARTH! The world is an amazing place full of stories, beauty and natural wonder. Here you'll find 50 years worth of entertaining and thought-provoking natural history content. Dramatic, rare, and exclusive, nature doesn't get more exciting than this.
+
+This is a commercial page from BBC Studios. Service information and feedback: http://bbcworldwide.com/vod-feedback--contact-details.aspx","2026-09-13T14:00:15Z","https://www.youtube.com/watch?v=2PjosQxTv1A","https://i3.ytimg.com/vi/2PjosQxTv1A/hqdefault.jpg","political","CN","china;hidden;wilderness;double;episode;wild;bbc;earth","base","","2026-09-14T15:04:06Z"
+"4Wjol03lJlU","yt-forbes","Forbes","Extreme Off-Road Traction, Zero Highway Noise: Testing BFGoodrich’s Ultimate All-Terrain Tire","","Highway Refinement Meets Trail Capability: Inside BFGoodrich’s Premium All-Terrain Strategy
+
+When equipping high-end performance trucks, owners face a classic compromise: severe tire hum and sloppy steering on the highway in exchange for off-road capability. For over 50 years, BFGoodrich—a division of Michelin—has developed off-road tire technology. To test their latest generation of engineering, host Scotty Reiss joined Michelin Senior Subjective Test Driver Derek Secord at the Michelin Proving Ground to evaluate the BFGoodrich All-Terrain T/A KO3 on the Ford Bronco Raptor.
+
+Selected as original equipment for flagship performance vehicles like the Ford Bronco Raptor and Ford F-150 Raptor, the third-generation KO3 was engineered specifically for drivers who demand seamless transitions between highway commuting and extreme trail riding. As Secord explains, refining on-road acoustic comfort, steering response, and ride quality was just as critical as maximizing off-road traction, ensuring that drivers experience a refined, comfortable commute when traveling between off-road destinations.
+
+Track evaluations demonstrated true multi-surface versatility. Beyond low-speed rock crawling and mud maneuvering, the KO3 proved capable during high-speed off-road driving, as well as real-world winter conditions like snow and slush. During pavement testing at speeds exceeding 50 mph, the Bronco Raptor delivered a smooth, comfortable ride with remarkably suppressed cabin noise—proving that pr…","2026-09-13T14:00:06Z","https://www.youtube.com/watch?v=4Wjol03lJlU","https://i1.ytimg.com/vi/4Wjol03lJlU/hqdefault.jpg","political","","extreme;off-road;traction;zero;highway;noise;testing;bfgoodrich;ultimate;all-terrain","base","","2026-09-14T15:02:46Z"
+"ahsAewginhE","yt-bbc-news","BBC News","What does the original Draco Malfoy think of the new Draco Malfoy? #BBCNews","","","2026-09-13T14:00:00Z","https://www.youtube.com/watch?v=ahsAewginhE","https://i2.ytimg.com/vi/ahsAewginhE/hqdefault.jpg","political","","draco;malfoy;bbcnews","base","","2026-09-14T15:02:41Z"
+"KtGTehodIMc","yt-npr","NPR","Trump administration resumes work on barrier to stop invasive carp after call from Whitmer","","The Trump administration says it is restarting work on a barrier to keep invasive carp from reaching the Great Lakes after abruptly halting the construction a few months ago.
+
+The invasive carp can grow several feet long and eat their way through ecosystems, devastating tourism and boating industries. The fish have edged ever closer to Lake Michigan, and after some delays, President Trump sent federal funding to help create a barrier at a choke point in Illinois. But Trump issued an unexplained work-stoppage order in late July.
+
+The barrier work is reportedly resuming after a call to Trump from Michigan Gov. Gretchen Whitmer, a Democrat who was also a critic of the president during the pandemic, but has since had a more cordial relationship.
+
+Find “NPR News Now” wherever you listen to podcasts.
+
+Host: Korva Coleman/NPR
+Reporter: Quinn Klinefelter/WDET
+Producer: Michael Zamora/NPR","2026-09-13T13:45:27Z","https://www.youtube.com/watch?v=KtGTehodIMc","https://i4.ytimg.com/vi/KtGTehodIMc/hqdefault.jpg","political","","trump;whitmer","base","","2026-09-14T15:02:48Z"
+"R3a3LIXb-xE","yt-casual-navigation","Casual Navigation","What Is a Stern Tube Arrangement?","","A heavy steel shaft passes through the hull opening, transferring engine torque to the propeller while spinning at full speed. On one side is the ocean; on the other is the ship’s dry engine room.
+
+The heavy steel housing surrounding this opening is called the stern tube, or more accurately, the stern tube arrangement, because it includes much more than the tube itself.
+
+#PropellerShaft #SternTube #ShipEngineering #MarineSystems #CasualNavigation","2026-09-13T13:30:12Z","https://www.youtube.com/watch?v=R3a3LIXb-xE","https://i3.ytimg.com/vi/R3a3LIXb-xE/hqdefault.jpg","political","","stern;tube;arrangement","base","","2026-09-14T15:04:48Z"
+"4kE7tocO0lg","yt-cappy-army","Cappy Army","Ukrainian Tank Armor PUNCHES Through Russian Defense! #shorts","","An RPG ignites a Ukrainian tank's fuel, but the crew survives! Their sacrifice drew enemy fire, paving the way for infantry to advance. #UkraineWar #TankCombat #MilitaryAction #CombatFootage","2026-09-13T13:03:40Z","https://www.youtube.com/watch?v=4kE7tocO0lg","https://i1.ytimg.com/vi/4kE7tocO0lg/hqdefault.jpg","political","RU;UA","ukrainian;tank;armor;punches;through;russian;defense","base","","2026-09-14T15:03:00Z"
+"Si0Jfolp8-A","yt-cappy-army","Cappy Army","This Is Disgusting and It Needs to Stop","","Head to https://deltasweep.com/cappy start your free trial, and lock in your discount of 30%
+
+This episode investigates the disturbing history behind so-called “human safaris,” from allegations surrounding the siege of Sarajevo to modern drone attacks on civilians in Ukraine. We examine eyewitness accounts, official investigations, wartime dehumanization, and the long effort to document abuses and hold those responsible accountable across generations of conflict worldwide.
+
+Free Sources Here:
+https://www.patreon.com/ChrisCappy/posts/this-is-and-it-169341967","2026-09-13T13:00:33Z","https://www.youtube.com/watch?v=Si0Jfolp8-A","https://i4.ytimg.com/vi/Si0Jfolp8-A/hqdefault.jpg","military;drone_strike","UA","disgusting;needs;stop","base","","2026-09-14T15:03:00Z"
+"sBcGAp8FD0Y","yt-forbes","Forbes","Building a Healthier World for Women and Children","","Mika Eddy, Co-Founder and CEO of Malama Health, shares how her experience navigating three high-risk pregnancies inspired her to tackle the U.S. maternal health crisis.
+
+From a personal spreadsheet to an app used by more than 60,000 women, Eddy explores how technology, innovation and her own unique talents can help create a healthier world for women and children.
+
+Subscribe to FORBES: https://www.youtube.com/user/Forbes?sub_confirmation=1
+
+Fuel your success with Forbes. Gain unlimited access to premium journalism, including breaking news, groundbreaking in-depth reported stories, daily digests and more. Plus, members get a front-row seat at members-only events with leading thinkers and doers, access to premium video that can help you get ahead, an ad-light experience, early access to select products including NFT drops and more:
+
+https://account.forbes.com/membership/?utm_source=youtube&utm_medium=display&utm_campaign=growth_non-sub_paid_subscribe_ytdescript
+
+Stay Connected
+Forbes newsletters: https://newsletters.editorial.forbes.com
+Forbes on Facebook: http://fb.com/forbes
+Forbes Video on Twitter: http://www.twitter.com/forbes
+Forbes Video on Instagram: http://instagram.com/forbes
+More From Forbes:  http://forbes.com
+
+Forbes covers the intersection of entrepreneurship, wealth, technology, business and lifestyle with a focus on people and success.","2026-09-13T13:00:28Z","https://www.youtube.com/watch?v=sBcGAp8FD0Y","https://i4.ytimg.com/vi/sBcGAp8FD0Y/hqdefault.jpg","political","US","building;healthier;world;women;children","base","","2026-09-14T15:02:46Z"
+"d5cjviH-434","yt-forbes","Forbes","The 25 Colleges With The Highest Payoff","","These schools deliver the strongest financial return on investment thanks to graduates’ earnings and either relatively low costs or generous financial aid.
+
+Read the full story on Forbes:
+https://www.forbes.com/sites/francescawalton/2026/09/10/the-25-colleges-with-the-highest-payoff/
+
+Subscribe to FORBES: https://www.youtube.com/user/Forbes?sub_confirmation=1
+
+Fuel your success with Forbes. Gain unlimited access to premium journalism, including breaking news, groundbreaking in-depth reported stories, daily digests and more. Plus, members get a front-row seat at members-only events with leading thinkers and doers, access to premium video that can help you get ahead, an ad-light experience, early access to select products including NFT drops and more:
+
+https://account.forbes.com/membership/?utm_source=youtube&utm_medium=display&utm_campaign=growth_non-sub_paid_subscribe_ytdescript
+
+Stay Connected
+Forbes newsletters: https://newsletters.editorial.forbes.com
+Forbes on Facebook: http://fb.com/forbes
+Forbes Video on Twitter: http://www.twitter.com/forbes
+Forbes Video on Instagram: http://instagram.com/forbes
+More From Forbes:  http://forbes.com
+
+Forbes covers the intersection of entrepreneurship, wealth, technology, business and lifestyle with a focus on people and success.","2026-09-13T13:00:24Z","https://www.youtube.com/watch?v=d5cjviH-434","https://i1.ytimg.com/vi/d5cjviH-434/hqdefault.jpg","political","FR","colleges;highest;payoff","base","","2026-09-14T15:02:46Z"
+"KIBJAEZMxwo","yt-business-insider","Business Insider","Inside Turkey's $2 Billion Marble And Stone Industry | Big Business","","Most of the world's marble and travertine comes from Turkey – the world's top exporter of natural stone. But even though the country has been mining for thousands of years, waste heaps are still piling up, and mining companies are struggling to handle all of the excess stone. We went to Turkey to see how the country's natural stone industry became a $2 billion business, and what the costs to the environment really are.
+
+00:00 - Intro
+00:54 - Travertine Mining Process
+04:38 - Cutting the Stones
+05:31 - Stone Factory
+07:27 - Waste Management
+09:21 - Ancient Fossils
+11:22 - Marble Quarries
+12:31 - Italian Marble
+13:31 - The Turkish Market
+15:46 - Credits
+
+------------------------------------------------------
+#marblemines #marblestone #travertine #turkey #stoneindustry #naturalstone #bigbusiness
+
+WATCH MORE:
+
+Inside Turkey's $2B Hair Transplant Tourism Boom
+https://youtu.be/uGkwc-JWdYw
+
+How A Royal Dessert From Turkey Turned Into A Global Trend
+https://youtu.be/uxe4OrNTU2c
+
+How Miners Risk Their Lives For Himalayan Pink Salt
+https://youtu.be/HjSQ10zDB0k
+
+Why Mining In Greenland Is So Hard
+https://youtu.be/xUzIqdEPC-k
+
+Mining 60,000 Metric Tons Of Salt In A Dangerous Pink Lake That's Saltier Than The Dead Sea
+https://youtu.be/Yc827HubVjY
+
+The Riskiest Mining Jobs In The World
+https://youtu.be/zDYUiI6ci9Y
+
+Business Insider is a global newsroom covering business, technology, innovation, and the economy.
+
+Visit our homepage for the top stories of the day: https://www.businessinsider…","2026-09-13T13:00:23Z","https://www.youtube.com/watch?v=KIBJAEZMxwo","https://i4.ytimg.com/vi/KIBJAEZMxwo/hqdefault.jpg","political","TR","inside;turkey;billion;marble;stone;industry;big;business","base","","2026-09-14T15:02:43Z"
+"Fvv39_ku3I8","yt-the-school-of-life","The School of Life","The Wisdom of Pessimism","","Pessimism is generally equated with a grumpy and immature kind of mood. But it is in fact at the origin of wisdom – and can even leave us feeling surprisingly cheerful. 
+
+Enjoying our Youtube videos? Get full access to all our audio content, videos, and thousands of thought-provoking articles, conversation cards and more with The School of Life Subscription: https://t.ly/TeRZB
+
+Be more mindful, present and inspired. Get the best of The School of Life delivered straight to your inbox: https://t.ly/qCEmB
+
+SOCIAL MEDIA
+
+Feel free to follow us at the links below:
+
+Facebook: https://www.facebook.com/theschooloflifelondon/  
+
+X: https://twitter.com/TheSchoolOfLife   
+
+Instagram: https://www.instagram.com/theschooloflifelondon/ 
+
+CREDITS
+
+Brought to you by http://www.theschooloflife.com
+
+Produced in collaboration with Claudio Salas
+http://www.claudiosalas.com #TheSchoolOfLife","2026-09-13T13:00:04Z","https://www.youtube.com/watch?v=Fvv39_ku3I8","https://i3.ytimg.com/vi/Fvv39_ku3I8/hqdefault.jpg","political","","wisdom;pessimism","base","","2026-09-14T15:04:59Z"
+"5ij0tDYhIhg","yt-kings-and-generals","Kings and Generals","War of the Spanish Succession: All Battles and Events - FULL DOCUMENTARY","","🎥 Watch 300+ exclusive videos on Youtube ► https://www.youtube.com/channel/UCMmaBzfCCwZ2KqaBJjkj0fw/join and ✔ Patreon ► https://www.patreon.com/kingsandgenerals
+
+Kings and Generals animated historical documentary series on the early modern history continues with a video on the War of the Spanish Succession, which some historians consider to be the World War 0. The death of childless Charles II of Spain in 1700 left Europe facing a question that could not be answered peacefully: who would inherit the vast Spanish Empire? This full-length documentary follows the War of the Spanish Succession from its dynastic origins and diplomatic failures to the treaties that transformed the European balance of power. See how the decline of Habsburg Spain and the rise of Louis XIV created a struggle between the French Bourbons and Austrian Habsburgs. When Louis placed his grandson Philip V on the Spanish throne, England, the Dutch Republic, Austria, and their allies formed the Grand Alliance to prevent France and Spain from falling under one dynasty. Follow Prince Eugene of Savoy and the Duke of Marlborough through the campaigns and battles that decided the war, including Carpi, Chiari, Cremona, Blenheim, Ramillies, Turin, Almansa, Oudenarde, Malplaquet, and Denain. Witness daring marches, brutal sieges, battlefield reversals, and political betrayals as both coalitions fight for survival. The conflict reaches far beyond Flanders and the Rhine. Armies clash across Italy, Iberia, and Germany,…","2026-09-13T12:59:54Z","https://www.youtube.com/watch?v=5ij0tDYhIhg","https://i2.ytimg.com/vi/5ij0tDYhIhg/hqdefault.jpg","political","DE;FR;GB","war;spanish;succession;battles;events;full;documentary","base","","2026-09-14T15:03:09Z"
+"n68esPT4Gco","yt-isaac-arthur","Isaac Arthur","Floating Cities Above Gas Giants","","Why build floating cities above Jupiter and Saturn? Not for fusion fuel, but for something far more valuable: the staggering amounts of hydrogen, nitrogen, and raw material needed to build a spacefaring civilization.
+
+Get Nebula using my link for 50% off an annual subscription: https://go.nebula.tv/isaacarthur
+Checkout Gods & Monsters: https://nebula.tv/curiousarchive/gods-and-monsters?ref=isaacarthur
+
+🛒 SFIA Merchandise: https://isaac-arthur-shop.fourthwall.com/
+🌐 Visit our Website: http://www.isaacarthur.net
+❤️ Support us on Patreon: https://www.patreon.com/IsaacArthur
+⭐ Support us on Subscribestar: https://www.subscribestar.com/isaac-arthur
+👥 Facebook Group: https://www.facebook.com/groups/1583992725237264/
+📣 Reddit Community: https://www.reddit.com/r/IsaacArthur/
+🐦 Follow on Twitter / X: https://twitter.com/Isaac_A_Arthur
+💬 SFIA Discord Server: https://discord.gg/53GAShE
+Credits:
+Floating Cities Above Gas Giants
+Written, Produced & Narrated by: Isaac Arthur
+Music by Epidemic Sound: http://nebula.tv/epidemic
+Stellardrone & Chris Zabriskie 
+Graphics from: Ervin Oprea, Jeremy Jozwik & Sergio Botero
+Select imagery/video supplied by Getty Images
+
+Chapters
+0:00 Intro
+6:05 Why Bulk Hydrogen Beats Fusion Fuel
+9:39 Floating Cities: The Mechanical Reality
+13:14 Power Without Fusion
+15:45 Why Bigger Is Easier
+19:02 Who Lives in the Clouds? 
+21:31 Gods & Monsters
+22:35 From Infrastructure to Civilization","2026-09-13T12:59:22Z","https://www.youtube.com/watch?v=n68esPT4Gco","https://i3.ytimg.com/vi/n68esPT4Gco/hqdefault.jpg","political","","floating;cities;above;gas;giants","base","","2026-09-14T15:03:47Z"
+"e7CKSotjU0c","yt-casual-navigation","Casual Navigation","The Hole Every Ship Needs","","A ship’s first safety rule is simple: keep the water outside. Most openings below the waterline, such as sea chests, discharges, and ballast suctions, are controlled by heavy valves.
+
+But at the very back of the ship, that logic changes. Engineers deliberately create a permanent opening through the hull for the propeller shaft.
+
+#WatertightIntegrity #ShipSafety #MarineEngineering #SternTube #CasualNavigation","2026-09-13T12:45:24Z","https://www.youtube.com/watch?v=e7CKSotjU0c","https://i2.ytimg.com/vi/e7CKSotjU0c/hqdefault.jpg","political","","hole;every;ship;needs","base","","2026-09-14T15:04:48Z"
 "TLjXqQoD-Bs","yt-ms-now","MS NOW","DOJ prosecutor DiGenova resigns from Trump 'grand conspiracy' probe after no charges filed","'Grand jurors are not going to sign off': Trump's revenge campaign hits a wall after lawyer resigns","President Trump’s retribution campaign has hit another roadblock. Trump loyalist Joe DiGenova, who was brought in to lead the DOJ’s alleged “grand conspiracy” investigation into Trump’s opponents, abruptly resigned from the DOJ over the pace of the probe. It has been five months since DiGenova was appointed to that role, and as of today no charges have been brought. Meidastouch Chief Washington Correspondent Scott MacFarlane and MS Now contributor David Drucker join The Weekend to discuss.
 
 MS NOW: My Source for News, Opinion, and the World.
@@ -2129,6 +3583,26 @@ Want more Fireship?
 
 🗞️ Newsletter: https://bytes.dev
 🧠 Courses: https://fireship.dev","2026-09-11T17:24:40Z","https://www.youtube.com/watch?v=aspmNhKAFMc","https://i2.ytimg.com/vi/aspmNhKAFMc/hqdefault.jpg","political","","openai","base","","2026-09-12T13:31:04Z"
+"c00rkL-pht0","yt-nbc-news","NBC News","LIVE: NBC News NOW - Sept. 14","","NBC News NOW is live, reporting breaking news and developing stories in real time. We are on the scene, covering the most important stories of the day and taking deep dives on issues you care about.
+
+For more context and news coverage of the most important stories of our day, click here: https://www.nbcnews.com
+
+» Subscribe to NBC News: http://nbcnews.to/SubscribeToNBC
+» Watch more NBC video: http://bit.ly/MoreNBCNews
+
+Every day, NBC News helps people understand what’s happening and why it matters — through fact-based reporting, meaningful conversations, and powerful stories. From its leading news broadcasts — TODAY, NBC Nightly News, Meet the Press, and Dateline — to NBC News NOW, the 24/7 streaming news channel, plus chart-topping podcasts, the NBC News app, and NBCNews.com, NBC News keeps audiences informed and connected to the stories shaping our world.
+
+Connect with NBC News Online!
+NBC News App: https://apps.nbcnews.com/mobile
+Breaking News Alerts: https://link.nbcnews.com/join/5cj/breaking-news-signup?cid=sm_npd_nn_yt_bn-clip_190621
+Visit NBCNews.Com: http://nbcnews.to/ReadNBC
+Find NBC News on Facebook: http://nbcnews.to/LikeNBC
+Follow NBC News on Twitter: http://nbcnews.to/FollowNBC
+Follow NBC News on Instagram: http://nbcnews.to/InstaNBC
+
+#LiveNews #BreakingNews #NBCNews
+
+WATCH: NBC News NOW","2026-09-11T17:07:55Z","https://www.youtube.com/watch?v=c00rkL-pht0","https://i4.ytimg.com/vi/c00rkL-pht0/hqdefault.jpg","political","","live;nbc;news;now;sept","base","","2026-09-14T15:02:47Z"
 "zKTKTEAV-xU","yt-aitelly","AiTelly","How the Tomahawk Cruise Missile Actually Works","","Ever wonder how a cruise missile uses pre-stored maps to guide itself to a target? 
 It actually relies on a camera and a computer brain to scan the terrain as it flies, matching the landscape below to maps stored in its database.
 
