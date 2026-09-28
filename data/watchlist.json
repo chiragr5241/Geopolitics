@@ -1,7 +1,61 @@
 {
   "version": 1,
-  "updated_at": "2026-09-18T13:03:07Z",
+  "updated_at": "2026-09-28T12:59:45Z",
   "stories": [
+    {
+      "story_id": "st-20260922-unga81-general-debate",
+      "status": "active",
+      "title": "UN General Debate 2026 (UNGA 81): what every nation said",
+      "marked_at": "2026-09-28T00:00:00Z",
+      "created_by": "chirag",
+      "seed": {
+        "created_at": "2026-09-22 09:00:00",
+        "tweet_id": "",
+        "text": "The 81st UN General Assembly general debate, New York, 22-28 September 2026, under the theme \"Restoring trust, managing transformation: a United Nations that delivers for all\". Every national address is transcribed from the official UN YouTube channel and summarised with its primary concern; the speeches are clustered by what they worry about, and a friendliness score between nations is built from what they said about each other, rights of reply, and their stances on the contested questions of the year (the Gulf war and Hormuz, Ukraine, Gaza, world order, sanctions).",
+        "category": "political",
+        "countries": [
+          "US",
+          "CN",
+          "RU",
+          "IN",
+          "BR",
+          "FR",
+          "GB",
+          "IR",
+          "IL",
+          "PS",
+          "UA",
+          "PK"
+        ],
+        "lat": 40.7493,
+        "lng": -73.968
+      },
+      "query_hints": [
+        "UN General Assembly general debate 2026 speech",
+        "UNGA81 right of reply",
+        "UN General Assembly September 2026 reaction"
+      ],
+      "keywords": [
+        "general assembly",
+        "unga",
+        "general debate",
+        "unga81",
+        "right of reply",
+        "un podium"
+      ],
+      "last_update_at": "2026-09-28",
+      "update_count": 16,
+      "resolved_at": null,
+      "notes": "Created 2026-09-28. Transcripts: scripts/pull_un_speeches.py; summaries: data/un_speeches/unga81/summaries.json; analysis: scripts/analyze_un_speeches.py -> data/un_speeches/unga81.json, rendered by speeches.html.",
+      "custom": true,
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/United_Nations_General_Assembly_2024.jpg/1280px-United_Nations_General_Assembly_2024.jpg",
+      "parent_id": null,
+      "analysis": {
+        "type": "un_speeches",
+        "session": 81,
+        "url": "speeches.html?session=81"
+      }
+    },
     {
       "story_id": "st-20260511-ukraine-corruption",
       "status": "active",
@@ -30,8 +84,8 @@
         "mindich",
         "zelensky"
       ],
-      "last_update_at": "2026-08-25",
-      "update_count": 13,
+      "last_update_at": "2026-08-30",
+      "update_count": 17,
       "resolved_at": null,
       "notes": "Backfilled 2026-07-17 via web research; no coverage in intel_feed."
     },
@@ -74,8 +128,8 @@
         "starship",
         "spaceport"
       ],
-      "last_update_at": "2026-08-30",
-      "update_count": 37,
+      "last_update_at": "2026-09-22",
+      "update_count": 41,
       "resolved_at": null,
       "notes": "",
       "custom": true,
@@ -113,8 +167,8 @@
         "zaporizhzhia",
         "kherson"
       ],
-      "last_update_at": "2026-08-30",
-      "update_count": 192,
+      "last_update_at": "2026-09-27",
+      "update_count": 514,
       "resolved_at": null,
       "notes": "Backfilled 2026-07-21 from intel_feed via scripts/backfill_story_updates.py."
     },
@@ -157,8 +211,8 @@
         "reunification",
         "taipei"
       ],
-      "last_update_at": "2026-08-29",
-      "update_count": 85,
+      "last_update_at": "2026-09-26",
+      "update_count": 459,
       "resolved_at": null,
       "notes": "",
       "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/2020-04-23_Seaman_Xi_Chan_stands_lookout_on_the_flight_deck_as_USS_Barry_%28DDG_52%29_transits_the_Taiwan_Strait.jpg/1920px-2020-04-23_Seaman_Xi_Chan_stands_lookout_on_the_flight_deck_as_USS_Barry_%28DDG_52%29_transits_the_Taiwan_Strait.jpg",
@@ -201,8 +255,8 @@
         "nypd",
         "city hall"
       ],
-      "last_update_at": "2026-08-28",
-      "update_count": 31,
+      "last_update_at": "2026-09-21",
+      "update_count": 41,
       "resolved_at": null,
       "notes": "",
       "custom": true,
@@ -532,8 +586,8 @@
         "uav",
         "swarm"
       ],
-      "last_update_at": "2026-08-29",
-      "update_count": 27,
+      "last_update_at": "2026-09-26",
+      "update_count": 31,
       "resolved_at": null,
       "notes": "",
       "custom": true,
@@ -569,8 +623,8 @@
         "blockade",
         "missile"
       ],
-      "last_update_at": "2026-09-18",
-      "update_count": 166,
+      "last_update_at": "2026-09-28",
+      "update_count": 980,
       "resolved_at": null,
       "notes": "Backfilled 2026-07-17 from intel_feed, past-4-months major beats."
     },
@@ -603,8 +657,8 @@
         "redistricting",
         "kalshi"
       ],
-      "last_update_at": "2026-08-27",
-      "update_count": 60,
+      "last_update_at": "2026-09-24",
+      "update_count": 77,
       "resolved_at": null,
       "notes": "Backfilled 2026-07-21 from intel_feed via scripts/backfill_story_updates.py."
     },
@@ -637,8 +691,8 @@
         "tren de aragua",
         "essequibo"
       ],
-      "last_update_at": "2026-08-25",
-      "update_count": 47,
+      "last_update_at": "2026-09-28",
+      "update_count": 75,
       "resolved_at": null,
       "notes": "Backfilled 2026-07-21 from intel_feed via scripts/backfill_story_updates.py."
     },
@@ -671,8 +725,8 @@
         "lok sabha",
         "rahul gandhi"
       ],
-      "last_update_at": "2026-08-25",
-      "update_count": 46,
+      "last_update_at": "2026-09-24",
+      "update_count": 73,
       "resolved_at": null,
       "notes": "",
       "custom": true,
@@ -704,8 +758,8 @@
         "us government",
         "bloomberg"
       ],
-      "last_update_at": "2026-06-26",
-      "update_count": 0,
+      "last_update_at": "2026-07-01",
+      "update_count": 26,
       "resolved_at": null,
       "notes": ""
     },
@@ -731,8 +785,8 @@
         "world cup",
         "fifa"
       ],
-      "last_update_at": "2026-07-22",
-      "update_count": 12,
+      "last_update_at": "2026-09-25",
+      "update_count": 123,
       "resolved_at": "2026-07-22T21:41:12Z",
       "notes": "Backfilled 2026-07-17 from intel_feed, tournament milestones only."
     },
@@ -796,8 +850,8 @@
         "hts",
         "golan"
       ],
-      "last_update_at": "2026-09-04",
-      "update_count": 7,
+      "last_update_at": "2026-09-27",
+      "update_count": 204,
       "resolved_at": null,
       "notes": "Seeded 2026-09-04 from DW interview on SDF dissolution (youtube NdTqksVqy78). Syria-specific sources registered at the same time: enab-baladi, sana, syria-direct, north-press-agency, middle-east-eye, al-monitor, arab-news, gdelt-sy-syria, plus research-scope SOHR, The New Arab, Rudaw, World Bank, IMF, ICG.",
       "custom": true,
