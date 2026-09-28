@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" class="light-mode">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="UN General Debate — every nation's address summarised, clustered by primary concern, with a friendliness graph between nations">
+  <title>UN Speeches | OSINT Daily</title>
+
+  <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.classList.remove('light-mode');}catch(e){}</script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/site.css?v=37">
+</head>
+<body>
+
+<div id="site-nav-mount"></div>
+
+<div class="page-wrap un-page">
+  <div class="page-head">
+    <a class="un-back" id="un-back" href="tracker.html">&larr; Story timeline</a>
+    <div class="page-title" id="un-title">UN General Debate</div>
+    <div class="page-sub" id="un-sub">Loading speeches…</div>
+  </div>
+
+  <div class="un-stats" id="un-stats"></div>
+
+  <div class="section-label">What the world worried about</div>
+  <div class="card card-pad">
+    <div class="un-chart-note">Share of addresses that made each concern a major theme (weight 2–3 of 3). Click a bar to filter the addresses below.</div>
+    <div id="un-topics" class="un-topics"></div>
+  </div>
+
+  <div class="section-label">Concern clusters</div>
+  <div class="un-split">
+    <div class="card card-pad">
+      <div class="un-chart-note">Each mark is one nation, placed by what its speech emphasised. Nations close together worried about the same things; shape = cluster.</div>
+      <div id="un-scatter" class="un-plot"></div>
+    </div>
+    <div class="card card-pad un-cluster-list" id="un-clusters"></div>
+  </div>
+
+  <div class="section-label" id="friendliness">Friendliness</div>
+  <div class="un-split">
+    <div class="card card-pad">
+      <div class="un-graph-head">
+        <div class="un-chart-note">Lines are what nations said <em>about each other</em> from the podium or in rights of reply. Warm = <span class="un-key warm"></span> supportive, cool = <span class="un-key cool"></span> critical.</div>
+        <label class="un-toggle"><input type="checkbox" id="un-inferred"> Add inferred ties</label>
+      </div>
+      <div id="un-network" class="un-plot"></div>
+    </div>
+    <div class="card card-pad un-detail" id="un-detail"></div>
+  </div>
+
+  <div class="section-label" id="replies-label" hidden>Rights of reply</div>
+  <div class="un-replies" id="un-replies"></div>
+
+  <div class="section-label" id="addresses">Every address</div>
+  <div class="filter-bar un-filter" id="un-filter"></div>
+  <div class="tracker-search timeline-search">
+    <svg class="tracker-search-icon" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"></circle><line x1="16.5" y1="16.5" x2="21" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round"></line></svg>
+    <input type="search" id="un-search" class="tracker-search-input" placeholder="Search nations, speakers, concerns…" autocomplete="off">
+  </div>
+  <div class="un-grid" id="un-grid"></div>
+
+  <div class="section-label">Method</div>
+  <div class="card card-pad un-method" id="un-method"></div>
+</div>
+
+<div class="un-tip" id="un-tip" hidden></div>
+
+<script src="js/user-store.js?v=28"></script>
+<script src="js/session.js?v=28"></script>
+<script src="js/nav.js?v=29"></script>
+<script src="js/util.js?v=20"></script>
+<script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+<script src="js/speeches.js?v=4"></script>
+</body>
+</html>

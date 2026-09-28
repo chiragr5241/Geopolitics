@@ -19,6 +19,10 @@
     { href: 'map.html',     key: 'map',     label: 'Map' },
   ];
 
+  // Pages reached from inside another page's flow, not listed in the bar —
+  // they light up their parent's tab. speeches.html opens from a story timeline.
+  var ALIASES = { 'speeches.html': 'tracker' };
+
   var PERSONAL_URL = 'https://chirag5241.github.io/website/';
 
   var CHEVRON = '<svg class="user-menu__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5l6 6 6-6"/></svg>';
@@ -29,6 +33,7 @@
   function currentKey() {
     var path = (location.pathname.split('/').pop() || 'index.html');
     if (path === '' || path === '/') path = 'index.html';
+    if (ALIASES[path]) return ALIASES[path];
     var found = PAGES.filter(function (p) { return p.href === path; })[0];
     return found ? found.key : 'home';
   }

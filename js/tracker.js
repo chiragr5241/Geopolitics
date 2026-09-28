@@ -276,6 +276,30 @@
     }
   }
 
+  // A story can carry a dedicated analysis page (story.analysis = {type, url}),
+  // e.g. the UN General Debate story → speeches.html. The timeline stays the
+  // story's news; the analysis is linked above it rather than folded into it.
+  var ANALYSIS_COPY = {
+    un_speeches: {
+      title: 'Speech analysis',
+      sub: 'Every national address summarised with its primary concern, nations clustered by what they worry about, and a friendliness graph built from what they said about each other.',
+    },
+  };
+
+  function analysisCallout(story) {
+    var a = story.analysis;
+    if (!a || !a.url) return '';
+    var copy = ANALYSIS_COPY[a.type] || { title: 'Analysis', sub: '' };
+    var href = a.url + (a.url.indexOf('?') === -1 ? '?' : '&') + 'story=' + encodeURIComponent(story.story_id);
+    return '<a class="card tracker-analysis" href="' + esc(href) + '">' +
+      '<div class="tracker-analysis-body">' +
+        '<div class="tracker-analysis-title">' + esc(copy.title) + '</div>' +
+        (copy.sub ? '<div class="tracker-analysis-sub">' + esc(copy.sub) + '</div>' : '') +
+      '</div>' +
+      '<span class="tracker-analysis-go">Open &rarr;</span>' +
+    '</a>';
+  }
+
   function renderMain() {
     var main = document.getElementById('tracker-main');
     var story = WatchlistStore.all().filter(function (s) { return s.story_id === selectedId; })[0];
@@ -411,6 +435,7 @@
           }) +
         '</div>' +
       '</div>' +
+      analysisCallout(story) +
       searchBar +
       // Thread starts EMPTY and is filled in chunks below so the header + search
       // paint immediately even for a story with hundreds of updates. The loading
