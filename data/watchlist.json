@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-09-28T12:59:45Z",
+  "updated_at": "2026-10-05T13:00:55Z",
   "stories": [
     {
       "story_id": "st-20260922-unga81-general-debate",
@@ -43,8 +43,8 @@
         "right of reply",
         "un podium"
       ],
-      "last_update_at": "2026-09-28",
-      "update_count": 16,
+      "last_update_at": "2026-10-05",
+      "update_count": 20,
       "resolved_at": null,
       "notes": "Created 2026-09-28. Transcripts: scripts/pull_un_speeches.py; summaries: data/un_speeches/unga81/summaries.json; analysis: scripts/analyze_un_speeches.py -> data/un_speeches/unga81.json, rendered by speeches.html.",
       "custom": true,
@@ -211,8 +211,8 @@
         "reunification",
         "taipei"
       ],
-      "last_update_at": "2026-09-26",
-      "update_count": 459,
+      "last_update_at": "2026-10-05",
+      "update_count": 460,
       "resolved_at": null,
       "notes": "",
       "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/2020-04-23_Seaman_Xi_Chan_stands_lookout_on_the_flight_deck_as_USS_Barry_%28DDG_52%29_transits_the_Taiwan_Strait.jpg/1920px-2020-04-23_Seaman_Xi_Chan_stands_lookout_on_the_flight_deck_as_USS_Barry_%28DDG_52%29_transits_the_Taiwan_Strait.jpg",
