@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-10-05T13:00:55Z",
+  "updated_at": "2026-10-18T06:36:55Z",
   "stories": [
     {
       "story_id": "st-20260922-unga81-general-debate",
@@ -894,6 +894,184 @@
         "added": []
       },
       "meta_enriched_at": "2026-09-04T00:00:00Z"
+    },
+    {
+      "story_id": "st-20261018-france-political-crisis",
+      "status": "active",
+      "title": "France: Lecornu's minority government, the 2027 budget and the street",
+      "marked_at": "2026-10-18T00:00:00Z",
+      "created_by": "chirag",
+      "seed": {
+        "created_at": "2026-10-18 00:00:00",
+        "tweet_id": "",
+        "text": "Track current events in France: PM Sébastien Lecornu's minority government trying to pass a 2027 budget (€54bn of savings, deficit target 5.0% of GDP from 5.4%) through a hung National Assembly, while high-school blockades and nationwide protests escalate (71,500 marchers and 500+ arrests on one October day; Lecornu warning of violence at weekend protests).\n\nAI suggestion: Follow four threads. (1) PARLIAMENT AND GOVERNMENT SURVIVAL — the Assembly debate on the 2027 budget (revenue side from 13 Oct), every motion de censure and how the PS, RN and LFI vote, any use of article 49.3, cabinet resignations or reshuffles, and talk of dissolution or early elections. (2) DEBT AND MARKETS — the OAT–Bund spread, rating-agency decisions (Moody's, S&P, Fitch), EU excessive-deficit procedure, and what the €54bn effort actually cuts or taxes (pensions, health, local authorities, high earners). (3) THE STREET — the lycéen movement and school blockades, union strike days (CGT, FO, CFDT), 'Bloquons tout'-style mobilisations, policing and arrests, and the government's concessions (e.g. 3,000 extra teachers). (4) POSITIONING FOR 2027 — Macron's lame-duck role, the RN (Bardella/Le Pen) and the left's candidate jockeying ahead of the April 2027 presidential election, plus France's EU and Franco-German moves. Prefer dated votes, decrees, strike figures and market moves over commentary.",
+        "category": "political",
+        "countries": [
+          "FR"
+        ],
+        "lat": null,
+        "lng": null
+      },
+      "query_hints": [
+        "France Lecornu government latest",
+        "France 2027 budget National Assembly vote censure motion",
+        "France protests strikes lycéens blockades this week",
+        "France OAT bund spread rating debt",
+        "Macron 2027 presidential election RN Bardella polls"
+      ],
+      "keywords": [
+        "macron",
+        "lecornu",
+        "élysée",
+        "elysee",
+        "matignon",
+        "french government",
+        "french parliament",
+        "french pm",
+        "french prime minister",
+        "french president",
+        "assemblée nationale",
+        "motion de censure",
+        "no-confidence",
+        "french budget",
+        "french debt",
+        "rassemblement national",
+        "bardella",
+        "marine le pen",
+        "la france insoumise",
+        "mélenchon",
+        "melenchon",
+        "lycéens",
+        "bloquons tout",
+        "french unions",
+        "french protest",
+        "student protest",
+        "school protest",
+        "protest",
+        "riot police",
+        "police",
+        "blockade",
+        "yellow vests",
+        "gilets jaunes",
+        "far-right",
+        "far-left",
+        "presidential election",
+        "budget",
+        "spending",
+        "deficit",
+        "public debt",
+        "national rally",
+        "teachers",
+        "unions",
+        "general strike",
+        "prime minister"
+      ],
+      "last_update_at": "2026-10-18",
+      "update_count": 0,
+      "resolved_at": null,
+      "notes": "Seeded 2026-10-18 at Chirag's request. France-specific sources registered at the same time: le-monde-english, rfi-english, the-local-france (wire), connexion-france (research).",
+      "custom": true,
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Assembl%C3%A9e_Nationale_-_H%C3%A9micycle.JPG/1280px-Assembl%C3%A9e_Nationale_-_H%C3%A9micycle.JPG",
+      "parent_id": null,
+      "sources": {
+        "selected": [
+          "le-monde-english",
+          "rfi-english",
+          "the-local-france",
+          "france-24",
+          "connexion-france",
+          "eu-reporter",
+          "reuters",
+          "associated-press",
+          "agence-france-presse",
+          "bbc-world",
+          "the-guardian",
+          "financial-times",
+          "politico",
+          "dw-english"
+        ],
+        "excluded": [],
+        "added": []
+      },
+      "meta_enriched_at": "2026-10-18T00:00:00Z"
+    },
+    {
+      "story_id": "st-20261018-ai-safety",
+      "status": "active",
+      "title": "AI safety: rogue agents, lab accountability and the push for regulation",
+      "marked_at": "2026-10-18T00:00:00Z",
+      "created_by": "chirag",
+      "seed": {
+        "created_at": "2026-10-18 00:00:00",
+        "tweet_id": "",
+        "text": "Track AI safety news. Context as of mid-October 2026: the July OpenAI evaluation-agent intrusion into Hugging Face (and OpenAI's own research cluster) is the defining 'warning shot', with OpenAI's technical report and a METR/Redwood external investigation out in August; OpenAI fired three safety researchers in October in a disputed 'breach of trust' case; OpenAI, Anthropic, Meta and Google declined to guarantee at a NYC Council hearing that their agents will always follow guardrails; Transluce reported agents probing a Canadian government website; Microsoft's Brad Smith called for global AI rules.\n\nAI suggestion: Follow four threads. (1) INCIDENTS — misbehaving or rogue agents, model-enabled cyberattacks, evaluation escapes, jailbreaks with real-world harm, and the post-mortems. (2) LABS — safety frameworks and their revisions, model-release safety cards, whistleblowers and firings, safety-team departures, and lab–government deals (Anthropic, OpenAI, Google DeepMind, Meta, xAI). (3) GOVERNMENT AND LAW — the EU AI Act's GPAI obligations, US federal and state bills (California, New York), UK AI Security Institute and US CAISI evaluations, export controls, and international summits. (4) RESEARCH — interpretability, alignment and control results, dangerous-capability evals (cyber, bio), and METR-style autonomy measurements. Prefer concrete, dated developments over opinion pieces; AI-in-warfare stories belong to the separate 'AI use in war' story.",
+        "category": "technology",
+        "countries": [
+          "US",
+          "GB",
+          "EU",
+          "CN"
+        ],
+        "lat": null,
+        "lng": null
+      },
+      "query_hints": [
+        "AI safety news this week",
+        "AI agent incident rogue agent cyberattack latest",
+        "OpenAI Anthropic Google DeepMind safety framework announcement",
+        "AI regulation bill EU AI Act California New York latest",
+        "AI Security Institute evaluation frontier model report"
+      ],
+      "keywords": [
+        "ai safety",
+        "ai agent",
+        "rogue agent",
+        "frontier model",
+        "frontier ai",
+        "openai",
+        "anthropic",
+        "deepmind",
+        "hugging face",
+        "ai security institute",
+        "caisi",
+        "ai act",
+        "ai regulation",
+        "superintelligence",
+        "guardrails",
+        "interpretability",
+        "safety researcher",
+        "transluce",
+        "redwood research",
+        "alignment"
+      ],
+      "last_update_at": "2026-10-18",
+      "update_count": 0,
+      "resolved_at": null,
+      "notes": "Seeded 2026-10-18 at Chirag's request. AI-safety sources registered at the same time: transformer, ai-safety-newsletter (wire), mit-technology-review, uk-ai-security-institute, metr (research).",
+      "custom": true,
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/UK_Government_hosts_AI_Summit_at_Bletchley_Park_%2853302954384%29.jpg/1280px-UK_Government_hosts_AI_Summit_at_Bletchley_Park_%2853302954384%29.jpg",
+      "parent_id": null,
+      "sources": {
+        "selected": [
+          "transformer",
+          "ai-safety-newsletter",
+          "mit-technology-review",
+          "uk-ai-security-institute",
+          "metr",
+          "ars-technica",
+          "reuters",
+          "associated-press",
+          "agence-france-presse",
+          "bbc-world",
+          "the-guardian",
+          "financial-times",
+          "politico",
+          "dw-english"
+        ],
+        "excluded": [],
+        "added": []
+      },
+      "meta_enriched_at": "2026-10-18T00:00:00Z"
     }
   ]
 }
