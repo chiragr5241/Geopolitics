@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-10-18T06:36:55Z",
+  "updated_at": "2026-10-29T12:33:08Z",
   "stories": [
     {
       "story_id": "st-20260922-unga81-general-debate",
@@ -44,7 +44,7 @@
         "un podium"
       ],
       "last_update_at": "2026-10-05",
-      "update_count": 20,
+      "update_count": 27,
       "resolved_at": null,
       "notes": "Created 2026-09-28. Transcripts: scripts/pull_un_speeches.py; summaries: data/un_speeches/unga81/summaries.json; analysis: scripts/analyze_un_speeches.py -> data/un_speeches/unga81.json, rendered by speeches.html.",
       "custom": true,
@@ -84,8 +84,8 @@
         "mindich",
         "zelensky"
       ],
-      "last_update_at": "2026-08-30",
-      "update_count": 17,
+      "last_update_at": "2026-10-29",
+      "update_count": 24,
       "resolved_at": null,
       "notes": "Backfilled 2026-07-17 via web research; no coverage in intel_feed."
     },
@@ -128,8 +128,8 @@
         "starship",
         "spaceport"
       ],
-      "last_update_at": "2026-09-22",
-      "update_count": 41,
+      "last_update_at": "2026-10-29",
+      "update_count": 44,
       "resolved_at": null,
       "notes": "",
       "custom": true,
@@ -167,8 +167,8 @@
         "zaporizhzhia",
         "kherson"
       ],
-      "last_update_at": "2026-09-27",
-      "update_count": 514,
+      "last_update_at": "2026-10-29",
+      "update_count": 703,
       "resolved_at": null,
       "notes": "Backfilled 2026-07-21 from intel_feed via scripts/backfill_story_updates.py."
     },
@@ -211,8 +211,8 @@
         "reunification",
         "taipei"
       ],
-      "last_update_at": "2026-10-05",
-      "update_count": 460,
+      "last_update_at": "2026-10-29",
+      "update_count": 496,
       "resolved_at": null,
       "notes": "",
       "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/2020-04-23_Seaman_Xi_Chan_stands_lookout_on_the_flight_deck_as_USS_Barry_%28DDG_52%29_transits_the_Taiwan_Strait.jpg/1920px-2020-04-23_Seaman_Xi_Chan_stands_lookout_on_the_flight_deck_as_USS_Barry_%28DDG_52%29_transits_the_Taiwan_Strait.jpg",
@@ -255,8 +255,8 @@
         "nypd",
         "city hall"
       ],
-      "last_update_at": "2026-09-21",
-      "update_count": 41,
+      "last_update_at": "2026-10-29",
+      "update_count": 44,
       "resolved_at": null,
       "notes": "",
       "custom": true,
@@ -586,8 +586,8 @@
         "uav",
         "swarm"
       ],
-      "last_update_at": "2026-09-26",
-      "update_count": 31,
+      "last_update_at": "2026-10-29",
+      "update_count": 37,
       "resolved_at": null,
       "notes": "",
       "custom": true,
@@ -623,8 +623,8 @@
         "blockade",
         "missile"
       ],
-      "last_update_at": "2026-09-28",
-      "update_count": 980,
+      "last_update_at": "2026-10-29",
+      "update_count": 1133,
       "resolved_at": null,
       "notes": "Backfilled 2026-07-17 from intel_feed, past-4-months major beats."
     },
@@ -657,8 +657,8 @@
         "redistricting",
         "kalshi"
       ],
-      "last_update_at": "2026-09-24",
-      "update_count": 77,
+      "last_update_at": "2026-10-29",
+      "update_count": 84,
       "resolved_at": null,
       "notes": "Backfilled 2026-07-21 from intel_feed via scripts/backfill_story_updates.py."
     },
@@ -691,8 +691,8 @@
         "tren de aragua",
         "essequibo"
       ],
-      "last_update_at": "2026-09-28",
-      "update_count": 75,
+      "last_update_at": "2026-10-29",
+      "update_count": 83,
       "resolved_at": null,
       "notes": "Backfilled 2026-07-21 from intel_feed via scripts/backfill_story_updates.py."
     },
@@ -725,8 +725,8 @@
         "lok sabha",
         "rahul gandhi"
       ],
-      "last_update_at": "2026-09-24",
-      "update_count": 73,
+      "last_update_at": "2026-10-29",
+      "update_count": 108,
       "resolved_at": null,
       "notes": "",
       "custom": true,
@@ -758,8 +758,8 @@
         "us government",
         "bloomberg"
       ],
-      "last_update_at": "2026-07-01",
-      "update_count": 26,
+      "last_update_at": "2026-10-01",
+      "update_count": 28,
       "resolved_at": null,
       "notes": ""
     },
@@ -785,8 +785,8 @@
         "world cup",
         "fifa"
       ],
-      "last_update_at": "2026-09-25",
-      "update_count": 123,
+      "last_update_at": "2026-10-20",
+      "update_count": 128,
       "resolved_at": "2026-07-22T21:41:12Z",
       "notes": "Backfilled 2026-07-17 from intel_feed, tournament milestones only."
     },
@@ -850,8 +850,8 @@
         "hts",
         "golan"
       ],
-      "last_update_at": "2026-09-27",
-      "update_count": 204,
+      "last_update_at": "2026-10-29",
+      "update_count": 376,
       "resolved_at": null,
       "notes": "Seeded 2026-09-04 from DW interview on SDF dissolution (youtube NdTqksVqy78). Syria-specific sources registered at the same time: enab-baladi, sana, syria-direct, north-press-agency, middle-east-eye, al-monitor, arab-news, gdelt-sy-syria, plus research-scope SOHR, The New Arab, Rudaw, World Bank, IMF, ICG.",
       "custom": true,
@@ -966,8 +966,8 @@
         "general strike",
         "prime minister"
       ],
-      "last_update_at": "2026-10-18",
-      "update_count": 0,
+      "last_update_at": "2026-10-29",
+      "update_count": 108,
       "resolved_at": null,
       "notes": "Seeded 2026-10-18 at Chirag's request. France-specific sources registered at the same time: le-monde-english, rfi-english, the-local-france (wire), connexion-france (research).",
       "custom": true,
@@ -1044,8 +1044,8 @@
         "redwood research",
         "alignment"
       ],
-      "last_update_at": "2026-10-18",
-      "update_count": 0,
+      "last_update_at": "2026-10-22",
+      "update_count": 13,
       "resolved_at": null,
       "notes": "Seeded 2026-10-18 at Chirag's request. AI-safety sources registered at the same time: transformer, ai-safety-newsletter (wire), mit-technology-review, uk-ai-security-institute, metr (research).",
       "custom": true,
