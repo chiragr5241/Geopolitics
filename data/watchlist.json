@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-11-02T09:06:11Z",
+  "updated_at": "2026-11-02T12:31:57Z",
   "stories": [
     {
       "story_id": "st-20260922-unga81-general-debate",
@@ -85,7 +85,7 @@
         "zelensky"
       ],
       "last_update_at": "2026-10-31",
-      "update_count": 25,
+      "update_count": 27,
       "resolved_at": null,
       "notes": "Backfilled 2026-07-17 via web research; no coverage in intel_feed."
     },
@@ -168,7 +168,7 @@
         "kherson"
       ],
       "last_update_at": "2026-11-02",
-      "update_count": 719,
+      "update_count": 731,
       "resolved_at": null,
       "notes": "Backfilled 2026-07-21 from intel_feed via scripts/backfill_story_updates.py."
     },
@@ -211,8 +211,8 @@
         "reunification",
         "taipei"
       ],
-      "last_update_at": "2026-10-31",
-      "update_count": 497,
+      "last_update_at": "2026-11-02",
+      "update_count": 500,
       "resolved_at": null,
       "notes": "",
       "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/2020-04-23_Seaman_Xi_Chan_stands_lookout_on_the_flight_deck_as_USS_Barry_%28DDG_52%29_transits_the_Taiwan_Strait.jpg/1920px-2020-04-23_Seaman_Xi_Chan_stands_lookout_on_the_flight_deck_as_USS_Barry_%28DDG_52%29_transits_the_Taiwan_Strait.jpg",
@@ -586,8 +586,8 @@
         "uav",
         "swarm"
       ],
-      "last_update_at": "2026-10-29",
-      "update_count": 37,
+      "last_update_at": "2026-11-02",
+      "update_count": 39,
       "resolved_at": null,
       "notes": "",
       "custom": true,
@@ -624,7 +624,7 @@
         "missile"
       ],
       "last_update_at": "2026-11-02",
-      "update_count": 1141,
+      "update_count": 1146,
       "resolved_at": null,
       "notes": "Backfilled 2026-07-17 from intel_feed, past-4-months major beats."
     },
@@ -691,8 +691,8 @@
         "tren de aragua",
         "essequibo"
       ],
-      "last_update_at": "2026-10-31",
-      "update_count": 84,
+      "last_update_at": "2026-11-02",
+      "update_count": 85,
       "resolved_at": null,
       "notes": "Backfilled 2026-07-21 from intel_feed via scripts/backfill_story_updates.py."
     },
@@ -725,8 +725,8 @@
         "lok sabha",
         "rahul gandhi"
       ],
-      "last_update_at": "2026-10-29",
-      "update_count": 108,
+      "last_update_at": "2026-11-02",
+      "update_count": 109,
       "resolved_at": null,
       "notes": "",
       "custom": true,
@@ -850,8 +850,8 @@
         "hts",
         "golan"
       ],
-      "last_update_at": "2026-10-31",
-      "update_count": 387,
+      "last_update_at": "2026-11-02",
+      "update_count": 394,
       "resolved_at": null,
       "notes": "Seeded 2026-09-04 from DW interview on SDF dissolution (youtube NdTqksVqy78). Syria-specific sources registered at the same time: enab-baladi, sana, syria-direct, north-press-agency, middle-east-eye, al-monitor, arab-news, gdelt-sy-syria, plus research-scope SOHR, The New Arab, Rudaw, World Bank, IMF, ICG.",
       "custom": true,
@@ -966,8 +966,8 @@
         "general strike",
         "prime minister"
       ],
-      "last_update_at": "2026-10-31",
-      "update_count": 111,
+      "last_update_at": "2026-11-02",
+      "update_count": 121,
       "resolved_at": null,
       "notes": "Seeded 2026-10-18 at Chirag's request. France-specific sources registered at the same time: le-monde-english, rfi-english, the-local-france (wire), connexion-france (research).",
       "custom": true,
