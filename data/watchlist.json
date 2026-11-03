@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-11-02T12:31:57Z",
+  "updated_at": "2026-11-03T15:06:07Z",
   "stories": [
     {
       "story_id": "st-20260922-unga81-general-debate",
@@ -44,7 +44,7 @@
         "un podium"
       ],
       "last_update_at": "2026-10-05",
-      "update_count": 28,
+      "update_count": 29,
       "resolved_at": null,
       "notes": "Created 2026-09-28. Transcripts: scripts/pull_un_speeches.py; summaries: data/un_speeches/unga81/summaries.json; analysis: scripts/analyze_un_speeches.py -> data/un_speeches/unga81.json, rendered by speeches.html.",
       "custom": true,
@@ -84,8 +84,8 @@
         "mindich",
         "zelensky"
       ],
-      "last_update_at": "2026-10-31",
-      "update_count": 27,
+      "last_update_at": "2026-11-03",
+      "update_count": 28,
       "resolved_at": null,
       "notes": "Backfilled 2026-07-17 via web research; no coverage in intel_feed."
     },
@@ -128,8 +128,8 @@
         "starship",
         "spaceport"
       ],
-      "last_update_at": "2026-10-31",
-      "update_count": 45,
+      "last_update_at": "2026-11-03",
+      "update_count": 46,
       "resolved_at": null,
       "notes": "",
       "custom": true,
@@ -167,8 +167,8 @@
         "zaporizhzhia",
         "kherson"
       ],
-      "last_update_at": "2026-11-02",
-      "update_count": 731,
+      "last_update_at": "2026-11-03",
+      "update_count": 740,
       "resolved_at": null,
       "notes": "Backfilled 2026-07-21 from intel_feed via scripts/backfill_story_updates.py."
     },
@@ -255,8 +255,8 @@
         "nypd",
         "city hall"
       ],
-      "last_update_at": "2026-11-02",
-      "update_count": 46,
+      "last_update_at": "2026-11-03",
+      "update_count": 47,
       "resolved_at": null,
       "notes": "",
       "custom": true,
@@ -586,8 +586,8 @@
         "uav",
         "swarm"
       ],
-      "last_update_at": "2026-11-02",
-      "update_count": 39,
+      "last_update_at": "2026-11-03",
+      "update_count": 40,
       "resolved_at": null,
       "notes": "",
       "custom": true,
@@ -623,8 +623,8 @@
         "blockade",
         "missile"
       ],
-      "last_update_at": "2026-11-02",
-      "update_count": 1146,
+      "last_update_at": "2026-11-03",
+      "update_count": 1155,
       "resolved_at": null,
       "notes": "Backfilled 2026-07-17 from intel_feed, past-4-months major beats."
     },
@@ -657,8 +657,8 @@
         "redistricting",
         "kalshi"
       ],
-      "last_update_at": "2026-11-02",
-      "update_count": 86,
+      "last_update_at": "2026-11-03",
+      "update_count": 87,
       "resolved_at": null,
       "notes": "Backfilled 2026-07-21 from intel_feed via scripts/backfill_story_updates.py."
     },
@@ -850,8 +850,8 @@
         "hts",
         "golan"
       ],
-      "last_update_at": "2026-11-02",
-      "update_count": 394,
+      "last_update_at": "2026-11-03",
+      "update_count": 398,
       "resolved_at": null,
       "notes": "Seeded 2026-09-04 from DW interview on SDF dissolution (youtube NdTqksVqy78). Syria-specific sources registered at the same time: enab-baladi, sana, syria-direct, north-press-agency, middle-east-eye, al-monitor, arab-news, gdelt-sy-syria, plus research-scope SOHR, The New Arab, Rudaw, World Bank, IMF, ICG.",
       "custom": true,
@@ -966,8 +966,8 @@
         "general strike",
         "prime minister"
       ],
-      "last_update_at": "2026-11-02",
-      "update_count": 121,
+      "last_update_at": "2026-11-03",
+      "update_count": 124,
       "resolved_at": null,
       "notes": "Seeded 2026-10-18 at Chirag's request. France-specific sources registered at the same time: le-monde-english, rfi-english, the-local-france (wire), connexion-france (research).",
       "custom": true,
