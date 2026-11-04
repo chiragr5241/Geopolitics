@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-11-04T05:21:18Z",
+  "updated_at": "2026-11-04T14:02:26Z",
   "stories": [
     {
       "story_id": "st-20261103-united-nations",
@@ -11,7 +11,7 @@
       "seed": {
         "created_at": "2026-11-03 09:00:00",
         "tweet_id": "",
-        "text": "Everything the United Nations reports each day. The official record comes from the UN's Meetings Coverage (press.un.org): Security Council meetings and votes, Secretary-General statements and the noon briefing, and the human rights bodies. UN News adds the agencies, missions and the field. The 81st General Assembly is its own branch: its plenary, the six Main Committees and the General Debate speech analysis.",
+        "text": "Everything the United Nations reports each day. The official record comes from the UN's Meetings Coverage (press.un.org): Security Council meetings and votes, Secretary-General statements and the noon briefing, and the human rights bodies. UN News adds the agencies, missions and the field. The 81st General Assembly is its own branch: its plenary, the six Main Committees and the General Debate speech analysis.\n\nAI suggestion: Track the UN's daily institutional record: Security Council meetings, votes, vetoes and presidential statements; the Secretary-General's statements and the noon briefing; Human Rights Council and OHCHR findings; and agency/field reporting (OCHA, UNHCR, WFP, UNRWA, peacekeeping missions). Flashpoints: Council deadlock over Ukraine, Gaza and Iran, humanitarian access and funding shortfalls, mission mandate renewals, and the Secretary-General selection process. The story is deliberately global, so no country gate is set — matching runs on UN-body keywords.",
         "category": "political",
         "countries": [],
         "lat": 40.7493,
@@ -29,7 +29,7 @@
         "noon briefing"
       ],
       "last_update_at": "2026-11-04",
-      "update_count": 465,
+      "update_count": 467,
       "resolved_at": null,
       "notes": "Created 2026-11-03. Umbrella story for the UN's own daily reporting. Beats: scripts/un_story_updates.py from data/un_daily/reports.csv (scripts/pull_un_daily.py) — every report, with General Assembly reports also copied onto the UNGA 81 branch (parent_id). Feed rows: link_sources=['UN News'] makes link_stories.py link every UN News row and nothing else (keywords alone would pull in the whole wire); update_stories.py (7a) skips link_sources stories.",
       "custom": true,
@@ -37,7 +37,8 @@
       "parent_id": null,
       "link_sources": [
         "UN News"
-      ]
+      ],
+      "meta_enriched_at": "2026-11-04T12:24:43Z"
     },
     {
       "story_id": "st-20260922-unga81-general-debate",
@@ -81,7 +82,7 @@
         "un podium"
       ],
       "last_update_at": "2026-11-04",
-      "update_count": 70,
+      "update_count": 68,
       "resolved_at": null,
       "notes": "Created 2026-09-28. Transcripts: scripts/pull_un_speeches.py; summaries: data/un_speeches/unga81/summaries.json; analysis: scripts/analyze_un_speeches.py -> data/un_speeches/unga81.json, rendered by speeches.html. 2026-11-03: became the UNGA branch of st-20261103-united-nations; daily General Assembly reports (plenary + Main Committees) land here via scripts/un_story_updates.py.",
       "custom": true,
@@ -204,8 +205,8 @@
         "zaporizhzhia",
         "kherson"
       ],
-      "last_update_at": "2026-11-03",
-      "update_count": 740,
+      "last_update_at": "2026-11-04",
+      "update_count": 698,
       "resolved_at": null,
       "notes": "Backfilled 2026-07-21 from intel_feed via scripts/backfill_story_updates.py."
     },
@@ -249,7 +250,7 @@
         "taipei"
       ],
       "last_update_at": "2026-11-02",
-      "update_count": 500,
+      "update_count": 499,
       "resolved_at": null,
       "notes": "",
       "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/2020-04-23_Seaman_Xi_Chan_stands_lookout_on_the_flight_deck_as_USS_Barry_%28DDG_52%29_transits_the_Taiwan_Strait.jpg/1920px-2020-04-23_Seaman_Xi_Chan_stands_lookout_on_the_flight_deck_as_USS_Barry_%28DDG_52%29_transits_the_Taiwan_Strait.jpg",
@@ -292,8 +293,8 @@
         "nypd",
         "city hall"
       ],
-      "last_update_at": "2026-11-03",
-      "update_count": 47,
+      "last_update_at": "2026-11-04",
+      "update_count": 48,
       "resolved_at": null,
       "notes": "",
       "custom": true,
@@ -660,8 +661,8 @@
         "blockade",
         "missile"
       ],
-      "last_update_at": "2026-11-03",
-      "update_count": 1155,
+      "last_update_at": "2026-11-04",
+      "update_count": 1118,
       "resolved_at": null,
       "notes": "Backfilled 2026-07-17 from intel_feed, past-4-months major beats."
     },
@@ -694,8 +695,8 @@
         "redistricting",
         "kalshi"
       ],
-      "last_update_at": "2026-11-03",
-      "update_count": 87,
+      "last_update_at": "2026-11-04",
+      "update_count": 91,
       "resolved_at": null,
       "notes": "Backfilled 2026-07-21 from intel_feed via scripts/backfill_story_updates.py."
     },
@@ -762,8 +763,8 @@
         "lok sabha",
         "rahul gandhi"
       ],
-      "last_update_at": "2026-11-02",
-      "update_count": 109,
+      "last_update_at": "2026-11-04",
+      "update_count": 110,
       "resolved_at": null,
       "notes": "",
       "custom": true,
@@ -887,8 +888,8 @@
         "hts",
         "golan"
       ],
-      "last_update_at": "2026-11-03",
-      "update_count": 398,
+      "last_update_at": "2026-11-04",
+      "update_count": 403,
       "resolved_at": null,
       "notes": "Seeded 2026-09-04 from DW interview on SDF dissolution (youtube NdTqksVqy78). Syria-specific sources registered at the same time: enab-baladi, sana, syria-direct, north-press-agency, middle-east-eye, al-monitor, arab-news, gdelt-sy-syria, plus research-scope SOHR, The New Arab, Rudaw, World Bank, IMF, ICG.",
       "custom": true,
@@ -1003,7 +1004,7 @@
         "general strike",
         "prime minister"
       ],
-      "last_update_at": "2026-11-03",
+      "last_update_at": "2026-11-04",
       "update_count": 124,
       "resolved_at": null,
       "notes": "Seeded 2026-10-18 at Chirag's request. France-specific sources registered at the same time: le-monde-english, rfi-english, the-local-france (wire), connexion-france (research).",
@@ -1082,7 +1083,7 @@
         "alignment"
       ],
       "last_update_at": "2026-10-31",
-      "update_count": 14,
+      "update_count": 15,
       "resolved_at": null,
       "notes": "Seeded 2026-10-18 at Chirag's request. AI-safety sources registered at the same time: transformer, ai-safety-newsletter (wire), mit-technology-review, uk-ai-security-institute, metr (research).",
       "custom": true,
