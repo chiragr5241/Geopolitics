@@ -1,11 +1,48 @@
 {
   "version": 1,
-  "updated_at": "2026-11-03T15:06:07Z",
+  "updated_at": "2026-11-04T05:21:18Z",
   "stories": [
+    {
+      "story_id": "st-20261103-united-nations",
+      "status": "active",
+      "title": "United Nations: daily reporting",
+      "marked_at": "2026-11-03T00:00:00Z",
+      "created_by": "chirag",
+      "seed": {
+        "created_at": "2026-11-03 09:00:00",
+        "tweet_id": "",
+        "text": "Everything the United Nations reports each day. The official record comes from the UN's Meetings Coverage (press.un.org): Security Council meetings and votes, Secretary-General statements and the noon briefing, and the human rights bodies. UN News adds the agencies, missions and the field. The 81st General Assembly is its own branch: its plenary, the six Main Committees and the General Debate speech analysis.",
+        "category": "political",
+        "countries": [],
+        "lat": 40.7493,
+        "lng": -73.968
+      },
+      "query_hints": [
+        "UN Security Council meeting today",
+        "UN Secretary-General statement today"
+      ],
+      "keywords": [
+        "security council",
+        "secretary-general",
+        "united nations",
+        "un news",
+        "noon briefing"
+      ],
+      "last_update_at": "2026-11-04",
+      "update_count": 465,
+      "resolved_at": null,
+      "notes": "Created 2026-11-03. Umbrella story for the UN's own daily reporting. Beats: scripts/un_story_updates.py from data/un_daily/reports.csv (scripts/pull_un_daily.py) — every report, with General Assembly reports also copied onto the UNGA 81 branch (parent_id). Feed rows: link_sources=['UN News'] makes link_stories.py link every UN News row and nothing else (keywords alone would pull in the whole wire); update_stories.py (7a) skips link_sources stories.",
+      "custom": true,
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/United_Nations_Headquarters_in_New_York_City%2C_view_from_Roosevelt_Island.jpg/1280px-United_Nations_Headquarters_in_New_York_City%2C_view_from_Roosevelt_Island.jpg",
+      "parent_id": null,
+      "link_sources": [
+        "UN News"
+      ]
+    },
     {
       "story_id": "st-20260922-unga81-general-debate",
       "status": "active",
-      "title": "UN General Debate 2026 (UNGA 81): what every nation said",
+      "title": "UNGA 81: the 81st General Assembly",
       "marked_at": "2026-09-28T00:00:00Z",
       "created_by": "chirag",
       "seed": {
@@ -43,13 +80,13 @@
         "right of reply",
         "un podium"
       ],
-      "last_update_at": "2026-10-05",
-      "update_count": 29,
+      "last_update_at": "2026-11-04",
+      "update_count": 70,
       "resolved_at": null,
-      "notes": "Created 2026-09-28. Transcripts: scripts/pull_un_speeches.py; summaries: data/un_speeches/unga81/summaries.json; analysis: scripts/analyze_un_speeches.py -> data/un_speeches/unga81.json, rendered by speeches.html.",
+      "notes": "Created 2026-09-28. Transcripts: scripts/pull_un_speeches.py; summaries: data/un_speeches/unga81/summaries.json; analysis: scripts/analyze_un_speeches.py -> data/un_speeches/unga81.json, rendered by speeches.html. 2026-11-03: became the UNGA branch of st-20261103-united-nations; daily General Assembly reports (plenary + Main Committees) land here via scripts/un_story_updates.py.",
       "custom": true,
       "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/United_Nations_General_Assembly_2024.jpg/1280px-United_Nations_General_Assembly_2024.jpg",
-      "parent_id": null,
+      "parent_id": "st-20261103-united-nations",
       "analysis": {
         "type": "un_speeches",
         "session": 81,

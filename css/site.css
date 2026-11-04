@@ -173,6 +173,37 @@ body {
 
 .story-tile.lead .story-tile-title { font-size: 22px; -webkit-line-clamp: 3; }
 
+/* Tile = <div> + stretched link, so branch rows can be links of their own.
+   The body lets clicks fall through to the stretched link except on branches. */
+.story-tile-link { position: absolute; inset: 0; z-index: 2; border-radius: inherit; }
+.story-tile-link:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.story-tile-body { pointer-events: none; z-index: 3; }
+
+/* Branches (parent_id) of a tracked story ride inside its tile: translucent
+   one-line rows under the title, each linking to the branch's timeline. */
+.story-tile.has-branches .story-tile-title { -webkit-line-clamp: 2; }
+.story-tile-branches { display: flex; flex-direction: column; gap: 4px; margin-top: 10px; pointer-events: auto; }
+.story-tile-branch {
+  display: flex; align-items: center; gap: 7px;
+  padding: 5px 9px;
+  border-radius: var(--radius-sm);
+  background: rgba(255,255,255,.14);
+  border: 1px solid rgba(255,255,255,.22);
+  backdrop-filter: blur(6px);
+  color: #fff; text-decoration: none;
+  transition: background .15s, border-color .15s;
+}
+.story-tile-branch:hover { background: rgba(255,255,255,.26); border-color: rgba(255,255,255,.4); }
+.story-tile-branch:focus-visible { outline: 2px solid #fff; outline-offset: 1px; }
+.story-tile-branch-icon { font-size: 12px; opacity: .85; flex-shrink: 0; }
+.story-tile-branch-title {
+  flex: 1; min-width: 0;
+  font-family: var(--font-body); font-size: 12px; font-weight: 600;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.story-tile-branch-count { font-family: var(--font-mono); font-size: 11px; opacity: .8; flex-shrink: 0; }
+.story-tile-branch-more { font-family: var(--font-mono); font-size: 11px; color: rgba(255,255,255,.75); padding-left: 2px; }
+
 .story-tile-dek {
   margin-top: 8px;
   font-family: var(--font-body);
@@ -1293,6 +1324,30 @@ a.source-badge:hover { border-color: var(--accent); }
 .subthread-branch { font-size: 12px; }
 .subthread-title { color: var(--text2); font-weight: 600; }
 .subthread-count { color: var(--text); }
+
+/* Story branches (parent_id): nested rail items, the parent link in a branch's
+   header, and the list of branches under a parent's header. */
+.tracker-story-item.is-branch { border-left-style: dashed; }
+.tracker-parent-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  margin-bottom: 8px; padding: 0; border: 0; background: none; cursor: pointer;
+  font-family: var(--font-mono); font-size: 11px; color: var(--accent);
+}
+.tracker-parent-link:hover .subthread-title { text-decoration: underline; }
+.tracker-branches { margin: 0 0 16px; display: flex; flex-direction: column; gap: 8px; }
+.tracker-branches-label {
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: .8px;
+  text-transform: uppercase; color: var(--text);
+}
+.tracker-branch {
+  display: flex; align-items: center; gap: 12px; width: 100%;
+  padding: 12px 16px; text-align: left; font: inherit; cursor: pointer;
+  border-left: 3px solid var(--accent-soft);
+}
+.tracker-branch:hover { box-shadow: var(--shadow-md); border-left-color: var(--accent); }
+.tracker-branch .subthread-branch { color: var(--accent); font-size: 14px; }
+.tracker-branch-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+.tracker-branch-title { font-family: var(--font-display); font-weight: 700; font-size: 15px; color: var(--bright); }
 
 .timeline-node-source {
   margin-top: 6px;

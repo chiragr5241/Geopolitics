@@ -12,6 +12,13 @@ Matching mirrors update_stories.py: a row matches a story when it shares >=1
 country AND either hits >=2 of the story's keywords, or hits 1 keyword and its
 lat/lng is within ~2 degrees of the story's seed location.
 
+A story that declares `link_sources` (e.g. the United Nations story:
+["UN News"]) is matched by SOURCE instead: every row from one of those sources,
+and nothing else. That is for a story fed by its own dedicated pipeline, whose
+generic keywords ("security council", "united nations") would otherwise pull
+in half the wire. Note an EMPTY country list is not a gate at all — it lets
+keyword matches through from anywhere.
+
 Links are recomputed from scratch every run against EVERY story currently in
 watchlist.json, regardless of status:
   - a story that was DELETED from the watchlist simply stops matching -> its tag
@@ -53,11 +60,14 @@ def load_stories():
             'keywords': [k.lower() for k in s.get('keywords', []) if k],
             'lat': seed.get('lat'),
             'lng': seed.get('lng'),
+            'link_sources': set(s.get('link_sources') or []),
         })
     return stories
 
 
 def matches(row, story):
+    if story['link_sources']:
+        return (row.get('source') or '') in story['link_sources']
     row_countries = {c.strip().upper()
                      for c in (row.get('countries') or '').split(';') if c.strip()}
     if story['countries'] and not (story['countries'] & row_countries):

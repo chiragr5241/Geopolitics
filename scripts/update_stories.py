@@ -119,6 +119,11 @@ def main():
 
     for story in active_stories:
         story_id = story['story_id']
+        # A `link_sources` story (the United Nations story) has its own
+        # dedicated beat writer (un_story_updates.py); its feed rows reach the
+        # timeline through linked_story_ids, so 7a never writes beats for it.
+        if story.get('link_sources'):
+            continue
         excluded = set(story_sources(story)['excluded'])
         last_update = parse_dt(story.get('last_update_at')) or parse_dt(story.get('marked_at')) or datetime.min
         countries = {c.upper() for c in story.get('seed', {}).get('countries', [])}

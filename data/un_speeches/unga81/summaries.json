@@ -995,21 +995,21 @@
   "src": "transcript"
  },
  "VHWW2ouhQ9w": {
-  "summary": "Argentina's delegate said the Malvinas, South Georgia and South Sandwich Islands are Argentine territory 'illegally occupied' by the United Kingdom since 1833, urged the UK to meet its decolonization obligations, and reiterated readiness to resume bilateral negotiations.",
+  "summary": "Replying to the UK prime minister's remark on the Falklands, Argentina said the Malvinas, South Georgia and South Sandwich Islands are Argentine territory 'illegally occupied' by the United Kingdom since 1833. It cited General Assembly resolution 2065, urged the UK to meet its decolonization obligations and stop unilateral changes, and reiterated its readiness to resume bilateral negotiations.",
+  "src": "transcript",
+  "source_url": "",
   "pairs": [
    {
     "from": "AR",
     "to": "GB",
     "stance": -2,
-    "note": "Malvinas 'illegally occupied' since 1833"
+    "note": "Malvinas 'illegally occupied' since 1833; must resume negotiations"
    }
-  ],
-  "src": "un_press",
-  "source_url": "https://press.un.org/en/2026/ga12785.doc.htm"
+  ]
  },
  "-O7F0hDz0mI": {
   "speaker": "Donald J. Trump",
-  "summary": "Trump said he faces 'a big decision': a deal that lets Iran rebuild, or to 'annihilate the Islamic Republic and do it quickly'. He cited Operation Midnight Hammer destroying Iran's nuclear programme and Operation Epic Fury sinking its navy, and expects a deal after the US elections. He claimed to have settled eight wars and ended the Gaza war, and said a Ukraine deal will come 'quicker than people understand'. He hailed Maduro's arrest and a record oil deal with Venezuela, called cartels 'the ISIS of the Western Hemisphere' and Mexico their 'epicentre', and announced major US bases in Greenland. He also boasted of a 15% UN budget cut, rejected 'global taxes' and urged states to quit the 'rogue' ICC.",
+  "summary": "Trump opened with a domestic victory lap for America's 250th year, then turned to Iran, 'the number one sponsor of terror': Operation Midnight Hammer 'obliterated' its nuclear programme and Operation Epic Fury sank its navy, and he now faces 'a big decision' between a deal and to 'annihilate the Islamic Republic and do it quickly'. He urged all nations to enforce Iran's 'complete economic isolation', claimed to have settled eight wars and ended the Gaza war, and said Russia-Ukraine will be done 'more quickly than people understand'. He hailed the capture of Maduro and a 65-billion-barrel Venezuelan oil deal ('to the victor belong the spoils'), called cartels 'the ISIS of the Western Hemisphere', predicted Cuba's regime 'will fall', and announced permanent US security control and two bases in Greenland. He boasted of a 15% UN budget cut, rejected 'global taxes' and any global scheme to govern AI, which he renamed 'superintelligence', and told states to quit the 'rogue' ICC.",
   "primary_concern": "Iran: a deal, or 'annihilate the Islamic Republic'",
   "primary_topic": "gulf_war",
   "concerns": {
@@ -1018,105 +1018,177 @@
    "nuclear": 2,
    "un_reform": 2,
    "terrorism": 2,
-   "ukraine": 1,
-   "palestine": 1,
-   "sovereignty": 1
+   "technology": 1
   },
   "mentions": [
    {
     "iso2": "IR",
     "stance": -2,
-    "note": "'number one sponsor of terror'; threatens annihilation"
-   },
-   {
-    "iso2": "MX",
-    "stance": -1,
-    "note": "'epicentre of cartel violence'"
+    "note": "'number one sponsor of terror'; threatens annihilation, demands total economic isolation"
    },
    {
     "iso2": "VE",
     "stance": 1,
-    "note": "new leadership; 'largest oil deal in history'"
+    "note": "Maduro captured; working with new leaders; 'largest oil deal in history'"
+   },
+   {
+    "iso2": "CU",
+    "stance": -2,
+    "note": "'failed state' that 'will fall'"
+   },
+   {
+    "iso2": "MX",
+    "stance": 0,
+    "note": "'epicenter of cartel violence' but 'very good relationship' with its government"
    },
    {
     "iso2": "DK",
     "stance": 1,
-    "note": "Greenland basing agreement"
+    "note": "Greenland agreement; 'incredible, beautiful country'"
+   },
+   {
+    "iso2": "IL",
+    "stance": 1,
+    "note": "recalls 7 October; brought all hostages home"
+   },
+   {
+    "iso2": "PK",
+    "stance": 1,
+    "note": "prime minister 'terrific man'"
+   },
+   {
+    "iso2": "CN",
+    "stance": -1,
+    "note": "US 'leading over China by a lot' in AI and will keep it that way"
    },
    {
     "iso2": "UA",
     "stance": 0,
-    "note": "working to end the war"
+    "note": "working with both leaders to end the war"
    },
    {
     "iso2": "RU",
     "stance": 0,
-    "note": "working to end the war"
+    "note": "working with both leaders; threatens new tariff powers"
+   },
+   {
+    "iso2": "SA",
+    "stance": 1,
+    "note": "thanked for Gaza relief funding"
+   },
+   {
+    "iso2": "QA",
+    "stance": 1,
+    "note": "thanked for Gaza relief funding"
+   },
+   {
+    "iso2": "TR",
+    "stance": 1,
+    "note": "thanked for Gaza relief funding"
+   },
+   {
+    "iso2": "ID",
+    "stance": 1,
+    "note": "thanked for committing stabilisation troops"
+   },
+   {
+    "iso2": "EG",
+    "stance": 1,
+    "note": "thanked for helping stabilise Gaza"
    }
   ],
   "positions": {
+   "ukr": 0,
+   "isr": -1,
    "irn": -1,
-   "isr": -0.5,
    "ord": -1,
-   "sanc": -0.5
+   "sanc": -1
   },
-  "src": "un_press",
-  "source_url": "https://press.un.org/en/2026/ga12785.doc.htm"
+  "src": "transcript",
+  "source_url": ""
  },
  "3_d8doI4SlU": {
   "speaker": "Emmanuel Macron",
-  "summary": "Macron asked whether the world wants 'the law of the jungle' or a civilized international society, warning the Geneva Conventions are being dismantled from El Fasher to Gaza. He refused 'this new order of impunity' and backed the ICJ and Security Council reform so it can act on atrocities. He decried double standards on sovereignty between Europe and the Middle East and warned that foreign regime change brings 'everlasting chaos'. He also backed Kyiv, proposing a double moratorium on strikes on energy infrastructure and in the Black Sea, said Israel's security cannot rest on violating its neighbours' sovereignty, and pushed rules on children and technology.",
-  "primary_concern": "A return to 'the law of the jungle' and a new order of impunity",
+  "summary": "Macron asked whether the world wants 'the law of the jungle' or 'a civilized international society', and listed five things France 'will not yield' on. On war, he said 'war crimes have been industrialized' from El Fasher to Gaza, backed the ICJ and the Franco-Mexican veto-restraint initiative, and pointed to the Ukraine coalition of the willing and a multinational coalition to reopen the Strait of Hormuz, which 'should not be used for blackmail'. On double standards, he proposed a double moratorium for Ukraine, on energy strikes and in the Black Sea, and called the blocked aid to Gaza shameful, saying those who think Israel's security requires violating its neighbours' sovereignty are weakening it. He also refused a North-South rift, defended the Paris Agreement and climate science, and rejected a US-China duopoly on AI, proposing a shared open-source frontier model and a social-media age limit of 15.",
+  "primary_concern": "A return to 'the law of the jungle' and the double standards that divide the world",
   "primary_topic": "sovereignty",
   "concerns": {
    "sovereignty": 3,
-   "human_rights": 2,
    "ukraine": 2,
    "palestine": 2,
+   "technology": 2,
    "un_reform": 2,
-   "middle_east": 1,
-   "technology": 1
+   "climate": 2
   },
   "mentions": [
    {
     "iso2": "RU",
     "stance": -2,
-    "note": "'cruel' war on Ukraine"
+    "note": "'cruel war on civilians'"
    },
    {
     "iso2": "UA",
     "stance": 2,
-    "note": "support for Kyiv"
+    "note": "'will not yield an inch'; coalition of the willing"
    },
    {
     "iso2": "IL",
     "stance": -1,
-    "note": "security can't rest on violating neighbours' sovereignty"
-   },
-   {
-    "iso2": "LB",
-    "stance": 1,
-    "note": "sovereignty for Lebanon"
+    "note": "West Bank violations; security cannot rest on violating neighbours' sovereignty"
    },
    {
     "iso2": "PS",
     "stance": 1,
-    "note": "sovereignty for Palestinians"
+    "note": "legitimate right to exist; recognition must be matched by action"
+   },
+   {
+    "iso2": "LB",
+    "stance": 1,
+    "note": "sovereignty; only a sovereign Lebanon can disarm Hezbollah"
+   },
+   {
+    "iso2": "SY",
+    "stance": 1,
+    "note": "supports a free, sovereign, united Syria"
    },
    {
     "iso2": "US",
     "stance": -1,
-    "note": "implicit: regime-change interventions bring chaos"
+    "note": "unnamed: regime change brings chaos; refuses a US-China duopoly on AI"
+   },
+   {
+    "iso2": "CN",
+    "stance": -1,
+    "note": "refuses a US-China duopoly on AI"
+   },
+   {
+    "iso2": "MX",
+    "stance": 1,
+    "note": "joint veto-restraint initiative"
+   },
+   {
+    "iso2": "GB",
+    "stance": 1,
+    "note": "coalition of the willing; G20 AI agenda"
+   },
+   {
+    "iso2": "DE",
+    "stance": 1,
+    "note": "coalition of the willing"
+   },
+   {
+    "iso2": "AU",
+    "stance": 1,
+    "note": "commends social-media age law"
    }
   ],
   "positions": {
    "ukr": 1,
    "isr": 0.5,
-   "irn": 0.3,
    "ord": -0.5
   },
-  "src": "un_press",
-  "source_url": "https://press.un.org/en/2026/ga12785.doc.htm"
+  "src": "transcript",
+  "source_url": ""
  },
  "ps02F0YXYWc": {
   "speaker": "Recep Tayyip Erdoğan",
@@ -1661,38 +1733,73 @@
  },
  "mOjgtgEXSmw": {
   "speaker": "Andy Burnham",
-  "summary": "Burnham declared 'Britain is back' ten years after Brexit, pledging defence investment for NATO and Europe. He accused the Kremlin of spending about £1.3bn a year on bots, fake sites and falsified news, and announced a National Centre for Information Defence. He cited UK help protecting Moldova's elections from Russian interference, and a new AI defence partnership with the US to protect critical infrastructure.",
-  "primary_concern": "Russia's 'industrial-scale' disinformation assault and AI risks",
+  "summary": "In his first address as prime minister, Burnham said 'Britain is back' ten years after Brexit and cast the UK as an 'honest broker'. He accused Russia of an 'industrial-scale assault' on Britain's information space costing the Kremlin about £1.3bn a year, and announced a National Centre for Information Defence. He put frontier AI at the heart of the UK's G20 presidency and announced an AI defence partnership with the US. He pledged to stand with Ukraine 'for as long as it takes', calling strikes on its energy grid war crimes by a permanent Council member, and defended the Falklands' right to remain British. On the Middle East he said he had 'comprehensively reset' policy: Britain stands with Israel against Hamas and Iran, but that 'does not justify' its actions in Gaza and the West Bank, so the UK has banned trade with illegal settlements and deemed the occupation unlawful.",
+  "primary_concern": "Russian information warfare and the governance of frontier AI",
   "primary_topic": "technology",
   "concerns": {
    "technology": 3,
+   "ukraine": 3,
+   "palestine": 2,
    "sovereignty": 2,
-   "ukraine": 1,
-   "human_rights": 1
+   "climate": 1,
+   "territorial": 1
   },
   "mentions": [
    {
     "iso2": "RU",
     "stance": -2,
-    "note": "£1.3bn/yr disinformation campaign"
+    "note": "disinformation assault; 'senseless and illegal war'; war crimes"
+   },
+   {
+    "iso2": "UA",
+    "stance": 2,
+    "note": "'stand with Ukraine for as long as it takes'"
    },
    {
     "iso2": "US",
+    "stance": 2,
+    "note": "'America's closest ally'; AI defence partnership"
+   },
+   {
+    "iso2": "IL",
+    "stance": -1,
+    "note": "stands with Israel against Hamas, but bans settlement trade and calls occupation unlawful"
+   },
+   {
+    "iso2": "PS",
     "stance": 1,
-    "note": "AI defence partnership"
+    "note": "keeping a viable Palestinian state alive"
+   },
+   {
+    "iso2": "IR",
+    "stance": -1,
+    "note": "threats against Israel and Jewish people"
+   },
+   {
+    "iso2": "AR",
+    "stance": -1,
+    "note": "Falklands will remain British"
    },
    {
     "iso2": "MD",
     "stance": 1,
-    "note": "helped protect elections"
+    "note": "helped protect elections from Russian interference"
+   },
+   {
+    "iso2": "FR",
+    "stance": 1,
+    "note": "partner on Gulf freedom of navigation"
    }
   ],
   "positions": {
    "ukr": 1,
-   "ord": -1
+   "isr": 0.5,
+   "irn": -0.5,
+   "ord": -1,
+   "sanc": -1
   },
-  "src": "un_press",
-  "source_url": "https://press.un.org/en/2026/ga12785.doc.htm"
+  "src": "transcript",
+  "source_url": ""
  },
  "ZMF-H87mefc": {
   "speaker": "Andrej Plenković",
@@ -2542,30 +2649,30 @@
  },
  "WUsRJ4TLbio": {
   "speaker": "Masoud Pezeshkian",
-  "summary": "Pezeshkian said the US and Israeli attacks killed Iran's supreme leader, scientists and children, and that Iran 'only defended' itself without hitting civilians. He rejected the label of regional destabilizer and insisted on Iran's right to peaceful nuclear technology: 'no nuclear weapons and no limitations'. He called Palestine 'an open wound', said resistance 'cannot be destroyed by bombs', and attacked double standards: 'Israel kills but Iran is subject to sanctions.'",
-  "primary_concern": "US and Israeli attacks on Iran, including the assassination of its supreme leader",
+  "summary": "Pezeshkian set aside his prepared text to answer Trump: 'We are not terrorists', he said, holding up images of children killed when a school and a sports hall were bombed. He said the US and Israel assassinated Iran's supreme leader and scientists and struck universities and hospitals, while Iran 'did not bend the knee' and did not hit civilians. He insisted on 'no nuclear weapons and no limitations to peaceful nuclear technology', and said Iran will not let others use the Strait of Hormuz against it while denying Iran access. He called Palestine 'an open wound', said resistance 'cannot be destroyed by bombs and siege', and attacked double standards: 'the nuclear weapon is in Israel, but the inspectors in Iran'. He ended by offering dialogue 'without accepting the language of force'.",
+  "primary_concern": "US and Israeli aggression against Iran and the 'terrorist' label",
   "primary_topic": "gulf_war",
   "concerns": {
    "gulf_war": 3,
    "nuclear": 3,
-   "palestine": 2,
-   "sovereignty": 2
+   "sovereignty": 2,
+   "palestine": 2
   },
   "mentions": [
    {
     "iso2": "US",
     "stance": -2,
-    "note": "attacks, assassination of supreme leader"
+    "note": "aggression; assassinated the supreme leader; sanctions punish the poor"
    },
    {
     "iso2": "IL",
     "stance": -2,
-    "note": "attacks; kills with impunity"
+    "note": "genocide in Gaza; undeclared nuclear arsenal; assassinations"
    },
    {
     "iso2": "PS",
     "stance": 2,
-    "note": "resistance will continue"
+    "note": "resistance will continue; no peace without justice"
    }
   ],
   "positions": {
@@ -2574,8 +2681,8 @@
    "ord": 1,
    "sanc": 1
   },
-  "src": "un_press",
-  "source_url": "https://press.un.org/en/2026/ga12787.doc.htm"
+  "src": "transcript",
+  "source_url": ""
  },
  "kjPs1E8XCno": {
   "speaker": "Nicușor Dan",
@@ -2672,35 +2779,41 @@
   "source_url": "https://press.un.org/en/2026/ga12787.doc.htm"
  },
  "oiJRZKXOPPo": {
-  "summary": "Three delegations answered Netanyahu's address. Qatar called his accusations 'not even worth refuting', a bid to distract from Israel's violations in the occupied territory. Türkiye rejected 'baseless malicious allegations', calling the walkout a 'resounding diplomatic condemnation' of a leader under an arrest warrant. Iran called him 'the notorious Prime Minister of the Israeli regime', named the US the 'principal accomplice', and warned any aggression will meet a 'devastating response'.",
+  "summary": "Three delegations answered Netanyahu's address. Iran called him 'the chief architect' of war and a 'notorious criminal' who belongs in the dock, asked why the Assembly does not expel Israel under Article 6, named the US 'the principal accomplice', and warned that further aggression will meet 'a decisive and devastating response'; it also rejected allegations by Slovenia. Türkiye rejected 'baseless, malicious allegations' against President Erdoğan and called the walkout 'a resounding diplomatic condemnation' of 'a morally bankrupt leader' under an arrest warrant. Qatar said the accusations were 'not even worth refuting' and meant to distract from Israel's violations in the occupied territory.",
+  "src": "transcript",
+  "source_url": "",
   "pairs": [
-   {
-    "from": "QA",
-    "to": "IL",
-    "stance": -2,
-    "note": "'unfounded allegations'; distraction from violations"
-   },
-   {
-    "from": "TR",
-    "to": "IL",
-    "stance": -2,
-    "note": "'morally bankrupt leader' under ICC warrant"
-   },
    {
     "from": "IR",
     "to": "IL",
     "stance": -2,
-    "note": "'war criminals'; genocide while claiming victimhood"
+    "note": "'war criminals'; genocide; should be expelled from the UN"
    },
    {
     "from": "IR",
     "to": "US",
     "stance": -2,
-    "note": "'principal accomplice' of Israel's crimes"
+    "note": "'principal accomplice'; killed the supreme leader and civilians"
+   },
+   {
+    "from": "IR",
+    "to": "SI",
+    "stance": -1,
+    "note": "rejects Slovenia's 'baseless' allegations"
+   },
+   {
+    "from": "TR",
+    "to": "IL",
+    "stance": -2,
+    "note": "'morally bankrupt leader' under arrest warrant; genocide in Gaza"
+   },
+   {
+    "from": "QA",
+    "to": "IL",
+    "stance": -2,
+    "note": "'unfounded allegations'; distraction from violations"
    }
-  ],
-  "src": "un_press",
-  "source_url": "https://press.un.org/en/2026/ga12788.doc.htm"
+  ]
  },
  "iYM6_Rf-9UQ": {
   "speaker": "Ronald Lamola",
@@ -3164,21 +3277,21 @@
  },
  "0ZcB4snPFSc": {
   "speaker": "Benjamin Netanyahu",
-  "summary": "Netanyahu told walking-out delegates, 'if there are any other moral cowards… please do so now'. He called striking Iran's nuclear sites 'one of the easiest decisions', recounted 7 October as '16 9/11s', held up a Hezbollah pager, and dismissed settler violence as a few 'juvenile delinquents'. He said Israel had 'no greater partner than President Trump' and insisted 'Israel didn't commit genocide. Israel prevented genocide.' He accused Qatar of brainwashing via Al Jazeera, Türkiye of hosting Hamas and eyeing Syria, and NYC Mayor Mamdani of making Jews unsafe, and left a Starlink terminal 'for Iranian defectors'.",
-  "primary_concern": "Iran's threat and the charge of genocide: 'Israel prevented genocide'",
+  "summary": "As delegates walked out, Netanyahu invited 'any other moral cowards' to leave too. He called striking Iran's nuclear sites 'one of the easiest decisions' and said many departing leaders 'thank us privately'. Using his brother Yoni's line 'we're going to win, we have no other choice', he recounted 1967, Entebbe and 7 October, described a seven-front war, and dismissed settler violence as about 150 'juvenile delinquents'. He said Israel has had 'no greater partner than President Trump', called the genocide charge 'the greatest lie of the century', and attacked Qatar for funding hate, Erdoğan as 'a tyrant', Western European leaders for 'appeasement' and New York's mayor as antisemitic. He predicted Iran's regime 'will fall' and left a Starlink terminal for its delegation.",
+  "primary_concern": "Israel's war for survival against Iran and the 'lie' of genocide",
   "primary_topic": "gulf_war",
   "concerns": {
    "gulf_war": 3,
    "palestine": 3,
    "terrorism": 2,
    "nuclear": 2,
-   "middle_east": 1
+   "human_rights": 1
   },
   "mentions": [
    {
     "iso2": "IR",
     "stance": -2,
-    "note": "existential nuclear threat"
+    "note": "'murderous dictatorship' that will fall"
    },
    {
     "iso2": "US",
@@ -3188,17 +3301,52 @@
    {
     "iso2": "QA",
     "stance": -2,
-    "note": "brainwashing via Al Jazeera"
+    "note": "funds anti-Israel brainwashing; hosts Hamas"
    },
    {
     "iso2": "TR",
     "stance": -2,
-    "note": "hosting Hamas, designs on Syria"
+    "note": "Erdoğan 'a tyrant' hosting Hamas, eyeing Syria"
+   },
+   {
+    "iso2": "FR",
+    "stance": -1,
+    "note": "colonial hypocrisy; rebukes Macron on settler violence"
+   },
+   {
+    "iso2": "GB",
+    "stance": -1,
+    "note": "colonial hypocrisy"
+   },
+   {
+    "iso2": "SY",
+    "stance": -1,
+    "note": "tells al-Sharaa the Golan is Jewish"
    },
    {
     "iso2": "LB",
     "stance": -1,
-    "note": "Hezbollah"
+    "note": "Hezbollah's arsenal destroyed"
+   },
+   {
+    "iso2": "PS",
+    "stance": -2,
+    "note": "terrorism; Palestinian Authority drove Christians from Bethlehem"
+   },
+   {
+    "iso2": "UG",
+    "stance": 1,
+    "note": "thanks for statue of Yoni Netanyahu at Entebbe"
+   },
+   {
+    "iso2": "CY",
+    "stance": 1,
+    "note": "northern Cyprus illegally occupied by Türkiye"
+   },
+   {
+    "iso2": "GR",
+    "stance": 1,
+    "note": "Türkiye transgresses against it"
    }
   ],
   "positions": {
@@ -3206,8 +3354,8 @@
    "irn": -1,
    "ord": -1
   },
-  "src": "un_press",
-  "source_url": "https://press.un.org/en/2026/ga12788.doc.htm"
+  "src": "transcript",
+  "source_url": ""
  },
  "q3xsQIou-t0": {
   "speaker": "José Manuel Restrepo (for President de la Espriella)",
@@ -3561,23 +3709,23 @@
   "source_url": "https://press.un.org/en/2026/ga12788.doc.htm"
  },
  "ebkN48G7Sho": {
-  "summary": "Pakistan called India 'a State that has elevated propaganda into statecraft', exporting terrorism while importing victimhood, and said Jammu and Kashmir is disputed territory under India's 'forcible and illegal occupation'. India answered Pakistan's 'bizarre remarks': a regime that upholds security 'during the day' and carries out terrorism 'at night'. It said Kashmir is 'integral and inalienable', and continued cross-border terrorism 'will have consequences'.",
+  "summary": "India called Pakistan's address 'bizarre remarks' from 'a regime of the army, by the army, and for the army' that claims to uphold security by day and carries out terrorism 'at night', recalling that Osama bin Laden lived beside its military academy. It said Jammu and Kashmir is 'integral and inalienable' and that continued terrorism 'will have consequences'. Pakistan replied that India has 'elevated propaganda into statecraft', 'exports terrorism' from Balochistan to assassination plots in the US and Canada, illegally occupies Kashmir, has institutionalised Hindutva and is 'weaponizing water' by suspending the Indus Waters Treaty.",
+  "src": "transcript",
+  "source_url": "",
   "pairs": [
-   {
-    "from": "PK",
-    "to": "IN",
-    "stance": -2,
-    "note": "'exports terrorism'; illegal occupation of Kashmir"
-   },
    {
     "from": "IN",
     "to": "PK",
     "stance": -2,
-    "note": "cross-border terrorism 'will have consequences'"
+    "note": "'regime of the army'; cross-border terrorism 'will have consequences'"
+   },
+   {
+    "from": "PK",
+    "to": "IN",
+    "stance": -2,
+    "note": "'exports terrorism'; illegal occupation of Kashmir; weaponising water"
    }
-  ],
-  "src": "un_press",
-  "source_url": "https://press.un.org/en/2026/ga12789.doc.htm"
+  ]
  },
  "8OSmZjFypRo": {
   "speaker": "Robert Dussey",
@@ -4023,38 +4171,71 @@
  },
  "rm0vxHCCFJo": {
   "speaker": "Shehbaz Sharif",
-  "summary": "Sharif said Pakistan faced Indian aggression 'under a false pretext' a year ago and acted in self-defence, and thanked Trump for a 'timely intervention' when two nuclear powers stood at the brink. He said lasting stability needs a just Kashmir settlement and the long-promised plebiscite, and called India's holding the Indus Waters Treaty in abeyance illegal, warning that any diversion of Pakistan's water 'will be treated as an act of war'. He touted economic stabilization and CPEC with China.",
-  "primary_concern": "Kashmir and India's suspension of the Indus Waters Treaty",
+  "summary": "Sharif presented Pakistan as a peacemaker that 'brought Washington and Tehran under one roof in Islamabad', and said Hormuz and Bab el-Mandeb must not become 'choke points of confrontation'. He condemned recent attacks on Saudi Arabia, including an attempted drone strike on Mecca, and hailed a joint defence agreement with Saudi Arabia and Türkiye. He said Pakistan repelled Indian aggression 'under a false pretext' a year ago, credited Trump with saving hundreds of millions of lives, and demanded a Kashmir plebiscite and restoration of the Indus Waters Treaty: 'water must never be weaponized'. He accused Israel of a 'genocidal agenda' in Gaza and the West Bank, said militants operate from Afghan soil, and condemned Islamophobia and 'RSS-driven Hindutva'.",
+  "primary_concern": "Kashmir, the Indus waters and Pakistan's role as a mediator in the Gulf war",
   "primary_topic": "territorial",
   "concerns": {
    "territorial": 3,
-   "terrorism": 1,
-   "nuclear": 1,
-   "development": 1,
-   "trade": 1
+   "gulf_war": 2,
+   "palestine": 2,
+   "terrorism": 2,
+   "human_rights": 1,
+   "development": 1
   },
   "mentions": [
    {
     "iso2": "IN",
     "stance": -2,
-    "note": "aggression; water as 'act of war'"
+    "note": "aggression; occupation of Kashmir; weaponising water; Hindutva"
    },
    {
     "iso2": "US",
     "stance": 2,
-    "note": "thanks Trump for averting war"
+    "note": "Trump's intervention averted nuclear war; Islamabad talks"
+   },
+   {
+    "iso2": "SA",
+    "stance": 2,
+    "note": "'complete solidarity'; joint defence agreement"
+   },
+   {
+    "iso2": "TR",
+    "stance": 2,
+    "note": "joint defence agreement"
    },
    {
     "iso2": "CN",
-    "stance": 1,
-    "note": "CPEC partnership"
+    "stance": 2,
+    "note": "CPEC; tribute to Xi's global initiatives"
+   },
+   {
+    "iso2": "IL",
+    "stance": -2,
+    "note": "'genocidal agenda'; aggression against Lebanon and Syria"
+   },
+   {
+    "iso2": "PS",
+    "stance": 2,
+    "note": "independent state on pre-1967 borders"
+   },
+   {
+    "iso2": "AF",
+    "stance": -1,
+    "note": "must stop TTP and BLA using Afghan soil"
+   },
+   {
+    "iso2": "IR",
+    "stance": 0,
+    "note": "brought to talks with Washington in Islamabad"
    }
   ],
   "positions": {
-   "ord": 0.3
+   "isr": 1,
+   "irn": 0,
+   "ord": 0.5
   },
-  "src": "un_press",
-  "source_url": "https://press.un.org/en/2026/ga12789.doc.htm"
+  "src": "transcript",
+  "source_url": ""
  },
  "ocxTNopUYVE": {
   "speaker": "Philip J. Pierre",
@@ -4365,23 +4546,23 @@
   "source_url": "https://press.un.org/en/2026/ga12789.doc.htm"
  },
  "gsbO7e9VCfc": {
-  "summary": "Japan answered Russia's statement by stressing eight decades as a 'peace-loving nation' committed to the rule of law and the UN Charter. Guatemala rejected Belize's 'serious accusation' of a military overflight ('this flight never happened'), said it will ask the OAS monitoring mechanism to investigate, and argued the Assembly is not the forum for a dispute before the ICJ.",
+  "summary": "Guatemala rejected the Belizean prime minister's 'serious accusation' that a Guatemalan Air Force plane overflew Belize — 'this flight never happened' — said it will ask the OAS office to investigate, and accused Belize of using a dispute now before the ICJ for domestic politics. Japan answered Russia's statement by saying it has walked the path of a 'peace-loving nation' for eight decades and promotes the rule of law and the UN Charter.",
+  "src": "transcript",
+  "source_url": "",
   "pairs": [
-   {
-    "from": "JP",
-    "to": "RU",
-    "stance": -1,
-    "note": "rebuts Russia's characterization of Japan"
-   },
    {
     "from": "GT",
     "to": "BZ",
     "stance": -1,
-    "note": "'this flight never happened'"
+    "note": "'this flight never happened'; Belize spreading misinformation"
+   },
+   {
+    "from": "JP",
+    "to": "RU",
+    "stance": -1,
+    "note": "rebuts Russia's characterisation of Japan"
    }
-  ],
-  "src": "un_press",
-  "source_url": "https://press.un.org/en/2026/ga12790.doc.htm"
+  ]
  },
  "UeE9RZK7K2o": {
   "speaker": "Sugiono",
@@ -4728,33 +4909,42 @@
  },
  "CuSDv4Ftiow": {
   "speaker": "Subrahmanyam Jaishankar",
-  "summary": "Jaishankar said wars now penalize countries far from them through food, energy and trade disruptions, and 'those most impacted often have the least say'. He called for de-escalation in the Gulf and protection of shipping and seafarers, peace in Ukraine ('endless war must give way to an end to war'), and two states for Palestine. He warned of a 'weaponization of everything' from finance to supply chains, and of persistent terrorism, with a pointed warning to Pakistan that friendship cannot coexist with it. He defended each nation's right to build its own AI models.",
-  "primary_concern": "Distant wars and the 'weaponization of everything' punishing bystanders",
+  "summary": "Jaishankar said the effects of war are felt worldwide and 'those most impacted often have the least say'. He called the targeting of commercial shipping and seafarers in the Gulf 'simply unacceptable', quoted Modi that 'endless war must give way now to an end to war' in Ukraine, and backed a two-state solution. He warned of a 'weaponization of everything', from finance to supply chains and technology, and a 'four F crisis' of food, fuel, fertilizer and finance for the Global South. Without naming Pakistan, he said 'a serial practitioner of terrorism misrepresented facts' and that India's right to defend itself 'will be exercised'. He presented India as a development partner and first responder, and said the march to a multipolar world makes reformed multilateralism unavoidable.",
+  "primary_concern": "Distant wars and the 'weaponization of everything' punishing the Global South",
   "primary_topic": "food_energy",
   "concerns": {
    "food_energy": 3,
    "terrorism": 2,
    "trade": 2,
    "gulf_war": 2,
-   "ukraine": 1,
-   "technology": 2,
-   "palestine": 1
+   "development": 2,
+   "technology": 1
   },
   "mentions": [
    {
     "iso2": "PK",
     "stance": -2,
-    "note": "cross-border terrorism"
+    "note": "'serial practitioner of terrorism'; right to self-defence will be exercised"
+   },
+   {
+    "iso2": "PS",
+    "stance": 1,
+    "note": "two-state solution; humanitarian aid"
+   },
+   {
+    "iso2": "LR",
+    "stance": 1,
+    "note": "joint initiative on seafarer safety"
    }
   ],
   "positions": {
    "ukr": 0,
-   "isr": 0.3,
+   "isr": 0,
    "irn": 0,
    "ord": 0.5
   },
-  "src": "un_press",
-  "source_url": "https://press.un.org/en/2026/ga12790.doc.htm"
+  "src": "transcript",
+  "source_url": ""
  },
  "yzBZyEw5LMY": {
   "speaker": "Ludwing Jaentschke Whitaker",
@@ -4870,47 +5060,67 @@
  },
  "MTtO-YXn0Co": {
   "speaker": "Sergey Lavrov",
-  "summary": "Lavrov said the Global South and East are rising as sovereign centres while 'the Western minority' tries to keep its privileges. He deplored the US invasion of Venezuela and demanded Maduro's release, and called the killing of Iran's Supreme Leader Khamenei 'coercive dictate'. He backed Palestinian statehood, accused the EU of forcing Serbia to accept Kosovo's loss and of torpedoing Trump-era peace talks, and said the US created a 'Russophobic regime in Kyiv'. He vowed the 'special military operation' objectives will be achieved, backed Brazil and India for permanent seats, and opposed seats for Germany and Japan.",
-  "primary_concern": "A 'Western minority' clinging to 500 years of privilege against a rising Global South and East",
+  "summary": "Lavrov said a multipolar order is emerging while 'the Western minority, which dominated for 500 years', clings to privilege. He condemned the US invasion of Venezuela and demanded Maduro's release, called the killing of Ayatollah Khamenei unacceptable and said US-Israeli strikes on safeguarded nuclear sites dealt 'an irreversible blow' to non-proliferation. He demanded the US lift its 'siege' of Cuba, backed Palestinian statehood, and accused the EU of forcing Serbia to give up Kosovo. On Ukraine he said the US created 'a Russophobic regime in Kiev', that Europe is thwarting peace talks the Trump administration wants, and that the 'special military operation' will achieve its aims. He accused Germany and Japan of 'militarism and revanchism', opposed new Western Council seats, and backed Brazil, India and Africa.",
+  "primary_concern": "A 'Western minority' clinging to dominance against an emerging multipolar order",
   "primary_topic": "sovereignty",
   "concerns": {
    "sovereignty": 3,
    "ukraine": 3,
    "un_reform": 2,
-   "americas": 1,
-   "gulf_war": 1,
+   "gulf_war": 2,
+   "americas": 2,
    "palestine": 1
   },
   "mentions": [
    {
     "iso2": "US",
     "stance": -1,
-    "note": "invasion of Venezuela; destroyed European security (though credits interest in peace)"
+    "note": "invaded Venezuela, besieges Cuba, struck Iran; but Trump administration 'interested' in peace talks"
    },
    {
     "iso2": "UA",
     "stance": -2,
-    "note": "'Russophobic regime in Kyiv'"
+    "note": "'Russophobic regime' glorifying Nazi collaborators"
    },
    {
     "iso2": "EU",
     "stance": -2,
-    "note": "pressuring Serbia; sabotaging peace talks"
+    "note": "'virus of racial superiority'; thwarting peace talks; pressuring Serbia"
+   },
+   {
+    "iso2": "DE",
+    "stance": -2,
+    "note": "Kyiv's main sponsor; back on a path to militarism"
+   },
+   {
+    "iso2": "JP",
+    "stance": -1,
+    "note": "'militarism and revanchism'; no permanent seat"
+   },
+   {
+    "iso2": "IL",
+    "stance": -1,
+    "note": "aggression against Iran; expanding West Bank settlements"
    },
    {
     "iso2": "VE",
-    "stance": 1,
-    "note": "demands Maduro's release"
+    "stance": 2,
+    "note": "demands release of Maduro"
    },
    {
     "iso2": "IR",
-    "stance": 1,
-    "note": "condemns killing of Supreme Leader"
+    "stance": 2,
+    "note": "condemns killing of Khamenei and strikes on nuclear sites"
+   },
+   {
+    "iso2": "CU",
+    "stance": 2,
+    "note": "solidarity; lift the 'siege'"
    },
    {
     "iso2": "RS",
     "stance": 1,
-    "note": "Kosovo"
+    "note": "defends its claim to Kosovo"
    },
    {
     "iso2": "PS",
@@ -4928,14 +5138,14 @@
     "note": "backs permanent seat"
    },
    {
-    "iso2": "DE",
-    "stance": -1,
-    "note": "opposes permanent seat"
+    "iso2": "CN",
+    "stance": 1,
+    "note": "supports its global AI cooperation organisation"
    },
    {
-    "iso2": "JP",
-    "stance": -1,
-    "note": "opposes permanent seat"
+    "iso2": "BY",
+    "stance": 1,
+    "note": "co-sponsor of Eurasian charter"
    }
   ],
   "positions": {
@@ -4945,8 +5155,8 @@
    "ord": 1,
    "sanc": 1
   },
-  "src": "un_press",
-  "source_url": "https://press.un.org/en/2026/ga12790.doc.htm"
+  "src": "transcript",
+  "source_url": ""
  },
  "utivTYXBmoA": {
   "speaker": "Bruno Rodríguez Parrilla",
@@ -5115,41 +5325,726 @@
  },
  "Lnw1sY5eLiE": {
   "speaker": "Han Zheng",
-  "summary": "Vice President Han Zheng said 'the world wants peace, not war', rejecting a 'cold-war mindset and bloc confrontation', and promoted China's four global initiatives. He said major countries should lead in obeying rules. He backed 'Palestinians governing Palestine' in the West Bank and Gaza, said China will play a constructive role 'in its own way' on Ukraine, and demanded an immediate end to the Cuba blockade. He put development at the centre, said 'protectionism produces no winners' against decoupling, and argued AI must be 'for good' and close the digital divide.",
-  "primary_concern": "Defending the UN-centred order against bloc confrontation, and development for the Global South",
-  "primary_topic": "development",
+  "summary": "Han set out four steps built on Xi Jinping's four global initiatives. First, 'safeguard the post-war international order': reject 'the Cold War mindset and bloc confrontation' and 'unilateral military actions that violate the UN Charter and circumvent Security Council authorization'. He said the sovereignty of Middle East and Gulf states must be respected, backed 'Palestinians governing Palestine' and two states, cited Xi's four points on Ukraine, and urged 'the relevant country' to stop threatening force against Cuba and lift its blockade. He put development first, said 'protectionism produces no winners', defended the WTO system, and said UN80 should improve performance 'rather than merely cut its budgets and mandates'. He closed by recalling Resolution 2758 and calling China a stabilising force.",
+  "primary_concern": "Defending the post-war UN-centred order against unilateralism and bloc confrontation",
+  "primary_topic": "sovereignty",
   "concerns": {
+   "sovereignty": 3,
    "development": 3,
-   "sovereignty": 2,
    "trade": 2,
-   "technology": 2,
-   "palestine": 1,
-   "ukraine": 1
+   "un_reform": 2,
+   "technology": 1,
+   "palestine": 1
   },
   "mentions": [
    {
     "iso2": "CU",
     "stance": 2,
-    "note": "lift blockade and sanctions"
+    "note": "stop threats of force; lift blockade and sanctions"
    },
    {
     "iso2": "PS",
     "stance": 1,
-    "note": "'Palestinians governing Palestine'"
+    "note": "'Palestinians governing Palestine'; two-state solution"
    },
    {
     "iso2": "US",
     "stance": -1,
-    "note": "implicit: protectionism, decoupling, bloc confrontation"
+    "note": "unnamed: unilateral military action, protectionism, threats against Cuba"
    }
   ],
   "positions": {
    "ukr": 0,
-   "isr": 0.7,
+   "isr": 0.5,
+   "ord": 1,
+   "sanc": 1
+  },
+  "src": "transcript",
+  "source_url": ""
+ },
+ "4a711vJY6wQ": {
+  "summary": "The closing right-of-reply session was the debate's sharpest. China and the DPRK accused Japan of 'neo-militarism' and insisted the UN Charter's enemy-state clauses must stay; Japan replied that the General Assembly had declared them obsolete in 1995 and 2005. China called the 2016 South China Sea award 'illegal, null and void' while the Philippines called it 'final and binding'. Iran asserted sovereignty over Abu Musa and the Tunbs and warned that neighbours hosting US forces would face 'the most devastating response'; the UAE called the islands occupied. Sudan called the UAE 'the country of evil' for arming the RSF, the UAE called the Sudanese authorities 'a criminal regime' using chemical weapons, and Chad denied any role in Sudan's war. Thailand and Cambodia, Burundi and Rwanda, and Indonesia against Solomon Islands and Vanuatu over Papua also traded rebuttals.",
+  "src": "transcript",
+  "source_url": "",
+  "pairs": [
+   {
+    "from": "TH",
+    "to": "KH",
+    "stance": -1,
+    "note": "Cambodia spreads 'unfounded allegations'; landmines and rocket strikes started the conflict"
+   },
+   {
+    "from": "IR",
+    "to": "AE",
+    "stance": -2,
+    "note": "Abu Musa and the Tunbs are Iranian, 'not negotiable'"
+   },
+   {
+    "from": "IR",
+    "to": "US",
+    "stance": -2,
+    "note": "strikes on US bases were lawful self-defence against US-Israeli aggression"
+   },
+   {
+    "from": "IR",
+    "to": "IL",
+    "stance": -2,
+    "note": "'the exclusive principal threat' to peace; genocide in Gaza"
+   },
+   {
+    "from": "IR",
+    "to": "CA",
+    "stance": -2,
+    "note": "whitewashing Israeli crimes; complicit"
+   },
+   {
+    "from": "SD",
+    "to": "AE",
+    "stance": -2,
+    "note": "'the country of evil', arming and financing the RSF and mercenaries"
+   },
+   {
+    "from": "SD",
+    "to": "TD",
+    "stance": -1,
+    "note": "cites a UN fact-finding report on external actors fuelling the war"
+   },
+   {
+    "from": "CN",
+    "to": "JP",
+    "stance": -2,
+    "note": "'neo-militarism'; enemy-state clauses must stay"
+   },
+   {
+    "from": "CN",
+    "to": "PH",
+    "stance": -2,
+    "note": "South China Sea award 'illegal, null and void'"
+   },
+   {
+    "from": "BI",
+    "to": "RW",
+    "stance": -2,
+    "note": "rejects claim that Burundian troops in the DRC are allied with the FDLR"
+   },
+   {
+    "from": "JP",
+    "to": "CN",
+    "stance": -1,
+    "note": "enemy-state clauses obsolete; Japan has faced its history"
+   },
+   {
+    "from": "JP",
+    "to": "KP",
+    "stance": -1,
+    "note": "rejects DPRK accusations of militarism"
+   },
+   {
+    "from": "ID",
+    "to": "SB",
+    "stance": -1,
+    "note": "rejects 'disinformation' on Papua"
+   },
+   {
+    "from": "ID",
+    "to": "VU",
+    "stance": -1,
+    "note": "rejects 'disinformation' on Papua"
+   },
+   {
+    "from": "PH",
+    "to": "CN",
+    "stance": -2,
+    "note": "award is final and binding; rejects China's measures at sea"
+   },
+   {
+    "from": "TD",
+    "to": "SD",
+    "stance": -2,
+    "note": "'baseless allegations'; Chad is neutral and itself a victim"
+   },
+   {
+    "from": "KP",
+    "to": "JP",
+    "stance": -2,
+    "note": "'war criminal state' racing to rearm; remains an enemy state"
+   },
+   {
+    "from": "AE",
+    "to": "IR",
+    "stance": -2,
+    "note": "the three islands are under Iranian occupation"
+   },
+   {
+    "from": "AE",
+    "to": "SD",
+    "stance": -2,
+    "note": "'a criminal regime' using chemical weapons"
+   }
+  ]
+ },
+ "h_HqdtA08Cg": {
+  "speaker": "Abdoulaye Diop",
+  "summary": "Diop said the UN's 'slowness of anticipation' leaves it observing crises after they erupt, and traced the Sahel's insecurity to NATO's 2011 intervention in Libya. He accused Ukraine of interfering in Africa and backing terrorist groups — 'just the visible part of the iceberg' — and said that threat is why Mali, Burkina Faso and Niger formed the Confederation of Sahel States. He demanded the lifting of unilateral coercive measures, defended Mali's 'strategic autonomy' over its gold and lithium, and asked for Sahel-specific responses to desertification.",
+  "primary_concern": "Foreign-backed terrorism and defence of Mali's sovereignty",
+  "primary_topic": "terrorism",
+  "concerns": {
+   "terrorism": 3,
+   "sovereignty": 3,
+   "africa_security": 2,
+   "climate": 1,
+   "development": 1
+  },
+  "mentions": [
+   {
+    "iso2": "UA",
+    "stance": -2,
+    "note": "accused of interfering in Africa and supporting terrorist groups"
+   },
+   {
+    "iso2": "BF",
+    "stance": 2,
+    "note": "Confederation of Sahel States partner"
+   },
+   {
+    "iso2": "NE",
+    "stance": 2,
+    "note": "Confederation of Sahel States partner"
+   },
+   {
+    "iso2": "LY",
+    "stance": 0,
+    "note": "NATO's 2011 intervention there caused the regional crisis"
+   }
+  ],
+  "positions": {
+   "ukr": -1,
    "ord": 1,
    "sanc": 1
   },
   "src": "un_press",
-  "source_url": "https://press.un.org/en/2026/ga12790.doc.htm"
+  "source_url": "https://press.un.org/en/2026/ga12791.doc.htm"
+ },
+ "5YxjH_ZEBVw": {
+  "speaker": "Osman Saleh Mohammed",
+  "summary": "Saleh said the prevailing order has become 'a zero-sum game' and that it is 'imperative to install a new world order that is predicated on justice and rationality', with a fairer distribution of income. He said the wars in Iran and Ukraine must end and climate solutions be found. He called for reversing the war and 'acts of subversion' destabilising the Horn of Africa, the Nile Basin and the Red Sea, and for 'an end to interventions under the rubric of humanitarian assistance'.",
+  "primary_concern": "An unjust zero-sum world order and outside intervention in the Horn of Africa",
+  "primary_topic": "sovereignty",
+  "concerns": {
+   "sovereignty": 3,
+   "development": 2,
+   "africa_security": 2,
+   "gulf_war": 1,
+   "ukraine": 1
+  },
+  "mentions": [
+   {
+    "iso2": "IR",
+    "stance": 0,
+    "note": "war there must end"
+   },
+   {
+    "iso2": "UA",
+    "stance": 0,
+    "note": "war there must end"
+   }
+  ],
+  "positions": {
+   "ord": 1
+  },
+  "src": "un_press",
+  "source_url": "https://press.un.org/en/2026/ga12791.doc.htm"
+ },
+ "vkOSQHol_i8": {
+  "speaker": "Karamoko Jean Marie Traoré",
+  "summary": "Speaking for the Confederation of Sahel States, Traoré said criminal networks have tried for a decade to 'subjugate the Sahel through fear' and that the bloc rejects 'wardship' and neocolonial exploitation. He accused certain powers of using state-sponsored terrorism as foreign policy and criticised European Parliament resolutions as preparing the ground for an offensive. He defended the three states' withdrawal from the ICC as a response to law being instrumentalised, backed the Ezulwini Consensus, and highlighted local processing of Burkina Faso's raw materials.",
+  "primary_concern": "State-sponsored terrorism and neocolonial interference in the Sahel",
+  "primary_topic": "terrorism",
+  "concerns": {
+   "terrorism": 3,
+   "sovereignty": 3,
+   "un_reform": 2,
+   "development": 1
+  },
+  "mentions": [
+   {
+    "iso2": "ML",
+    "stance": 2,
+    "note": "Confederation of Sahel States; spoke on its behalf"
+   },
+   {
+    "iso2": "NE",
+    "stance": 2,
+    "note": "Confederation of Sahel States; spoke on its behalf"
+   },
+   {
+    "iso2": "EU",
+    "stance": -1,
+    "note": "European Parliament resolutions seen as justifying an offensive"
+   }
+  ],
+  "positions": {
+   "ord": 1
+  },
+  "src": "un_press",
+  "source_url": "https://press.un.org/en/2026/ga12791.doc.htm"
+ },
+ "HNOxEicvTR4": {
+  "speaker": "Ahmed Attaf",
+  "summary": "Attaf said international law is applied selectively, 'subject only to the dictates of power balances', asking what confidence remains 'when the aggressor is granted the right to self-defence, while the victim is required to justify even the right to survive'. He called the moment one of the most dangerous in the Gulf and Middle East's history, condemned the Israeli occupation's killing of Palestinian civilians and backed an independent Palestinian state. He demanded permanent African seats on the Security Council with full powers, and insisted that Western Sahara, 'the last colony on the African continent', be settled through self-determination under UN decolonisation doctrine.",
+  "primary_concern": "Selective application of international law, from Palestine to Western Sahara",
+  "primary_topic": "sovereignty",
+  "concerns": {
+   "sovereignty": 3,
+   "palestine": 2,
+   "territorial": 2,
+   "un_reform": 2,
+   "gulf_war": 1
+  },
+  "mentions": [
+   {
+    "iso2": "IL",
+    "stance": -2,
+    "note": "occupation continues to kill Palestinian civilians"
+   },
+   {
+    "iso2": "PS",
+    "stance": 2,
+    "note": "right to an independent sovereign state"
+   },
+   {
+    "iso2": "MA",
+    "stance": -1,
+    "note": "Western Sahara must be decided by self-determination; welcomes direct talks with Polisario"
+   }
+  ],
+  "positions": {
+   "isr": 1,
+   "ord": 1
+  },
+  "src": "un_press",
+  "source_url": "https://press.un.org/en/2026/ga12791.doc.htm"
+ },
+ "Oly6vM6Q40w": {
+  "speaker": "Alexandra Hill Tinoco",
+  "summary": "Hill asked 'Where are the United Nations?' as thousands die from war, hunger and violence, and urged an international order centred on humanity's common well-being. She presented El Salvador under Nayib Bukele as proof of what is possible: homicides down from 103 to 1.3 per 100,000 in five years and IMF-forecast growth of 4.5 per cent. 'No nation should have to accept collapse and governance impotence as their destiny,' she said, calling security the starting point for education and digital health reforms, and noting El Salvador co-leads the global AI governance dialogue with Estonia.",
+  "primary_concern": "El Salvador's security turnaround as a model for restoring trust",
+  "primary_topic": "americas",
+  "concerns": {
+   "americas": 3,
+   "development": 2,
+   "technology": 1,
+   "un_reform": 1
+  },
+  "mentions": [
+   {
+    "iso2": "EE",
+    "stance": 1,
+    "note": "co-leads the global AI governance dialogue"
+   }
+  ],
+  "positions": {},
+  "src": "un_press",
+  "source_url": "https://press.un.org/en/2026/ga12791.doc.htm"
+ },
+ "GX1q_r3OBlY": {
+  "speaker": "George Chapatula Chaponda",
+  "summary": "Chaponda called economic transformation 'an urgent survival strategy' for Malawi but said national efforts 'cannot dismantle the structural barriers built into the global economic architecture'. 'We cannot achieve sustainable development while drowning in debt,' he said, demanding immediate debt relief and restructuring. He urged operationalising the loss and damage fund ahead of El Niño, concessional rather than debt-creating climate finance from major emitters, permanent African Security Council seats with the veto, and a pandemic treaty that shares resources with the Global South.",
+  "primary_concern": "Debt and structural barriers in the global economic architecture",
+  "primary_topic": "development",
+  "concerns": {
+   "development": 3,
+   "climate": 2,
+   "un_reform": 2,
+   "health": 1,
+   "technology": 1
+  },
+  "mentions": [],
+  "positions": {},
+  "src": "un_press",
+  "source_url": "https://press.un.org/en/2026/ga12791.doc.htm"
+ },
+ "RvYuTODMOZY": {
+  "speaker": "Vijitha Herath",
+  "summary": "Herath said Sri Lanka is determined to prevent a recurrence of its three-decade conflict: 'Although the guns fell silent 17 years ago, the deep wounds of that conflict remain.' He said the government is strengthening national institutions and rejects racism and religious extremism. He noted the West Asia conflicts hit Sri Lanka directly through its migrant workers and economy, called for fairer debt and development-finance rules under the Sevilla Commitment, and stressed a peaceful, law-based order in the Indian Ocean under UNCLOS.",
+  "primary_concern": "Healing the legacy of civil conflict while weathering external shocks",
+  "primary_topic": "development",
+  "concerns": {
+   "development": 3,
+   "human_rights": 2,
+   "gulf_war": 1,
+   "asia_security": 1
+  },
+  "mentions": [],
+  "positions": {},
+  "src": "un_press",
+  "source_url": "https://press.un.org/en/2026/ga12791.doc.htm"
+ },
+ "pnni8LrKTz8": {
+  "speaker": "Constant Serge Bounda",
+  "summary": "Bounda said trust is eroding under double standards and 'relationships of force', and called for a renewed multilateralism reflecting a multipolar world. On the Security Council he said two permanent African seats with the veto are 'not a request, but a right'. He pressed for debt relief and cancellation, fair compensation for the Congo Basin's carbon and ecosystem services, and negotiated solutions in Ukraine, the Middle East, Sudan, Libya and the Great Lakes: 'Peace is not weakness, negotiation is not surrender.'",
+  "primary_concern": "Africa's exclusion from global decision-making",
+  "primary_topic": "un_reform",
+  "concerns": {
+   "un_reform": 3,
+   "development": 2,
+   "climate": 2,
+   "africa_security": 1,
+   "ukraine": 1
+  },
+  "mentions": [],
+  "positions": {
+   "ukr": 0,
+   "ord": 1
+  },
+  "src": "un_press",
+  "source_url": "https://press.un.org/en/2026/ga12791.doc.htm"
+ },
+ "l84LYHQr4Ec": {
+  "speaker": "Mohieldin Salim Ahmed Ibrahim",
+  "summary": "The foreign minister said he was speaking because the host country denied General al-Burhan a visa. 'Sudan is a peace-loving nation, but we also seek a just peace,' he said, which requires dismantling the Rapid Support Forces and stopping the flow of weapons and mercenaries, who he said make up 60 per cent of the militia. He called the world's silence and failure to designate the RSF a terrorist group 'a betrayal of the civilian victims', faulted the Security Council for not naming its sponsors, and said extending the Darfur arms embargo to all of Sudan would hand the militia victory.",
+  "primary_concern": "External sponsorship of the RSF prolonging Sudan's war",
+  "primary_topic": "africa_security",
+  "concerns": {
+   "africa_security": 3,
+   "sovereignty": 3,
+   "terrorism": 2,
+   "human_rights": 1
+  },
+  "mentions": [
+   {
+    "iso2": "US",
+    "stance": -1,
+    "note": "host country denied al-Burhan a visa"
+   }
+  ],
+  "positions": {},
+  "src": "un_press",
+  "source_url": "https://press.un.org/en/2026/ga12791.doc.htm"
+ },
+ "Lp5-354A0Zk": {
+  "speaker": "Khalifa Shaheen Al Marar",
+  "summary": "Al Marar rejected the unlawful use or threat of force and said the UAE rejects Iran's continued occupation of Greater Tunb, Lesser Tunb and Abu Musa, seeking settlement by direct talks or the International Court of Justice. He stressed freedom of navigation and transit passage as pillars of food and energy security. He cited 26 UAE mediations that exchanged nearly 8,000 Ukrainian and Russian prisoners, called for an end to Sudan's humanitarian catastrophe, and backed full implementation of President Trump's Gaza plan, including Israeli withdrawal, Hamas disarmament and two states.",
+  "primary_concern": "Iran's occupation of three Emirati islands and freedom of navigation in the Gulf",
+  "primary_topic": "territorial",
+  "concerns": {
+   "territorial": 3,
+   "gulf_war": 2,
+   "food_energy": 2,
+   "palestine": 1,
+   "ukraine": 1,
+   "africa_security": 1
+  },
+  "mentions": [
+   {
+    "iso2": "IR",
+    "stance": -2,
+    "note": "occupation of the three islands"
+   },
+   {
+    "iso2": "US",
+    "stance": 1,
+    "note": "backs Trump's Gaza plan"
+   },
+   {
+    "iso2": "IL",
+    "stance": 0,
+    "note": "must withdraw from Gaza under the plan"
+   },
+   {
+    "iso2": "MA",
+    "stance": 1,
+    "note": "refers to the 'Moroccan Sahara'"
+   },
+   {
+    "iso2": "UA",
+    "stance": 0,
+    "note": "mediated prisoner exchanges"
+   },
+   {
+    "iso2": "RU",
+    "stance": 0,
+    "note": "mediated prisoner exchanges"
+   }
+  ],
+  "positions": {
+   "ukr": 0,
+   "irn": -1
+  },
+  "src": "un_press",
+  "source_url": "https://press.un.org/en/2026/ga12791.doc.htm"
+ },
+ "dacWSO5scIk": {
+  "speaker": "Kim Son Gyong",
+  "summary": "Kim said sovereignty and international law are being trampled 'due to the unilateral high-handedness and tyranny of a hegemonic State'. He accused the United States of turning its alliance with Japan and South Korea into an offensive bloc 'unmistakably aimed at the DPRK', citing joint exercises, Seoul's nuclear-powered submarines and rearmament by Japan, 'an A-class war criminal'. He credited the DPRK's nuclear deterrent with preventing war on the peninsula and said its nuclear status is irreversible, adding that the UN must stop being misused by 'specific forces'.",
+  "primary_concern": "US-led military bloc and the irreversibility of the DPRK's nuclear status",
+  "primary_topic": "nuclear",
+  "concerns": {
+   "nuclear": 3,
+   "asia_security": 3,
+   "sovereignty": 2,
+   "un_reform": 1
+  },
+  "mentions": [
+   {
+    "iso2": "US",
+    "stance": -2,
+    "note": "'hegemonic State' of tyranny"
+   },
+   {
+    "iso2": "JP",
+    "stance": -2,
+    "note": "'A-class war criminal' rearming"
+   },
+   {
+    "iso2": "KR",
+    "stance": -2,
+    "note": "part of an aggressive bloc; nuclear submarines"
+   }
+  ],
+  "positions": {
+   "ord": 1
+  },
+  "src": "un_press",
+  "source_url": "https://press.un.org/en/2026/ga12791.doc.htm"
+ },
+ "y9-I65YsVzo": {
+  "speaker": "Victoria Hallum",
+  "summary": "Hallum framed the speech as a brief for the next Secretary-General, who must 'assert the UN's vital role on peace and security' through prevention and mediation. That means ending the 'horrific conflict in Sudan', pressing for a just end to Russia's 'illegal invasion of Ukraine' and turning Gaza's fragile ceasefire into durable peace. She called for a more representative Security Council, announced New Zealand's bid for a 2039-40 seat, and urged all members to recommit to the Charter 'in words and in deeds'.",
+  "primary_concern": "What the next Secretary-General must do to restore the UN's peace role",
+  "primary_topic": "un_reform",
+  "concerns": {
+   "un_reform": 3,
+   "ukraine": 2,
+   "palestine": 1,
+   "africa_security": 1,
+   "sovereignty": 1
+  },
+  "mentions": [
+   {
+    "iso2": "RU",
+    "stance": -2,
+    "note": "'illegal invasion of Ukraine'"
+   },
+   {
+    "iso2": "UA",
+    "stance": 1,
+    "note": "just end to the invasion"
+   }
+  ],
+  "positions": {
+   "ukr": 1,
+   "ord": -1
+  },
+  "src": "un_press",
+  "source_url": "https://press.un.org/en/2026/ga12791.doc.htm"
+ },
+ "i7bQVuelt0g": {
+  "speaker": "Vepa Hajiyev",
+  "summary": "Hajiyev announced plans to convene an intergovernmental process towards a 'global peace strategy' and proposed a UN decade of dialogue and preventive diplomacy. He highlighted the Ashgabat-based UN Regional Centre for Preventive Diplomacy ahead of its twentieth anniversary and plans for a 'University of Peace and Neutrality'. He also promoted the Awaza Programme for landlocked developing countries and a transport corridor linking South and Central Asia to Europe across the Caspian.",
+  "primary_concern": "Preventive diplomacy and neutrality as tools for peace",
+  "primary_topic": "un_reform",
+  "concerns": {
+   "un_reform": 3,
+   "trade": 2,
+   "development": 2
+  },
+  "mentions": [],
+  "positions": {},
+  "src": "un_press",
+  "source_url": "https://press.un.org/en/2026/ga12791.doc.htm"
+ },
+ "4L_9XWiVlTQ": {
+  "speaker": "Walton Alfonso Webson",
+  "summary": "Webson said choosing the next Secretary-General 'is about the future direction of this Organization' and announced Antigua and Barbuda's nomination of María Fernanda Espinosa as 'a credible bridge-builder'. He said UN80 must protect the development pillar and that small states pay for tariffs and trade disputes 'they did not create'. Arguing for the multidimensional vulnerability index, he said: 'A hurricane does not check GDP before destroying a school.'",
+  "primary_concern": "Small island states bearing the cost of others' disputes and climate shocks",
+  "primary_topic": "development",
+  "concerns": {
+   "development": 3,
+   "un_reform": 2,
+   "trade": 2,
+   "climate": 2
+  },
+  "mentions": [
+   {
+    "iso2": "EC",
+    "stance": 1,
+    "note": "nominates María Fernanda Espinosa for Secretary-General"
+   }
+  ],
+  "positions": {},
+  "src": "un_press",
+  "source_url": "https://press.un.org/en/2026/ga12791.doc.htm"
+ },
+ "az2T7B-TQyI": {
+  "speaker": "Ingrid Jackson",
+  "summary": "Jackson said 'resilience alone is no longer enough' and called for transforming the conditions that make people vulnerable. With CARICOM she urged renewal and full deployment of Haiti's Gang Suppression Force, saying 'Haiti is not a failed State' but 'a promise yet to be fulfilled'. She voiced concern for the hardships of the Cuban people, and called for climate finance 'before the storm', equitable access to AI, and a UN that delivers 'not simply promises, but progress'.",
+  "primary_concern": "Moving small islands from resilience to transformation",
+  "primary_topic": "climate",
+  "concerns": {
+   "climate": 3,
+   "development": 2,
+   "americas": 2,
+   "technology": 1,
+   "un_reform": 1
+  },
+  "mentions": [
+   {
+    "iso2": "HT",
+    "stance": 1,
+    "note": "backs Gang Suppression Force and elections"
+   },
+   {
+    "iso2": "CU",
+    "stance": 1,
+    "note": "concern for hardships of the Cuban people; relief needed"
+   }
+  ],
+  "positions": {},
+  "src": "un_press",
+  "source_url": "https://press.un.org/en/2026/ga12791.doc.htm"
+ },
+ "Zdo83eb0iZ4": {
+  "speaker": "Cecilia Adout Majok Adeng",
+  "summary": "Adeng said South Sudan is consolidating peace after half a century of struggle and that President Kiir is committed to general elections in December 2026 to end the transition: 'The ballot must replace the bullet.' She asked the Security Council to lift all restrictive measures, including the arms embargo, so accountable security services can protect the vote. She sought investment in agriculture and water, expressed solidarity with Sudan, and said Abyei's final status needs peaceful dialogue.",
+  "primary_concern": "Holding December 2026 elections and lifting the arms embargo",
+  "primary_topic": "africa_security",
+  "concerns": {
+   "africa_security": 3,
+   "development": 2,
+   "sovereignty": 2
+  },
+  "mentions": [
+   {
+    "iso2": "SD",
+    "stance": 1,
+    "note": "solidarity; political solution; dialogue on Abyei"
+   }
+  ],
+  "positions": {
+   "sanc": 1
+  },
+  "src": "un_press",
+  "source_url": "https://press.un.org/en/2026/ga12791.doc.htm"
+ },
+ "4qyujSoy9tE": {
+  "speaker": "Christina Markus Lassen",
+  "summary": "Lassen said respect for the Charter and international law is 'not a courtesy, but a binding obligation'. Russia's 'illegal war of choice' could end tomorrow if it withdrew, she said, and defending Ukraine means defending universal principles. She urged a truce in Sudan, backed restored verification of Iran's nuclear programme and told Tehran to cease attacks on regional states and threats to Hormuz, and said West Bank settler violence and settlement expansion 'has to stop'. She welcomed a new Denmark-Greenland-US security agreement as good for NATO and Europe.",
+  "primary_concern": "Respect for international law as a binding obligation, above all in Ukraine",
+  "primary_topic": "ukraine",
+  "concerns": {
+   "ukraine": 3,
+   "sovereignty": 2,
+   "gulf_war": 2,
+   "palestine": 1,
+   "africa_security": 1,
+   "nuclear": 1
+  },
+  "mentions": [
+   {
+    "iso2": "RU",
+    "stance": -2,
+    "note": "'illegal war of choice'"
+   },
+   {
+    "iso2": "UA",
+    "stance": 2,
+    "note": "defence of Ukraine is defence of the Charter"
+   },
+   {
+    "iso2": "IR",
+    "stance": -1,
+    "note": "must cease attacks on regional states and threats to Hormuz"
+   },
+   {
+    "iso2": "IL",
+    "stance": -1,
+    "note": "settler violence and settlement expansion must stop"
+   },
+   {
+    "iso2": "US",
+    "stance": 1,
+    "note": "Greenland security agreement"
+   },
+   {
+    "iso2": "SY",
+    "stance": 1,
+    "note": "supports Syrian-led transition"
+   }
+  ],
+  "positions": {
+   "ukr": 1,
+   "isr": 0.5,
+   "irn": -1,
+   "ord": -1
+  },
+  "src": "un_press",
+  "source_url": "https://press.un.org/en/2026/ga12791.doc.htm"
+ },
+ "sgfdmW7vO6g": {
+  "speaker": "Boris Vasir Marchegiani Carrero",
+  "summary": "Costa Rica said illegal mining run by transnational criminal groups on its border with Nicaragua is damaging the environment, public health and regional security. It voiced 'grave concern' at Nicaragua's persecution of critics and religious groups, called for respect for human rights in Cuba, and hoped dialogue and democratic institutions prevail in Venezuela. It described converging climate, biodiversity and ocean crises, and campaigned for its candidate: the next Secretary-General 'must be a Latin American woman — more than that, it must be Rebeca Grynspan'.",
+  "primary_concern": "Organised crime and democratic backsliding in Central America",
+  "primary_topic": "americas",
+  "concerns": {
+   "americas": 3,
+   "human_rights": 2,
+   "climate": 2,
+   "un_reform": 2
+  },
+  "mentions": [
+   {
+    "iso2": "NI",
+    "stance": -2,
+    "note": "persecution, closure of civic space, human rights violations"
+   },
+   {
+    "iso2": "CU",
+    "stance": -1,
+    "note": "calls for respect for human rights and freedoms"
+   },
+   {
+    "iso2": "VE",
+    "stance": 0,
+    "note": "hopes for dialogue and restored democratic institutions"
+   }
+  ],
+  "positions": {
+   "ord": -1
+  },
+  "src": "un_press",
+  "source_url": "https://press.un.org/en/2026/ga12791.doc.htm"
+ },
+ "3tzQnA7WKmU": {
+  "speaker": "Odo Tevi",
+  "summary": "Tevi said small states cannot accept a world where international law applies differently according to size or power: 'The Charter must apply equally to all.' He welcomed genuine partnerships but warned 'the Pacific must not become an arena for great-power competition at the expense of Pacific priorities'. On climate finance he said Vanuatu asks for 'partnership, fairness and the fulfilment of international commitments', not charity, and urged early-warning systems and pre-positioned aid before a strong El Niño hits.",
+  "primary_concern": "Climate finance and El Niño preparedness for the Pacific",
+  "primary_topic": "climate",
+  "concerns": {
+   "climate": 3,
+   "sovereignty": 2,
+   "development": 2,
+   "food_energy": 1
+  },
+  "mentions": [],
+  "positions": {},
+  "src": "un_press",
+  "source_url": "https://press.un.org/en/2026/ga12791.doc.htm"
+ },
+ "UQqJpDLcVbw": {
+  "speaker": "Marc Hermanne Araba",
+  "summary": "Araba said terrorism has 'hit our subregion' and that Benin is strengthening its defences, border surveillance and cooperation with neighbours. He called for reform of the international financial architecture and argued that investing in development is investing in peace. 'We are not asking for the right to pollute. We are asking for the right to development,' he said of the energy transition, and announced that Benin will offer citizenship to members of the African diaspora.",
+  "primary_concern": "Terrorism spilling into coastal West Africa",
+  "primary_topic": "terrorism",
+  "concerns": {
+   "terrorism": 3,
+   "development": 2,
+   "climate": 2,
+   "africa_security": 2
+  },
+  "mentions": [],
+  "positions": {},
+  "src": "un_press",
+  "source_url": "https://press.un.org/en/2026/ga12791.doc.htm"
  }
 }

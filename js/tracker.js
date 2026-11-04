@@ -237,17 +237,21 @@
     // the order the user set.
     var stories = WatchlistStore.all();
     var rail = document.getElementById('tracker-rail');
+    var rows = railRows(stories);
     if (!stories.length) {
       rail.innerHTML = '<div class="empty-note">No stories tracked yet.<br>Use <strong>Manage stories</strong> above to add some, or star items on the Feed page.</div>';
       return;
     }
-    rail.innerHTML = stories.map(function (s) {
+    rail.innerHTML = rows.map(function (row) {
+      var s = row.story;
       var st = statusFor(s);
       var count = countEntries(s);
       return (
-        '<div class="card tracker-story-item ' + (s.story_id === selectedId ? 'selected' : '') + '" data-id="' + esc(s.story_id) + '">' +
+        '<div class="card tracker-story-item ' + (s.story_id === selectedId ? 'selected' : '') +
+          (row.depth ? ' is-branch" style="margin-left:' + (row.depth * 16) + 'px' : '') + '" data-id="' + esc(s.story_id) + '">' +
           '<span class="tracker-status ' + st + '">' + st + '</span>' +
-          '<div class="story-mini-title" style="margin-top:6px;">' + esc(s.title) + '</div>' +
+          '<div class="story-mini-title" style="margin-top:6px;">' +
+            (row.depth ? '<span class="subthread-branch" title="Branch">⑂</span> ' : '') + esc(s.title) + '</div>' +
           '<div class="story-mini-meta"><span>' + count + ' update' + (count === 1 ? '' : 's') + '</span><span class="last-news">news ' + esc(lastNewsLabel(s)) + '</span></div>' +
         '</div>'
       );
@@ -257,6 +261,85 @@
         selectStory(el.dataset.id, true);
       });
     });
+  }
+
+  // Rail order: a branch (parent_id) sits directly under its parent, keeping
+  // the user's priority order within each level. A branch whose parent the
+  // user doesn't follow stays top-level. Depth is capped so a bad parent
+  // chain can't loop.
+  function railRows(stories) {
+    var followed = {};
+    stories.forEach(function (s) { followed[s.story_id] = 1; });
+    var kids = {}, top = [];
+    stories.forEach(function (s) {
+      if (s.parent_id && s.parent_id !== s.story_id && followed[s.parent_id]) {
+        (kids[s.parent_id] = kids[s.parent_id] || []).push(s);
+      } else {
+        top.push(s);
+      }
+    });
+    var out = [];
+    (function walk(list, depth) {
+      list.forEach(function (s) {
+        out.push({ story: s, depth: depth });
+        if (kids[s.story_id] && depth < 3) walk(kids[s.story_id], depth + 1);
+      });
+    })(top, 0);
+    return out;
+  }
+
+  // A story's branches — followed ones plus catalog ones the user hasn't
+  // tracked yet (offered with a Track button) — and its parent, if any.
+  function branchesOf(story) {
+    var mine = WatchlistStore.all().filter(function (s) { return s.parent_id === story.story_id; });
+    var more = WatchlistStore.catalogAvailable().filter(function (s) { return s.parent_id === story.story_id; });
+    return mine.concat(more);
+  }
+
+  function parentOf(story) {
+    if (!story.parent_id) return null;
+    return WatchlistStore.byId(story.parent_id) ||
+      WatchlistStore.catalogAvailable().filter(function (s) { return s.story_id === story.parent_id; })[0] || null;
+  }
+
+  function parentLinkHtml(story) {
+    var parent = parentOf(story);
+    if (!parent) return '';
+    return '<button type="button" class="tracker-parent-link" data-open-story="' + esc(parent.story_id) + '">' +
+      '<span class="subthread-branch">⑂</span> Branch of <span class="subthread-title">' + esc(parent.title) + '</span></button>';
+  }
+
+  function branchesHtml(story) {
+    var kids = branchesOf(story);
+    if (!kids.length) return '';
+    return '<div class="tracker-branches">' +
+      '<div class="tracker-branches-label">Branches</div>' +
+      kids.map(function (k) {
+        var tracked = WatchlistStore.isFollowing(k.story_id);
+        var count = countEntries(k);
+        return '<button type="button" class="card tracker-branch" data-open-story="' + esc(k.story_id) + '">' +
+          '<span class="subthread-branch">⑂</span>' +
+          '<span class="tracker-branch-body">' +
+            '<span class="tracker-branch-title">' + esc(k.title) + '</span>' +
+            '<span class="story-mini-meta"><span>' + count + ' update' + (count === 1 ? '' : 's') + '</span>' +
+              '<span class="last-news">news ' + esc(lastNewsLabel(k)) + '</span></span>' +
+          '</span>' +
+          '<span class="tracker-analysis-go">' + (tracked ? 'Open &rarr;' : 'Track branch +') + '</span>' +
+        '</button>';
+      }).join('') +
+    '</div>';
+  }
+
+  // A parent followed from its branch's header lands just above that branch,
+  // so the pair stays together in the user's priority order.
+  function openStory(id) {
+    if (!WatchlistStore.isFollowing(id) && WatchlistStore.follow(id)) {
+      var from = WatchlistStore.byId(selectedId);
+      if (from && from.parent_id === id) WatchlistStore.moveTo(id, WatchlistStore.all().map(function (s) { return s.story_id; }).indexOf(selectedId));
+    }
+    _lastNewsCache = {};
+    selectStory(id, true);
+    if (panelOpen) renderManagePanel();
   }
 
   // Select a story, re-render, and bring its timeline into view. On mobile
@@ -420,6 +503,7 @@
             (heroImg.credit ? '<span class="tracker-story-hero-credit">' + esc(heroImg.credit) + '</span>' : '') +
           '</div>' : '') +
         '<div class="tracker-story-header-body">' +
+          parentLinkHtml(story) +
           '<span class="tracker-status ' + st + '">' + st + '</span>' +
           '<div class="tracker-story-title">' + esc(story.title) + '</div>' +
           '<div class="story-mini-meta"><span>' + entries.length + ' update' + (entries.length === 1 ? '' : 's') + '</span><span class="last-news">last news ' + esc(lastNewsLabel(story)) + '</span><span>marked ' + esc((story.marked_at || '').slice(0, 10)) + '</span></div>' +
@@ -436,6 +520,7 @@
         '</div>' +
       '</div>' +
       analysisCallout(story) +
+      branchesHtml(story) +
       searchBar +
       // Thread starts EMPTY and is filled in chunks below so the header + search
       // paint immediately even for a story with hundreds of updates. The loading
@@ -472,6 +557,10 @@
         WatchlistStore.setSources(story.story_id, sel);
       });
     }
+
+    main.querySelectorAll('[data-open-story]').forEach(function (btn) {
+      btn.addEventListener('click', function () { openStory(btn.dataset.openStory); });
+    });
 
     main.querySelectorAll('.tracker-story-actions [data-action]').forEach(function (btn) {
       btn.addEventListener('click', function () {

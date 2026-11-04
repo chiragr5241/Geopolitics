@@ -35,9 +35,34 @@
     var trackedPseudo = []; // country-set stand-ins so auto picks dedupe against tracked stories
 
     // Every active tracked story becomes a tile, in manual PRIORITY order
-    // (WatchlistStore.all() array order) — no cap, no re-sort.
-    WatchlistStore.all()
-      .filter(function (s) { return s.status === 'active'; })
+    // (WatchlistStore.all() array order) — no cap, no re-sort. A BRANCH
+    // (parent_id) of another active tracked story is the exception: it rides
+    // inside its top ancestor's tile as a compact row instead of taking a tile.
+    var active = WatchlistStore.all().filter(function (s) { return s.status === 'active'; });
+    var byId = {};
+    active.forEach(function (s) { byId[s.story_id] = s; });
+    function tileOwner(s) {
+      var owner = null, cur = s;
+      for (var hop = 0; hop < 4 && cur.parent_id && byId[cur.parent_id] && cur.parent_id !== cur.story_id; hop++) {
+        owner = byId[cur.parent_id];
+        cur = owner;
+      }
+      return owner;
+    }
+    var branchesOf = {};
+    active.forEach(function (s) {
+      var owner = tileOwner(s);
+      if (owner) {
+        (branchesOf[owner.story_id] = branchesOf[owner.story_id] || []).push({
+          title: s.title,
+          href: 'tracker.html?story=' + encodeURIComponent(s.story_id),
+          updates: Util.countStoryEntries(s, storyUpdates, items),
+        });
+      }
+    });
+
+    active
+      .filter(function (s) { return !tileOwner(s); })
       .forEach(function (s) {
         var cs = ((s.seed && s.seed.countries) || []).join(';');
         heroes.push({
@@ -54,6 +79,7 @@
           // any story whose only coverage is linked feed tweets. Mirrors the
           // Tracker page's rail count (js/tracker.js countEntries) so the two
           // pages always agree.
+          branches: branchesOf[s.story_id] || [],
           updates: Util.countStoryEntries(s, storyUpdates, items),
           image: s.image || '',
         });
@@ -115,6 +141,25 @@
     return null;
   }
 
+  // A parent tile's branches: one translucent row each (⑂ title · count),
+  // each its own link to the branch's timeline. Past `max`, a "+N more" row
+  // opens the parent, where the Timelines page lists them all.
+  function branchesHtml(branches, max) {
+    if (!branches.length) return '';
+    var shown = branches.slice(0, max);
+    var more = branches.length - shown.length;
+    return '<div class="story-tile-branches">' +
+      shown.map(function (b) {
+        return '<a class="story-tile-branch" href="' + esc(b.href) + '">' +
+          '<span class="story-tile-branch-icon" aria-hidden="true">⑂</span>' +
+          '<span class="story-tile-branch-title">' + esc(b.title) + '</span>' +
+          '<span class="story-tile-branch-count">' + b.updates + '</span>' +
+        '</a>';
+      }).join('') +
+      (more ? '<span class="story-tile-branch-more">+' + more + ' more branch' + (more === 1 ? '' : 'es') + '</span>' : '') +
+    '</div>';
+  }
+
   // ── Rendering ────────────────────────────────────────────
 
   function renderHeroes(heroes, storyImages) {
@@ -129,10 +174,15 @@
       var img = h.image ? { url: h.image, label: h.title || '', credit: '' }
                         : findImage(h, storyImages, usedUrls);
       if (img) usedUrls.push(img.url);
+      var branches = h.branches || [];
+      // The tile is a <div> with a stretched link (not an <a>) so branch rows
+      // can be links of their own — anchors can't nest.
       var lead = idx === 0 ? ' lead' : '';
       var breaking = h.item && h.item.is_breaking === 'TRUE';
       return (
-        '<a class="story-tile animate-on-scroll' + lead + (img ? '' : ' no-img') + ' tile-cat-' + esc(h.category).toLowerCase() + '" href="' + h.href + '">' +
+        '<div class="story-tile animate-on-scroll' + lead + (img ? '' : ' no-img') + (branches.length ? ' has-branches' : '') +
+          ' tile-cat-' + esc(h.category).toLowerCase() + '">' +
+          '<a class="story-tile-link" href="' + h.href + '" aria-label="' + esc(h.title) + '"></a>' +
           (img ? '<img class="story-tile-img" src="' + esc(img.url) + '" alt="' + esc(img.label) + '" loading="lazy" decoding="async">' : '') +
           '<div class="story-tile-scrim"></div>' +
           '<div class="story-tile-body">' +
@@ -143,10 +193,11 @@
               '<span class="story-tile-time">' + fmtTime(h.time) + '</span>' +
             '</div>' +
             '<div class="story-tile-title">' + esc(h.title) + '</div>' +
-            (idx === 0 && h.dek ? '<div class="story-tile-dek">' + esc(h.dek) + '</div>' : '') +
+            (idx === 0 && h.dek && !branches.length ? '<div class="story-tile-dek">' + esc(h.dek) + '</div>' : '') +
+            branchesHtml(branches, idx === 0 ? 3 : 2) +
           '</div>' +
           (img && img.credit ? '<div class="story-tile-credit">' + esc(img.credit) + '</div>' : '') +
-        '</a>'
+        '</div>'
       );
     }).join('');
 

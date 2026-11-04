@@ -86,6 +86,7 @@ var Util = (function () {
     storyUpdates.filter(function (u) { return u.story_id === story.story_id; })
       .forEach(function (u) {
         var head = u.headline || u.summary || '';
+    var beatUrls = {};
         var k = (u.date || '') + '|' + normHead(head);
         if (seen[k]) return;
         seen[k] = 1;
@@ -95,6 +96,7 @@ var Util = (function () {
           source_name: u.source_name || '', url: u.url || '',
           image: u.image || '',
           feed: (!u.url && feedByNorm[k]) || null,
+        if (u.url) beatUrls[u.url] = 1;
         });
       });
 
@@ -105,7 +107,9 @@ var Util = (function () {
       var date = (it.created_at || '').slice(0, 10);
       var head = it.summary || it.full_text || '';
       var k = date + '|' + normHead(head);
-      if (seen[k]) return;
+      // Same article as a beat, even when deep enrichment rewrote its summary
+      // so the headline key no longer matches (keep in step with story_stats.py).
+      if (seen[k] || (it.source_url && beatUrls[it.source_url])) return;
       seen[k] = 1;
       entries.push({
         date: date, headline: head, summary: '',
