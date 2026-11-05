@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-11-04T14:02:26Z",
+  "updated_at": "2026-11-05T14:09:33Z",
   "stories": [
     {
       "story_id": "st-20261103-united-nations",
@@ -29,7 +29,7 @@
         "noon briefing"
       ],
       "last_update_at": "2026-11-04",
-      "update_count": 467,
+      "update_count": 475,
       "resolved_at": null,
       "notes": "Created 2026-11-03. Umbrella story for the UN's own daily reporting. Beats: scripts/un_story_updates.py from data/un_daily/reports.csv (scripts/pull_un_daily.py) — every report, with General Assembly reports also copied onto the UNGA 81 branch (parent_id). Feed rows: link_sources=['UN News'] makes link_stories.py link every UN News row and nothing else (keywords alone would pull in the whole wire); update_stories.py (7a) skips link_sources stories.",
       "custom": true,
@@ -122,8 +122,8 @@
         "mindich",
         "zelensky"
       ],
-      "last_update_at": "2026-11-03",
-      "update_count": 28,
+      "last_update_at": "2026-11-05",
+      "update_count": 30,
       "resolved_at": null,
       "notes": "Backfilled 2026-07-17 via web research; no coverage in intel_feed."
     },
@@ -205,8 +205,8 @@
         "zaporizhzhia",
         "kherson"
       ],
-      "last_update_at": "2026-11-04",
-      "update_count": 698,
+      "last_update_at": "2026-11-05",
+      "update_count": 706,
       "resolved_at": null,
       "notes": "Backfilled 2026-07-21 from intel_feed via scripts/backfill_story_updates.py."
     },
@@ -249,8 +249,8 @@
         "reunification",
         "taipei"
       ],
-      "last_update_at": "2026-11-02",
-      "update_count": 499,
+      "last_update_at": "2026-11-05",
+      "update_count": 500,
       "resolved_at": null,
       "notes": "",
       "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/2020-04-23_Seaman_Xi_Chan_stands_lookout_on_the_flight_deck_as_USS_Barry_%28DDG_52%29_transits_the_Taiwan_Strait.jpg/1920px-2020-04-23_Seaman_Xi_Chan_stands_lookout_on_the_flight_deck_as_USS_Barry_%28DDG_52%29_transits_the_Taiwan_Strait.jpg",
@@ -293,8 +293,8 @@
         "nypd",
         "city hall"
       ],
-      "last_update_at": "2026-11-04",
-      "update_count": 48,
+      "last_update_at": "2026-11-05",
+      "update_count": 49,
       "resolved_at": null,
       "notes": "",
       "custom": true,
@@ -661,8 +661,8 @@
         "blockade",
         "missile"
       ],
-      "last_update_at": "2026-11-04",
-      "update_count": 1118,
+      "last_update_at": "2026-11-05",
+      "update_count": 1125,
       "resolved_at": null,
       "notes": "Backfilled 2026-07-17 from intel_feed, past-4-months major beats."
     },
@@ -695,8 +695,8 @@
         "redistricting",
         "kalshi"
       ],
-      "last_update_at": "2026-11-04",
-      "update_count": 91,
+      "last_update_at": "2026-11-05",
+      "update_count": 96,
       "resolved_at": null,
       "notes": "Backfilled 2026-07-21 from intel_feed via scripts/backfill_story_updates.py."
     },
@@ -729,8 +729,8 @@
         "tren de aragua",
         "essequibo"
       ],
-      "last_update_at": "2026-11-02",
-      "update_count": 85,
+      "last_update_at": "2026-11-05",
+      "update_count": 86,
       "resolved_at": null,
       "notes": "Backfilled 2026-07-21 from intel_feed via scripts/backfill_story_updates.py."
     },
@@ -888,8 +888,8 @@
         "hts",
         "golan"
       ],
-      "last_update_at": "2026-11-04",
-      "update_count": 403,
+      "last_update_at": "2026-11-05",
+      "update_count": 410,
       "resolved_at": null,
       "notes": "Seeded 2026-09-04 from DW interview on SDF dissolution (youtube NdTqksVqy78). Syria-specific sources registered at the same time: enab-baladi, sana, syria-direct, north-press-agency, middle-east-eye, al-monitor, arab-news, gdelt-sy-syria, plus research-scope SOHR, The New Arab, Rudaw, World Bank, IMF, ICG.",
       "custom": true,
@@ -1004,8 +1004,8 @@
         "general strike",
         "prime minister"
       ],
-      "last_update_at": "2026-11-04",
-      "update_count": 124,
+      "last_update_at": "2026-11-05",
+      "update_count": 129,
       "resolved_at": null,
       "notes": "Seeded 2026-10-18 at Chirag's request. France-specific sources registered at the same time: le-monde-english, rfi-english, the-local-france (wire), connexion-france (research).",
       "custom": true,
