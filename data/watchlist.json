@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-11-05T14:09:33Z",
+  "updated_at": "2026-11-06T07:54:25Z",
   "stories": [
     {
       "story_id": "st-20261103-united-nations",
@@ -28,8 +28,8 @@
         "un news",
         "noon briefing"
       ],
-      "last_update_at": "2026-11-04",
-      "update_count": 475,
+      "last_update_at": "2026-11-06",
+      "update_count": 476,
       "resolved_at": null,
       "notes": "Created 2026-11-03. Umbrella story for the UN's own daily reporting. Beats: scripts/un_story_updates.py from data/un_daily/reports.csv (scripts/pull_un_daily.py) — every report, with General Assembly reports also copied onto the UNGA 81 branch (parent_id). Feed rows: link_sources=['UN News'] makes link_stories.py link every UN News row and nothing else (keywords alone would pull in the whole wire); update_stories.py (7a) skips link_sources stories.",
       "custom": true,
@@ -122,8 +122,8 @@
         "mindich",
         "zelensky"
       ],
-      "last_update_at": "2026-11-05",
-      "update_count": 30,
+      "last_update_at": "2026-11-06",
+      "update_count": 31,
       "resolved_at": null,
       "notes": "Backfilled 2026-07-17 via web research; no coverage in intel_feed."
     },
@@ -166,8 +166,8 @@
         "starship",
         "spaceport"
       ],
-      "last_update_at": "2026-11-03",
-      "update_count": 46,
+      "last_update_at": "2026-11-06",
+      "update_count": 47,
       "resolved_at": null,
       "notes": "",
       "custom": true,
@@ -293,8 +293,8 @@
         "nypd",
         "city hall"
       ],
-      "last_update_at": "2026-11-05",
-      "update_count": 49,
+      "last_update_at": "2026-11-06",
+      "update_count": 50,
       "resolved_at": null,
       "notes": "",
       "custom": true,
@@ -624,8 +624,8 @@
         "uav",
         "swarm"
       ],
-      "last_update_at": "2026-11-03",
-      "update_count": 40,
+      "last_update_at": "2026-11-06",
+      "update_count": 41,
       "resolved_at": null,
       "notes": "",
       "custom": true,
@@ -1082,8 +1082,8 @@
         "redwood research",
         "alignment"
       ],
-      "last_update_at": "2026-10-31",
-      "update_count": 15,
+      "last_update_at": "2026-11-06",
+      "update_count": 16,
       "resolved_at": null,
       "notes": "Seeded 2026-10-18 at Chirag's request. AI-safety sources registered at the same time: transformer, ai-safety-newsletter (wire), mit-technology-review, uk-ai-security-institute, metr (research).",
       "custom": true,
