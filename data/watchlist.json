@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-11-06T07:54:25Z",
+  "updated_at": "2026-11-06T16:06:54Z",
   "stories": [
     {
       "story_id": "st-20261103-united-nations",
@@ -29,7 +29,7 @@
         "noon briefing"
       ],
       "last_update_at": "2026-11-06",
-      "update_count": 476,
+      "update_count": 481,
       "resolved_at": null,
       "notes": "Created 2026-11-03. Umbrella story for the UN's own daily reporting. Beats: scripts/un_story_updates.py from data/un_daily/reports.csv (scripts/pull_un_daily.py) — every report, with General Assembly reports also copied onto the UNGA 81 branch (parent_id). Feed rows: link_sources=['UN News'] makes link_stories.py link every UN News row and nothing else (keywords alone would pull in the whole wire); update_stories.py (7a) skips link_sources stories.",
       "custom": true,
@@ -81,8 +81,8 @@
         "right of reply",
         "un podium"
       ],
-      "last_update_at": "2026-11-04",
-      "update_count": 68,
+      "last_update_at": "2026-11-06",
+      "update_count": 69,
       "resolved_at": null,
       "notes": "Created 2026-09-28. Transcripts: scripts/pull_un_speeches.py; summaries: data/un_speeches/unga81/summaries.json; analysis: scripts/analyze_un_speeches.py -> data/un_speeches/unga81.json, rendered by speeches.html. 2026-11-03: became the UNGA branch of st-20261103-united-nations; daily General Assembly reports (plenary + Main Committees) land here via scripts/un_story_updates.py.",
       "custom": true,
@@ -123,7 +123,7 @@
         "zelensky"
       ],
       "last_update_at": "2026-11-06",
-      "update_count": 31,
+      "update_count": 32,
       "resolved_at": null,
       "notes": "Backfilled 2026-07-17 via web research; no coverage in intel_feed."
     },
@@ -167,7 +167,7 @@
         "spaceport"
       ],
       "last_update_at": "2026-11-06",
-      "update_count": 47,
+      "update_count": 48,
       "resolved_at": null,
       "notes": "",
       "custom": true,
@@ -205,8 +205,8 @@
         "zaporizhzhia",
         "kherson"
       ],
-      "last_update_at": "2026-11-05",
-      "update_count": 706,
+      "last_update_at": "2026-11-06",
+      "update_count": 714,
       "resolved_at": null,
       "notes": "Backfilled 2026-07-21 from intel_feed via scripts/backfill_story_updates.py."
     },
@@ -249,8 +249,8 @@
         "reunification",
         "taipei"
       ],
-      "last_update_at": "2026-11-05",
-      "update_count": 500,
+      "last_update_at": "2026-11-06",
+      "update_count": 501,
       "resolved_at": null,
       "notes": "",
       "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/2020-04-23_Seaman_Xi_Chan_stands_lookout_on_the_flight_deck_as_USS_Barry_%28DDG_52%29_transits_the_Taiwan_Strait.jpg/1920px-2020-04-23_Seaman_Xi_Chan_stands_lookout_on_the_flight_deck_as_USS_Barry_%28DDG_52%29_transits_the_Taiwan_Strait.jpg",
@@ -294,7 +294,7 @@
         "city hall"
       ],
       "last_update_at": "2026-11-06",
-      "update_count": 50,
+      "update_count": 51,
       "resolved_at": null,
       "notes": "",
       "custom": true,
@@ -661,8 +661,8 @@
         "blockade",
         "missile"
       ],
-      "last_update_at": "2026-11-05",
-      "update_count": 1125,
+      "last_update_at": "2026-11-06",
+      "update_count": 1129,
       "resolved_at": null,
       "notes": "Backfilled 2026-07-17 from intel_feed, past-4-months major beats."
     },
@@ -695,8 +695,8 @@
         "redistricting",
         "kalshi"
       ],
-      "last_update_at": "2026-11-05",
-      "update_count": 96,
+      "last_update_at": "2026-11-06",
+      "update_count": 99,
       "resolved_at": null,
       "notes": "Backfilled 2026-07-21 from intel_feed via scripts/backfill_story_updates.py."
     },
@@ -729,8 +729,8 @@
         "tren de aragua",
         "essequibo"
       ],
-      "last_update_at": "2026-11-05",
-      "update_count": 86,
+      "last_update_at": "2026-11-06",
+      "update_count": 88,
       "resolved_at": null,
       "notes": "Backfilled 2026-07-21 from intel_feed via scripts/backfill_story_updates.py."
     },
@@ -763,8 +763,8 @@
         "lok sabha",
         "rahul gandhi"
       ],
-      "last_update_at": "2026-11-04",
-      "update_count": 110,
+      "last_update_at": "2026-11-06",
+      "update_count": 111,
       "resolved_at": null,
       "notes": "",
       "custom": true,
@@ -888,8 +888,8 @@
         "hts",
         "golan"
       ],
-      "last_update_at": "2026-11-05",
-      "update_count": 410,
+      "last_update_at": "2026-11-06",
+      "update_count": 414,
       "resolved_at": null,
       "notes": "Seeded 2026-09-04 from DW interview on SDF dissolution (youtube NdTqksVqy78). Syria-specific sources registered at the same time: enab-baladi, sana, syria-direct, north-press-agency, middle-east-eye, al-monitor, arab-news, gdelt-sy-syria, plus research-scope SOHR, The New Arab, Rudaw, World Bank, IMF, ICG.",
       "custom": true,
@@ -1004,8 +1004,8 @@
         "general strike",
         "prime minister"
       ],
-      "last_update_at": "2026-11-05",
-      "update_count": 129,
+      "last_update_at": "2026-11-06",
+      "update_count": 133,
       "resolved_at": null,
       "notes": "Seeded 2026-10-18 at Chirag's request. France-specific sources registered at the same time: le-monde-english, rfi-english, the-local-france (wire), connexion-france (research).",
       "custom": true,
