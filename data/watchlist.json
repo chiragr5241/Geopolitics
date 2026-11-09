@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-11-06T16:06:54Z",
+  "updated_at": "2026-11-09T06:24:31Z",
   "stories": [
     {
       "story_id": "st-20261103-united-nations",
@@ -122,8 +122,8 @@
         "mindich",
         "zelensky"
       ],
-      "last_update_at": "2026-11-06",
-      "update_count": 32,
+      "last_update_at": "2026-11-09",
+      "update_count": 34,
       "resolved_at": null,
       "notes": "Backfilled 2026-07-17 via web research; no coverage in intel_feed."
     },
@@ -205,8 +205,8 @@
         "zaporizhzhia",
         "kherson"
       ],
-      "last_update_at": "2026-11-06",
-      "update_count": 714,
+      "last_update_at": "2026-11-09",
+      "update_count": 717,
       "resolved_at": null,
       "notes": "Backfilled 2026-07-21 from intel_feed via scripts/backfill_story_updates.py."
     },
@@ -249,8 +249,8 @@
         "reunification",
         "taipei"
       ],
-      "last_update_at": "2026-11-06",
-      "update_count": 501,
+      "last_update_at": "2026-11-09",
+      "update_count": 503,
       "resolved_at": null,
       "notes": "",
       "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/2020-04-23_Seaman_Xi_Chan_stands_lookout_on_the_flight_deck_as_USS_Barry_%28DDG_52%29_transits_the_Taiwan_Strait.jpg/1920px-2020-04-23_Seaman_Xi_Chan_stands_lookout_on_the_flight_deck_as_USS_Barry_%28DDG_52%29_transits_the_Taiwan_Strait.jpg",
@@ -624,8 +624,8 @@
         "uav",
         "swarm"
       ],
-      "last_update_at": "2026-11-06",
-      "update_count": 41,
+      "last_update_at": "2026-11-09",
+      "update_count": 42,
       "resolved_at": null,
       "notes": "",
       "custom": true,
@@ -661,8 +661,8 @@
         "blockade",
         "missile"
       ],
-      "last_update_at": "2026-11-06",
-      "update_count": 1129,
+      "last_update_at": "2026-11-09",
+      "update_count": 1132,
       "resolved_at": null,
       "notes": "Backfilled 2026-07-17 from intel_feed, past-4-months major beats."
     },
@@ -889,7 +889,7 @@
         "golan"
       ],
       "last_update_at": "2026-11-06",
-      "update_count": 414,
+      "update_count": 416,
       "resolved_at": null,
       "notes": "Seeded 2026-09-04 from DW interview on SDF dissolution (youtube NdTqksVqy78). Syria-specific sources registered at the same time: enab-baladi, sana, syria-direct, north-press-agency, middle-east-eye, al-monitor, arab-news, gdelt-sy-syria, plus research-scope SOHR, The New Arab, Rudaw, World Bank, IMF, ICG.",
       "custom": true,
