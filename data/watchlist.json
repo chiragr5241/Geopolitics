@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-11-09T15:03:35Z",
+  "updated_at": "2026-11-10T12:21:08Z",
   "stories": [
     {
       "story_id": "st-20261103-united-nations",
@@ -29,7 +29,7 @@
         "noon briefing"
       ],
       "last_update_at": "2026-11-09",
-      "update_count": 483,
+      "update_count": 469,
       "resolved_at": null,
       "notes": "Created 2026-11-03. Umbrella story for the UN's own daily reporting. Beats: scripts/un_story_updates.py from data/un_daily/reports.csv (scripts/pull_un_daily.py) — every report, with General Assembly reports also copied onto the UNGA 81 branch (parent_id). Feed rows: link_sources=['UN News'] makes link_stories.py link every UN News row and nothing else (keywords alone would pull in the whole wire); update_stories.py (7a) skips link_sources stories.",
       "custom": true,
@@ -82,7 +82,7 @@
         "un podium"
       ],
       "last_update_at": "2026-11-06",
-      "update_count": 69,
+      "update_count": 62,
       "resolved_at": null,
       "notes": "Created 2026-09-28. Transcripts: scripts/pull_un_speeches.py; summaries: data/un_speeches/unga81/summaries.json; analysis: scripts/analyze_un_speeches.py -> data/un_speeches/unga81.json, rendered by speeches.html. 2026-11-03: became the UNGA branch of st-20261103-united-nations; daily General Assembly reports (plenary + Main Committees) land here via scripts/un_story_updates.py.",
       "custom": true,
@@ -123,7 +123,7 @@
         "zelensky"
       ],
       "last_update_at": "2026-11-09",
-      "update_count": 34,
+      "update_count": 29,
       "resolved_at": null,
       "notes": "Backfilled 2026-07-17 via web research; no coverage in intel_feed."
     },
@@ -167,7 +167,7 @@
         "spaceport"
       ],
       "last_update_at": "2026-11-09",
-      "update_count": 49,
+      "update_count": 48,
       "resolved_at": null,
       "notes": "",
       "custom": true,
@@ -205,8 +205,8 @@
         "zaporizhzhia",
         "kherson"
       ],
-      "last_update_at": "2026-11-09",
-      "update_count": 725,
+      "last_update_at": "2026-11-10",
+      "update_count": 416,
       "resolved_at": null,
       "notes": "Backfilled 2026-07-21 from intel_feed via scripts/backfill_story_updates.py."
     },
@@ -250,7 +250,7 @@
         "taipei"
       ],
       "last_update_at": "2026-11-09",
-      "update_count": 504,
+      "update_count": 118,
       "resolved_at": null,
       "notes": "",
       "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/2020-04-23_Seaman_Xi_Chan_stands_lookout_on_the_flight_deck_as_USS_Barry_%28DDG_52%29_transits_the_Taiwan_Strait.jpg/1920px-2020-04-23_Seaman_Xi_Chan_stands_lookout_on_the_flight_deck_as_USS_Barry_%28DDG_52%29_transits_the_Taiwan_Strait.jpg",
@@ -294,7 +294,7 @@
         "city hall"
       ],
       "last_update_at": "2026-11-06",
-      "update_count": 51,
+      "update_count": 40,
       "resolved_at": null,
       "notes": "",
       "custom": true,
@@ -625,7 +625,7 @@
         "swarm"
       ],
       "last_update_at": "2026-11-09",
-      "update_count": 43,
+      "update_count": 38,
       "resolved_at": null,
       "notes": "",
       "custom": true,
@@ -661,8 +661,8 @@
         "blockade",
         "missile"
       ],
-      "last_update_at": "2026-11-09",
-      "update_count": 1141,
+      "last_update_at": "2026-11-10",
+      "update_count": 343,
       "resolved_at": null,
       "notes": "Backfilled 2026-07-17 from intel_feed, past-4-months major beats."
     },
@@ -696,7 +696,7 @@
         "kalshi"
       ],
       "last_update_at": "2026-11-09",
-      "update_count": 100,
+      "update_count": 82,
       "resolved_at": null,
       "notes": "Backfilled 2026-07-21 from intel_feed via scripts/backfill_story_updates.py."
     },
@@ -730,7 +730,7 @@
         "essequibo"
       ],
       "last_update_at": "2026-11-06",
-      "update_count": 88,
+      "update_count": 67,
       "resolved_at": null,
       "notes": "Backfilled 2026-07-21 from intel_feed via scripts/backfill_story_updates.py."
     },
@@ -764,7 +764,7 @@
         "rahul gandhi"
       ],
       "last_update_at": "2026-11-09",
-      "update_count": 112,
+      "update_count": 86,
       "resolved_at": null,
       "notes": "",
       "custom": true,
@@ -797,7 +797,7 @@
         "bloomberg"
       ],
       "last_update_at": "2026-10-31",
-      "update_count": 29,
+      "update_count": 0,
       "resolved_at": null,
       "notes": ""
     },
@@ -824,7 +824,7 @@
         "fifa"
       ],
       "last_update_at": "2026-10-20",
-      "update_count": 128,
+      "update_count": 12,
       "resolved_at": "2026-07-22T21:41:12Z",
       "notes": "Backfilled 2026-07-17 from intel_feed, tournament milestones only."
     },
@@ -888,8 +888,8 @@
         "hts",
         "golan"
       ],
-      "last_update_at": "2026-11-09",
-      "update_count": 418,
+      "last_update_at": "2026-11-10",
+      "update_count": 230,
       "resolved_at": null,
       "notes": "Seeded 2026-09-04 from DW interview on SDF dissolution (youtube NdTqksVqy78). Syria-specific sources registered at the same time: enab-baladi, sana, syria-direct, north-press-agency, middle-east-eye, al-monitor, arab-news, gdelt-sy-syria, plus research-scope SOHR, The New Arab, Rudaw, World Bank, IMF, ICG.",
       "custom": true,
@@ -1004,8 +1004,8 @@
         "general strike",
         "prime minister"
       ],
-      "last_update_at": "2026-11-09",
-      "update_count": 142,
+      "last_update_at": "2026-11-10",
+      "update_count": 98,
       "resolved_at": null,
       "notes": "Seeded 2026-10-18 at Chirag's request. France-specific sources registered at the same time: le-monde-english, rfi-english, the-local-france (wire), connexion-france (research).",
       "custom": true,
@@ -1083,7 +1083,7 @@
         "alignment"
       ],
       "last_update_at": "2026-11-06",
-      "update_count": 16,
+      "update_count": 14,
       "resolved_at": null,
       "notes": "Seeded 2026-10-18 at Chirag's request. AI-safety sources registered at the same time: transformer, ai-safety-newsletter (wire), mit-technology-review, uk-ai-security-institute, metr (research).",
       "custom": true,
