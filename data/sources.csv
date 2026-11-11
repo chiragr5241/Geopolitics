@@ -45,7 +45,7 @@ jerusalem-post,The Jerusalem Post,Jerusalem Post;JPost,Official news channels,we
 times-of-israel,The Times of Israel,Times of Israel;ToI Israel,Official news channels,web,timesofisrael.com,,,,israeli,IL,research,active,seed,2026-07-28,,,,
 haaretz,Haaretz,Ha'aretz,Official news channels,web,haaretz.com,,,,israeli,IL,research,active,seed,2026-07-28,,,,
 tehran-times,Tehran Times,,Official news channels,web,tehrantimes.com,,,,iranian,IR,research,active,seed,2026-07-28,,,,
-defense-news,Defense News,DefenseNews,Official news channels,web,defensenews.com,,,,defense-trade,US,research,active,seed,2026-07-28,,2026-11-09T06:24:18Z,1,
+defense-news,Defense News,DefenseNews,Official news channels,web,defensenews.com,,,,defense-trade,US,research,active,seed,2026-07-28,,2026-11-11T12:21:29Z,1,
 military-times,Military Times,MilitaryTimes,Official news channels,web,militarytimes.com,,,,defense-trade,US,research,active,seed,2026-07-28,,2026-07-28T14:29:07Z,1,
 defensescoop,DefenseScoop,Defense Scoop,Official news channels,web,defensescoop.com,,,,defense-trade,US,research,active,seed,2026-07-28,,,,
 army-recognition,Army Recognition,ArmyRecognition,Official news channels,web,armyrecognition.com,,,,defense-trade,FR,research,active,seed,2026-07-28,,,,
@@ -257,7 +257,7 @@ nyc-mayor-s-office,NYC Mayor's Office,NYC Mayors Youtube: https://www.youtube.co
 air-space-forces-magazine,Air & Space Forces Magazine,Air Force Magazine;AFA Magazine;airandspaceforces.com,Official news channels,web,airandspaceforces.com,,,,western-us,US,research,active,agent,2026-07-28,,2026-07-28T20:56:44Z,1,Air & Space Forces Association magazine (formerly Air Force Magazine)
 arms-control-association,Arms Control Association,,Official news channels,web,armscontrol.org,,,,,US,research,active,agent,2026-07-29,,,,
 taipei-times,Taipei Times,,Official news channels,web,taipeitimes.com,,,,taiwan,TW,research,active,user,2026-07-31,,2026-11-10T13:35:44Z,1,
-nbc-new-york,NBC New York,,Official news channels,web,nbcnewyork.com,,,,western-us,US,research,active,user,2026-08-24,,,,
+nbc-new-york,NBC New York,,Official news channels,web,nbcnewyork.com,,,,western-us,US,research,active,user,2026-08-24,,2026-11-11T12:21:29Z,1,
 business-standard,Business Standard,,Official news channels,web,business-standard.com,,,,india,IN,research,active,user,2026-08-24,,,,
 business-recorder,Business Recorder,,Official news channels,web,brecorder.com,,,,,PK,research,active,user,2026-08-25,,,,
 enab-baladi,Enab Baladi,Enab Baladi English;عنب بلدي,Official news channels,rss,enabbaladi.net,,https://english.enabbaladi.net/feed/,,syrian-independent,SY,wire,active,agent,2026-09-04,,2026-10-13T11:46:33Z,12,"Syrian independent outlet founded in Daraya 2011; strongest daily coverage of post-Assad governance, reconstruction and local politics. RSS works; article pages return 403 to our crawler, so og:image scraping fails for its beats."
@@ -283,4 +283,4 @@ ai-safety-newsletter,AI Safety Newsletter (CAIS),CAIS;Center for AI Safety,Offic
 mit-technology-review,MIT Technology Review,MIT Tech Review;Technology Review,Official news channels,web,technologyreview.com,,,,tech,US,research,active,agent,2026-10-18,,,,
 uk-ai-security-institute,UK AI Security Institute,AISI;AI Safety Institute,Official news channels,web,aisi.gov.uk,,,,institutional,GB,research,active,agent,2026-10-18,,,,
 metr,METR,Model Evaluation and Threat Research,Official news channels,web,metr.org,,,,institutional,US,research,active,agent,2026-10-18,,,,
-un-press,UN Meetings Coverage,UN Press;press.un.org;UN Meetings Coverage and Press Releases,Official news channels,web,press.un.org,,https://press.un.org/en/rss.xml,,institutional,UN,research,active,user,2026-11-04,,2026-11-06T16:03:55Z,2,Official record of UN meetings. Pulled by scripts/pull_un_daily.py (NOT pull_wires); its RSS holds only the 10 latest releases; HTML pages 406 automated clients.
+un-press,UN Meetings Coverage,UN Press;press.un.org;UN Meetings Coverage and Press Releases,Official news channels,web,press.un.org,,https://press.un.org/en/rss.xml,,institutional,UN,research,active,user,2026-11-04,,2026-11-11T12:21:29Z,1,Official record of UN meetings. Pulled by scripts/pull_un_daily.py (NOT pull_wires); its RSS holds only the 10 latest releases; HTML pages 406 automated clients.
