@@ -4,12 +4,12 @@
    DATA LAYER — Unified database.json backend
    All data fetching goes through this module.
 
-   Primary source: data/database.json (built by scripts/build_db.py)
-   Falls back to individual CSVs if database.json is not present.
+   Primary source: the read API (api/, FastAPI over Neo4j) via js/api.js,
+   whose /api/bootstrap returns the exact shapes below. When the API is not
+   configured or not reachable: data/database.json / data/feed.json (built by
+   scripts/build_db.py), then the individual CSVs.
 
-   To swap in a Neo4j or SQL backend later, replace the
-   body of loadAll() below. The interface must not change —
-   app.js depends only on this contract.
+   The interface must not change — the pages depend only on this contract.
 
    Contract:
      DataLayer.loadAll() → Promise<{ incidents, operations, imagery, storyImages,
@@ -173,6 +173,23 @@ var DataLayer = (function () {
       .then(shapeDb);
   }
 
+  // ── Read API (Neo4j) — same payload shapes as the two files above ──
+  function loadFromApi(scope) {
+    if (typeof Api === 'undefined') return Promise.reject(new Error('js/api.js not loaded'));
+    return Api.bootstrap(scope).then(function (db) {
+      var meta = db._meta || {};
+      console.info('[DataLayer] read API ' + Api.base + ' (Neo4j, loaded ' + (meta.loaded_at || '?') + ')');
+      api.source = 'api';
+      return shapeDb(db);
+    });
+  }
+
+  function apiFailed(err) {
+    if (typeof Api !== 'undefined' && Api.base) {
+      console.warn('[DataLayer] read API unavailable (' + (err && err.message) + ') — using static files.');
+    }
+  }
+
   // ── CSV fallback (for local dev without database.json) ───
   function loadFromCSVs() {
     console.warn('[DataLayer] database.json not found — falling back to CSV files.');
@@ -205,11 +222,17 @@ var DataLayer = (function () {
   }
 
   // ── Public API ────────────────────────────────────────────
-  return {
+  var api = {
+    // Where the last load came from: 'api' or 'static'.
+    source: 'static',
     // Full dataset (incidents/operations/imagery + feed). Used by the map.
     loadAll: function () {
-      // Prefer unified database.json; fall back to individual CSVs.
-      return loadFromDatabase(DATA_SOURCES.database || 'data/database.json')
+      // Read API first; then the unified database.json; then the CSVs.
+      return loadFromApi('full')
+        .catch(function (err) {
+          apiFailed(err);
+          return loadFromDatabase(DATA_SOURCES.database || 'data/database.json');
+        })
         .catch(function () { return loadFromCSVs(); });
     },
     // Lightweight feed-only payload for the news pages (index/feed/tracker).
@@ -217,12 +240,17 @@ var DataLayer = (function () {
     // full multi-MB database.json to them was pure waste. Falls back to the
     // full database (then CSVs) if feed.json hasn't been generated yet.
     loadFeed: function () {
-      return loadFromFeed(DATA_SOURCES.feed || 'data/feed.json')
+      return loadFromApi('feed')
+        .catch(function (err) {
+          apiFailed(err);
+          return loadFromFeed(DATA_SOURCES.feed || 'data/feed.json');
+        })
         .catch(function () {
           return loadFromDatabase(DATA_SOURCES.database || 'data/database.json');
         })
         .catch(function () { return loadFromCSVs(); });
     },
   };
+  return api;
 
 })();

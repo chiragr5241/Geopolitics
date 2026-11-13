@@ -163,7 +163,7 @@ def fetch(url, timeout=25, retries=2):
             req = Request(url, headers={'User-Agent': UA})
             with urlopen(req, timeout=timeout) as r:
                 return r.read()
-        except (URLError, HTTPError) as e:
+        except (URLError, HTTPError, OSError) as e:
             last = e
             # Don't retry definite client/server rejections (4xx/5xx).
             if isinstance(e, HTTPError):
@@ -313,7 +313,7 @@ def fetch_gdelt(label, query, perspective, source_country, cutoff):
                 continue
             print(f'  ! {label}: GDELT fetch failed ({e}) — skipped')
             return []
-        except URLError as e:
+        except (URLError, OSError) as e:
             print(f'  ! {label}: GDELT fetch failed ({e}) — skipped')
             return []
     if raw is None:
@@ -375,7 +375,7 @@ def main():
     for label, url, perspective, country, fast in rss_sources:
         try:
             rows = parse_rss(label, fetch(url), perspective, country, fast, cutoff)
-        except (HTTPError, URLError, ET.ParseError) as e:
+        except (HTTPError, URLError, ET.ParseError, OSError) as e:
             print(f'  ! {label}: {e} — skipped')
             failed[label] = str(e)
             continue

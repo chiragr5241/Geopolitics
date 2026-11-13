@@ -74,14 +74,12 @@
           time: s.last_update_at || s.marked_at || '',
           href: 'tracker.html?story=' + encodeURIComponent(s.story_id),
           matchText: (s.title + ' ' + ((s.seed && s.seed.text) || '')).toLowerCase(),
-          // Live count (curated updates + linked feed items) — NOT the static
-          // update_count field, which is rarely kept in sync and shows 0 for
-          // any story whose only coverage is linked feed tweets. Mirrors the
-          // Tracker page's rail count (js/tracker.js countEntries) so the two
-          // pages always agree.
-          branches: branchesOf[s.story_id] || [],
+          // Curated updates + linked feed items over the story's full history
+          // (see Util.countStoryEntries). Same helper as the Tracker page's
+          // rail count (js/tracker.js countEntries) so the two pages agree.
           updates: Util.countStoryEntries(s, storyUpdates, items),
           image: s.image || '',
+          branches: branchesOf[s.story_id] || [],
         });
         trackedPseudo.push({ subcategory: '', countries: cs });
       });
@@ -141,6 +139,8 @@
     return null;
   }
 
+  // ── Rendering ────────────────────────────────────────────
+
   // A parent tile's branches: one translucent row each (⑂ title · count),
   // each its own link to the branch's timeline. Past `max`, a "+N more" row
   // opens the parent, where the Timelines page lists them all.
@@ -160,8 +160,6 @@
     '</div>';
   }
 
-  // ── Rendering ────────────────────────────────────────────
-
   function renderHeroes(heroes, storyImages) {
     var wrap = document.getElementById('story-hero');
     if (!heroes.length) {
@@ -174,11 +172,11 @@
       var img = h.image ? { url: h.image, label: h.title || '', credit: '' }
                         : findImage(h, storyImages, usedUrls);
       if (img) usedUrls.push(img.url);
+      var lead = idx === 0 ? ' lead' : '';
+      var breaking = h.item && h.item.is_breaking === 'TRUE';
       var branches = h.branches || [];
       // The tile is a <div> with a stretched link (not an <a>) so branch rows
       // can be links of their own — anchors can't nest.
-      var lead = idx === 0 ? ' lead' : '';
-      var breaking = h.item && h.item.is_breaking === 'TRUE';
       return (
         '<div class="story-tile animate-on-scroll' + lead + (img ? '' : ' no-img') + (branches.length ? ' has-branches' : '') +
           ' tile-cat-' + esc(h.category).toLowerCase() + '">' +

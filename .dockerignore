@@ -1,0 +1,7 @@
+# Only what api/Dockerfile copies — keeps data/ (hundreds of MB) out of the build context.
+*
+!api/requirements.txt
+!api/graph.py
+!api/main.py
+!scripts/build_db.py
+!scripts/story_stats.py

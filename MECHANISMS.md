@@ -71,7 +71,7 @@ establish that.
 
 | Source | Script | Output | Notes |
 |---|---|---|---|
-| Spectator Index tweets | `pull_spectator.py` | `raw_data/spectator_raw.csv` | Private API; token in gitignored `.env` (`SPECTATOR_BEARER_TOKEN`). **The API itself has served nothing newer than 2026-10-07** — `enrich_status.py` reports "raw ingest STALE". Not a local bug. |
+| Spectator Index tweets | `pull_spectator.py` | `raw_data/spectator_raw.csv` | Private API; token in gitignored `.env` (`SPECTATOR_BEARER_TOKEN`). **The API itself has served nothing newer than 2026-10-07** (upstream, not a local bug); `enrich_status.py` shows it as a soft `raw ingest WARN (spectator Nd)`. |
 | RSS wires + GDELT | `pull_wires.py` | `raw_data/wire_raw.csv` (60 h window) | Feed list comes from `sources.csv` (`scope=wire`). GDELT gives non-Western perspectives; it can hang → `--no-gdelt`. AP comes through a `site:apnews.com` Google News query. |
 | YouTube channels | `pull_youtube.py` | `youtube_videos.csv` | See §6. Never enters the feed. |
 | UN Meetings Coverage + UN News | `pull_un_daily.py` | `un_daily/reports.csv` | See §7. |
@@ -92,7 +92,8 @@ establish that.
    is a soft warning, never a publish blocker.
 5. `link_stories.py` writes `linked_story_ids` onto every feed row (§4.4).
 6. `build_db.py`, then `enrich_status.py` (base coverage = hard gate, deep backlog
-   = warning), then commit + push.
+   = warning; raw ingest is hard only when **every** raw source — Spectator and
+   wires — is stale, one quiet source is a warning), then commit + push.
 
 ### 3.3 The source registry (`data/sources.csv`, `source_registry.py`, `js/sources.js`)
 

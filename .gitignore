@@ -26,3 +26,7 @@ data/geopolitics.db
 ACLED_data/
 scripts/__pycache__/
 logs/
+
+# Read API virtualenv
+api/.venv/
+api/__pycache__/

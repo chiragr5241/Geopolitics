@@ -8,6 +8,12 @@ Checks every stage of the pipeline:
 
 Exits non-zero if any stage is stale, so scheduled runs surface the failure.
 
+Raw ingest is judged across ALL raw sources (Spectator tweets + wires). One
+source going quiet is a soft WARN — the Spectator API stopped publishing on
+2026-10-07, and treating that as a hard failure blocked every daily publish
+from 2026-10-09 even though the wires kept the feed current. Only when EVERY
+raw source is stale is nothing coming in, and that is still a hard failure.
+
 Usage (from project root):
     python3 scripts/enrich_status.py
 """
@@ -94,8 +100,22 @@ def main():
         latest_str = latest.strftime('%Y-%m-%d %H:%M') if latest else '—'
         lines.append(f'  {stage:<18} {status:<18} latest={latest_str}  {detail} {extra}')
 
-    raw, raw_latest = load(D('raw_data', 'spectator_raw.csv'), 'pub_date')
-    report('raw ingest', f'{len(raw or [])} tweets', raw_latest)
+    raw, raw_spec_latest = load(D('raw_data', 'spectator_raw.csv'), 'pub_date')
+    wires, wire_latest = load(D('raw_data', 'wire_raw.csv'), 'pub_date')
+    sources = {'spectator': raw_spec_latest, 'wires': wire_latest}
+    limit = THRESHOLDS['raw ingest']
+    stale = {name: ((NOW - ts).days if ts else None) for name, ts in sources.items()
+             if ts is None or (NOW - ts).days > limit}
+    known = [ts for ts in sources.values() if ts]
+    raw_latest = max(known) if known else None
+    raw_detail = f'{len(raw or [])} tweets, {len(wires or [])} wire rows'
+    if len(stale) == len(sources):
+        report('raw ingest', raw_detail, raw_latest)          # nothing arriving: hard STALE
+    elif stale:
+        warn = ', '.join(f'{n} {d}d' if d is not None else f'{n} missing' for n, d in stale.items())
+        report('raw ingest', raw_detail, raw_latest, status_override=f'WARN ({warn})')
+    else:
+        report('raw ingest', raw_detail, raw_latest)
 
     # Tier 1 (base) coverage — the HARD gate. base_enrich.py is deterministic
     # and must keep raw->enriched at ~0; a backlog here means that script broke.

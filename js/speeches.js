@@ -580,8 +580,12 @@
 
   // ── Boot ─────────────────────────────────────────────────────────────
   var session = (param('session') || '81').replace(/\D/g, '');
-  fetch('data/un_speeches/unga' + session + '.json', { cache: 'no-cache' })
-    .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+  function loadStatic() {
+    return fetch('data/un_speeches/unga' + session + '.json', { cache: 'no-cache' })
+      .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); });
+  }
+  // Read API (Neo4j) first when js/api.js is on the page; the static file otherwise.
+  (typeof Api !== 'undefined' ? Api.speeches(session).catch(loadStatic) : loadStatic())
     .then(function (data) {
       D = data;
       N = data.nations;

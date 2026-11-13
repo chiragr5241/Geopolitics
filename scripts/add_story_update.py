@@ -43,7 +43,7 @@ Usage (from project root):
         (fill the image column on existing beats that have a url but no image)
     python3 scripts/add_story_update.py --recount [--dry-run]
         (rebuild every story's update_count / last_update_at from
-         story_updates.csv — repairs stories whose only channel is WebSearch)
+         story_updates.csv + linked intel_feed rows — see story_stats.py)
 
     python3 scripts/add_story_update.py --backfill-sources [--dry-run]
         (resolve existing beats' source_name to a registry source_id and
@@ -172,54 +172,15 @@ def bump_stories(counts):
 
 
 def recount_stories(dry_run=False):
-    """Rebuild every story's `update_count` / `last_update_at` from the CSV.
+    """Rebuild every story's `update_count` / `last_update_at` from the data.
 
-    Repairs the drift the missing bump above left behind — story_updates.csv is
-    the record of what actually happened, so it is the authority. `update_count`
-    becomes the story's real number of beats; `last_update_at` becomes the
-    newest `found_at` among them (falling back to the beat date), never earlier
-    than what the story already claims.
+    Delegates to story_stats.py, which counts curated beats AND linked feed
+    tweets (deduped like the site's timeline) — beats alone undercounted every
+    story with feed coverage, and link_youtube.py / link_stories.py add
+    coverage without ever bumping the counters.
     """
-    if not os.path.exists(WATCHLIST_JSON) or not os.path.exists(STORY_UPDATES_CSV):
-        print('Nothing to recount.')
-        return
-    with open(STORY_UPDATES_CSV, newline='', encoding='utf-8') as f:
-        rows = list(csv.DictReader(f))
-    counts, newest = {}, {}
-    for r in rows:
-        sid = r.get('story_id')
-        if not sid:
-            continue
-        counts[sid] = counts.get(sid, 0) + 1
-        seen = (r.get('found_at') or '')[:10] or (r.get('date') or '')[:10]
-        if seen > newest.get(sid, ''):
-            newest[sid] = seen
-    with open(WATCHLIST_JSON, encoding='utf-8') as f:
-        doc = json.load(f)
-    changed = []
-    for s in doc.get('stories', []):
-        sid = s.get('story_id')
-        n, seen = counts.get(sid, 0), newest.get(sid, '')
-        before = (s.get('update_count'), s.get('last_update_at'))
-        if n != (s.get('update_count') or 0):
-            s['update_count'] = n
-        if seen and seen > (s.get('last_update_at') or ''):
-            s['last_update_at'] = seen
-        after = (s.get('update_count'), s.get('last_update_at'))
-        if before != after:
-            changed.append((sid, before, after))
-    for sid, before, after in changed:
-        print(f'  {sid}: count {before[0]} -> {after[0]}, '
-              f'last_update_at {before[1]} -> {after[1]}')
-    if dry_run:
-        print(f'Dry run — {len(changed)} story(ies) would change.')
-        return
-    if changed:
-        doc['updated_at'] = datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
-        with open(WATCHLIST_JSON, 'w', encoding='utf-8') as f:
-            json.dump(doc, f, indent=2, ensure_ascii=False)
-            f.write('\n')
-    print(f'Recounted {len(changed)} story(ies).')
+    from story_stats import recount
+    recount(dry_run=dry_run)
 
 
 def load_existing():

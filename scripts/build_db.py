@@ -23,6 +23,8 @@ import re
 import sqlite3
 from datetime import datetime
 
+import story_stats
+
 ROOT      = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA_DIR  = os.path.join(ROOT, 'data')
 DB_PATH   = os.path.join(DATA_DIR, 'geopolitics.db')
@@ -492,7 +494,15 @@ def export_json(conn, out_path):
     if os.path.exists(watchlist_path):
         with open(watchlist_path, encoding='utf-8') as f:
             watchlist = json.load(f)
-    active_stories = sum(1 for s in watchlist.get('stories', []) if s.get('status') == 'active')
+
+    # Real update_count / last_update_at per story, computed from every beat
+    # and EVERY linked tweet (not just the 2000 exported above) — the stored
+    # counters drift because not every routine bumps or commits them. Read
+    # from the CSVs, not the tweets table (whose created_at primary key drops
+    # rows that share a timestamp). Applied to the exported copy only;
+    # story_stats.py --recount persists them.
+    story_stats.apply(watchlist.get('stories', []), story_stats.compute_from_files())
+    active_stories =sum(1 for s in watchlist.get('stories', []) if s.get('status') == 'active')
 
     # Source registry — shipped whole so the Tracker page can render the source
     # picker (and flag not_found entries) without a second fetch. It's ~60 tiny

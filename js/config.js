@@ -19,7 +19,9 @@
    No JS changes needed.
    ========================================================= */
 
-// ── Data Source Paths (change here to point at a new backend) ──
+// ── Data Source Paths (the static fallback) ──
+// The pages read the read API (js/api.js → api/, Neo4j) first and only fall
+// back to these files when it is not configured or not reachable.
 
 var DATA_SOURCES = {
   // Primary: unified JSON database (built by scripts/build_db.py)

@@ -18,8 +18,15 @@ var Util = (function () {
 
   // "Mar 24, 14:30"-style short timestamp. Data timestamps are UTC-naive
   // ("2026-03-24 16:40:02"); we treat them as UTC and render in local time.
+  // A bare date ("2026-08-30", e.g. a story's last_update_at) is a calendar
+  // day, not UTC midnight — shifting it to local time showed "29 Aug, 19:00".
   function fmtTime(ts) {
     if (!ts) return '';
+    var day = /^(\d{4})-(\d{2})-(\d{2})$/.exec(ts);
+    if (day) {
+      return new Date(+day[1], +day[2] - 1, +day[3])
+        .toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+    }
     var d = new Date((ts || '').replace(' ', 'T') + 'Z');
     if (isNaN(d.getTime())) return ts;
     return d.toLocaleString(undefined, {
@@ -69,9 +76,8 @@ var Util = (function () {
   // context/sources. We merge, drop near-duplicates (by date|normHead), and
   // sort NEWEST-FIRST. This is the SINGLE source of truth for a story's update
   // list — used by the Tracker (rail count + timeline thread) AND the main
-  // page's hero tiles, so the number shown always matches reality (a story's
-  // static `update_count` field is NOT reliable — it's rarely kept in sync,
-  // e.g. it stays 0 for a story whose only coverage is linked feed tweets).
+  // page's hero tiles. For the COUNT use countStoryEntries() below — this list
+  // only covers the tweets the page loaded.
   function buildStoryEntries(story, storyUpdates, feedItems) {
     var feedByNorm = {};
     feedItems.forEach(function (it) {
@@ -80,23 +86,23 @@ var Util = (function () {
     });
 
     var seen = {};
+    var beatUrls = {};
     var entries = [];
 
     // Curated beats first (authoritative — dedup wins over a raw tweet).
     storyUpdates.filter(function (u) { return u.story_id === story.story_id; })
       .forEach(function (u) {
         var head = u.headline || u.summary || '';
-    var beatUrls = {};
         var k = (u.date || '') + '|' + normHead(head);
         if (seen[k]) return;
         seen[k] = 1;
+        if (u.url) beatUrls[u.url] = 1;
         entries.push({
           date: u.date || '', headline: head, summary: u.summary || '',
           origin: u.origin || 'update', status: u.status || '',
           source_name: u.source_name || '', url: u.url || '',
           image: u.image || '',
           feed: (!u.url && feedByNorm[k]) || null,
-        if (u.url) beatUrls[u.url] = 1;
         });
       });
 
@@ -123,8 +129,14 @@ var Util = (function () {
     return entries;
   }
 
+  // The page only loads the newest 2000 tweets, so counting live undercounts
+  // any story whose linked tweets have aged out of that window. build_db.py
+  // (scripts/story_stats.py) writes the full-history count onto the story as
+  // update_count using this same merge + dedup; take whichever is larger so a
+  // user's own not-yet-published story (no pipeline count) still counts live.
   function countStoryEntries(story, storyUpdates, feedItems) {
-    return buildStoryEntries(story, storyUpdates, feedItems).length;
+    var live = buildStoryEntries(story, storyUpdates, feedItems).length;
+    return Math.max(live, parseInt(story.update_count, 10) || 0);
   }
 
   return {
