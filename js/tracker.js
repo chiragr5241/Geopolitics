@@ -324,7 +324,7 @@
             '<span class="story-mini-meta"><span>' + count + ' update' + (count === 1 ? '' : 's') + '</span>' +
               '<span class="last-news">news ' + esc(lastNewsLabel(k)) + '</span></span>' +
           '</span>' +
-          '<span class="tracker-analysis-go">' + (tracked ? 'Open &rarr;' : 'Track branch +') + '</span>' +
+          '<span class="tracker-analysis-go">' + (tracked ? 'Open branch' : 'Track branch') + '</span>' +
         '</button>';
       }).join('') +
     '</div>';
@@ -379,7 +379,7 @@
         '<div class="tracker-analysis-title">' + esc(copy.title) + '</div>' +
         (copy.sub ? '<div class="tracker-analysis-sub">' + esc(copy.sub) + '</div>' : '') +
       '</div>' +
-      '<span class="tracker-analysis-go">Open &rarr;</span>' +
+      '<span class="tracker-analysis-go">Open analysis</span>' +
     '</a>';
   }
 
@@ -683,7 +683,7 @@
           '<div class="manage-image-field">' +
             '<img class="manage-image-preview' + (img ? '' : ' empty') + '" data-ei="preview" src="' + esc(img) + '" alt="">' +
             '<div class="manage-image-inputs">' +
-              '<input type="text" data-ef="image" value="' + esc(img) + '" placeholder="Image URL (or upload →)">' +
+              '<input type="text" data-ef="image" value="' + esc(img) + '" placeholder="Image URL, or upload one">' +
               '<label class="tracker-btn manage-upload-btn">Upload<input type="file" accept="image/*" data-ei="file" hidden></label>' +
               (img ? '<button type="button" class="tracker-btn" data-ei="clear">Clear</button>' : '') +
             '</div>' +
@@ -725,7 +725,7 @@
 
     var suggestHtml = suggestions.length ? suggestions.map(function (it) {
       var id = WatchlistStore.storyIdFor(it);
-      var cats = (it.countries || '').split(';').map(function (c) { return c.trim(); }).filter(Boolean).join(' · ');
+      var cats = (it.countries || '').split(';').map(function (c) { return c.trim(); }).filter(Boolean).join(', ');
       return (
         '<div class="suggest-card" data-key="' + esc(id) + '">' +
           '<div class="suggest-meta">' +
@@ -737,14 +737,14 @@
           '<button class="tracker-btn primary" data-sact="track">+ Track this story</button>' +
         '</div>'
       );
-    }).join('') : '<div class="manage-empty">No new suggestions right now — everything notable is already tracked.</div>';
+    }).join('') : '<div class="manage-empty">No new suggestions right now. Everything notable is already tracked.</div>';
 
     // Published stories this profile doesn't follow. Every user's page is
     // their own selection out of the shared catalog, so there has to be a way
     // back to the stories they've dropped — and to ones published since.
     var available = WatchlistStore.catalogAvailable();
     var catalogHtml = available.length ? available.map(function (s) {
-      var cs = ((s.seed && s.seed.countries) || []).join(' · ');
+      var cs = ((s.seed && s.seed.countries) || []).join(', ');
       return (
         '<div class="catalog-row" data-id="' + esc(s.story_id) + '">' +
           '<span class="tracker-status ' + esc(s.status || 'active') + '">' + esc(s.status || 'active') + '</span>' +
@@ -781,7 +781,7 @@
             '<div class="manage-image-field">' +
               '<img class="manage-image-preview empty" data-ei="preview" src="" alt="">' +
               '<div class="manage-image-inputs">' +
-                '<input type="text" name="image" data-ef="image" placeholder="Image URL (or upload →)">' +
+                '<input type="text" name="image" data-ef="image" placeholder="Image URL, or upload one">' +
                 '<label class="tracker-btn manage-upload-btn">Upload<input type="file" accept="image/*" data-ei="file" hidden></label>' +
               '</div>' +
             '</div>' +

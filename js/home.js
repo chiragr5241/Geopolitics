@@ -237,7 +237,7 @@
           '<span class="rest-time">' + fmtTime(it.created_at) + '</span>' +
           '<span class="' + pillClass(it.category) + '">' + esc(it.category || 'social') + '</span>' +
           '<span class="rest-text">' + esc(it.summary || it.full_text || '') + '</span>' +
-          '<span class="rest-open" aria-hidden="true">→</span>' +
+          '<svg class="rest-open" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M5 3l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
         '</a>'
       );
     }).join('') +

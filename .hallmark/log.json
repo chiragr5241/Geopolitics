@@ -1,0 +1,16 @@
+[
+ {
+  "mode": "redesign",
+  "depth": "restyle",
+  "scope": "app",
+  "shape": "app screen",
+  "theme": "brand",
+  "axes": "light/grotesk-sans/chromatic-blue",
+  "nav": "kept",
+  "footer": "none",
+  "signature": "story tile grid + per-story timeline (kept)",
+  "waived": [],
+  "prompt": "OSINT news tracker: follow stories, scan the wire, mark what matters",
+  "date": "2026-11-13"
+ }
+]

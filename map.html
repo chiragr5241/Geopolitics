@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Interactive OSINT map of global military operations 2023–2026">
+  <meta name="description" content="Interactive OSINT map of global military operations, 2023 to 2026">
   <title>Map | OSINT Daily</title>
 
   <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.classList.remove('light-mode');}catch(e){}</script>
@@ -21,7 +21,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
   <!-- App Styles -->
-  <link rel="stylesheet" href="css/styles.css?v=30">
+  <link rel="stylesheet" href="css/styles.css?v=31">
 </head>
 <body>
 
@@ -30,14 +30,14 @@
 <!-- ── Header ── -->
 <div id="hdr">
   <div class="hdr-badge">OSINT</div>
-  <div class="hdr-title">Global Operations Map 2023–2026</div>
+  <div class="hdr-title">Global Operations Map, 2023 to 2026</div>
   <div class="hdr-divider"></div>
   <div class="hdr-stat">
-    <div class="hdr-stat-val" id="h-ops">9 OPS</div>
+    <div class="hdr-stat-val" id="h-ops">9 ops</div>
     <div class="hdr-stat-lbl">Active Operations</div>
   </div>
   <div class="hdr-stat">
-    <div class="hdr-stat-val" id="h-incidents">—</div>
+    <div class="hdr-stat-val" id="h-incidents">…</div>
     <div class="hdr-stat-lbl">Military Operations</div>
   </div>
   <div class="hdr-stat">
@@ -45,18 +45,18 @@
     <div class="hdr-stat-lbl">Civilian Casualties</div>
   </div>
   <div class="hdr-stat">
-    <div class="hdr-stat-val" id="h-theaters">5 THEATERS</div>
+    <div class="hdr-stat-val" id="h-theaters">5 theaters</div>
     <div class="hdr-stat-lbl">Active Theaters</div>
   </div>
   <div class="hdr-right">
     <div class="live-dot"></div>
-    <div class="hdr-source">OPEN SOURCE / UNCLASSIFIED</div>
+    <div class="hdr-source">Open source, unclassified</div>
   </div>
 </div>
 
 <!-- ── News Ticker ── -->
 <div id="news-ticker">
-  <div class="ticker-label">FEED</div>
+  <div class="ticker-label">Feed</div>
   <div class="ticker-viewport">
     <div class="ticker-track" id="ticker-track"></div>
   </div>
@@ -89,15 +89,15 @@
       <div id="tweet-list-wrap"><div id="tweet-list"></div></div>
     </div>
     <div class="sb-section" style="padding-bottom:5px;">
-      <div class="sb-label">Incidents <span style="margin-left:auto;font-size:9px;color:var(--text);font-family:'Roboto Mono',monospace;" id="inc-count"></span></div>
+      <div class="sb-label">Incidents <span style="margin-left:auto;font-size:11px;color:var(--text);font-variant-numeric:tabular-nums;" id="inc-count"></span></div>
     </div>
     <div id="inc-list-wrap"><div id="inc-list"></div></div>
   </div>
 
   <!-- Map -->
   <div id="map-wrap">
-    <button id="sb-toggle" class="panel-toggle panel-toggle-left" title="Collapse sidebar">◀</button>
-    <button id="det-toggle" class="panel-toggle panel-toggle-right" title="Collapse panel">▶</button>
+    <button id="sb-toggle" class="panel-toggle panel-toggle-left" title="Collapse sidebar" aria-label="Collapse sidebar"><svg class="panel-toggle__icon" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M7.5 2.5 4 6l3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <button id="det-toggle" class="panel-toggle panel-toggle-right" title="Collapse panel" aria-label="Collapse panel"><svg class="panel-toggle__icon" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M4.5 2.5 8 6 4.5 9.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
     <div id="map"></div>
 
     <!-- Event Type Legend -->
@@ -107,12 +107,12 @@
     <div class="float-panel" id="type-legend">
       <div class="fleg-title">Event Type</div>
       <div class="fleg-row">
-        <svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="10" fill="rgba(255,255,255,0.92)" stroke="#c0392b" stroke-width="1.8"/><polygon points="11,5 14,10 11,8 8,10" fill="#c0392b"/><rect x="10" y="8" width="2" height="7" fill="#c0392b"/></svg>
-        <div class="fleg-text"><b style="color:#c0392b">Red</b> = Kinetic — air, missile, drone, artillery, raid, retaliation</div>
+        <svg class="fleg-glyph fleg-glyph--hot" width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><circle class="fleg-glyph__plate" cx="11" cy="11" r="10" stroke="currentColor" stroke-width="1.8"/><polygon points="11,5 14,10 11,8 8,10" fill="currentColor"/><rect x="10" y="8" width="2" height="7" fill="currentColor"/></svg>
+        <div class="fleg-text"><b class="fleg-key fleg-key--hot">Red</b> = Kinetic: air, missile, drone, artillery, raid, retaliation</div>
       </div>
       <div class="fleg-row">
-        <svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="10" fill="rgba(255,255,255,0.92)" stroke="#4a6572" stroke-width="1.8"/><rect x="7" y="8" width="8" height="6" rx="1" fill="none" stroke="#4a6572" stroke-width="1.4"/><line x1="9" y1="8" x2="9" y2="6" stroke="#4a6572" stroke-width="1.4"/><line x1="13" y1="8" x2="13" y2="6" stroke="#4a6572" stroke-width="1.4"/><circle cx="11" cy="18" r="2" fill="#4a6572"/></svg>
-        <div class="fleg-text"><b style="color:#4a6572">Slate</b> = Posture — naval, maritime, island works, intel &amp; buildup</div>
+        <svg class="fleg-glyph fleg-glyph--cool" width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><circle class="fleg-glyph__plate" cx="11" cy="11" r="10" stroke="currentColor" stroke-width="1.8"/><rect x="7" y="8" width="8" height="6" rx="1" fill="none" stroke="currentColor" stroke-width="1.4"/><line x1="9" y1="8" x2="9" y2="6" stroke="currentColor" stroke-width="1.4"/><line x1="13" y1="8" x2="13" y2="6" stroke="currentColor" stroke-width="1.4"/><circle cx="11" cy="18" r="2" fill="currentColor"/></svg>
+        <div class="fleg-text"><b class="fleg-key fleg-key--cool">Slate</b> = Posture: naval, maritime, island works, intel &amp; buildup</div>
       </div>
       <div class="fleg-note">Shape = specific event type. Arrow colour = operation.</div>
     </div>
@@ -156,17 +156,17 @@
   <div class="stat-cell"><span class="stat-num">13</span><span class="stat-txt">Arleigh Burke DDGs deployed</span></div>
   <div class="stat-cell"><span class="stat-num">1,400+</span><span class="stat-txt">IDF sorties (12-Day War)</span></div>
   <div class="stat-cell"><span class="stat-num">708</span><span class="stat-txt">Iranian munitions intercepted</span></div>
-  <div class="stat-cell"><span class="stat-num">6</span><span class="stat-txt">PLA carrier ops (SCS 2025–26)</span></div>
+  <div class="stat-cell"><span class="stat-num">6</span><span class="stat-txt">PLA carrier ops (SCS 2025 to 2026)</span></div>
   <div class="stat-cell"><span class="stat-num">$79.45</span><span class="stat-txt">Brent crude peak (EF Day 1)</span></div>
 </div>
 
 <!-- App Scripts: nav → config → data layer → app logic -->
 <script src="js/user-store.js?v=28"></script>
 <script src="js/session.js?v=28"></script>
-<script src="js/nav.js?v=29"></script>
+<script src="js/nav.js?v=30"></script>
 <script src="js/config.js?v=32"></script>
 <script src="js/api.js?v=1"></script>
 <script src="js/data.js?v=32"></script>
-<script src="js/app.js?v=18"></script>
+<script src="js/app.js?v=19"></script>
 </body>
 </html>

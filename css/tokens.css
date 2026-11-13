@@ -1,9 +1,16 @@
+/* Hallmark · shape: app screen · genre: editorial · theme: brand · redesign: restyle
+ * paper: oklch(98.3% 0.004 95) light, oklch(16.5% 0.006 75) dark · accent: #2e86ff light, #f0a030 dark · display: Space Grotesk · body: Inter
+ * nav: kept (top bar, wordmark, four links, profile, theme toggle) · signature: kept (the story tile grid and the per-story timeline) · states: loading, empty, full
+ * axes: light/grotesk-sans/chromatic-blue · posture: restrained · contrast: pass · v2.0.0 */
+/* Hallmark · pre-emit critique: P3 H4 E4 S4 R4 V3 · weakest: P, a restyle keeps the brand and layout by request; the argument is legibility: no caps, no costume mono, nothing under 11px */
+
 /* =========================================================
    Design tokens shared by every page (map, home, feed, tracker).
    Palette + typography mirror the personal site
    (Dev/professional/website): Inter + Space Grotesk, warm
    near-monochrome with a single brand accent (amber in dark, blue in
-   light).
+   light). Neutrals are OKLCH, tinted warm (hue 75 to 95) so no grey is
+   a dead zero-chroma grey.
 
    COLOUR RULE - three roles, nothing else:
      --accent   the reader's own state: tracked, active, selected, links
@@ -19,110 +26,178 @@
    dark is the CSS default (:root) and light is an override under
    :root.light-mode, so the same theme-toggle logic and the same
    localStorage key ('theme') work identically across both sites.
+
+   Every colour and font past this block goes through a token: no literal
+   hex / rgba in a rule (Hallmark gate 48). Spacing uses --space-*.
    ========================================================= */
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+/* ── Shared scale (theme independent) ───────────────────── */
+:root {
+  --space-3xs: 2px; --space-2xs: 4px; --space-xs: 8px; --space-sm: 12px; --space-md: 16px;
+  --space-lg: 24px; --space-xl: 40px; --space-2xl: 64px; --space-3xl: 96px; --space-4xl: 144px;
+
+  --text-xs: 0.75rem; --text-sm: 0.875rem; --text-md: 1rem; --text-lg: 1.2rem;
+  --text-xl: 1.44rem; --text-2xl: 1.728rem;
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in: cubic-bezier(0.7, 0, 0.84, 0);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-micro: 120ms; --dur-short: 220ms; --dur-long: 420ms;
+
+  --z-base: 1; --z-raised: 10; --z-dropdown: 100; --z-sticky: 200; --z-sticky-nav: 300;
+  --z-modal: 400; --z-toast: 500; --z-tooltip: 600;
+
+  --font-display: 'Space Grotesk', 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-body: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'Menlo', monospace;
+
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+  --radius-pill: 999px;
+
+  /* Image-side inks: text and plates that sit over a photograph or the
+     dark tile fallback, in both themes. */
+  --on-image: oklch(98.5% 0.004 85);
+  --scrim: oklch(14% 0.02 260);
+  --on-plate: oklch(30.5% 0.01 115);
+  --on-plate-alarm: oklch(51% 0.2 27);
+  --tile-fallback: oklch(24% 0.025 262);
+  --tile-fallback-hi: oklch(28% 0.03 262);
+  --tile-fallback-lo: oklch(20% 0.022 262);
+  --tile-alarm-hi: oklch(26% 0.04 12);
+  --tile-alarm-lo: oklch(18% 0.015 330);
+
+  /* Theme toggle (ported from the personal site): day and night slider fills */
+  --toggle-day-a: #f0a030;
+  --toggle-day-b: #f5c060;
+  --toggle-night-a: oklch(70% 0.13 220);
+  --toggle-night-b: oklch(86% 0.08 210);
+
+  /* Map mark hues (mirror MARK_HOT / MARK_COOL in js/config.js, which SVG
+     presentation attributes need as literals) */
+  --mark-hot: #c0392b;
+  --mark-cool: #4a6572;
+
+  /* Map ticker (dark band in both themes) */
+  --ticker-bg: oklch(14% 0.025 262);
+  --ticker-ink: oklch(75% 0.03 255);
+  --ticker-ink-bright: oklch(93% 0.015 260);
+  --ticker-muted: oklch(58% 0.035 255);
+  --ticker-rule: oklch(28% 0.05 262);
+}
+
 /* ── Dark (default) ─────────────────────────────────────── */
 :root {
-  --bg0: #0f0f0f;
-  --bg1: #171717;
-  --bg2: #202020;
-  --card: #161616;
-  --border: rgba(255, 255, 255, .08);
-  --border2: rgba(255, 255, 255, .18);
-  --text: #9a9a9a;
-  --text2: #d7d7d7;
-  --bright: #f0f0f0;
+  --bg0: oklch(16.5% 0.006 75);
+  --bg1: oklch(20.5% 0.006 75);
+  --bg2: oklch(24.5% 0.007 75);
+  --card: oklch(19.5% 0.006 75);
+  --border: oklch(26.5% 0.006 75);
+  --border2: oklch(36% 0.007 75);
+  --border-ink: oklch(36% 0.007 75);
+  --text: oklch(70% 0.008 75);
+  --text2: oklch(88.5% 0.006 75);
+  --bright: oklch(95.5% 0.005 75);
 
   /* Brand accent (links, buttons, active nav, section marks) */
   --accent: #f0a030;
-  --accent-soft: rgba(240, 160, 48, .14);
-  --on-accent: #0f0f0f;
+  --accent-fill: #f0a030;
+  --accent-soft: color-mix(in oklab, var(--accent) 14%, transparent);
+  --on-accent: oklch(16.5% 0.006 75);
 
   /* The user's own flag/favourite mark. Needs its own hue: --accent is amber
      in dark and blue in light, so neither of those stays distinct from the
      story chips across both themes. Rose is unused elsewhere on a feed card. */
   --flag:      #ec5fa4;
-  --flag-soft: rgba(236, 95, 164, .14);
-  --flag-line: rgba(236, 95, 164, .45);
-  --flag-tint: rgba(236, 95, 164, .045);
-  --on-flag:   #1a0a12;
+  --flag-soft: color-mix(in oklab, var(--flag) 14%, transparent);
+  --flag-line: color-mix(in oklab, var(--flag) 45%, transparent);
+  --flag-tint: color-mix(in oklab, var(--flag) 4.5%, transparent);
+  --on-flag:   oklch(17% 0.03 350);
 
-  /* The one alarm colour: conflict/kinetic categories, severity, breaking.
-     There is no companion palette of category hues any more — see the colour
-     rule in the header. Tuned to read on dark cards. */
+  /* The one alarm colour: conflict/kinetic categories, severity, breaking. */
   --accent2: #f26569;
+  --on-alarm: oklch(16.5% 0.006 75);
 
   /* Shared nav / map header chrome — follows the theme */
-  --header-bg: #0f0f0f;
-  --header-border: rgba(255, 255, 255, .08);
-  --header-text: #9a9a9a;
-  --header-bright: #f0f0f0;
+  --header-bg: var(--bg0);
+  --header-border: var(--border);
+  --header-text: var(--text);
+  --header-bright: var(--bright);
   --header-accent: var(--accent);
 
-  /* Map-page surfaces (map.html / styles.css) — flip with the theme so the
-     Leaflet canvas, floating panels, timeline and tooltips read in dark mode. */
-  --map-canvas-bg: #0b0f14;
-  --map-panel-bg: rgba(23, 23, 23, .92);
+  /* Map-page surfaces (map.html / styles.css) */
+  --map-canvas-bg: oklch(16% 0.012 255);
+  --map-panel-bg: color-mix(in oklab, oklch(20.5% 0.006 75) 92%, transparent);
+  --map-label-ink: oklch(91.5% 0.02 265);
+  --city-dot: oklch(71% 0.06 265);
 
-  --font-display: 'Space Grotesk', 'Inter', sans-serif;
-  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-mono: 'JetBrains Mono', 'Menlo', monospace;
+  /* Hallmark role names, aliased onto the project's own tokens */
+  --color-paper: var(--bg0);
+  --color-paper-2: var(--bg1);
+  --color-paper-3: var(--bg2);
+  --color-ink: var(--bright);
+  --color-ink-2: var(--text2);
+  --color-muted: var(--text);
+  --color-rule: var(--border);
+  --color-accent: var(--accent-fill);
+  --color-accent-ink: var(--on-accent);
+  --color-focus: var(--accent);
 
-  --radius-sm: 3px;
-  --radius-md: 6px;
-  --radius-lg: 10px;
-  --radius-pill: 100px;
-
-  --shadow-sm: 0 1px 3px rgba(0,0,0,.35);
-  --shadow-md: 0 4px 16px rgba(0,0,0,.45);
-  --shadow-lg: 0 8px 32px rgba(0,0,0,.5);
-  --shadow-float: 0 12px 40px rgba(0,0,0,.55);
+  --shadow-sm: 0 1px 2px color-mix(in oklab, var(--scrim) 35%, transparent);
+  --shadow-md: 0 4px 16px color-mix(in oklab, var(--scrim) 45%, transparent);
+  --shadow-lg: 0 8px 32px color-mix(in oklab, var(--scrim) 50%, transparent);
+  --shadow-float: 0 12px 40px color-mix(in oklab, var(--scrim) 55%, transparent);
 }
 
 /* ── Light (override) ───────────────────────────────────── */
 :root.light-mode {
-  --bg0: #fafaf8;
-  --bg1: #f4f4ef;
-  --bg2: #ecece6;
-  --card: #ffffff;
-  --border: rgba(0, 0, 0, .08);
-  --border2: rgba(0, 0, 0, .15);
-  --text: #6b6b66;
-  --text2: #33342e;
-  --bright: #1a1a1a;
+  --bg0: oklch(98.3% 0.004 95);
+  --bg1: oklch(96.4% 0.007 100);
+  --bg2: oklch(93.8% 0.008 100);
+  --card: oklch(99.4% 0.003 95);
+  --border: oklch(91.5% 0.005 95);
+  --border2: oklch(85% 0.006 95);
+  --border-ink: oklch(87% 0.01 265);
+  --text: oklch(50% 0.009 100);
+  --text2: oklch(30.5% 0.01 115);
+  --bright: oklch(21% 0.006 95);
 
   /* Light blue — the exact hex hardcoded in the personal site's
-     css/minimal.css for its light-mode section-heading underline
-     (.light-mode .section__heading::after { background: #2e86ff; }). */
+     css/minimal.css for its light-mode section-heading underline.
+     --accent-fill is the same hue a step darker, used only where the
+     accent is a fill under text, so white labels clear 4.5:1. */
   --accent: #2e86ff;
-  --accent-soft: rgba(46, 134, 255, .12);
-  --on-accent: #ffffff;
+  --accent-fill: oklch(52% 0.19 258);
+  --accent-soft: color-mix(in oklab, var(--accent) 12%, transparent);
+  --on-accent: oklch(99.4% 0.003 258);
 
   --flag:      #be185d;
-  --flag-soft: rgba(190, 24, 93, .1);
-  --flag-line: rgba(190, 24, 93, .35);
-  --flag-tint: rgba(190, 24, 93, .035);
-  --on-flag:   #ffffff;
+  --flag-soft: color-mix(in oklab, var(--flag) 10%, transparent);
+  --flag-line: color-mix(in oklab, var(--flag) 35%, transparent);
+  --flag-tint: color-mix(in oklab, var(--flag) 3.5%, transparent);
+  --on-flag:   oklch(99.4% 0.003 350);
 
   --accent2: #dc2626;
-
-  --header-bg: #fafaf8;
-  --header-border: rgba(0, 0, 0, .08);
-  --header-text: #6b6b66;
-  --header-bright: #1a1a1a;
-  --header-accent: var(--accent);
+  --on-alarm: oklch(99.4% 0.003 27);
 
   /* Map surfaces — light theme (original values). */
-  --map-canvas-bg: #c5d8e8;
-  --map-panel-bg: rgba(243, 244, 247, .92);
+  --map-canvas-bg: oklch(86.5% 0.03 240);
+  --map-panel-bg: color-mix(in oklab, oklch(96.5% 0.004 265) 92%, transparent);
+  --map-label-ink: oklch(28% 0.03 265);
+  --city-dot: oklch(42% 0.04 262);
 
-  --shadow-sm: 0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
-  --shadow-md: 0 4px 16px rgba(0,0,0,.08), 0 1px 4px rgba(0,0,0,.04);
-  --shadow-lg: 0 8px 32px rgba(0,0,0,.1), 0 2px 8px rgba(0,0,0,.05);
-  --shadow-float: 0 12px 40px rgba(0,0,0,.12), 0 2px 8px rgba(0,0,0,.06);
+  --shadow-sm: 0 1px 2px color-mix(in oklab, var(--scrim) 6%, transparent);
+  --shadow-md: 0 4px 16px color-mix(in oklab, var(--scrim) 8%, transparent);
+  --shadow-lg: 0 8px 32px color-mix(in oklab, var(--scrim) 10%, transparent);
+  --shadow-float: 0 12px 40px color-mix(in oklab, var(--scrim) 12%, transparent);
 }
+
+html, body { overflow-x: clip; }
+
+[hidden] { display: none !important; }
 
 body {
   font-family: var(--font-body);
@@ -130,30 +205,38 @@ body {
   background: var(--bg0);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  caret-color: var(--accent);
+}
+
+/* Motion is state, never decoration: under reduced motion every transition
+   and animation ends at once. A loader that must still turn takes .keep-motion. */
+@media (prefers-reduced-motion: reduce) {
+  *:not(.keep-motion), *:not(.keep-motion)::before, *:not(.keep-motion)::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 /* ===== SHARED SITE NAV (injected by js/nav.js on every page) ==========
-   Mirrors the personal site's floating top bar: a sticky, translucent,
-   blurred strip with quiet text links that underline on hover, the same
+   Mirrors the personal site's top bar: a sticky solid strip on the page's
+   own paper with quiet text links that underline on hover, the same
    sliding sun/moon theme toggle, and a "chirag" link back to the site. */
 
 #site-nav {
   position: sticky;
   top: 0;
-  z-index: 1000;
+  z-index: var(--z-sticky-nav);
   height: 56px;
   flex-shrink: 0;
   display: flex;
   align-items: center;
-  padding: 0 24px;
-  gap: 24px;
-  background: rgba(15, 15, 15, .55);
-  -webkit-backdrop-filter: blur(12px);
-  backdrop-filter: blur(12px);
+  padding: 0 var(--space-lg);
+  gap: var(--space-lg);
+  background: var(--header-bg);
   border-bottom: 1px solid var(--header-border);
 }
-
-:root.light-mode #site-nav { background: rgba(250, 250, 248, .6); }
 
 .nav-brand {
   font-family: var(--font-display);
@@ -176,7 +259,7 @@ body {
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: var(--space-md);
   flex: 1;
 }
 
@@ -187,7 +270,7 @@ body {
   color: var(--header-text);
   text-decoration: none;
   opacity: .85;
-  padding: 2px 0;
+  padding: var(--space-3xs) 0;
   border-bottom: 1px solid transparent;
   transition: opacity .2s, color .2s, border-color .2s;
 }
@@ -207,7 +290,7 @@ body {
 .nav-right {
   display: flex;
   align-items: center;
-  gap: 18px;
+  gap: var(--space-md);
   white-space: nowrap;
 }
 
@@ -222,8 +305,8 @@ body {
 .user-menu__trigger {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 3px 8px 3px 3px;
+  gap: var(--space-xs);
+  padding: var(--space-3xs) var(--space-xs) var(--space-3xs) var(--space-3xs);
   background: transparent;
   border: 1px solid var(--header-border);
   border-radius: 999px;
@@ -248,8 +331,8 @@ body {
   height: 24px;
   flex: 0 0 24px;
   border-radius: 50%;
-  background: var(--accent);
-  color: #fff;
+  background: var(--accent-fill);
+  color: var(--on-accent);
   font-family: var(--font-body);
   font-size: 11.5px;
   font-weight: 600;
@@ -284,26 +367,24 @@ body {
   top: calc(100% + 8px);
   right: 0;
   min-width: 208px;
-  padding: 6px;
-  background: var(--bg1, #171717);
-  border: 1px solid var(--border2);
+  padding: var(--space-2xs);
+  background: var(--bg1);
   border-radius: 10px;
-  box-shadow: 0 12px 32px rgba(0, 0, 0, .35);
+  box-shadow: 0 12px 32px color-mix(in oklab, var(--scrim) 35%, transparent);
   z-index: 1100;
 }
 
 :root.light-mode .user-menu__panel {
-  background: #fff;
-  box-shadow: 0 12px 32px rgba(0, 0, 0, .12);
+  background: var(--card);
+  box-shadow: 0 12px 32px color-mix(in oklab, var(--scrim) 12%, transparent);
 }
 
 .user-menu__head,
 .user-menu__foot {
-  padding: 6px 8px;
+  padding: var(--space-2xs) var(--space-xs);
   font-family: var(--font-body);
-  font-size: 10.5px;
-  text-transform: uppercase;
-  letter-spacing: .08em;
+  font-size: 11px;
+  letter-spacing: normal;
   color: var(--text);
 }
 
@@ -312,7 +393,7 @@ body {
   letter-spacing: 0;
   font-size: 11px;
   border-top: 1px solid var(--border2);
-  margin-top: 4px;
+  margin-top: var(--space-2xs);
 }
 
 /* The registry is open-ended, so the list scrolls rather than growing the
@@ -336,10 +417,10 @@ body {
 .user-menu__item {
   display: flex;
   align-items: center;
-  gap: 9px;
+  gap: var(--space-xs);
   flex: 1;
   min-width: 0;
-  padding: 7px 8px;
+  padding: var(--space-xs) var(--space-xs);
   background: transparent;
   border: 0;
   border-radius: 7px;
@@ -352,7 +433,7 @@ body {
   flex: 0 0 auto;
   width: 22px;
   height: 22px;
-  margin-right: 6px;
+  margin-right: var(--space-2xs);
   font-size: 15px;
   line-height: 1;
   color: var(--text);
@@ -365,36 +446,35 @@ body {
 }
 
 .user-menu__row:hover .user-menu__remove { opacity: .7; }
-.user-menu__remove:hover { opacity: 1; color: var(--accent2, #f26569); background: var(--bg2); }
+.user-menu__remove:hover { opacity: 1; color: var(--accent2); background: transparent; }
 
 .user-menu__add {
   display: flex;
-  gap: 6px;
-  padding: 6px 8px 2px;
+  gap: var(--space-2xs);
+  padding: var(--space-2xs) var(--space-xs) var(--space-3xs);
 }
 
 .user-menu__add input {
   flex: 1;
   min-width: 0;
-  padding: 6px 9px;
+  padding: var(--space-2xs) var(--space-xs);
   font-family: var(--font-body);
   font-size: 12.5px;
   color: var(--bright);
   background: var(--bg2);
   border: 1px solid var(--border2);
   border-radius: 7px;
-  outline: none;
 }
 
-.user-menu__add input:focus { border-color: var(--accent); }
+.user-menu__add input:focus-visible { outline: 2px solid var(--accent); outline-offset: -1px; }
 
 .user-menu__add button {
-  padding: 6px 11px;
+  padding: var(--space-2xs) var(--space-sm);
   font-family: var(--font-body);
   font-size: 12px;
   font-weight: 500;
   color: var(--on-accent);
-  background: var(--accent);
+  background: var(--accent-fill);
   border: 0;
   border-radius: 7px;
   cursor: pointer;
@@ -444,9 +524,9 @@ body {
 .theme-toggle__slider {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to right, #f0a030, #f5c060);
+  background: linear-gradient(to right, var(--toggle-day-a), var(--toggle-day-b));
   border-radius: 24px;
-  transition: .4s;
+  transition: color .4s, background-color .4s, border-color .4s, box-shadow .4s, opacity .4s, transform .4s;
   overflow: hidden;
 }
 
@@ -457,14 +537,14 @@ body {
   width: 18px;
   left: 3px;
   bottom: 3px;
-  background: #fff;
+  background: var(--on-image);
   border-radius: 50%;
-  transition: .4s;
+  transition: color .4s, background-color .4s, border-color .4s, box-shadow .4s, opacity .4s, transform .4s;
   z-index: 2;
 }
 
 .theme-toggle__input:checked + .theme-toggle__slider {
-  background: linear-gradient(to right, #00b4d8, #90e0ef);
+  background: linear-gradient(to right, var(--toggle-night-a), var(--toggle-night-b));
 }
 
 .theme-toggle__input:checked + .theme-toggle__slider:before {
@@ -477,7 +557,7 @@ body {
   transform: translateY(-50%);
   width: 12px;
   height: 12px;
-  color: #fff;
+  color: var(--on-image);
   z-index: 1;
   transition: opacity .3s ease;
 }
@@ -509,12 +589,12 @@ body {
      container, so #site-nav's position:sticky still works. */
   html { overflow-x: clip; }
 
-  #site-nav { padding: 0 10px; gap: 10px; }
+  #site-nav { padding: 0 var(--space-xs); gap: var(--space-xs); }
 
   .nav-brand { flex-shrink: 0; font-size: 14px; }
 
   .nav-links {
-    gap: 11px;
+    gap: var(--space-sm);
     min-width: 0;
     justify-content: flex-end;
     overflow-x: auto;
@@ -523,14 +603,14 @@ body {
   .nav-links::-webkit-scrollbar { display: none; }
   .nav-links a { font-size: 12.5px; white-space: nowrap; }
 
-  .nav-right { gap: 10px; flex-shrink: 0; }
+  .nav-right { gap: var(--space-xs); flex-shrink: 0; }
 
   /* Avatar-only chip. */
   .user-menu__label,
   .user-menu__chevron { display: none; }
-  .user-menu__trigger { gap: 0; padding: 3px; }
+  .user-menu__trigger { gap: 0; padding: var(--space-3xs); }
 
-  .user-menu__panel { min-width: 0; width: min(248px, calc(100vw - 20px)); }
+  .user-menu__panel { min-width: 0; width: min(248px, calc(100dvw - var(--space-md))); }
 }
 
 /* Below ~360px even that is tight; the brand is the one thing on the bar
@@ -544,5 +624,5 @@ body {
 ::-webkit-scrollbar-track { background: transparent; }
 
 ::selection { background: var(--accent-soft); color: var(--bright); }
-*:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+*:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 2px; }
 input[type="checkbox"] { accent-color: var(--accent); }

@@ -18,6 +18,9 @@
   var reduceMotion = window.matchMedia &&
     window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var io = null;
+  // The hidden-until-revealed state in site.css is scoped under html.js, so
+  // content stays visible if this script never runs or cannot observe.
+  if (supported && !reduceMotion) document.documentElement.classList.add('js');
 
   function revealNow(el) { el.classList.add('visible'); }
 

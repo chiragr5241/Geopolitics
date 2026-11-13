@@ -413,14 +413,14 @@
 
     // Derive header stats from data
     var $hIncidents = document.getElementById('h-incidents');
-    $hOps.textContent = Object.keys(OPS).length + ' OPS';
+    $hOps.textContent = Object.keys(OPS).length + ' ops';
     if ($hIncidents) $hIncidents.textContent = INCIDENTS.length + '+';
 
     var theaterCountries = new Set();
     Object.values(OPS).forEach(function (op) {
       (op.countries || []).forEach(function (c) { theaterCountries.add(c); });
     });
-    if ($hTheaters) $hTheaters.textContent = theaterCountries.size + ' THEATERS';
+    if ($hTheaters) $hTheaters.textContent = theaterCountries.size + ' theaters';
 
     // Icon builders
     function buildMapIcon(inc, isSelected, isDimmed) {
@@ -557,7 +557,7 @@
       var visible = INCIDENTS.filter(isVisible);
       $incCount.textContent = visible.length + ' shown';
       if (!visible.length) {
-        $incList.innerHTML = '<div style="padding:18px;text-align:center;color:var(--text);font-size:9px;letter-spacing:1px;">NO INCIDENTS IN RANGE</div>';
+        $incList.innerHTML = '<div style="padding:18px;text-align:center;color:var(--text);font-size:12px;">No incidents in this date range.</div>';
         return;
       }
       var frag = document.createDocumentFragment();
@@ -602,11 +602,11 @@
 
       var opCtags = (op.countries||[]).map(function (c) {
         var cn = COUNTRIES[c]; if (!cn) return '';
-        return '<span style="font-size:9px;background:'+cn.bg+';color:'+cn.color+';border:1px solid '+cn.border+';padding:1px 6px;border-radius:2px;font-weight:700;">'+cn.label+'</span>';
+        return '<span style="font-size:11px;background:'+cn.bg+';color:'+cn.color+';border:1px solid '+cn.border+';padding:1px 6px;border-radius:2px;font-weight:700;">'+cn.label+'</span>';
       }).join('');
 
       $detContent.innerHTML =
-        '<div class="det-hero"><div style="display:flex;align-items:center;gap:6px;margin-bottom:7px;flex-wrap:wrap;"><div class="det-op-tag" style="background:'+col+'22;color:'+col+';border:1px solid '+col+'44;">'+(op.name||inc.op)+'</div>'+opCtags+'</div><div class="det-title">'+inc.title+'</div><div class="det-date">'+inc.date+'</div><div class="det-type-row">'+buildListIcon(inc.type,14)+'<span style="font-size:9px;font-weight:700;letter-spacing:1px;color:'+st.color+';text-transform:uppercase;">'+st.label+'</span></div><div class="det-badges">'+badgeHTML+'</div></div>'
+        '<div class="det-hero"><div style="display:flex;align-items:center;gap:6px;margin-bottom:7px;flex-wrap:wrap;"><div class="det-op-tag" style="background:'+col+'22;color:'+col+';border:1px solid '+col+'44;">'+(op.name||inc.op)+'</div>'+opCtags+'</div><div class="det-title">'+inc.title+'</div><div class="det-date">'+inc.date+'</div><div class="det-type-row">'+buildListIcon(inc.type,14)+'<span style="font-size:11px;font-weight:600;color:'+st.color+';">'+st.label+'</span></div><div class="det-badges">'+badgeHTML+'</div></div>'
         + '<div class="det-tabs"><div class="det-tab active" data-tab="tab-summary">Summary</div><div class="det-tab" data-tab="tab-intel">Intel</div>'+imgTabBtn+'<div class="det-tab" data-tab="tab-assess">Assessment</div><div class="det-tab" data-tab="tab-sources">Sources</div></div>'
         + '<div id="tab-summary" class="det-tab-body active"><div class="route-strip"><div class="route-from"><div class="route-label">Origin</div><div class="route-val">'+inc.from.label+'</div><div class="route-label" style="margin-top:1px;">'+inc.from.sub+'</div></div><div class="route-arrow">\u2192</div><div class="route-to"><div class="route-label">Target</div><div class="route-val" style="color:var(--accent2);">'+inc.to.label+'</div><div class="route-label" style="margin-top:1px;">'+inc.to.sub+'</div></div></div><div class="assessment"><div class="assessment-body">'+inc.summary+'</div></div></div>'
         + '<div id="tab-intel" class="det-tab-body">'+intelRows+'</div>'
@@ -825,8 +825,9 @@
     if ($sbToggle) {
       $sbToggle.addEventListener('click', function () {
         var collapsed = $sidebar.classList.toggle('collapsed');
-        $sbToggle.textContent = collapsed ? '▶' : '◀';
+        $sbToggle.classList.toggle('is-flipped', collapsed);
         $sbToggle.title = collapsed ? 'Expand sidebar' : 'Collapse sidebar';
+        $sbToggle.setAttribute('aria-label', $sbToggle.title);
       });
     }
 
@@ -836,8 +837,9 @@
     if ($detToggle) {
       $detToggle.addEventListener('click', function () {
         var collapsed = $detail.classList.toggle('collapsed');
-        $detToggle.textContent = collapsed ? '◀' : '▶';
+        $detToggle.classList.toggle('is-flipped', collapsed);
         $detToggle.title = collapsed ? 'Expand panel' : 'Collapse panel';
+        $detToggle.setAttribute('aria-label', $detToggle.title);
       });
     }
 
@@ -1015,7 +1017,7 @@
       $detContent.style.display = 'block';
       var countries = t.countries.map(function (c) {
         var cn = COUNTRIES[c]; if (!cn) return c;
-        return '<span style="font-size:9px;background:' + cn.bg + ';color:' + cn.color + ';border:1px solid ' + cn.border + ';padding:1px 6px;border-radius:2px;font-weight:700;">' + cn.label + '</span>';
+        return '<span style="font-size:11px;background:' + cn.bg + ';color:' + cn.color + ';border:1px solid ' + cn.border + ';padding:1px 6px;border-radius:2px;font-weight:700;">' + cn.label + '</span>';
       }).join('');
       var rows = [];
       if (t.entities_people) rows.push(['People', t.entities_people]);
@@ -1037,7 +1039,7 @@
         + '<div class="det-date">' + fmtTweetDate(t.created_at) + ' UTC</div>'
         + '</div>'
         + (rowsHTML ? '<div class="det-tabs" style="border-bottom:none;"><div class="det-tab active" style="pointer-events:none;">Intel Extract</div></div><div style="padding:0 12px;">' + rowsHTML + '</div>' : '')
-        + '<div style="padding:12px;"><div class="assessment"><div class="assessment-title">Full Text</div><div class="assessment-body" style="font-size:10px;line-height:1.6;">' + t.text + '</div></div></div>';
+        + '<div style="padding:12px;"><div class="assessment"><div class="assessment-title">Full Text</div><div class="assessment-body" style="font-size:12px;line-height:1.6;">' + t.text + '</div></div></div>';
     }
 
     function renderTweetMarkers() {

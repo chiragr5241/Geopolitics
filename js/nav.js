@@ -129,7 +129,7 @@
             '<input type="text" id="user-add-name" placeholder="New profile name" maxlength="40" autocomplete="off" aria-label="New profile name">' +
             '<button type="submit" title="Add profile">Add</button>' +
           '</form>' +
-          '<div class="user-menu__foot">Local profiles — real sign-in coming soon.</div>' +
+          '<div class="user-menu__foot">Local profiles. Real sign-in is coming.</div>' +
         '</div>' +
       '</div>';
   }

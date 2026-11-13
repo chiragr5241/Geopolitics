@@ -311,7 +311,7 @@ var SourcePicker = (function () {
     var extra = SourceRegistry.categoriesOf(row).slice(1);
     var tip = [row.perspective, row.domain,
                extra.length ? 'also in: ' + extra.join(', ') : '']
-      .filter(Boolean).join(' · ');
+      .filter(Boolean).join(', ');
     // Everything the filter should be able to match on. Searching by name
     // alone would miss "AP", "SCMP", "spacenews.com" and "youtube" — the terms
     // people actually reach for.
@@ -366,10 +366,10 @@ var SourcePicker = (function () {
       label = 'corrected to ' + (a.resolved_name || (row && row.name) || '');
     } else if (status === 'not_found') {
       cls = 'not-found';
-      label = 'no such source found — check the spelling';
+      label = 'No such source found. Check the spelling.';
     } else if (status === 'unverified') {
       cls = 'unverified';
-      label = 'new — will be verified on the next run';
+      label = 'New: verified on the next run';
     } else {
       cls = 'ok';
       label = 'added';

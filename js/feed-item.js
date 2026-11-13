@@ -114,7 +114,7 @@ var FeedItem = (function () {
     // chips, so a flagged card reads as flagged before anything else.
     if (typeof FlagStore !== 'undefined' && FlagStore.isFlagged(item)) {
       chips.push(
-        '<span class="story-tag flag-tag" title="Flagged — see the Flagged filter">' +
+        '<span class="story-tag flag-tag" title="Flagged: see the Flagged filter">' +
         flagSvg(true) + 'Flagged</span>'
       );
     }
@@ -129,7 +129,7 @@ var FeedItem = (function () {
       var title = s.title || id;
       chips.push(
         '<a class="story-tag' + (muted ? ' muted' : '') + '" href="tracker.html?story=' +
-        encodeURIComponent(id) + '" title="' + esc(title) + (muted ? ' — ' + esc(s.status) : '') + '">' +
+        encodeURIComponent(id) + '" title="' + esc(title) + (muted ? ' (' + esc(s.status) + ')' : '') + '">' +
         '<span class="story-tag-dot"></span>' + esc(shortStoryTitle(title)) + '</a>'
       );
     }

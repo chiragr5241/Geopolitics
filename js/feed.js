@@ -141,13 +141,17 @@
   function renderFilterBar() {
     var el = document.getElementById('filter-bar');
     var n = FlagStore.count();
+    // Keep keyboard focus on the same chip across the re-render below.
+    var focused = document.activeElement && el.contains(document.activeElement)
+      ? (document.activeElement.dataset.cat || (document.activeElement.dataset.flag ? 'flag' : '')) : '';
     // The flag leads the bar — it's the first tag, so it's the first filter.
-    var flagPill = '<span class="filter-pill flag-filter ' + (flaggedOnly ? 'on' : '') +
-      '" data-flag="1" title="Show only flagged items">' + FeedItem.flagSvg(flaggedOnly) +
-      'Flagged' + (n ? ' <span class="filter-count">' + n + '</span>' : '') + '</span>';
+    var flagPill = '<button type="button" class="filter-pill flag-filter ' + (flaggedOnly ? 'on' : '') +
+      '" data-flag="1" aria-pressed="' + flaggedOnly + '" title="Show only flagged items">' + FeedItem.flagSvg(flaggedOnly) +
+      'Flagged' + (n ? ' <span class="filter-count">' + n + '</span>' : '') + '</button>';
 
     el.innerHTML = flagPill + '<span class="filter-sep"></span>' + ALL_CATEGORIES.map(function (c) {
-      return '<span class="filter-pill ' + (activeCategories.has(c) ? '' : 'off') + '" data-cat="' + c + '">' + c + '</span>';
+      var on = activeCategories.has(c);
+      return '<button type="button" class="filter-pill ' + (on ? '' : 'off') + '" data-cat="' + c + '" aria-pressed="' + on + '">' + c + '</button>';
     }).join('');
 
     el.querySelectorAll('.filter-pill[data-cat]').forEach(function (pill) {
@@ -167,6 +171,10 @@
         renderFilterBar();
         renderList();
       });
+    }
+    if (focused) {
+      var again = focused === 'flag' ? el.querySelector('[data-flag]') : el.querySelector('[data-cat="' + focused + '"]');
+      if (again) again.focus();
     }
   }
 
@@ -235,7 +243,7 @@
     if (!visible.length) {
       var note;
       if (query) note = 'No items match “' + FeedItem.esc(query) + '”.';
-      else if (flaggedOnly && !FlagStore.count()) note = 'Nothing flagged yet — use the flag on a card to save it here.';
+      else if (flaggedOnly && !FlagStore.count()) note = 'Nothing flagged yet. Use the flag on a card to save it here.';
       else note = 'No items match the current filters.';
       wrap.innerHTML = '<div class="empty-note">' + note + '</div>';
       return;
