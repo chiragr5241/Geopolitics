@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-11-14T13:32:39Z",
+  "updated_at": "2026-11-15T12:17:25Z",
   "stories": [
     {
       "story_id": "st-20261103-united-nations",
@@ -166,8 +166,8 @@
         "starship",
         "spaceport"
       ],
-      "last_update_at": "2026-11-14",
-      "update_count": 53,
+      "last_update_at": "2026-11-15",
+      "update_count": 54,
       "resolved_at": null,
       "notes": "",
       "custom": true,
@@ -293,8 +293,8 @@
         "nypd",
         "city hall"
       ],
-      "last_update_at": "2026-11-14",
-      "update_count": 56,
+      "last_update_at": "2026-11-15",
+      "update_count": 58,
       "resolved_at": null,
       "notes": "",
       "custom": true,
