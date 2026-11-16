@@ -258,7 +258,7 @@ air-space-forces-magazine,Air & Space Forces Magazine,Air Force Magazine;AFA Mag
 arms-control-association,Arms Control Association,,Official news channels,web,armscontrol.org,,,,,US,research,active,agent,2026-07-29,,,,
 taipei-times,Taipei Times,,Official news channels,web,taipeitimes.com,,,,taiwan,TW,research,active,user,2026-07-31,,2026-11-12T14:25:35Z,1,
 nbc-new-york,NBC New York,,Official news channels,web,nbcnewyork.com,,,,western-us,US,research,active,user,2026-08-24,,,,
-business-standard,Business Standard,,Official news channels,web,business-standard.com,,,,india,IN,research,active,user,2026-08-24,,,,
+business-standard,Business Standard,,Official news channels,web,business-standard.com,,,,india,IN,research,active,user,2026-08-24,,2026-11-16T12:21:41Z,1,
 business-recorder,Business Recorder,,Official news channels,web,brecorder.com,,,,,PK,research,active,user,2026-08-25,,,,
 enab-baladi,Enab Baladi,Enab Baladi English;عنب بلدي,Official news channels,rss,enabbaladi.net,,https://english.enabbaladi.net/feed/,,syrian-independent,SY,wire,active,agent,2026-09-04,,2026-11-15T16:38:41Z,6,"Syrian independent outlet founded in Daraya 2011; strongest daily coverage of post-Assad governance, reconstruction and local politics. RSS works; article pages return 403 to our crawler, so og:image scraping fails for its beats."
 sana,SANA,Syrian Arab News Agency;SANA English,Official news channels,rss,sana.sy,,https://sana.sy/en/?feed=rss2,,syrian-state,SY,wire,active,agent,2026-09-04,,2026-11-15T16:38:41Z,0,"Syrian state news agency — the Damascus government's own line on decrees, ministries, diplomacy and reconstruction deals. Read as official framing, not neutral reporting."
