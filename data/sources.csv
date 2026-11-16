@@ -257,7 +257,7 @@ nyc-mayor-s-office,NYC Mayor's Office,NYC Mayors Youtube: https://www.youtube.co
 air-space-forces-magazine,Air & Space Forces Magazine,Air Force Magazine;AFA Magazine;airandspaceforces.com,Official news channels,web,airandspaceforces.com,,,,western-us,US,research,active,agent,2026-07-28,,2026-07-28T20:56:44Z,1,Air & Space Forces Association magazine (formerly Air Force Magazine)
 arms-control-association,Arms Control Association,,Official news channels,web,armscontrol.org,,,,,US,research,active,agent,2026-07-29,,,,
 taipei-times,Taipei Times,,Official news channels,web,taipeitimes.com,,,,taiwan,TW,research,active,user,2026-07-31,,2026-11-12T14:25:35Z,1,
-nbc-new-york,NBC New York,,Official news channels,web,nbcnewyork.com,,,,western-us,US,research,active,user,2026-08-24,,,,
+nbc-new-york,NBC New York,,Official news channels,web,nbcnewyork.com,,,,western-us,US,research,active,user,2026-08-24,,2026-11-16T13:30:47Z,1,
 business-standard,Business Standard,,Official news channels,web,business-standard.com,,,,india,IN,research,active,user,2026-08-24,,,,
 business-recorder,Business Recorder,,Official news channels,web,brecorder.com,,,,,PK,research,active,user,2026-08-25,,,,
 enab-baladi,Enab Baladi,Enab Baladi English;عنب بلدي,Official news channels,rss,enabbaladi.net,,https://english.enabbaladi.net/feed/,,syrian-independent,SY,wire,active,agent,2026-09-04,,2026-11-16T12:46:18Z,5,"Syrian independent outlet founded in Daraya 2011; strongest daily coverage of post-Assad governance, reconstruction and local politics. RSS works; article pages return 403 to our crawler, so og:image scraping fails for its beats."
