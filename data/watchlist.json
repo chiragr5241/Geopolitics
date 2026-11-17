@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-11-17T12:19:28Z",
+  "updated_at": "2026-11-17T14:30:54Z",
   "stories": [
     {
       "story_id": "st-20261103-united-nations",
@@ -28,8 +28,8 @@
         "un news",
         "noon briefing"
       ],
-      "last_update_at": "2026-11-15",
-      "update_count": 528,
+      "last_update_at": "2026-11-17",
+      "update_count": 530,
       "resolved_at": null,
       "notes": "Created 2026-11-03. Umbrella story for the UN's own daily reporting. Beats: scripts/un_story_updates.py from data/un_daily/reports.csv (scripts/pull_un_daily.py) — every report, with General Assembly reports also copied onto the UNGA 81 branch (parent_id). Feed rows: link_sources=['UN News'] makes link_stories.py link every UN News row and nothing else (keywords alone would pull in the whole wire); update_stories.py (7a) skips link_sources stories.",
       "custom": true,
@@ -888,8 +888,8 @@
         "hts",
         "golan"
       ],
-      "last_update_at": "2026-11-16",
-      "update_count": 466,
+      "last_update_at": "2026-11-17",
+      "update_count": 468,
       "resolved_at": null,
       "notes": "Seeded 2026-09-04 from DW interview on SDF dissolution (youtube NdTqksVqy78). Syria-specific sources registered at the same time: enab-baladi, sana, syria-direct, north-press-agency, middle-east-eye, al-monitor, arab-news, gdelt-sy-syria, plus research-scope SOHR, The New Arab, Rudaw, World Bank, IMF, ICG.",
       "custom": true,
