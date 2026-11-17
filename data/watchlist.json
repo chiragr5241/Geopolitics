@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-11-16T13:31:18Z",
+  "updated_at": "2026-11-17T12:19:28Z",
   "stories": [
     {
       "story_id": "st-20261103-united-nations",
@@ -122,8 +122,8 @@
         "mindich",
         "zelensky"
       ],
-      "last_update_at": "2026-11-13",
-      "update_count": 37,
+      "last_update_at": "2026-11-17",
+      "update_count": 38,
       "resolved_at": null,
       "notes": "Backfilled 2026-07-17 via web research; no coverage in intel_feed."
     },
@@ -249,8 +249,8 @@
         "reunification",
         "taipei"
       ],
-      "last_update_at": "2026-11-14",
-      "update_count": 517,
+      "last_update_at": "2026-11-17",
+      "update_count": 518,
       "resolved_at": null,
       "notes": "",
       "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/2020-04-23_Seaman_Xi_Chan_stands_lookout_on_the_flight_deck_as_USS_Barry_%28DDG_52%29_transits_the_Taiwan_Strait.jpg/1920px-2020-04-23_Seaman_Xi_Chan_stands_lookout_on_the_flight_deck_as_USS_Barry_%28DDG_52%29_transits_the_Taiwan_Strait.jpg",
@@ -624,8 +624,8 @@
         "uav",
         "swarm"
       ],
-      "last_update_at": "2026-11-16",
-      "update_count": 49,
+      "last_update_at": "2026-11-17",
+      "update_count": 50,
       "resolved_at": null,
       "notes": "",
       "custom": true,
