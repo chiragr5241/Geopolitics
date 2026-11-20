@@ -9,7 +9,7 @@ gdelt-cn-taiwan,GDELT/CN Taiwan,GDELT CN;GDELT China,Official news channels,gdel
 gdelt-ir-mideast,GDELT/IR MidEast,GDELT IR;GDELT Iran,Official news channels,gdelt,gdeltproject.org,,,israel sourcecountry:IR sourcelang:english,iranian,IR,wire,active,seed,2026-07-28,,2026-11-19T12:48:23Z,0,Iranian-reported Israel coverage
 spectator-index,Spectator Index,spectator;The Spectator Index;@spectatorindex,Official news channels,social,twitter.com,,,,aggregator,,wire,active,seed,2026-07-28,,,,Curated tweet stream (pull_spectator.py)
 reuters,Reuters,Reuter;Thomson Reuters;Reuters News,Official news channels,web,reuters.com,,,,western-wire,GB,research,active,seed,2026-07-28,,,,
-associated-press,Associated Press,AP;AP News;The Associated Press;apnews,Official news channels,rss,apnews.com,,https://news.google.com/rss/search?q=site:apnews.com+when:2d&hl=en-US&gl=US&ceid=US:en,,western-wire,US,wire,active,seed,2026-07-28,,2026-11-19T12:48:23Z,100,"Pulled via a Google News RSS query scoped to site:apnews.com. AP publishes no public RSS, GDELT indexes no apnews.com articles, and apnews.com blocks automated fetches - this proxy is the only route that returns AP items. Consequence: the item URL is a news.google.com redirect that does not resolve server-side, so AP rows carry no scraped lead image; the link still opens the right AP article in a browser."
+associated-press,Associated Press,AP;AP News;The Associated Press;apnews,Official news channels,rss,apnews.com,,https://news.google.com/rss/search?q=site:apnews.com+when:2d&hl=en-US&gl=US&ceid=US:en,,western-wire,US,wire,active,seed,2026-07-28,,2026-11-20T12:19:51Z,1,"Pulled via a Google News RSS query scoped to site:apnews.com. AP publishes no public RSS, GDELT indexes no apnews.com articles, and apnews.com blocks automated fetches - this proxy is the only route that returns AP items. Consequence: the item URL is a news.google.com redirect that does not resolve server-side, so AP rows carry no scraped lead image; the link still opens the right AP article in a browser."
 agence-france-presse,Agence France-Presse,AFP;France Presse,Official news channels,web,afp.com,,,,french,FR,research,active,seed,2026-07-28,,,,
 the-guardian,The Guardian,Guardian;Guardian UK,Official news channels,web,theguardian.com,,,,western-uk,GB,research,active,seed,2026-07-28,,,,
 new-york-times,The New York Times,NYT;New York Times;NY Times,Official news channels,web,nytimes.com,,,,western-us,US,research,active,seed,2026-07-28,,,,
@@ -19,11 +19,11 @@ bloomberg,Bloomberg,Bloomberg News,Official news channels,web,bloomberg.com,,,,w
 cnbc,CNBC,,Official news channels,web,cnbc.com,,,,western-us,US,research,active,seed,2026-07-28,,2026-11-06T07:54:25Z,2,
 cnn,CNN,CNN International,Official news channels,web,cnn.com,,,,western-us,US,research,active,seed,2026-07-28,,2026-11-15T16:39:33Z,1,
 nbc-news,NBC News,NBC,Official news channels,web,nbcnews.com,,,,western-us,US,research,active,seed,2026-07-28,,2026-11-14T12:20:14Z,1,
-npr,NPR,National Public Radio,Official news channels,web,npr.org,,,,western-us,US,research,active,seed,2026-07-28,,2026-10-29T12:32:53Z,1,
+npr,NPR,National Public Radio,Official news channels,web,npr.org,,,,western-us,US,research,active,seed,2026-07-28,,2026-11-20T12:19:51Z,1,
 politico,Politico,Politico EU;Politico Europe,Official news channels,web,politico.com,,,,western-us,US,research,active,seed,2026-07-28,,,,
 the-hill,The Hill,Hill,Official news channels,web,thehill.com,,,,western-us,US,research,active,seed,2026-07-28,,2026-11-14T12:20:14Z,1,
 france-24,France 24,France24;F24,Official news channels,web,france24.com,,,,french,FR,research,active,seed,2026-07-28,,,,
-kyiv-independent,Kyiv Independent,The Kyiv Independent;Kiev Independent,Official news channels,web,kyivindependent.com,,,,ukrainian,UA,research,active,seed,2026-07-28,,2026-11-19T13:31:49Z,1,
+kyiv-independent,Kyiv Independent,The Kyiv Independent;Kiev Independent,Official news channels,web,kyivindependent.com,,,,ukrainian,UA,research,active,seed,2026-07-28,,2026-11-20T12:19:51Z,1,
 kyiv-post,Kyiv Post,Kiev Post,Official news channels,web,kyivpost.com,,,,ukrainian,UA,research,active,seed,2026-07-28,,2026-07-28T14:29:07Z,1,
 ukrainska-pravda,Ukrainska Pravda,Ukrayinska Pravda;Ukrainian Pravda,Official news channels,web,pravda.com.ua,,,,ukrainian,UA,research,active,seed,2026-07-28,,2026-11-17T12:19:28Z,1,
 euromaidan-press,Euromaidan Press,Euromaidan,Official news channels,web,euromaidanpress.com,,,,ukrainian,UA,research,active,seed,2026-07-28,,,,
