@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-11-21T16:02:52Z",
+  "updated_at": "2026-11-22T12:17:41Z",
   "stories": [
     {
       "story_id": "st-20261103-united-nations",
@@ -122,8 +122,8 @@
         "mindich",
         "zelensky"
       ],
-      "last_update_at": "2026-11-21",
-      "update_count": 41,
+      "last_update_at": "2026-11-22",
+      "update_count": 42,
       "resolved_at": null,
       "notes": "Backfilled 2026-07-17 via web research; no coverage in intel_feed."
     },
@@ -1082,8 +1082,8 @@
         "redwood research",
         "alignment"
       ],
-      "last_update_at": "2026-11-20",
-      "update_count": 24,
+      "last_update_at": "2026-11-22",
+      "update_count": 25,
       "resolved_at": null,
       "notes": "Seeded 2026-10-18 at Chirag's request. AI-safety sources registered at the same time: transformer, ai-safety-newsletter (wire), mit-technology-review, uk-ai-security-institute, metr (research).",
       "custom": true,
