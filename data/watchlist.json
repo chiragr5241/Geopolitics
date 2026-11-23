@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-11-22T13:25:05Z",
+  "updated_at": "2026-11-23T12:19:18Z",
   "stories": [
     {
       "story_id": "st-20261103-united-nations",
@@ -28,8 +28,8 @@
         "un news",
         "noon briefing"
       ],
-      "last_update_at": "2026-11-22",
-      "update_count": 561,
+      "last_update_at": "2026-11-23",
+      "update_count": 562,
       "resolved_at": null,
       "notes": "Created 2026-11-03. Umbrella story for the UN's own daily reporting. Beats: scripts/un_story_updates.py from data/un_daily/reports.csv (scripts/pull_un_daily.py) — every report, with General Assembly reports also copied onto the UNGA 81 branch (parent_id). Feed rows: link_sources=['UN News'] makes link_stories.py link every UN News row and nothing else (keywords alone would pull in the whole wire); update_stories.py (7a) skips link_sources stories.",
       "custom": true,
