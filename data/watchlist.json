@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-11-24T12:18:30Z",
+  "updated_at": "2026-11-24T15:49:58Z",
   "stories": [
     {
       "story_id": "st-20261103-united-nations",
@@ -28,8 +28,8 @@
         "un news",
         "noon briefing"
       ],
-      "last_update_at": "2026-11-23",
-      "update_count": 568,
+      "last_update_at": "2026-11-24",
+      "update_count": 569,
       "resolved_at": null,
       "notes": "Created 2026-11-03. Umbrella story for the UN's own daily reporting. Beats: scripts/un_story_updates.py from data/un_daily/reports.csv (scripts/pull_un_daily.py) — every report, with General Assembly reports also copied onto the UNGA 81 branch (parent_id). Feed rows: link_sources=['UN News'] makes link_stories.py link every UN News row and nothing else (keywords alone would pull in the whole wire); update_stories.py (7a) skips link_sources stories.",
       "custom": true,
@@ -166,8 +166,8 @@
         "starship",
         "spaceport"
       ],
-      "last_update_at": "2026-11-21",
-      "update_count": 55,
+      "last_update_at": "2026-11-24",
+      "update_count": 57,
       "resolved_at": null,
       "notes": "",
       "custom": true,
@@ -293,8 +293,8 @@
         "nypd",
         "city hall"
       ],
-      "last_update_at": "2026-11-22",
-      "update_count": 63,
+      "last_update_at": "2026-11-24",
+      "update_count": 64,
       "resolved_at": null,
       "notes": "",
       "custom": true,
@@ -624,8 +624,8 @@
         "uav",
         "swarm"
       ],
-      "last_update_at": "2026-11-21",
-      "update_count": 53,
+      "last_update_at": "2026-11-24",
+      "update_count": 55,
       "resolved_at": null,
       "notes": "",
       "custom": true,
@@ -695,8 +695,8 @@
         "redistricting",
         "kalshi"
       ],
-      "last_update_at": "2026-11-22",
-      "update_count": 110,
+      "last_update_at": "2026-11-24",
+      "update_count": 111,
       "resolved_at": null,
       "notes": "Backfilled 2026-07-21 from intel_feed via scripts/backfill_story_updates.py."
     },
@@ -763,8 +763,8 @@
         "lok sabha",
         "rahul gandhi"
       ],
-      "last_update_at": "2026-11-22",
-      "update_count": 120,
+      "last_update_at": "2026-11-24",
+      "update_count": 121,
       "resolved_at": null,
       "notes": "",
       "custom": true,
