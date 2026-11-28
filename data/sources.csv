@@ -1,7 +1,7 @@
 source_id,name,aliases,category,kind,domain,handle,feed_url,query,perspective,source_country,scope,status,added_by,added_at,corrected_from,last_ok_at,last_items,notes
 bbc-world,BBC World,BBC;BBC News;BBC World News;BBC World Service,Official news channels,rss,bbc.co.uk,,https://feeds.bbci.co.uk/news/world/rss.xml,,western-uk,GB,wire,active,seed,2026-07-28,,2026-11-27T12:46:45Z,35,Pulled by pull_wires.py
 dw-english,DW English,DW;Deutsche Welle;DW News,Official news channels,rss,dw.com,,https://rss.dw.com/rdf/rss-en-world,,german,DE,wire,active,seed,2026-07-28,,2026-11-27T12:46:45Z,11,Pulled by pull_wires.py
-al-jazeera,Al Jazeera,AlJazeera;Al Jazeera English;AJE;Al-Jazeera,Official news channels,rss,aljazeera.com,,https://www.aljazeera.com/xml/rss/all.xml,,gulf,QA,wire,active,seed,2026-07-28,,2026-11-27T12:46:45Z,25,Pulled by pull_wires.py
+al-jazeera,Al Jazeera,AlJazeera;Al Jazeera English;AJE;Al-Jazeera,Official news channels,rss,aljazeera.com,,https://www.aljazeera.com/xml/rss/all.xml,,gulf,QA,wire,active,seed,2026-07-28,,2026-11-28T12:17:38Z,1,Pulled by pull_wires.py
 un-news,UN News,United Nations News;UN;UN News Centre,Official news channels,rss,news.un.org,,https://news.un.org/feed/subscribe/en/news/all/rss.xml,,institutional,UN,wire,active,seed,2026-07-28,,2026-11-26T13:44:24Z,13,Pulled by pull_wires.py
 bno-news,BNO News,BNO;BNONews,Official news channels,rss,bnonews.com,,https://bnonews.com/index.php/feed/,,wire-fast,,wire,active,seed,2026-07-28,,2026-11-27T12:46:45Z,10,Fast-lead breaking wire
 gdelt-ru-ukraine,GDELT/RU Ukraine,GDELT RU;GDELT Russia,Official news channels,gdelt,gdeltproject.org,,,ukraine sourcecountry:RS sourcelang:english,russia,RU,wire,active,seed,2026-07-28,,2026-11-27T12:46:45Z,19,Russian-reported Ukraine coverage
@@ -16,8 +16,8 @@ new-york-times,The New York Times,NYT;New York Times;NY Times,Official news chan
 washington-post,The Washington Post,WaPo;Washington Post,Official news channels,web,washingtonpost.com,,,,western-us,US,research,active,seed,2026-07-28,,2026-11-24T15:49:58Z,1,
 financial-times,Financial Times,FT;Financial Times London,Official news channels,web,ft.com,,,,western-uk,GB,research,active,seed,2026-07-28,,,,
 bloomberg,Bloomberg,Bloomberg News,Official news channels,web,bloomberg.com,,,,western-us,US,research,active,seed,2026-07-28,,2026-11-26T14:30:52Z,1,
-cnbc,CNBC,,Official news channels,web,cnbc.com,,,,western-us,US,research,active,seed,2026-07-28,,2026-11-06T07:54:25Z,2,
-cnn,CNN,CNN International,Official news channels,web,cnn.com,,,,western-us,US,research,active,seed,2026-07-28,,2026-11-27T13:31:21Z,1,
+cnbc,CNBC,,Official news channels,web,cnbc.com,,,,western-us,US,research,active,seed,2026-07-28,,2026-11-28T12:17:38Z,1,
+cnn,CNN,CNN International,Official news channels,web,cnn.com,,,,western-us,US,research,active,seed,2026-07-28,,2026-11-28T12:17:38Z,1,
 nbc-news,NBC News,NBC,Official news channels,web,nbcnews.com,,,,western-us,US,research,active,seed,2026-07-28,,2026-11-26T14:30:52Z,1,
 npr,NPR,National Public Radio,Official news channels,web,npr.org,,,,western-us,US,research,active,seed,2026-07-28,,2026-11-24T15:49:58Z,1,
 politico,Politico,Politico EU;Politico Europe,Official news channels,web,politico.com,,,,western-us,US,research,active,seed,2026-07-28,,,,
@@ -293,3 +293,4 @@ slovo-i-dilo,Slovo i Dilo,,Official news channels,web,slovoidilo.ua,,,,Ukrainian
 lys-e,Élysée,Elysee;Elysée;French Presidency,Official news channels,web,elysee.fr,,,,official,FR,research,active,user,2026-11-13,,,,
 focus-taiwan,Focus Taiwan,,Official news channels,web,focustaiwan.tw,,,,regional,TW,research,active,user,2026-11-17,,,,
 deccan-herald,Deccan Herald,,Official news channels,web,deccanherald.com,,,,Indian national daily,IN,research,active,user,2026-11-21,,,,
+euronews,Euronews,,Official news channels,web,euronews.com,,,,European,FR,research,active,user,2026-11-28,,,,
